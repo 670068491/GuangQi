@@ -1,0 +1,1061 @@
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+body {
+    /* border: 0.2vw solid #5b9bd5; */
+}
+
+.boy {
+    width: 100%;
+    overflow: hidden;
+}
+
+.top {
+    padding: 0 0 0.5vw 0;
+}
+
+.top .top_one {
+    text-align: center;
+    font-size: 1.5vw;
+    color: #5b9bd5;
+    font-weight: bold;
+    padding-bottom: 0.4vw;
+}
+
+.top .top_btn1 {
+    border: 0.1vw solid #5b9bd5;
+    margin-left: 44vw;
+    /* margin-top: 2vw; */
+    color: #5b9bd5;
+    font-size: 1vw;
+    padding: 0.2vw 1vw;
+}
+
+.top .top_btn2 {
+    border: 0.1vw solid #5b9bd5;
+    /* margin-left: 30vw; */
+    color: #5b9bd5;
+    font-size: 1vw;
+    padding: 0.2vw 1vw;
+}
+
+
+.content {
+    /* display: none; */
+}
+
+.contenter {
+    display: flex;
+}
+
+/* 左边 */
+.left {
+    width: 42.3vw;
+}
+
+/* 第一块，按钮 */
+.button {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    border: 0.2vw solid #5B9BD5;
+}
+
+.button .button_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+/* .button .button_body { */
+/* padding-top: 0.5vw; */
+/* } */
+
+.button .button_body_one {
+    display: flex;
+    align-items: center;
+}
+
+/* .button_body_one.active { */
+/* color: darkgrey; */
+/* background-color: darkgrey; */
+/* } */
+
+
+.button .button_remark {
+    /* margin-top: 1.1vw; */
+    border: 0px;
+    width: 3vw;
+    height: 1vw;
+    display: inline-block;
+    font-size: 0.7vw;
+    color: #5B9BD5;
+}
+
+.button .button_body_one_span {
+    padding-left: 0.2vw;
+    color: #5B9BD5;
+    font-size: 1.2vw;
+    width: 5.6vw;
+    display: inline-block;
+}
+
+.button .button_body_one_span.active {
+    color: blue;
+}
+
+.button .button_body_one_one {
+    /* margin-left: 0.5vw; */
+    display: inline-block;
+    width: 32vw;
+}
+
+.button .button_body_one_btn {
+    display: inline-block;
+    /* padding-left: 0.6vw; */
+    text-align: center;
+    margin-bottom: 0.3vw;
+}
+
+.button .button_body_one_btn_circle {
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    background-color: #929292;
+    margin-left: 1vw;
+}
+
+.button .button_body_one_btn_circle.active {
+    background-color: #5B9BD5;
+}
+
+
+.button .button_body_one_btn input {
+    width: 3.2vw;
+    border: 0;
+    text-align: center;
+    margin-top: 0.2vw;
+    font-size: 0.8vw;
+}
+
+/* <!-- 虚拟按钮 --> */
+.virtual {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    position: relative;
+    border: 0.2vw solid #5B9BD5;
+    padding-bottom: 0.5vw;
+}
+
+.virtual .virtual_add {
+    position: absolute;
+    top: -1vw;
+    right: 0.5vw;
+    color: #5b9bd5;
+    font-size: 3vw;
+    font-weight: bold;
+}
+
+.virtual .virtual_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+/* 遮罩层 */
+.virtual .virt_cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 19;
+    display: none;
+
+}
+
+/* 输入框 */
+.virtual .virt_text {
+    position: fixed;
+    top: 9vw;
+    left: 33vw;
+    width: 28vw;
+    height: 12vw;
+    background-color: #ffffff;
+    z-index: 20;
+    padding-top: 2vw;
+    padding-left: 6vw;
+    display: none;
+}
+
+.virtual .virt_text_id {
+    margin-bottom: 1vw;
+}
+
+.virtual .virt_text_id span {
+    font-size: 2vw;
+    color: #5B9BD5;
+    vertical-align: middle;
+}
+
+.virtual .virt_text_id input {
+    font-size: 1.4vw;
+    color: #5B9BD5;
+    border: 1px solid #5b9bd5;
+    width: 10vw;
+    margin-left: 2vw;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.virtual .virt_text_num {
+    margin-bottom: 2vw;
+}
+
+.virtual .virt_text_num span {
+    font-size: 2vw;
+    color: #5B9BD5;
+    vertical-align: middle;
+}
+
+.virtual .virt_text_num input {
+    font-size: 1.4vw;
+    color: #5B9BD5;
+    border: 1px solid #5b9bd5;
+    width: 10vw;
+    margin-left: 2vw;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.virtual .virt_text button {
+    padding: 0.2vw 1.1vw;
+    margin-right: 2vw;
+    border-radius: 6%;
+    font-size: 0.8vw;
+}
+
+.virtual .virt_text button:nth-child(1) {
+    color: white;
+    background-color: #555555;
+}
+
+.virtual .virt_text button:nth-child(2) {
+    color: white;
+    background-color: #5b9bd5;
+}
+
+/* 主体 */
+.virtual .virtual_body {
+    /* padding-top: 0.5vw; */
+}
+
+.virtual .virtual_body_one {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.virtual .virtual_remark {
+    border: 0px;
+    width: 3vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+.virtual .virtual_body_one_span {
+    padding-left: 0.2vw;
+    color: #5B9BD5;
+    font-size: 1.2vw;
+    width: 5.6vw;
+    display: inline-block;
+}
+
+/* .virtual .virtual_body_one {
+    display: flex;
+    position: relative;
+ 
+} */
+.virtual .virtual_body_one_one {
+    /* margin-left: 0.5vw; */
+    display: inline-block;
+    width: 31vw;
+}
+
+.virtual .virtual_body_one_btn {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 0.3vw;
+}
+
+.virtual .virtual_body_one_btn_circle {
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    background-color: #929292;
+    margin-left: 1vw;
+}
+
+.virtual .virtual_body_one_btn_circle.active {
+    background-color: #5B9BD5;
+}
+
+.virtual .virtual_body_one_btn input {
+    width: 3.2vw;
+    border: 0;
+    text-align: center;
+    margin-top: 0.2vw;
+    font-size: 0.8vw;
+}
+
+.virtual .virtual_delete {
+    position: absolute;
+    right: 1vw;
+    top: -0.5vw;
+    color: #C56727;
+    font-size: 1.7vw;
+    font-weight: bold;
+}
+
+/* 旋钮 */
+.rotaryknob {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    border: 0.2vw solid #5B9BD5;
+    padding-bottom: 1vw;
+}
+
+.rotaryknob .rotaryknob_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+.rotaryknob .rotaryknob_body {
+    padding-top: 0.5vw;
+}
+
+.rotaryknob .rotaryknob_body_one {
+    display: flex;
+    position: relative;
+}
+
+.rotaryknob .rotaryknob_remark {
+    margin-top: 1.1vw;
+    border: 0px;
+    width: 3vw;
+    height: 1vw;
+}
+
+.rotaryknob .rotaryknob_body_one_span {
+    padding-left: 1vw;
+    color: #5B9BD5;
+    margin-top: 1.0vw;
+    font-size: 1.2vw;
+}
+
+.rotaryknob .rotaryknob_remark_one {
+    margin-top: 1.1vw;
+    margin-left: 4vw;
+    font-size: 1vw;
+    border: 0px;
+    width: 6vw;
+    height: 1vw;
+}
+
+.rotaryknob .rotaryknob_remark_two {
+    margin-top: 1.1vw;
+    margin-left: 1vw;
+    border: 1px solid #5B9BD5;
+    font-size: 1vw;
+    width: 5vw;
+    height: 1vw;
+    border: 0;
+    color: #5B9BD5;
+    /* vertical-align: middle; */
+}
+
+.rotaryknob .rota_btn {
+    background-color: #5B9BD5;
+    border: 0;
+    margin-left: 1vw;
+    padding: 0vw 1vw;
+    font-size: 0.8vw;
+    color: white;
+    border-radius: 5%;
+    height: 1.6vw;
+    margin-top: 0.9vw;
+    /* vertical-align: middle; */
+}
+
+/* 第4块，传感器 */
+.sensor {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    border: 0.2vw solid #5B9BD5;
+}
+
+.sensor .sensor_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+/* .sensor .sensor_body { 
+	 padding-top: 0.5vw; 
+ }  */
+
+/* .sensor_body_one {}
+.sensor_body_one.active {
+} */
+
+.sensor .sensor_body_one {
+    display: flex;
+    align-items: center;
+}
+
+.sensor .sensor_remark {
+    border: 0px;
+    width: 3vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+.sensor .sensor_body_one_span {
+    padding-left: 0.2vw;
+    color: #5B9BD5;
+    /* margin-top: 1vw; */
+    font-size: 1.2vw;
+    width: 5.6vw;
+    display: inline-block;
+}
+
+.sensor .sensor_body_one_span.active {
+    color: blue;
+}
+
+.sensor .sensor_body_one_one {
+    display: inline-block;
+    width: 32vw;
+}
+
+.sensor .sensor_body_one_btn {
+    display: inline-block;
+    /* padding-left: 0.6vw; */
+    text-align: center;
+    margin-bottom: 0.3vw;
+}
+
+.sensor .sensor_body_one_btn_circle {
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    background-color: #929292;
+    margin-left: 1vw;
+}
+
+.sensor .sensor_body_one_btn_circle.active {
+    background-color: #5B9BD5;
+}
+
+.sensor .sensor_body_one_btn input {
+    width: 3.2vw;
+    border: 0;
+    text-align: center;
+    margin-top: 0.2vw;
+    font-size: 0.8vw;
+}
+
+
+/* 右斑块 */
+.right {
+    /* margin-left: 0.7vw; */
+    width: 57vw;
+}
+
+/* .灯光 */
+.lamplight {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    border: 0.2vw solid #5B9BD5;
+    padding-bottom: 0.3vw;
+}
+
+.lamplight .lamp_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+.lamplight .lamp_body {
+    padding-top: 0.5vw;
+}
+
+.lamplight .lamp_body_one {
+    display: flex;
+}
+
+.lamplight .lamp_remark {
+    margin-top: 1.1vw;
+    border: 0px;
+    width: 5vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+.lamplight .lamp_body_one_span {
+    padding-left: 1vw;
+    color: #5B9BD5;
+    margin-top: 1vw;
+    font-size: 1.2vw;
+    width: 6vw;
+    display: inline-block;
+}
+
+.lamplight .lamp_body_one_one {
+    padding-top: 1.2vw;
+}
+
+.lamplight .lamp_body_one_one select {
+    /* margin-top: 0.4vw; */
+    width: 8vw;
+    font-size: 0.6vw;
+    margin-right: 0.4vw;
+    vertical-align: middle;
+}
+
+.lamplight .lamp_body_one_one input {
+    width: 2vw;
+    margin-right: 0.5vw;
+    font-size: 0.6vw;
+    vertical-align: middle;
+    border: 0.1vw solid #5B9BD5;
+}
+
+.lamplight .lamp_body_one_one .yanse {
+    width: 2vw;
+    border: 0px;
+}
+
+.lamplight .lamp_body_one_one .type7 {
+    width: 2vw;
+    /* border: 0px; */
+}
+
+
+.lamplight .lamp_body_one_one button {
+    /* width: 3vw; */
+    /* margin-left: 0.5vw; */
+    background-color: #5B9BD5;
+    border: 0;
+    margin-left: 1.4vw;
+    padding: 0.25vw 1vw;
+    color: white;
+    border-radius: 10%;
+}
+
+/* 电机 */
+.electrical {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    border: 0.2vw solid #5B9BD5;
+    padding-bottom: 0.3vw;
+}
+
+.electrical .elec_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+.electrical .elec_body {
+    padding-top: 0.5vw;
+}
+
+.electrical .elec_body_one {
+    display: flex;
+}
+
+.electrical .elec_remark {
+    margin-top: 1.1vw;
+    border: 0px;
+    width: 5vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+.electrical .elec_body_one_span {
+    padding-left: 1vw;
+    color: #5B9BD5;
+    margin-top: 1vw;
+    font-size: 1.2vw;
+    width: 6vw;
+    display: inline-block;
+}
+
+.electrical .elec_right {
+    display: flex;
+    padding-top: 1vw;
+}
+
+.electrical .elec_sm_left {
+    width: 1.4vw;
+    height: 1.4vw;
+    background-color: #5b9bd5;
+    border-radius: 50%;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.electrical .elec_int {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.electrical .elec_cover {
+    /* display: none; */
+    opacity: 0;
+    width: 1px;
+}
+
+.electrical .elec_OverAll {
+    /* display: none; */
+    opacity: 0;
+    width: 1px;
+}
+
+.electrical .elec_Current {
+    display: none;
+}
+
+.electrical .elec_sm_right {
+    width: 1.4vw;
+    height: 1.4vw;
+    background-color: #5b9bd5;
+    border-radius: 50%;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.electrical .elec_right label {
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 0.5vw;
+    font-size: 1vw;
+}
+
+.electrical .elec_right label input {
+    margin-left: 1vw;
+}
+
+.electrical .elec_right button {
+    background-color: #5B9BD5;
+    border: 0;
+    margin-left: 1vw;
+    padding: 0.25vw 1vw;
+    color: white;
+    border-radius: 5%;
+}
+
+/* 安卓屏 */
+.android {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    padding-bottom: 0.5vw;
+    border: 0.2vw solid #5B9BD5;
+}
+
+.android .andr_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+.android .andr_body {
+    padding-top: 0.5vw;
+}
+
+.android .andr_body_one {
+    display: flex;
+    /* justify-content: center; */
+}
+
+.android .andr_remark {
+    margin-top: 1.1vw;
+    border: 0px;
+    width: 5vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+.android .andr_body_one_span {
+    padding-left: 1vw;
+    color: #5B9BD5;
+    margin-top: 1vw;
+    font-size: 1.2vw;
+    width: 9vw;
+    display: inline-block;
+}
+
+.android .andr_body_one_one {
+    margin-top: 1vw;
+
+}
+
+.android .andr_body_one_one input {
+    /* margin-top: 1vw; */
+    vertical-align: middle;
+    font-size: 0.6vw;
+    display: inline-block;
+}
+
+.android .andr_body_one_one button {
+    vertical-align: middle;
+    margin-right: 2vw;
+    font-size: 0.8vw;
+    padding: 0.2vw 0.6vw;
+    color: white;
+    background-color: #5b9bd5;
+    border: 0;
+    display: inline-block;
+}
+
+.android .andr_body_one_one img {
+    width: 1.5vw;
+    vertical-align: middle;
+    padding-left: 1vw;
+    display: inline-block;
+}
+
+
+
+/* 投影仪 */
+.projector {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    padding-bottom: 0.5vw;
+    border: 0.2vw solid #5B9BD5;
+}
+
+.projector .proj_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+.projector .proj_body_one {
+    display: flex;
+}
+
+.projector .proj_remark {
+    margin-top: 1.1vw;
+    border: 0px;
+    width: 5vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+.projector .proj_body_one_span {
+    padding-left: 1vw;
+    color: #5B9BD5;
+    margin-top: 0.9vw;
+    font-size: 1.2vw;
+    width: 6vw;
+    display: inline-block;
+}
+
+.projector .proj_top {
+    padding-top: 1vw;
+    display: inline-block;
+}
+
+.projector .proj_top button {
+    border: 0px;
+    background-color: #5b9bd5;
+    color: white;
+    padding: 0.3vw 1.2vw;
+    margin-right: 1vw;
+    border-radius: 0.3vw;
+}
+
+.projector .proj_bott {
+    /* padding-top: 2vw;
+    padding-left: 1vw; */
+    padding-top: 1vw;
+    display: inline-block;
+}
+
+.projector .proj_bott button {
+    border: 0px;
+    background-color: #5b9bd5;
+    color: white;
+    padding: 0.3vw 1vw;
+    margin-right: 0.4vw;
+    border-radius: 0.3vw;
+}
+
+/* 输出控制 */
+.output {
+    padding-top: 0.5vw;
+    padding-left: 0.5vw;
+    padding-bottom: 0.6vw;
+    border: 0.2vw solid #5B9BD5;
+}
+
+.output .outp_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+.output .outp_body_one {
+    display: flex;
+}
+
+
+.output .outp_remark {
+    margin-top: 1.1vw;
+    border: 0px;
+    width: 5vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+.output .outp_body_one_span {
+    padding-left: 1vw;
+    color: #5B9BD5;
+    margin-top: 1vw;
+    font-size: 1.2vw;
+    width: 9vw;
+    display: inline-block;
+    /* margin-right: 1vw; */
+}
+
+.output .outp_body_one_span {
+    /* padding-left: 1vw; */
+    color: #5B9BD5;
+    margin-top: 0.9vw;
+    font-size: 1.2vw;
+    width: 6vw;
+    display: inline-block;
+}
+
+.output .outp_b {
+    /* padding-top: 1vw; */
+    display: inline-block;
+    padding-left: 1vw;
+    display: flex;
+    flex-wrap: wrap;
+    /* width: 97vw; */
+}
+
+.output .outp_btn button {
+    display: block;
+    border: 0px;
+    font-size: 0.6vw;
+    background-color: #5b9bd5;
+    color: white;
+    width: 3.8vw;
+    height: 1.4vw;
+    padding: 0vw 0vw;
+    margin-right: 1vw;
+    margin-bottom: 0.4vw;
+    border-radius: 0.3vw;
+}
+
+.output .outp_btn input {
+    display: block;
+    width: 3.8vw;
+    font-size: 0.6vw;
+    color: #5B9BD5;
+    border: 0px;
+    text-align: center;
+    margin-bottom: 0.1vw;
+}
+
+
+
+/* 自动模式 */
+.selfmotion {
+    display: none;
+}
+
+.selfer {
+    padding-top: 1vw;
+    padding-left: 14vw;
+}
+
+/* 第一块 */
+.selfmotion .selfer_one {
+    display: flex;
+    position: relative;
+    padding-bottom: 2vw;
+}
+
+.selfmotion .selfer_lef {
+    width: 8vw;
+    height: 6vw;
+    font-size: 1vw;
+    margin-right: 21vw;
+    padding: 1vw;
+    word-wrap: break-word;
+    color: #5B9BD5;
+    border: 5px solid pink;
+    overflow: hidden;
+    /* background-color: #5B9BD5; */
+    /* text-align: center; */
+}
+
+.selfmotion .selfer_lef:hover {
+    height: 10vw;
+}
+
+.selfmotion .selfer_lef span {
+    display: block;
+}
+
+.selfmotion .selfer_one_con {
+    /* width: 6vw;   */
+    font-size: 1vw;
+    color: #5B9BD5;
+    margin-right: 21vw;
+}
+
+.selfmotion .selfer_one_con span {
+    /* width: 6vw;   */
+    border: 0px;
+    color: #5B9BD5;
+    font-weight: bolder;
+}
+
+.selfmotion .selfer_one_right {
+    /* width: 6vw;   */
+    font-size: 1vw;
+    color: #5B9BD5;
+}
+
+.selfmotion .selfer_one_right span {
+    display: block;
+}
+
+/* .selfmotion .self_one_right textarea { */
+.selfmotion .selfer_one_right span {
+    /* width: 6vw;   */
+    /* font-size: 1vw; */
+    border: 0px;
+    display: block;
+    color: #5B9BD5;
+}
+
+/* 氛围灯模式 */
+.Pattern3 {
+    display: none;
+    padding-left: 3vw;
+}
+
+.Pattern3 .pattern3_top {
+    font-size: 2.2vw;
+    color: #5B9BD5;
+    font-weight: bolder;
+}
+
+.Pattern3 .pattern3_btn {
+    padding-left: 10vw;
+    display: flex;
+}
+
+.Pattern3 .pattern3_btn span {
+    font-size: 1vw;
+    display: inline-block;
+}
+
+.Pattern3 .pattern3_div {
+    width: 1.6vw;
+    height: 1.6vw;
+    display: inline-block;
+    margin-left: 2vw;
+    background-color: #acacac;
+    border-radius: 1vw;
+}
+
+.Pattern3 .pattern3_div.active {
+    background-color: #5B9BD5;
+}
+
+.Pattern3 .pattern3_btn .pattern3_button {
+    padding: 0vw 1vw;
+    margin-left: 2vw;
+    /* background-color: #5B9BD5; */
+    background-color: #acacac;
+    color: white;
+    border: 0px;
+}
+
+.Pattern3 .pattern3_btn .pattern3_tuichu {
+    padding: 0vw 1vw;
+    margin-left: 57vw;
+    background-color: #5B9BD5;
+    color: white;
+    border: 0px;
+}
+
+.Pattern3 .pattern3_bott {
+    /* display: flex; */
+    padding-left: 8vw;
+    padding-top: 1vw;
+}
+
+.Pattern3 .pattern3_one {
+    display: flex;
+    margin-bottom: 4vw;
+}
+
+.Pattern3 .pattern3_ico {
+    width: 1.6vw;
+    height: 1.6vw;
+    background-color: #acacac;
+    border-radius: 1vw;
+    margin-left: 5vw;
+    margin-right: 4vw;
+}
+
+.Pattern3 .pattern3_ico.active {
+    background-color: #5B9BD5;
+}
+
+.Pattern3 .pattern3_num {
+    color: black;
+    font-size: 1.2vw;
+    /* margin-bottom: 2vw; */
+    /* margin-top: 0.1vw; */
+}
+
+.Pattern3 .pattern3_right div {
+    color: black;
+    font-size: 1.2vw;
+    margin-bottom: 2vw;
+    margin-top: 0.1vw;
+}
+
+
+
+
+
+
+
+/* 尾部 */
+.bottom {
+    padding-top: 0.6vw;
+    text-align: right;
+    font-size: 1.1vw;
+    color: #5b9bd5;
+}
