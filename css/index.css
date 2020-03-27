@@ -31,18 +31,17 @@ body {
 	padding-bottom: 0.4vw;
 }
 .top .top_two{
-	/* margin-top: 2vw; */
+	margin-top: 2vw;
 }
 .top .top_btn1 {
 	/* border: 0.1vw solid #5b9bd5; */
 	margin-left: 20vw;
-	
 	color: #5b9bd5;
 	font-size: 1vw;
 	padding: 0.2vw 1vw;
 }
 
-.top .top_btn2:nth-child(1) {
+.top .top_btn2:first-child {
 	margin-left: 30vw;
 }
 
