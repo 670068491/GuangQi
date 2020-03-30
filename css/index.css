@@ -17,6 +17,7 @@ body {
 .boy {
 	width: 100%;
 	overflow: hidden;
+	display: none;
 }
 
 .top {
@@ -30,29 +31,34 @@ body {
 	font-weight: bold;
 	padding-bottom: 0.4vw;
 }
-.top .top_two{
-	margin-top: 2vw;
+
+.top .top_two {
+	margin-top: 1vw;
+	margin-bottom: 1vw;
 }
+
 .top .top_btn1 {
 	/* border: 0.1vw solid #5b9bd5; */
 	margin-left: 20vw;
 	color: #5b9bd5;
-	font-size: 1vw;
+	font-size: 1.3vw;
 	padding: 0.2vw 1vw;
-}
-
-.top .top_btn2:first-child {
-	margin-left: 30vw;
+	font-weight: bold;
 }
 
 .top .top_btn2 {
-	border: 0.1vw solid #5b9bd5;
-	/* margin-left: 30vw; */
-	color: #5b9bd5;
+	/* border: 0.1vw solid #5b9bd5; */
+	background-color: #5b9bd5;
+	color: #ffffff;
 	font-size: 1vw;
-	padding: 0.2vw 1vw;
+	padding: 0.3vw 1.2vw;
+	margin-right: 4vw;
+	border-radius: 7px;
 }
 
+.top .top_btn3 {
+	margin-left: 30vw;
+}
 
 .content {
 	/* display: none; */
@@ -72,6 +78,7 @@ body {
 	padding-top: 0.5vw;
 	padding-left: 0.5vw;
 	border: 0.2vw solid #5B9BD5;
+	border-radius: 0.5vw;
 }
 
 .button .button_span {
@@ -158,6 +165,7 @@ body {
 	position: relative;
 	border: 0.2vw solid #5B9BD5;
 	padding-bottom: 0.5vw;
+	border-radius: 0.5vw;
 }
 
 .virtual .virtual_add {
@@ -337,6 +345,7 @@ body {
 	padding-left: 0.5vw;
 	border: 0.2vw solid #5B9BD5;
 	padding-bottom: 1vw;
+	border-radius: 0.5vw;
 }
 
 .rotaryknob .rotaryknob_span {
@@ -407,6 +416,7 @@ body {
 	padding-top: 0.5vw;
 	padding-left: 0.5vw;
 	border: 0.2vw solid #5B9BD5;
+	border-radius: 0.5vw;
 }
 
 .sensor .sensor_span {
@@ -493,6 +503,7 @@ body {
 	padding-left: 0.5vw;
 	border: 0.2vw solid #5B9BD5;
 	padding-bottom: 0.3vw;
+	border-radius: 0.5vw;
 }
 
 .lamplight .lamp_span {
@@ -574,6 +585,7 @@ body {
 	padding-left: 0.5vw;
 	border: 0.2vw solid #5B9BD5;
 	padding-bottom: 0.3vw;
+	border-radius: 0.5vw;
 }
 
 .electrical .elec_span {
@@ -626,6 +638,22 @@ body {
 	display: inline-block;
 }
 
+/*使滑块超出轨道部分的偏移量相等*/
+/*外观设置为圆形*/
+/*设置边框*/
+/*添加底部阴影*/
+/* input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	height: 50px;
+	width: 50px;
+	margin-top: -5px;
+	background: #5500ff;
+	background-color: #5500ff;
+	border-radius: 50%;
+	border: solid 0.125em rgba(205, 224, 230, 0.5);
+	box-shadow: 0 .125em .125em #3b4547;
+} */
+
 .electrical .elec_cover {
 	/* display: none; */
 	opacity: 0;
@@ -677,6 +705,7 @@ body {
 	padding-left: 0.5vw;
 	padding-bottom: 0.5vw;
 	border: 0.2vw solid #5B9BD5;
+	border-radius: 0.5vw;
 }
 
 .android .andr_span {
@@ -749,6 +778,7 @@ body {
 	padding-left: 0.5vw;
 	padding-bottom: 0.5vw;
 	border: 0.2vw solid #5B9BD5;
+	border-radius: 0.5vw;
 }
 
 .projector .proj_span {
@@ -814,6 +844,7 @@ body {
 	padding-left: 0.5vw;
 	padding-bottom: 0.6vw;
 	border: 0.2vw solid #5B9BD5;
+	border-radius: 0.5vw;
 }
 
 .output .outp_span {
@@ -1051,16 +1082,161 @@ body {
 	margin-top: 0.1vw;
 }
 
-
-
-
-
-
-
 /* 尾部 */
 .bottom {
 	padding-top: 0.6vw;
 	text-align: right;
 	font-size: 1.1vw;
 	color: #5b9bd5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 自动 */
+.auto {
+	/* display: none; */
+	/* overflow: hidden; */
+	width: 100%;
+	background: url(../img/page.png);
+	background-size: contain;
+	position: relative;
+}
+
+.auto_top {
+	padding: 0 0 0.5vw 0;
+}
+
+.auto_top .auto_top_one {
+	text-align: center;
+	font-size: 1.5vw;
+	color: #f3f9ff;
+	font-weight: bold;
+	padding-bottom: 0.4vw;
+}
+
+.auto_top_one2 {
+	text-align: center;
+	font-size: 1.2vw;
+	color: #f3f9ff;
+	font-weight: bold;
+	padding-bottom: 0.4vw;
+	margin-top: 1vw;
+}
+
+
+.auto_top .auto_top_two {
+	margin-top: 1.6vw;
+	margin-bottom: 1vw;
+}
+
+.auto_top .auto_top_btn1 {
+	/* border: 0.1vw solid #5b9bd5; */
+	margin-left: 20vw;
+	color: #f3f9ff;
+	font-size: 1.3vw;
+	padding: 0.2vw 1vw;
+	font-weight: bold;
+}
+
+.auto_top .auto_top_btn2 {
+	/* border: 0.1vw solid #5b9bd5; */
+	background-color: #329af9;
+	color: #ffffff;
+	font-size: 1vw;
+	padding: 0.5vw 1vw;
+	margin-right: 4vw;
+	border-radius: 5px;
+}
+
+.auto_top .top_btn3 {
+	margin-left: 60vw;
+}
+
+.auto .auto_body {
+	padding-top: 0.4vw;
+	padding-left: 4vw;
+	padding-right: 4vw;
+}
+
+.auto .auto_body_one {
+	border-top: 2px dashed #ffffff;
+	padding: 1.2vw 0.6vw;
+	font-size: 1.3vw;
+	color: white;
+}
+
+.auto .autoBodyOneName {
+	margin-left: 8vw;
+}
+
+.auto .autoBodyOneData {
+	margin-left: 8vw;
+}
+
+.auto .autoBodyOneOpen {
+	margin-left: 18vw;
+	background-color: #418a41;
+	color: white;
+	padding: 0.3vw 1vw;
+	border-radius:5px;
+	font-size: 1vw;
+	outline: 0;
+}
+.auto .autoBodyOneCopy {
+	margin-left: 4vw;
+	background-color: #329af9;
+	color: white;
+	padding: 0.3vw 1vw;
+	border-radius:5px;
+	font-size: 1vw;
+	outline: 0;
+}
+.auto .autoBodyOneDelete {
+	margin-left: 4vw;
+	background-color: #ff5c5c;
+	color: white;
+	padding: 0.3vw 1vw;
+	border-radius:5px;
+	font-size: 1vw;
+	outline: 0;
+}
+.auto .grade{
+	position: absolute;
+	top: 10vw;
+	left: 20vw;
+	background-color: white;
+	z-index: 20;
+	width: 60vw;
+	height: 40vw;
+	padding: 10vw 10vw;
+}
+
+
+
+
+.auto .cover{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.6);
+}
+
+/* 尾部 */
+.auto .bottom {
+	padding-top: 0.6vw;
+	text-align: right;
+	font-size: 1.1vw;
+	color: #ffffff;
 }
