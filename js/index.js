@@ -3,8 +3,8 @@ window.onload = function() {
 	//定义全局变量，代表一个session
 	var stompClient = null;
 	// var oBtn = document.getElementById("btn");
-	var oX = document.getElementsByClassName("button_body_one_span")[0];
-	var box2 = document.getElementsByTagName('button_body_one_btn_circle');
+	// var oX = document.getElementsByClassName("button_body_one_span")[0];
+	// var box2 = document.getElementsByTagName('button_body_one_btn_circle');
 	// var oF = 's201';
 	// // var oId = oF + 'i';
 	// var oA = document.getElementById("s201i");
@@ -28,41 +28,41 @@ window.onload = function() {
 	var bte6 = "01";
 	var bte7 = "01";
 	// var array = nums.split("");
-	oX.onclick = function() {
-		oX.classList.add("active");
-		// console.log(nu.toString(16).toUpperCase());
-		var yte;
-		// var yte = yte4 + yte5 + yte6 + yte7;
-		yte = parseInt(yte4 + yte5 + yte6 + yte7, 16) - 0x8000;
-		var bte = parseInt(bte4 + bte5 + bte6 + bte7, 16) - 0x8000;
-		bte = (bte / yte).toFixed(2);
-		// elecval.value ='333';
-		console.log(bte * 100);
-		// document.getElementById("444all").value = "200";
-		// console.log(oAc.value);
-		// document.getElementById("1").classList.remove("active");
-		// var num = parseInt(num, 16).toString(2).split('');
-		// var stringR = numm;
-		// console.log(stringR);
-		// console.log(num);
-		// string2Result.[0] = 0;
-		// var ele = string2Result.splice(a, 1, '0');
-		// console.log(ele);
-		// var replace = lang.splice(1,4,"c#","ruby"); //删除4项，插入两项 
-		// console.log(lang); //asp,c#,ruby 
-		// console.log(replace); //php,返回删除的项 
-		// var childs = oA.childNodes;
-		// for (var i = childs.length - 1; i >= 0; i--) {
-		// 	// alert(childs[i].nodeName);
-		// 	oA.removeChild(childs[i]);
-		// }
-		// 	// ox.setAttribute("id", oId);
-		// 	// ox.setAttribute("id", '1');
-		// 	console.log("1");
-		// oX.removeChild(oA);
-		// 	// var thisNode = document.getElementById("demo");
-		// 	// thisNode.parentNode.removeNode(thisNode);
-	};
+	// oX.onclick = function() {
+	// 	oX.classList.add("active");
+	// 	// console.log(nu.toString(16).toUpperCase());
+	// 	var yte;
+	// 	// var yte = yte4 + yte5 + yte6 + yte7;
+	// 	yte = parseInt(yte4 + yte5 + yte6 + yte7, 16) - 0x8000;
+	// 	var bte = parseInt(bte4 + bte5 + bte6 + bte7, 16) - 0x8000;
+	// 	bte = (bte / yte).toFixed(2);
+	// 	// elecval.value ='333';
+	// 	console.log(bte * 100);
+	// document.getElementById("444all").value = "200";
+	// console.log(oAc.value);
+	// document.getElementById("1").classList.remove("active");
+	// var num = parseInt(num, 16).toString(2).split('');
+	// var stringR = numm;
+	// console.log(stringR);
+	// console.log(num);
+	// string2Result.[0] = 0;
+	// var ele = string2Result.splice(a, 1, '0');
+	// console.log(ele);
+	// var replace = lang.splice(1,4,"c#","ruby"); //删除4项，插入两项 
+	// console.log(lang); //asp,c#,ruby 
+	// console.log(replace); //php,返回删除的项 
+	// var childs = oA.childNodes;
+	// for (var i = childs.length - 1; i >= 0; i--) {
+	// 	// alert(childs[i].nodeName);
+	// 	oA.removeChild(childs[i]);
+	// }
+	// 	// ox.setAttribute("id", oId);
+	// 	// ox.setAttribute("id", '1');
+	// 	console.log("1");
+	// oX.removeChild(oA);
+	// 	// var thisNode = document.getElementById("demo");
+	// 	// thisNode.parentNode.removeNode(thisNode);
+	// };
 
 	// oBtn.onclick = function() {
 	// console.log(document.getElementById("444all").value)
@@ -87,19 +87,18 @@ window.onload = function() {
 	// };
 
 	function connect() {
+		// console.log('1');
 		// 建立连接对象（还未发起连接）
-		// var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
-		var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
+		var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
+		// var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
 		// var socket = new WebSocket("ws://192.168.1.241:8080/webSocketEndPoint");
-		// 获取 STOMP 子协议的客户端对象
-		stompClient = Stomp.over(socket);
-		// 向服务器发起websocket连接并发送CONNECT帧
-		stompClient.connect({}, function connectCallback(frame) {
+		stompClient = Stomp.over(socket); // 获取 STOMP 子协议的客户端对象
+		stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
 				// 连接成功时（服务器响应 CONNECTED web帧）的回调方法
 				console.log('[' + frame + ']' + '手动模式：连接成功');
 				stompClient.subscribe('/topic/udp/broadcast', function(response) {
 					// stompClient.subscribe('/topic/socket/201', function (response) {
-					// console.log(response.body);
+					console.log(response.body);
 					var stringResult = response.body.split(',');
 					// 转为数组输出[123,456,789];
 					// console.log(stringResult);
@@ -347,7 +346,7 @@ window.onload = function() {
 		);
 	};
 
-	//connect(); //建立连接
+	connect(); //建立连接
 
 	//面向对象的
 	// 第一部分，按钮
@@ -1516,18 +1515,14 @@ window.onload = function() {
 
 
 	// 自动模式与手动模式
-
-
 	var pattern = true;
 	$("#cut").click(function() {
-		// $(".top_btn2").text("切换为手动");
-		$(".boy").css("display", "none");
-		$(".auto").css("display", "block");
-
-
+		location.href = "./Auto.html";
+		// // $(".top_btn2").text("切换为手动");
+		// $(".boy").css("display", "none");
+		// $(".auto").css("display", "block");
 		//    if ($('#cut').text() == "切换为自动") {
 		//        $(".top_btn1").text("当前模式：自动");
-
 		//        pattern = false;
 		//        // stompClient.disconnect(function() {
 		//        //     console.log('手动模式断开')
@@ -1546,14 +1541,36 @@ window.onload = function() {
 		//        //     console.log("自动模式断开");
 		//        // });
 		//        // connect(); //建立连接,手动模式
-
 		//    }
 	});
-	$("#cut_two").click(function() {
-		// $(".top_btn2").text("切换为手动");
-		$(".boy").css("display", "block");
-		$(".auto").css("display", "none");
-	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

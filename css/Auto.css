@@ -1,0 +1,231 @@
+/* 自动 */
+.auto {
+	/* display: none; */
+	/* overflow: hidden; */
+	width: 100%;
+	background: url(../img/page.png);
+	background-size: contain;
+	position: relative;
+}
+
+.auto_top {
+	padding: 0 0 0.5vw 0;
+}
+
+.auto_top .auto_top_one {
+	text-align: center;
+	font-size: 1.5vw;
+	color: #f3f9ff;
+	font-weight: bold;
+	padding-bottom: 0.4vw;
+}
+
+.auto_body_one span:nth-child(1) {
+	width: 6vw;
+	display: inline-block;
+
+}
+
+.auto_top_one2 {
+	text-align: center;
+	font-size: 1.2vw;
+	color: #f3f9ff;
+	font-weight: bold;
+	padding-bottom: 0.4vw;
+	margin-top: 1vw;
+}
+
+
+.auto_top .auto_top_two {
+	margin-top: 1.6vw;
+	margin-bottom: 1vw;
+}
+
+.auto_top .auto_top_btn1 {
+	/* border: 0.1vw solid #5b9bd5; */
+	margin-left: 20vw;
+	color: #f3f9ff;
+	font-size: 1.3vw;
+	padding: 0.2vw 1vw;
+	font-weight: bold;
+}
+
+.auto_top .auto_top_btn2 {
+	/* border: 0.1vw solid #5b9bd5; */
+	background-color: #329af9;
+	color: #ffffff;
+	font-size: 1vw;
+	padding: 0.5vw 1vw;
+	margin-right: 4vw;
+	border-radius: 5px;
+}
+
+.auto_top .top_btn3 {
+	margin-left: 60vw;
+}
+
+.auto .auto_body {
+	padding-top: 0.4vw;
+	padding-left: 4vw;
+	padding-right: 4vw;
+}
+
+.auto .auto_body_one {
+	border-top: 2px dashed #ffffff;
+	padding: 1.2vw 0.6vw;
+	font-size: 1.3vw;
+	color: white;
+}
+
+.auto .autoBodyOneName {
+	margin-left: 8vw;
+	/* width: 20vw;
+	display: inline-block; */
+}
+
+.auto .autoBodyOneData {
+	margin-left: 8vw;
+}
+
+.auto .autoBodyOneOpen {
+	margin-left: 18vw;
+	background-color: #418a41;
+	color: white;
+	padding: 0.3vw 1vw;
+	border-radius: 5px;
+	font-size: 1vw;
+	outline: 0;
+}
+
+.auto .autoBodyOneCopy {
+	margin-left: 2vw;
+	background-color: #329af9;
+	color: white;
+	padding: 0.3vw 1vw;
+	border-radius: 5px;
+	font-size: 1vw;
+	outline: 0;
+}
+
+.auto .autoBodyOneDelete {
+	margin-left: 2vw;
+	background-color: #ff5c5c;
+	color: white;
+	padding: 0.3vw 1vw;
+	border-radius: 5px;
+	font-size: 1vw;
+	outline: 0;
+}
+
+.auto .grade {
+	position: absolute;
+	top: 7vw;
+	left: 24vw;
+	background-color: white;
+	z-index: 20;
+	width: 40vw;
+	height: 30vw;
+	padding: 3vw 4vw;
+	display: none;
+}
+
+.auto .autoGradeSpan {
+	font-size: 1.5vw;
+	color: #000000;
+	text-align: center;
+}
+
+.auto .autoGradeSpan2 {
+	font-size: 1.1vw;
+	color: #000000;
+	text-align: center;
+	margin-top: 1vw;
+	margin-bottom: 2vw;
+}
+
+.auto .autoGradeOne {
+	display: block;
+	font-size: 1.2vw;
+	color: #000000;
+	margin-top: 1.2vw;
+}
+
+.auto input {
+	border: 0;
+	margin-left: 1vw;
+	border-bottom: 1px solid black;
+}
+
+.auto .grade button {
+	margin-top: 1vw;
+	padding: 0.4vw 1vw;
+	background-color: #329AF9;
+	color: #FFFFFF;
+	margin-left: 24vw;
+	outline: 0;
+	border-radius: 4px;
+}
+
+.auto .cover {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.auto .code {
+	position: absolute;
+	top: 7vw;
+	left: 24vw;
+	background-color: white;
+	z-index: 20;
+	width: 40vw;
+	height: 30vw;
+	padding: 3vw 4vw;
+	display: none;
+}
+
+.auto .autoCodeSpan {
+	font-size: 1.5vw;
+	color: #000000;
+	text-align: center;
+}
+
+.auto .autoCodeOne {
+	display: block;
+	font-size: 1.2vw;
+	color: #000000;
+	margin-top: 1.2vw;
+}
+
+.code span:nth-child(2) {
+	margin-top: 4vw;
+}
+
+.auto .code button {
+	margin-top: 8vw;
+	padding: 0.4vw 1vw;
+	background-color: #329AF9;
+	color: #FFFFFF;
+	margin-left: 18vw;
+	outline: 0;
+	border-radius: 4px;
+}
+
+
+
+
+
+
+
+
+/* 尾部 */
+.auto .bottom {
+	padding-top: 0.6vw;
+	text-align: right;
+	font-size: 1.1vw;
+	color: #ffffff;
+}
