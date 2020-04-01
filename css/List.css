@@ -162,8 +162,10 @@ body {}
 	right: 18vw;
 	/* padding: ; */
 	border-radius: 6px;
-	width: 15vw;
-	display: none;
+	/* width: 15vw; */
+	/* display: none; */
+	width: 0;
+	 overflow: hidden;
 }
 
 .library_head {
@@ -189,6 +191,7 @@ body {}
 }
 
 .library_body_name {
+	margin-top: 0.2vw;
 	margin-bottom: 0.2vw;
 	position: relative;
 }
@@ -203,11 +206,12 @@ body {}
 	position: absolute;
 	top: 2px;
 	left: 40px;
-
 }
 
 .library_body_body {
 	border: 1px solid #ACACAC;
+	overflow: hidden;
+	padding: 0 0.2vw;
 }
 
 .library_body_body_one {
