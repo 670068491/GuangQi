@@ -7,7 +7,8 @@ body {}
 	background: url(../img/page.png);
 	background-size: contain;
 	position: relative;
-	height: 100vh;
+	/* height: 100vh; */
+	padding-bottom: 10vw;
 }
 
 .auto_top {
@@ -89,22 +90,25 @@ body {}
 .auto_head button:nth-child(3) {
 	margin-left: 34vw;
 }
-.node{
+
+.node {
 	margin-top: 1vw;
 	padding: 0vw 0 0 8vw;
 
 }
-.string{
+
+.string {
 	width: 0.2vw;
 	height: 2vw;
 	background-color: #6f779c;
 	margin-left: 1.4vw;
 }
-.node_small{
+
+.node_small {
 	margin-top: 1vw;
 	margin-bottom: 1vw;
 	color: white;
-	 width: 2vw;
+	width: 2vw;
 	/* height: 3vw; */
 	padding: 0.4vw 0.2vw;
 	background-color: #6f779c;
@@ -112,12 +116,103 @@ body {}
 	text-align: center;
 }
 
-.logic{
-	 display: inline-block;
-	            width:2vw;
-	            height:2vw;
-	            background-color: #c685d9;
-	            transform: rotate(45deg);
-	            margin:2vw 0.4vw;
-	
+.logic {
+	display: inline-block;
+	width: 2vw;
+	height: 2vw;
+	background-color: #6f779c;
+	transform: rotate(45deg);
+	margin: 2vw 0.4vw;
+	position: relative;
+}
+
+.logic span {
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: white;
+	font-size: 1vw;
+}
+
+.plus {
+	background-color: green;
+	color: white;
+	font-size: 1.4vw;
+	border-radius: 50%;
+	padding: 0.5vw 0.5vw;
+	width: 2vw;
+	text-align: center;
+	margin-left: 7.8vw;
+}
+
+/* 元件库 */
+.lib {
+	position: absolute;
+	top: 14vw;
+	right: 18vw;
+}
+
+.lib img {
+	width: 3vw;
+}
+
+.library {
+	position: absolute;
+	top: 14vw;
+	right: 18vw;
+	/* padding: ; */
+	border-radius: 6px;
+	width: 15vw;
+	display: none;
+}
+
+.library_head {
+	background-color: #F0F0F0;
+	color: #4B84D2;
+	padding: 0.4vw 0.4vw;
+}
+
+.library_head span {
+	vertical-align: middle;
+}
+
+.library_head img {
+	width: 1vw;
+	vertical-align: middle;
+	margin-left: 9vw;
+}
+
+.library_body {
+	background-color: white;
+	padding: 0.3vw;
+	color: black;
+}
+
+.library_body_name {
+	margin-bottom: 0.2vw;
+	position: relative;
+}
+
+.library .pack {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 10px solid red;
+	/* margin-top: 10px; */
+	position: absolute;
+	top: 2px;
+	left: 40px;
+
+}
+
+.library_body_body {
+	border: 1px solid #ACACAC;
+}
+
+.library_body_body_one {
+	display: inline-block;
+	padding: 0.2vw 0;
+	/* border: 1px solid #555555; */
+	/* width: 4vw; */
 }
