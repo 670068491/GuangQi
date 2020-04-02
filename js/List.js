@@ -3,10 +3,11 @@ window.onload = function() {
 		location.href = "./Auto.html";
 	});
 
-var nodeIndex = 1;
+	var nodeIndex = 1;
 	$("#plus").click(function() {
 		nodeIndex++;
-		var $One = $('<div class="node_one"><div class = "string"></div><div class = "node_small">节点<span>' + nodeIndex + '</span></div><div class = "string"></div><div class = "logic"></div></div>');
+		var $One = $('<div class="node_one"><div class = "string"></div><div class = "node_small">节点<span>' + nodeIndex +
+			'</span></div><div class = "string"></div><div class = "logic"></div></div>');
 		$(".node").append($One);
 
 	});
@@ -75,16 +76,24 @@ var nodeIndex = 1;
 
 	$(".node").on("click", ".node_small", function() {
 		// console.log($(this));
-		 $(".node_one div").removeClass("active");
-		 $(this).addClass("active");
-		
+		$(".node_one div").removeClass("active");
+		$(this).addClass("active");
+
 	});
 
 	$(".node").on("click", ".logic", function() {
 		$(".node_one div").removeClass("active2");
 		$(this).addClass("active2");
 	});
+	$(".library_body_body").on("click", ".library_body_body_one", function() {
+		var $One = $(
+			'<div class="lamp_body_one"><input type="text" name="" class="lamp_remark "><span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0x123</span></span><div class="lamp_body_one_one"><label for="">模式:</label><select class="lamp_xuanxiang" name="" value=""><option value="01">关闭模式</option></select><span>流动LED:</span><input class="liudong" type="text"><span>LED数量:</span><input class="led" type="text"><span>速度:</span><input class="sudu" type="text"><span>颜色:</span><input type="color" name="" class="yanse" /><span>白色值:</span><input type="text" name="" class="type7" /><button class="lamp_send">执行</button></div></div>'
+		);
+		$(".active").find(".strip_one").append($One);
 
+
+
+	});
 
 	// $(".node_small").click(function() {
 	// $(".node_one div").removeClass("active");
