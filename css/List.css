@@ -102,6 +102,132 @@ body {}
 	height: 2vw;
 	background-color: #6f779c;
 	margin-left: 1.4vw;
+	/* position: ; */
+}
+
+.node_one {
+	/* position: relative; */
+}
+
+.node_one .active {
+	background-color: #008000;
+	position: relative;
+}
+
+.strip {
+	position: absolute;
+	top: 0;
+	left: 5vw;
+	background-color: #FFFFFF;
+	border-radius: 4px;
+	width: 52vw;
+}
+
+.strip_head_img {
+	width: 0.6vw;
+	margin-left: 19vw;
+}
+
+/* .灯光 */
+.lamplight {
+	padding-top: 0.5vw;
+	padding-left: 0.5vw;
+	border: 0.2vw solid #5B9BD5;
+	padding-bottom: 0.3vw;
+	border-radius: 0.5vw;
+}
+
+.lamp_span {
+	font-size: 1.5vw;
+	color: #5B9BD5;
+	font-weight: bold;
+}
+
+.lamp_body {
+	padding-top: 0.5vw;
+}
+
+.lamp_body_one {
+	display: flex;
+}
+
+.lamp_remark {
+	/* margin-top: 1.1vw; */
+	border: 0px;
+	width: 5vw;
+	height: 1vw;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.lamp_body_one_span {
+	padding-left: 1vw;
+	color: #5B9BD5;
+	/* margin-top: 1vw; */
+	font-size: 1.2vw;
+	width: 6vw;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.lamp_body_one_one {
+	padding-top: 1.2vw;
+	vertical-align: middle;
+}
+
+.lamp_body_one_one select {
+	/* margin-top: 0.4vw; */
+	width: 8vw;
+	font-size: 0.6vw;
+	margin-right: 0.4vw;
+	vertical-align: middle;
+}
+
+.lamp_body_one_one input {
+	width: 2vw;
+	margin-right: 0.5vw;
+	font-size: 0.6vw;
+	vertical-align: middle;
+	border: 0.1vw solid #5B9BD5;
+}
+
+.lamp_body_one_one .yanse {
+	width: 2vw;
+	border: 0px;
+}
+
+.lamp_body_one_one .type7 {
+	width: 2vw;
+	/* border: 0px; */
+}
+
+
+.lamp_body_one_one button {
+	/* width: 3vw; */
+	/* margin-left: 0.5vw; */
+	background-color: #5B9BD5;
+	border: 0;
+	margin-left: 1.4vw;
+	padding: 0.25vw 1vw;
+	color: white;
+	border-radius: 10%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 逻辑点 */
+.node_one .active2 {
+	background-color: #805600;
 }
 
 .node_small {
@@ -114,6 +240,7 @@ body {}
 	background-color: #6f779c;
 	/* margin-left: 1.4vw; */
 	text-align: center;
+	margin-left: 0.1vw;
 }
 
 .logic {
@@ -122,8 +249,9 @@ body {}
 	height: 2vw;
 	background-color: #6f779c;
 	transform: rotate(45deg);
-	margin: 2vw 0.4vw;
+	margin: 2vw 0.4vw 2vw 0.5vw;
 	position: relative;
+
 }
 
 .logic span {
@@ -139,10 +267,10 @@ body {}
 	color: white;
 	font-size: 1.4vw;
 	border-radius: 50%;
-	padding: 0.5vw 0.5vw;
+	padding: 0.4vw 0.4vw;
 	width: 2vw;
 	text-align: center;
-	margin-left: 7.8vw;
+	margin-left: 8vw;
 }
 
 /* 元件库 */
@@ -162,10 +290,10 @@ body {}
 	right: 18vw;
 	/* padding: ; */
 	border-radius: 6px;
-	/* width: 15vw; */
+	width: 16vw;
 	/* display: none; */
-	width: 0;
-	 overflow: hidden;
+	/* width: 0; */
+	overflow: hidden;
 }
 
 .library_head {
@@ -181,7 +309,7 @@ body {}
 .library_head img {
 	width: 1vw;
 	vertical-align: middle;
-	margin-left: 9vw;
+	margin-left: 10vw;
 }
 
 .library_body {
@@ -201,11 +329,11 @@ body {}
 	height: 0;
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
-	border-top: 10px solid red;
+	border-top: 10px solid black;
 	/* margin-top: 10px; */
 	position: absolute;
-	top: 2px;
-	left: 40px;
+	top: 3px;
+	left: 54px;
 }
 
 .library_body_body {
@@ -216,7 +344,8 @@ body {}
 
 .library_body_body_one {
 	display: inline-block;
-	padding: 0.2vw 0;
+	padding: 0.2vw 0.2vw;
+	/* mar */
 	/* border: 1px solid #555555; */
 	/* width: 4vw; */
 }

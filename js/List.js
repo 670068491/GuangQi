@@ -1,29 +1,45 @@
 window.onload = function() {
 	$("#back").click(function() {
 		location.href = "./Auto.html";
-
-
 	});
 
+var nodeIndex = 1;
 	$("#plus").click(function() {
-
-		var $One = $(
-			'<div class="node_one"><div class = "string"></div><div class = "node_small">节点<span>1</span></div><div class = "string"></div><div class = "logic"></div></div>'
-		);
-		$(".node").prepend($One);
+		nodeIndex++;
+		var $One = $('<div class="node_one"><div class = "string"></div><div class = "node_small">节点<span>' + nodeIndex + '</span></div><div class = "string"></div><div class = "logic"></div></div>');
+		$(".node").append($One);
 
 	});
 
 	$(".lib").click(function() {
 		$(".library").animate({
-			width: "15vw"
-		}, "slow", function() {})
+			opacity: 1
+		}, "slow", function() {
+			$(".library").animate({
+				width: "16vw",
+				height: '100%'
+			}, "slow", function() {})
+		})
+
+		// $(".library").stop(true).slideDown("slow");
 	});
 
 	$(".library_Back").click(function() {
+		// $(".library").stop(true).fadeOut("slow");
 		$(".library").animate({
-			width: "0vw"
-		}, "slow", function() {})
+			width: "0vw",
+			height: '0vw'
+		}, "slow", function() {
+			$(".library").animate({
+				opacity: 0
+			}, "slow", function() {
+
+			})
+		})
+		// $(".library").delay(600).animate({
+		// 	opacity: 0
+		// }, 200);
+
 	});
 
 	var pack1 = true;
@@ -41,9 +57,39 @@ window.onload = function() {
 		}
 	});
 
-	$(".node_small").click(function() {
-		$(this).addClass("active");
-});
+	var pack2 = true;
+	$("#pack2").click(function() {
+		if (pack2) {
+			$("#library_body_body2").animate({
+				height: "0.1vw"
+			}, "slow", function() {})
+			pack2 = false;
+		} else {
+			$("#library_body_body2").animate({
+				height: "100%"
+			}, "slow", function() {});
+			pack2 = true;
+		}
+	});
+
+
+	$(".node").on("click", ".node_small", function() {
+		// console.log($(this));
+		 $(".node_one div").removeClass("active");
+		 $(this).addClass("active");
+		
+	});
+
+	$(".node").on("click", ".logic", function() {
+		$(".node_one div").removeClass("active2");
+		$(this).addClass("active2");
+	});
+
+
+	// $(".node_small").click(function() {
+	// $(".node_one div").removeClass("active");
+	// 	$(this).addClass("active");
+	// });
 
 
 
@@ -78,11 +124,7 @@ window.onload = function() {
 					var loca = storage.getItem(FrameId);
 					// console.log(typeof(Byte5));
 					// 判断新旧id  /  页面不存在  新id 
-				
-				
-				
-				
-				
+
 				});
 				// stompClient.subscribe('/topic/websocket/broadcast', function(response) {
 				// 	var stringResult = response.body.split(',');
