@@ -93,7 +93,7 @@ body {}
 
 .node {
 	margin-top: 1vw;
-	padding: 0vw 0 0 8vw;
+	padding: 0vw 0 2vw 8vw;
 
 }
 
@@ -121,11 +121,14 @@ body {}
 	background-color: #FFFFFF;
 	border-radius: 4px;
 	width: 52vw;
+	padding: 0 0 1vw 0;
+	overflow: hidden;
 }
 
 .strip_head_img {
-	width: 0.6vw;
-	margin-left: 19vw;
+	width: 1vw;
+	margin-left: 50vw;
+	/* padding */
 }
 
 /* .灯光 */
@@ -152,7 +155,7 @@ body {}
 }
 
 .lamp_remark {
-	/* margin-top: 1.1vw; */
+	margin-top: 0.2vw;
 	border: 0px;
 	width: 5vw;
 	height: 1vw;
@@ -161,7 +164,7 @@ body {}
 }
 
 .lamp_body_one_span {
-	padding-left: 1vw;
+	padding-left: 0.4vw;
 	color: #5B9BD5;
 	/* margin-top: 1vw; */
 	font-size: 1.2vw;
@@ -171,7 +174,13 @@ body {}
 }
 
 .lamp_body_one_one {
-	padding-top: 1.2vw;
+	/* padding-top: 1.2vw; */
+	vertical-align: middle;
+	color: #000000;
+}
+
+.lamp_body_one_one label {
+	color: black;
 	vertical-align: middle;
 }
 
@@ -210,7 +219,7 @@ body {}
 	margin-left: 1.4vw;
 	padding: 0.25vw 1vw;
 	color: white;
-	border-radius: 10%;
+	border-radius: 4px;
 }
 
 
@@ -227,7 +236,7 @@ body {}
 
 /* 逻辑点 */
 .node_one .active2 {
-	background-color: #805600;
+	background-color: #fffe05;
 }
 
 .node_small {
@@ -235,12 +244,12 @@ body {}
 	margin-bottom: 1vw;
 	color: white;
 	width: 2vw;
-	padding: 0.4vw 0.2vw;
+	padding: 0.8vw 0.2vw;
 	background-color: #6f779c;
-
 	text-align: center;
 	margin-left: 0.1vw;
 	position: relative;
+	border-radius: 50%;
 	/* margin-left: 1.4vw; */
 	/* height: 3vw; */
 }
@@ -263,7 +272,7 @@ body {}
 	color: white;
 	font-size: 1vw;
 } */
-.points{
+.points {
 	position: absolute;
 	top: 0vw;
 	left: 4vw;
@@ -272,16 +281,20 @@ body {}
 	height: 4vw;
 	color: white;
 }
-.points label{
+
+.points label {
 	display: inline-block;
 }
-.points select{
+
+.points select {
 	display: inline-block;
 }
-.points input{
+
+.points input {
 	/* display: inline-block; */
 	width: 3vw;
 }
+
 .plus {
 	background-color: green;
 	color: white;
@@ -298,7 +311,7 @@ body {}
 .lib {
 	position: absolute;
 	top: 14vw;
-	right: 18vw;
+	right: 15vw;
 }
 
 .lib img {

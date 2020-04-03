@@ -2,13 +2,20 @@ window.onload = function() {
 	$("#back").click(function() {
 		location.href = "./Auto.html";
 	});
-
-	var nodeIndex = 1;
+	// 添加逻辑与节点
+	var nodeIndex = 10;
 	$("#plus").click(function() {
 		nodeIndex++;
-		var $One = $('<div class="node_one"><div class = "string"></div><div class = "node_small">节点<span>' + nodeIndex +
-			'</span></div><div class = "string"></div><div class = "logic"></div></div>');
+
+		var $One = $(
+			'<div class="node_one"><div class = "string"></div><div class = "logic"></div><div class = "string"></div><div class = "node_small"><span>节点<span>' +
+			nodeIndex +
+			'</span></span><div class="strip"><div class="strip_head"><img src="./img/33.png"  class="strip_head_img"></div><div class="strip_one"></div></div></div></div>'
+		);
+
 		$(".node").append($One);
+
+
 
 	});
 
@@ -74,18 +81,52 @@ window.onload = function() {
 	});
 
 
-	$(".node").on("click", ".node_small", function() {
+
+
+	$(".strip").on("click", ".strip_head_img", function() {
+		// $(".active").find(".strip_one").append($One);
+		var oSrc = $(this).attr("src");
+		if (oSrc == './img/33.png') {
+			// console.log('1');
+			$(this).parents('.strip').animate({
+				height: "0"
+			}, "slow", function() {});
+			$(this).attr({
+				src: "./img/44.png"
+			});
+		} else {
+			$(this).parents('.strip').animate({
+				height: "100%"
+			}, "slow", function() {});
+			$(this).attr({
+				src: "./img/33.png"
+			});
+		}
+	});
+	$(".node").on("click", ".string_span", function() {
 		// console.log($(this));
+		var flag = $(this).parents(".node_small").hasClass("active");
 		$(".node_one div").removeClass("active");
-		$(this).addClass("active");
+		if (flag) {
+			$(this).parents(".node_small").removeClass("active");
+		} else {
+			$(this).parents(".node_small").addClass("active");
+		}
 
 	});
 
 	$(".node").on("click", ".logic", function() {
+		var flag = $(this).hasClass("active2");
 		$(".node_one div").removeClass("active2");
-		$(this).addClass("active2");
+		if(flag){
+			$(this).removeClass("active2");
+		}else{
+			$(this).addClass("active2");
+		}
 	});
+
 	$(".library_body_body").on("click", ".library_body_body_one", function() {
+		console.log($(this).attr('id'));
 		var $One = $(
 			'<div class="lamp_body_one"><input type="text" name="" class="lamp_remark "><span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0x123</span></span><div class="lamp_body_one_one"><label for="">模式:</label><select class="lamp_xuanxiang" name="" value=""><option value="01">关闭模式</option></select><span>流动LED:</span><input class="liudong" type="text"><span>LED数量:</span><input class="led" type="text"><span>速度:</span><input class="sudu" type="text"><span>颜色:</span><input type="color" name="" class="yanse" /><span>白色值:</span><input type="text" name="" class="type7" /><button class="lamp_send">执行</button></div></div>'
 		);
@@ -95,12 +136,121 @@ window.onload = function() {
 
 	});
 
+
+	var currentIndex = 0; //当前执行节点位置
+	var nodeSum = nodeIndex; //共有10个节点
+	var isAction = false;
+	//总节点数比逻辑多一个
+	//默认10个节点,9个逻辑
+	/**
+	 * 启动功能
+	 */
+	
+	$("#start").click(function() {
+	isLogic();
+	});
+	
+	function actionGo() {
+		if (isAction) {
+			return;
+		}
+		currentIndex = 0;
+		isAction = true;
+
+	}
+
+	/**
+	 * 逻辑判断
+	 */
+	function isLogic() {
+		if (!isAction) {
+			return;
+		}
+		// if(currentIndex == 0) {
+		// }
+		if (currentIndex >= nodeSum) {
+			//已经全部执行完毕
+			isAction = false;
+			return;
+		}
+		actionDo();
+		//开始判断 currentIndex 位置的逻辑
+		if (currentIndex < (nodeSum - 1)) { // 判断currentIndex位置是否有逻辑  
+			//从页面获取
+			var logicValue = 0; //逻辑信号
+			var logicId = "0x123"; //逻辑的ID  门
+			var delay = 1; //延迟时间秒
+			for (var i = 0; i < logicMap.length; i++) {
+				if (logicMap[i].id == logicId) {
+					if (logicValue == logicMap[i].value) {
+						setTimeout(function() {
+							currentIndex++;
+							isLogic();
+						}, delay * 1000);
+						return;
+
+					}
+				}
+
+			}
+			//不满足条件 死循环
+			loopLogic();
+
+		} else {
+			//已经全部执行完毕
+			isAction = false;
+		}
+	}
+
+	function stop() {
+		isAction = false;
+
+	}
+
+	function loopLogic() {
+		if (!isAction) {
+			return;
+		}
+		setTimeout(function() {
+			//从页面获取
+			var logicValue = 0; //逻辑信号
+			var logicId = "0x123"; //逻辑的ID  门
+			var delay = 1; //延迟时间秒
+			for (var i = 0; i < logicMap.length; i++) {
+				if (logicMap[i].id == logicId) {
+					if (logicValue == logicMap[i].value) {
+						setTimeout(function() {
+							currentIndex++;
+							isLogic();
+						}, delay * 1000);
+						return;
+					}
+				}
+
+			}
+			loopLogic();
+		}, 1000);
+		//从页面获取
+
+
+	}
+
+
+
+	function actionDo() {
+		//TODO 扫描 currentIndex 节点的内容,并发送
+		//$("#node"+currentIndex)
+	}
+
+
+
+
 	// $(".node_small").click(function() {
 	// $(".node_one div").removeClass("active");
 	// 	$(this).addClass("active");
 	// });
 
-
+	var logicMap = [];
 
 
 	function connect() {
@@ -127,12 +277,29 @@ window.onload = function() {
 					var Byte4 = stringResult[5];
 					var Byte5 = stringResult[6];
 					var Byte6 = stringResult[7];
-					var Byte7 = stringResult[8].substring(0, stringResult[8].length - 1);
+					var Byte7 = stringResult[8].substring(0, 2);
+
 					// var Byte7 = Byt7.substring(0, Byt7.length - 1);
 					var oYemian = document.getElementById(FrameId);
 					var loca = storage.getItem(FrameId);
 					// console.log(typeof(Byte5));
 					// 判断新旧id  /  页面不存在  新id 
+					// 逻辑信号保存到全局变量 TODO
+					//是否使逻辑信号
+					//假设 收到的是逻辑信号  byte0 是 信号值
+
+					for (var i = 0; i < logicMap.length; i++) {
+						if (logicMap[i].id == FrameId) {
+							logicMap[i].value = Byte0;
+							return;
+						}
+
+					}
+					var temp = {};
+					temp.id = FrameId;
+					temp.value = Byte0;
+					logicMap.push(temp);
+
 
 				});
 				// stompClient.subscribe('/topic/websocket/broadcast', function(response) {
