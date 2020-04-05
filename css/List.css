@@ -274,12 +274,13 @@ body {}
 } */
 .points {
 	position: absolute;
-	top: 0vw;
+	top: -1vw;
 	left: 4vw;
-	background-color: #008000;
+	background-color: #277027;
 	width: 10vw;
-	height: 4vw;
+	height: 3vw;
 	color: white;
+	padding: 1vw 1vw;
 }
 
 .points label {
@@ -293,6 +294,10 @@ body {}
 .points input {
 	/* display: inline-block; */
 	width: 3vw;
+}
+
+.points_signal {
+	margin-bottom: 1vw;
 }
 
 .plus {

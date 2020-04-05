@@ -6,17 +6,12 @@ window.onload = function() {
 	var nodeIndex = 10;
 	$("#plus").click(function() {
 		nodeIndex++;
-
 		var $One = $(
 			'<div class="node_one"><div class = "string"></div><div class = "logic"></div><div class = "string"></div><div class = "node_small"><span>节点<span>' +
 			nodeIndex +
 			'</span></span><div class="strip"><div class="strip_head"><img src="./img/33.png"  class="strip_head_img"></div><div class="strip_one"></div></div></div></div>'
 		);
-
 		$(".node").append($One);
-
-
-
 	});
 
 	$(".lib").click(function() {
@@ -118,9 +113,9 @@ window.onload = function() {
 	$(".node").on("click", ".logic", function() {
 		var flag = $(this).hasClass("active2");
 		$(".node_one div").removeClass("active2");
-		if(flag){
+		if (flag) {
 			$(this).removeClass("active2");
-		}else{
+		} else {
 			$(this).addClass("active2");
 		}
 	});
@@ -145,11 +140,11 @@ window.onload = function() {
 	/**
 	 * 启动功能
 	 */
-	
+
 	$("#start").click(function() {
-	isLogic();
+		isLogic();
 	});
-	
+
 	function actionGo() {
 		if (isAction) {
 			return;
@@ -201,7 +196,7 @@ window.onload = function() {
 			isAction = false;
 		}
 	}
-
+	// 停止
 	function stop() {
 		isAction = false;
 
@@ -239,6 +234,11 @@ window.onload = function() {
 
 	function actionDo() {
 		//TODO 扫描 currentIndex 节点的内容,并发送
+		// var oSend = 
+		 $("li").each(function(){
+		    alert($(this).text())
+		  });
+			// stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00,00,00,00,00K");
 		//$("#node"+currentIndex)
 	}
 
