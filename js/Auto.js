@@ -5,7 +5,10 @@ window.onload = function() {
 		// $(".auto").css("display", "none");
 		location.href = "./index.html";
 	});
+	$("#open").click(function() {
 
+		location.href = "./List.html";
+	});
 	$("#cut_three").click(function() {
 		$(".auto .grade").css("display", "block");
 		$(".auto .cover").css("display", "block");
