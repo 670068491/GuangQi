@@ -76,7 +76,20 @@ window.onload = function() {
 			pack2 = true;
 		}
 	});
-
+	var pack3 = true; //元件库  输入信号
+	$("#pack3").click(function() {
+		if (pack3) {
+			$("#library_body_body3").animate({
+				height: "0.1vw"
+			}, "slow", function() {})
+			pack3 = false;
+		} else {
+			$("#library_body_body3").animate({
+				height: "100%"
+			}, "slow", function() {});
+			pack3 = true;
+		}
+	});
 
 
 
@@ -214,14 +227,14 @@ window.onload = function() {
 
 	function drawNode() {
 		var htmlStr = ``;
+		//判断类型，等
 		// console.log(presentNodeIndex);
 		// if (Array.isArray(nodeList[i].deviceList)) {
 		for (var j = 0; j < nodeList[presentNodeIndex].deviceList.length; j++) {
-
-			//判断类型，等
-			htmlStr +=
-				`<div class="lamp_body_one" id="${nodeList[presentNodeIndex].deviceList[j].device_id}">
-								<input type="text" name="" class="lamp_remark ">
+			if (nodeList[presentNodeIndex].deviceList[j].device_type == 'light') {
+				htmlStr +=
+					`<div class="lamp_body_one" id="${nodeList[presentNodeIndex].deviceList[j].device_id}">
+								<input type="text" name="" class="lamp_remark">
 								<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].device_id}</span>
 								</span>
 								<div class="lamp_body_one_one">
@@ -268,14 +281,51 @@ window.onload = function() {
 									<button class="lamp_send" data-index="${j}" >保存</button>
 								</div>
 							</div>`
+
+			} else if (nodeList[presentNodeIndex].deviceList[j].device_type == 'elec') {
+				htmlStr +=
+					`<div class="elec_body_one" id="${nodeList[presentNodeIndex].deviceList[j].device_id}">
+									<input type="text" name="" class="elec_remark">
+									<span class="elec_body_one_span">ID:
+										<span class="elec_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].device_id}</span>
+									</span>
+									<div class="elec_right">
+										
+										<input type="range" disabled="true" name="" min="0" max="100" value="10" step="1" class="elec_int">
+										<input type="text" value="" class="elec_cover">
+										<input type="text" value="" class="elec_OverAll">
+										<input type="text" value="" class="elec_Current">
+										
+										<button type="button" class="elec_up">前进</button>
+										<button type="button" class="elec_down">后退</button>
+
+										<label for="">
+											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].device_id}" value="1">1
+											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].device_id}" value="2">2
+											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].device_id}" value="3">3
+											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].device_id}" value="2">4
+										</label>
+										<button type="button" class="elec_save">保存位置</button>
+									</div>
+									<button type="button" class="elec_Allsave" data-index="${j}">保存</button>
+								</div>`;
+
+			}
+
+
+
+
 		}
-		// }
-		// for (var i = 0; i < nodeList.length; i++) {
-		// }
+
 
 		$(".active").find('.strip_one').html(htmlStr);
 		// console.log(nodeList);
 	}
+
+
+
+
+
 
 
 	/**
@@ -302,6 +352,10 @@ window.onload = function() {
 				// 流水灯
 				device.device_type = "light";
 				break;
+			case "06":
+				// 电机
+				device.device_type = "elec";
+				break;
 			default:
 				console.log("没有此类型");
 				break;
@@ -320,11 +374,11 @@ window.onload = function() {
 	}
 
 	initData();
-	drawHtml();
+	// drawHtml();
 
 	// NodeIndex
-	//元件库 添加进节点
-	$(".library_body_body").on("click", ".library_body_body_one", function() {
+	//元件库 添加进节点   //灯光
+	$("#library_body_body1").on("click", ".library_body_body_one", function() {
 		// var oActive = document.getElementsByClassName("active");
 		// console.log($(".node_small").hasClass('active'))
 		if ($(".node_small").hasClass('active')) {
@@ -332,19 +386,32 @@ window.onload = function() {
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
 			presentNodeIndex = Index;
-
+			// console.log($(".active").find('#' + Id));
 			// if (!document.getElementById(Id)) {
 			// if(  nodeList[presentNodeIndex].deviceList.){
-
 			// }
-			// console.log('1');
-			addDevice(Index, Id, '00,00,00,00,00,00,00,00');
-			// }
+			if ($(".active").find('#' + Id).length == 0) {
+				addDevice(Index, Id, '00,00,00,00,00,00,00,00');
+			}
 			// console.log(Index);
-
 		}
 		// $(".active").find(".strip_one").append($One);
 	});
+	//电机
+	$("#library_body_body2").on("click", ".library_body_body_one", function() {
+		if ($(".node_small").hasClass('active')) {
+			var Index = $(".active").attr('id').substring(1);
+			var Id = $(this).attr('id').substring(2);
+			presentNodeIndex = Index;
+			addDevice(Index, Id, '00,00,00,00,00,00,00,00');
+		}
+	});
+
+
+
+
+
+
 
 	// 事件委托，灯光保存
 	$(".node").on("click", ".lamp_send", function() {
@@ -384,7 +451,7 @@ window.onload = function() {
 		// alert("S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 +
 		// 	"," + type7 + "K");
 	});
-	// 添加逻辑与节点
+
 
 	// HEX 到 RGB ，注意处理简写“#abc”为“#aabbcc”
 	function hex2rgb(hex) {
@@ -412,32 +479,106 @@ window.onload = function() {
 		}
 	};
 
-	// 	$(".strip").on("click", ".strip_head_img", function() {
+	// 电机发送
+	var elecSet; //前进
+	$(".node").on("mousedown", ".elec_up", function() {
+		var id = $(this).parents(".elec_body_one").attr('id');
+		$(this).css("background-color", "pink");
+		elecSet = setInterval(function() {
+			stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10,50K");
+		}, 100);
+		// console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
+	});
+	$(".node").on("mouseup", ".elec_up", function() {
+		clearInterval(elecSet);
+		$(this).css("background-color", "#5b9bd5");
+	});
+	var elecSetDown; //后退
+	$(".node").on("mousedown", ".elec_down", function() {
+		var id = $(this).parents(".elec_body_one").attr('id');
+		$(this).css("background-color", "pink");
+		elecSetDown = setInterval(function() {
+			stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10,50K");
+		}, 50)
+	});
+	$(".node").on("mouseup", ".elec_down", function() {
+		clearInterval(elecSetDown);
+		$(this).css("background-color", "#5b9bd5");
+	});
 
+	//电机位置保存
+	$(".node").on("click", ".elec_save", function() {
+		var Id = $(this).parents(".elec_body_one").attr('id');
+		var oIdCov = $(this).siblings('.elec_cover').val();
+		var list = $('input:radio[name=' + Id + ']:checked').val();
+		console.log(oIdCov)
+
+		if (list == null) {
+			alert("请选中一个!");
+			return false;
+		} else {
+			$('input:radio[name=' + Id + ']:checked').val(oIdCov);
+			// console.log($('input:radio[name=' + Id + ']:checked').val());
+			// alert(id);
+		}
+	});
+
+
+	// 电机 保存在节点
+	// $(".node").on("click", ".elec_Allsave", function() {
+	// 	var Id = $(this).parents(".elec_body_one").attr('id');
+	// 	console.log(Id);
+	// 	// var oIdCov = $(this).siblings('.elec_cover').val();
+	// 	var list = $('input:radio[name=' + Id + ']:checked').val();
+	// 	if (list == null) {
+	// 		alert("请选中一个!");
+	// 		return false;
+	// 	} else {
+	// 		// alert(list);
+	// 		// stompClient.send("/app/wu", {}, "S" + Id + ",0D,00,00,50," + list + "K");
+	// 		// console.log("S" + Id + ",0D,00,00,50," + list + "K");
+	// 		var arrindex = $(this).attr("data-index");
+	// 		var nodeId = $(this).parents(".node_small").attr('id').substring(1);
+	// 		// console.log($(this).attr("data-index"));
+	// 		// console.log(nodeId);
+	// 		nodeList[nodeId].deviceList[arrindex].device_value = "0D,00,00,50," + list + "K";
+	// 		console.log(nodeList);
+	// 		// $('input:radio[name=' + id + ']:checked').val(oIdCov);
+	// 		// alert($('input:radio[name=' + id + ']:checked').val());
+	// 		// alert(id);
+	// 	}
 	// });
 
 
+	// 添加逻辑与节点
+
 	// 节点上箭头
 	$(".strip").on("click", ".strip_head_img", function() {
+		// var oheight = $(this).parents('.strip').height();
+		// console.log(oheight);
 		// $(".active").find(".strip_one").append($One);
 		var oSrc = $(this).attr("src");
 		if (oSrc == './img/33.png') {
-			// console.log('1');
-			$(this).parents('.strip').animate({
-				height: "0"
-			}, "slow", function() {});
+			$(this).parent().siblings('.strip_one').stop(true).hide("slow");
 			$(this).attr({
 				src: "./img/44.png"
 			});
+			// $(this).parent().siblings('.strip_one').hide();
+			// console.log('1');
+			// $(this).parent().siblings('.strip_one').animate({
+			// 	height: "0vw"
+			// }, "slow", function() {});
 		} else {
-			$(this).parents('.strip').animate({
-				height: "100%"
-			}, "slow", function() {});
+			$(this).parent().siblings('.strip_one').stop(true).show("slow");
 			$(this).attr({
 				src: "./img/33.png"
 			});
+			// $(this).parents(".strip").stop(true).animate({
+			// 	height: "100%",
+			// })
 		}
 	});
+
 	// 节点变色
 	$(".node").on("click", ".string_span", function() {
 		// console.log($(this));
@@ -572,22 +713,13 @@ window.onload = function() {
 
 
 	function actionDo() {
+		//TODO 扫描 currentIndex 节点的内容,并发送
 		for (var i = 0; i < nodeList[currentIndex].deviceList.length; i++) {
 
 			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].device_id + ',' + nodeList[currentIndex]
 				.deviceList[i].device_device_value);
 		}
 
-
-
-
-		//TODO 扫描 currentIndex 节点的内容,并发送
-		// var oSend = 
-		// $("li").each(function() {
-		// 	alert($(this).text())
-		// });
-		// stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00,00,00,00,00K");
-		//$("#node"+currentIndex)
 	}
 
 
@@ -600,12 +732,11 @@ window.onload = function() {
 
 	var logicMap = [];
 
-
 	function connect() {
 		// console.log('1');
 		// 建立连接对象（还未发起连接）
-		// var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
-		var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
+		var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
+		// var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
 		// var socket = new WebSocket("ws://192.168.1.241:8080/webSocketEndPoint");
 		stompClient = Stomp.over(socket); // 获取 STOMP 子协议的客户端对象
 		stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
@@ -627,7 +758,6 @@ window.onload = function() {
 					var Byte6 = stringResult[7];
 					var Byte7 = stringResult[8].substring(0, 2);
 
-					// var Byte7 = Byt7.substring(0, Byt7.length - 1);
 					var oHtmlId = document.getElementById(FrameId);
 					var loca = storage.getItem(FrameId);
 					// console.log(typeof(Byte5));
@@ -646,6 +776,10 @@ window.onload = function() {
 								case "01":
 									// 流水灯
 									new lamp(FrameId);
+									break;
+								case "06":
+									// 电机
+									new elec(FrameId);
 									break;
 								default:
 									console.log("没有此类型");
@@ -716,7 +850,7 @@ window.onload = function() {
 	};
 	connect(); //建立连接
 
-	function lamp(FrameId) {
+	function lamp(FrameId) { //灯光
 		this.oLamOne = document.getElementById("library_body_body1");
 		this.FrameId = FrameId;
 		//自动初始化
@@ -728,8 +862,6 @@ window.onload = function() {
 			//转存this
 			var self = this;
 			var Id = '0X' + self.FrameId;
-			// 新id
-			// if (this.New == 'new') {
 			// console.log('新:灯光');
 			// 创建元素
 			var oBig = document.createElement("div");
@@ -740,11 +872,35 @@ window.onload = function() {
 			// 插入元素
 			self.oLamOne.appendChild(oBig);
 			console.log('1');
-			// }
 
 		}
 	}
 
+	function elec(FrameId) { //电机
+		this.oLamOne = document.getElementById("library_body_body2");
+		this.FrameId = FrameId;
+		//自动初始化
+		this.init();
+	}
+	elec.prototype = {
+		constructor: elec,
+		init: function() {
+			//转存this
+			var self = this;
+			var Id = '0X' + self.FrameId;
+			// console.log('新:灯光');
+			// 创建元素
+			var oBig = document.createElement("div");
+			oBig.classList.add("library_body_body_one");
+			oBig.setAttribute("id", Id);
+			// 修饰元素
+			oBig.innerHTML = '<span>id:0X' + Id + '</span> <span>前灯1</span>';
+			// 插入元素
+			self.oLamOne.appendChild(oBig);
+			// console.log('1');
+
+		}
+	}
 
 
 }

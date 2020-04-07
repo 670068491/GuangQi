@@ -121,7 +121,8 @@ body {}
 	background-color: #FFFFFF;
 	border-radius: 4px;
 	width: 52vw;
-	padding: 0 0 1vw 0;
+	/* height:1vw; */
+	padding: 0 0 0.4vw 0;
 	overflow: hidden;
 }
 
@@ -165,7 +166,7 @@ body {}
 }
 
 .lamp_body_one_span {
-	padding-left: 0.4vw;
+	/* padding-left: 0.4vw; */
 	color: #5B9BD5;
 	/* margin-top: 1vw; */
 	font-size: 1vw;
@@ -224,11 +225,204 @@ body {}
 	border-radius: 4px;
 }
 
+/* 电机 */
+.elec_body_one {
+	display: flex;
+}
+
+.elec_body_one .elec_remark {
+	margin-top: 1.1vw;
+	border: 0px;
+	width: 5vw;
+	height: 1vw;
+	text-align: center;
+	display: inline-block;
+}
+
+.elec_body_one .elec_body_one_span {
+	/* padding-left: 1vw; */
+	color: #5B9BD5;
+	margin-top: 1vw;
+	font-size: 1vw;
+	width: 6vw;
+	display: inline-block;
+}
+
+.elec_body_one .elec_right {
+	display: flex;
+	padding-top: 1vw;
+}
+
+.elec_body_one .elec_sm_left {
+	width: 1.4vw;
+	height: 1.4vw;
+	background-color: #5b9bd5;
+	border-radius: 50%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.elec_body_one .elec_int {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/*使滑块超出轨道部分的偏移量相等*/
+/*外观设置为圆形*/
+/*设置边框*/
+/*添加底部阴影*/
+/* input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	height: 50px;
+	width: 50px;
+	margin-top: -5px;
+	background: #5500ff;
+	background-color: #5500ff;
+	border-radius: 50%;
+	border: solid 0.125em rgba(205, 224, 230, 0.5);
+	box-shadow: 0 .125em .125em #3b4547;
+} */
+
+.elec_body_one .elec_cover {
+	/* display: none; */
+	opacity: 0;
+	width: 1px;
+}
+
+.elec_body_one .elec_OverAll {
+	/* display: none; */
+	opacity: 0;
+	width: 1px;
+}
+
+.elec_body_one .elec_Current {
+	display: none;
+}
+
+.elec_body_one .elec_sm_right {
+	width: 1.4vw;
+	height: 1.4vw;
+	background-color: #5b9bd5;
+	border-radius: 50%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.elec_body_one .elec_right label {
+	vertical-align: middle;
+	display: inline-block;
+	margin-left: 0.5vw;
+	font-size: 1vw;
+}
+
+.elec_body_one .elec_right label input {
+	margin-left: 1vw;
+}
+
+.elec_body_one .elec_right button {
+	background-color: #5B9BD5;
+	border: 0;
+	margin-left: 0.75vw;
+	padding: 0.25vw 1vw;
+	color: white;
+	border-radius: 5%;
+}
+
+.elec_body_one .elec_Allsave {
+	background-color: #5B9BD5;
+	border: 0;
+	margin-left: 1.5vw;
+	margin-top: 1vw;
+	padding: 0.25vw 1vw;
+	color: white;
+	border-radius: 5%;
+}
+
+/* 按钮 */
+/* 第一块，按钮 */
+/* .button {
+	padding-top: 0.5vw;
+	padding-left: 0.5vw;
+	border: 0.2vw solid #5B9BD5;
+	border-radius: 0.5vw;
+} */
+
+.logic .button_span {
+	font-size: 1.5vw;
+	color: #5B9BD5;
+	font-weight: bold;
+}
+
+/* .button .button_body { */
+/* padding-top: 0.5vw; */
+/* } */
+
+.logic .button_body_one {
+	display: flex;
+	align-items: center;
+}
+
+/* .button_body_one.active { */
+/* color: darkgrey; */
+/* background-color: darkgrey; */
+/* } */
 
 
+.logic .button_remark {
+	/* margin-top: 1.1vw; */
+	border: 0px;
+	width: 3vw;
+	height: 1vw;
+	display: inline-block;
+	font-size: 0.7vw;
+	color: #5B9BD5;
+}
+
+.logic .button_body_one_span {
+	padding-left: 0.2vw;
+	color: #ffffff;
+	font-size: 1vw;
+	width: 5.6vw;
+	display: inline-block;
+}
+
+.logic .button_body_one_span.active {
+	color: blue;
+}
+
+.logic .button_body_one_one {
+	/* margin-left: 0.5vw; */
+	display: inline-block;
+	width: 32vw;
+}
+
+.logic .button_body_one_btn {
+	display: inline-block;
+	/* padding-left: 0.6vw; */
+	text-align: center;
+	margin-bottom: 0.3vw;
+}
+
+.logic .button_body_one_btn_circle {
+	width: 1.5vw;
+	height: 1.5vw;
+	border-radius: 50%;
+	background-color: #ffffff;
+	margin-left: 1vw;
+}
+
+.logic .button_body_one_btn_circle.active {
+	background-color: #5B9BD5;
+}
 
 
-
+.logic .button_body_one_btn input {
+	width: 3.2vw;
+	border: 0;
+	text-align: center;
+	margin-top: 0.2vw;
+	font-size: 0.8vw;
+}
 
 
 
@@ -279,8 +473,8 @@ body {}
 	top: -1vw;
 	left: 4vw;
 	background-color: #3C9A9A;
-	width: 8vw;
-	height: 3vw;
+	/* width: 8vw; */
+	/* height: 3vw; */
 	color: white;
 	padding: 0.4vw 0.4vw;
 }
@@ -317,8 +511,8 @@ body {}
 /* 元件库 */
 .lib {
 	position: absolute;
-	top: 14vw;
-	right: 15vw;
+	top: 13.7vw;
+	right: 14vw;
 }
 
 .lib img {
