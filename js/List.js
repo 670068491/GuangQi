@@ -2,6 +2,26 @@ window.onload = function() {
 	var storage = window.localStorage;
 	var stompClient = null; //定义全局变量，代表一个session
 
+	function GainName() {
+		var name = $.Request("name");
+		var stylist = $.Request("stylist");
+		// console.log(name);
+		// console.log(stylist);
+		if (name != "null") {
+			$('.auto_top_two_1').text(name);
+			$('.auto_top_two_3').text(stylist);
+		}
+	}
+
+	$(function() {
+		GainName();
+	});
+
+
+
+
+
+
 	$("#back").click(function() {
 		location.href = "./Auto.html";
 	});
@@ -25,7 +45,6 @@ window.onload = function() {
 				height: '100%'
 			}, "slow", function() {})
 		})
-
 		// $(".library").stop(true).slideDown("slow");
 	});
 
@@ -37,9 +56,7 @@ window.onload = function() {
 		}, "slow", function() {
 			$(".library").animate({
 				opacity: 0
-			}, "slow", function() {
-
-			})
+			}, "slow", function() {})
 		})
 		// $(".library").delay(600).animate({
 		// 	opacity: 0
@@ -122,9 +139,9 @@ window.onload = function() {
 		//添加10个节点
 		for (var i = 0; i < nodeIndex; i++) {
 			var node = {};
-			node.remark = "备注";
-			node.node_name = "结点" + (i + 1);
-			node.node_sort = i;
+			node.remark = "备注";  //remark
+			node.node_name = "结点" + (i + 1);  //nodeName
+			node.node_sort = i;    //nodeSort
 			node.deviceList = []; //单节点的设备
 			nodeList.push(node);
 		}
@@ -224,18 +241,18 @@ window.onload = function() {
 		}
 		$(".node").html(htmlStr);
 	}
-
+	// 节点里的组件刷新
 	function drawNode() {
 		var htmlStr = ``;
 		//判断类型，等
 		// console.log(presentNodeIndex);
 		// if (Array.isArray(nodeList[i].deviceList)) {
 		for (var j = 0; j < nodeList[presentNodeIndex].deviceList.length; j++) {
-			if (nodeList[presentNodeIndex].deviceList[j].device_type == 'light') {
+			if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'light') {
 				htmlStr +=
-					`<div class="lamp_body_one" id="${nodeList[presentNodeIndex].deviceList[j].device_id}">
+					`<div class="lamp_body_one" id="${nodeList[presentNodeIndex].deviceList[j].deviceId}">
 								<input type="text" name="" class="lamp_remark">
-								<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].device_id}</span>
+								<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].deviceId}</span>
 								</span>
 								<div class="lamp_body_one_one">
 									<label for="">模式:</label>
@@ -282,12 +299,12 @@ window.onload = function() {
 								</div>
 							</div>`
 
-			} else if (nodeList[presentNodeIndex].deviceList[j].device_type == 'elec') {
+			} else if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'elec') {
 				htmlStr +=
-					`<div class="elec_body_one" id="${nodeList[presentNodeIndex].deviceList[j].device_id}">
+					`<div class="elec_body_one" id="${nodeList[presentNodeIndex].deviceList[j].deviceId}">
 									<input type="text" name="" class="elec_remark">
 									<span class="elec_body_one_span">ID:
-										<span class="elec_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].device_id}</span>
+										<span class="elec_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].deviceId}</span>
 									</span>
 									<div class="elec_right">
 										
@@ -300,24 +317,17 @@ window.onload = function() {
 										<button type="button" class="elec_down">后退</button>
 
 										<label for="">
-											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].device_id}" value="1">1
-											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].device_id}" value="2">2
-											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].device_id}" value="3">3
-											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].device_id}" value="2">4
+											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].deviceId}" value="1">1
+											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].deviceId}" value="2">2
+											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].deviceId}" value="3">3
+											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].deviceId}" value="2">4
 										</label>
 										<button type="button" class="elec_save">保存位置</button>
 									</div>
 									<button type="button" class="elec_Allsave" data-index="${j}">保存</button>
 								</div>`;
-
 			}
-
-
-
-
 		}
-
-
 		$(".active").find('.strip_one').html(htmlStr);
 		// console.log(nodeList);
 	}
@@ -337,9 +347,9 @@ window.onload = function() {
 	 */
 	function addDevice(index, id, value) {
 		/*
-		`device_type` varchar(512) DEFAULT NULL COMMENT '设备类型',
-		  `device_value` varchar(512) DEFAULT NULL COMMENT '设备值',
-		  `device_id` varchar(128) DEFAULT NULL COMMENT '设备id',
+		`deviceType` varchar(512) DEFAULT NULL COMMENT '设备类型',
+		  `deviceValue` varchar(512) DEFAULT NULL COMMENT '设备值',
+		  `deviceId` varchar(128) DEFAULT NULL COMMENT '设备id',
 		  `the_order` int
 		*/
 		var device = {};
@@ -350,20 +360,21 @@ window.onload = function() {
 		switch (Type) {
 			case "01":
 				// 流水灯
-				device.device_type = "light";
+				device.deviceType = "light";
 				break;
 			case "06":
 				// 电机
-				device.device_type = "elec";
+				device.deviceType = "elec";
 				break;
 			default:
 				console.log("没有此类型");
 				break;
 		}
 
-		// device.device_type = "light";
-		device.device_id = id;
-		device.device_value = value;
+		// device.deviceType = "light";
+		device.theOrder = index;
+		device.deviceId = id;
+		device.deviceValue = value;
 		if (!Array.isArray(nodeList[index].deviceList)) {
 			nodeList[index].deviceList = [];
 		}
@@ -372,29 +383,63 @@ window.onload = function() {
 		// drawHtml();
 		drawNode();
 	}
+	
+	function save() {
+		// id:id
+		// nodeList  : JSON.stringify(nodeList);
+		// logicList	:JSON.stringify(logicList);
+	}
+	/**
+	 * 3，添加设备
+	 * @param {Object} index 当前在第几个结点  从0开始
+	 * @param {Object} name
+	 * @param {Object} id
+	 * @param {Object} value   'S123:12:F2,22S'
+	 */
+	function addLogic(index, id, value) {
+		var device = {};
+		var loca = storage.getItem(id);
+		var locaObj = JSON.parse(loca);
+		var Type = locaObj.type;
+
+
+		device.deviceId = id;
+		device.deviceValue = value;
+		if (!Array.isArray(nodeList[index].deviceList)) {
+			nodeList[index].deviceList = [];
+		}
+		nodeList[index].deviceList.push(device);
+		console.log(logicList);
+		// drawHtml();
+		drawLogic();
+
+	}
+
 
 	initData();
-	// drawHtml();
+	drawHtml();
 
 	// NodeIndex
 	//元件库 添加进节点   //灯光
 	$("#library_body_body1").on("click", ".library_body_body_one", function() {
-		// var oActive = document.getElementsByClassName("active");
-		// console.log($(".node_small").hasClass('active'))
+
 		if ($(".node_small").hasClass('active')) {
-			// var oYemian = document.getElementById(FrameId);
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
 			presentNodeIndex = Index;
-			// console.log($(".active").find('#' + Id));
-			// if (!document.getElementById(Id)) {
-			// if(  nodeList[presentNodeIndex].deviceList.){
-			// }
+
 			if ($(".active").find('#' + Id).length == 0) {
 				addDevice(Index, Id, '00,00,00,00,00,00,00,00');
 			}
-			// console.log(Index);
 		}
+		// var oActive = document.getElementsByClassName("active");
+		// console.log($(".node_small").hasClass('active'))
+		// var oYemian = document.getElementById(FrameId);
+		// console.log($(".active").find('#' + Id));
+		// if (!document.getElementById(Id)) {
+		// if(  nodeList[presentNodeIndex].deviceList.){
+		// }
+		// console.log(Index);
 		// $(".active").find(".strip_one").append($One);
 	});
 	//电机
@@ -404,6 +449,26 @@ window.onload = function() {
 			var Id = $(this).attr('id').substring(2);
 			presentNodeIndex = Index;
 			addDevice(Index, Id, '00,00,00,00,00,00,00,00');
+		}
+	});
+
+	//逻辑点设置
+	$("#library_body_body3").on("click", ".library_body_body_one", function() {
+		if ($(".node_small").hasClass('active2')) {
+			var Index = $(".active2").attr('id').substring(1);
+			var Id = $(this).attr('id').substring(2);
+			presentNodeIndex = Index;
+			// addDevice(Index, Id, '00,00,00,00,00,00,00,00');
+		}
+	});
+
+	$(".node").on("click", ".button_body_one_btn_circle", function() {
+		var flag = $(this).hasClass("active3");
+		$(".node div").removeClass("active3");
+		if (flag) {
+			$(this).parents(".logic").removeClass("active3");
+		} else {
+			$(this).parents(".logic").addClass("active3");
 		}
 	});
 
@@ -443,7 +508,7 @@ window.onload = function() {
 		var nodeId = $(this).parents(".node_small").attr('id').substring(1);
 		// console.log($(this).attr("data-index"));
 		// console.log(nodeId);
-		nodeList[nodeId].deviceList[arrindex].device_value = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
+		nodeList[nodeId].deviceList[arrindex].deviceValue = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
 			"," + type5 + "," + type6 + "," + type7 + "K";
 		// console.log(nodeList);
 		// stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
@@ -541,7 +606,7 @@ window.onload = function() {
 	// 		var nodeId = $(this).parents(".node_small").attr('id').substring(1);
 	// 		// console.log($(this).attr("data-index"));
 	// 		// console.log(nodeId);
-	// 		nodeList[nodeId].deviceList[arrindex].device_value = "0D,00,00,50," + list + "K";
+	// 		nodeList[nodeId].deviceList[arrindex].deviceValue = "0D,00,00,50," + list + "K";
 	// 		console.log(nodeList);
 	// 		// $('input:radio[name=' + id + ']:checked').val(oIdCov);
 	// 		// alert($('input:radio[name=' + id + ']:checked').val());
@@ -592,15 +657,17 @@ window.onload = function() {
 
 	});
 	// 逻辑点变色
-	$(".node").on("click", ".logic", function() {
-		var flag = $(this).hasClass("active2");
+	$(".node").on("click", ".logic_span", function() {
+		var flag = $(this).parents(".logic").hasClass("active2");
 		$(".node div").removeClass("active2");
 		if (flag) {
-			$(this).removeClass("active2");
+			$(this).parents(".logic").removeClass("active2");
 		} else {
-			$(this).addClass("active2");
+			$(this).parents(".logic").addClass("active2");
 		}
 	});
+
+
 
 
 
@@ -716,8 +783,8 @@ window.onload = function() {
 		//TODO 扫描 currentIndex 节点的内容,并发送
 		for (var i = 0; i < nodeList[currentIndex].deviceList.length; i++) {
 
-			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].device_id + ',' + nodeList[currentIndex]
-				.deviceList[i].device_device_value);
+			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex]
+				.deviceList[i].device_deviceValue);
 		}
 
 	}
