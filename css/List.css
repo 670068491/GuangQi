@@ -505,9 +505,11 @@ body {}
 	margin-top: 0.2vw;
 	font-size: 0.8vw;
 }
-.button_body_one_btn select{
-	margin-left: 0.6vw;
+
+.button_body_one_btn select {
+	margin-left: 0.8vw;
 }
+
 .plus {
 	background-color: green;
 	color: white;

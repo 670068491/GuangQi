@@ -15,6 +15,10 @@ window.onload = function() {
 
 	$(function() {
 		GainName();
+		// connect(); //建立连接
+		
+		initData();//初始化数据
+		// drawHtml(); //初始化界面
 	});
 
 
@@ -416,8 +420,7 @@ window.onload = function() {
 	}
 
 
-	initData();
-	drawHtml();
+	
 
 	// NodeIndex
 	//元件库 添加进节点   //灯光
@@ -452,7 +455,7 @@ window.onload = function() {
 		}
 	});
 
-	//逻辑点设置
+	//逻辑点添加进 界面
 	$("#library_body_body3").on("click", ".library_body_body_one", function() {
 		if ($(".node_small").hasClass('active2')) {
 			var Index = $(".active2").attr('id').substring(1);
@@ -461,14 +464,25 @@ window.onload = function() {
 			// addDevice(Index, Id, '00,00,00,00,00,00,00,00');
 		}
 	});
-
+//逻辑点  设置01 
 	$(".node").on("click", ".button_body_one_btn_circle", function() {
 		var flag = $(this).hasClass("active3");
 		$(".node div").removeClass("active3");
+		
+		$(".node select").remove();
 		if (flag) {
-			$(this).parents(".logic").removeClass("active3");
+			// $(this).removeClass("active3");
 		} else {
-			$(this).parents(".logic").addClass("active3");
+			$(this).addClass("active3");
+			
+			var htmlStr = ``;
+			htmlStr +=`<select>
+							<option value="01">00</option>
+											<option value="02">01
+											</option>
+										</select>`;
+			
+			$(this).parents('.button_body_one_btn').append(htmlStr);
 		}
 	});
 
@@ -915,7 +929,6 @@ window.onload = function() {
 			}
 		);
 	};
-	connect(); //建立连接
 
 	function lamp(FrameId) { //灯光
 		this.oLamOne = document.getElementById("library_body_body1");
