@@ -130,12 +130,13 @@ window.onload = function() {
 
 
 	var nodeList = []; //总节点
-	var logicList = [];
+	var logicList = []; //逻辑节点
 
 	var currentIndex = 0; //当前执行节点位置
 	var nodeIndex = 10; //共有10个节点
 	// var nodeSum = nodeIndex; 
-	var presentNodeIndex = null;
+	var presentNodeIndex = null; //用户点击的当前节点  index
+
 
 	//1 init data 第一步，初始化
 	function initData() {
@@ -158,12 +159,12 @@ window.onload = function() {
 		for (var i = 0; i < nodeIndex - 1; i++) {
 			var node = {};
 			node.signalType = "";
-			// node.node_name = "结点" + (i + 1);
 			node.signalValue = 0;
 			node.delay = 1;
 			node.theOrder = i;
-			// node.deviceList = []; //单节点的设备
 			logicList.push(node);
+			// node.node_name = "结点" + (i + 1);
+			// node.deviceList = []; //单节点的设备
 		}
 	}
 
@@ -223,15 +224,14 @@ window.onload = function() {
 				htmlStr += `<div class="string"></div>`;
 				//添加逻辑
 				htmlStr +=
-					`<div class="logic">
-					<span class="logic_span">逻辑<span>${[i]}</span></span>
+					`<div class="logic" id="${'l'+[i]}">
+					    <span class="logic_span">逻辑<span>${[i+1]}</span></span>
 						<div class="points">
-							<div  class="points_signal">
-								
-							</div>
+							<div  class="points_signal"></div>
 							<div  class="points_delay">
 								<span>延迟(执行前)</span>
-								<input type="" name="" id="" value="${logicList[i].delay}" />秒
+								<input type="" name="" id="" value="${logicList[i].delay}" />
+								<span>秒</span>
 							</div>
 						</div>
 					</div>`;
@@ -250,53 +250,53 @@ window.onload = function() {
 			if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'light') {
 				htmlStr +=
 					`<div class="lamp_body_one" id="${nodeList[presentNodeIndex].deviceList[j].deviceId}">
-								<input type="text" name="" class="lamp_remark">
-								<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].deviceId}</span>
-								</span>
+							<input type="text" name="" class="lamp_remark">
+							<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].deviceId}</span>
+							</span>
 								<div class="lamp_body_one_one">
-									<label for="">模式:</label>
-									<select class="lamp_xuanxiang" name="" value="">
-										<option value="01">关闭模式</option>
-										<option value="02">打开模式</option>
-										<option value="03">呼吸模式</option>
-										<option value="04">颜色过渡模式</option>
-										<option value="05">正向流水保持模式</option>
-										<option value="06">正向流水不保持模式</option>
-										<option value="07">反向流水保持模式</option>
-										<option value="08">反向流水不保持模式</option>
-										<option value="09">带数量正向流水模式</option>
-										<option value="0A">带数量反向流水模式</option>
-										<option value="0B">正向灭灯流水保持模式</option>
-										<option value="0C">正向灭灯流水模式</option>
-										<option value="0D">正向慢速流水保持模式</option>
-										<option value="0E">正向慢速流水不保持模式</option>
-										<option value="0F">反向慢速流水保持模式</option>
-										<option value="10">反向慢速流水不保持模式</option>
-										<option value="11">带数量正向慢速流水模式</option>
-										<option value="12">带数量反向慢速流水模式</option>
-										<option value="13">带数量正向拖尾流水模式</option>
-										<option value="14">带数量反向拖尾流水模式</option>
-										<option value="15">多彩正向流水模式</option>
-										<option value="16">多彩反向流水模式</option>
-										<option value="17">全彩像素颜色设置模式</option>
-										<option value="18">全彩像素显示模式</option>
-										<option value="19">全彩像素清除模式</option>
-										<option value="1A">单色像素颜色设置模式</option>
-										<option value="1B">单色像素显示模式</option>
-									</select>
-									<span>流动LED:</span>
-									<input class="liudong" type="text">
-									<span>LED数量:</span>
-									<input class="led" type="text">
-									<span>速度:</span>
-									<input class="sudu" type="text">
-									<span>颜色:</span>
-									<input type="color" name="" class="yanse" />
-									<span>白色值:</span>
-									<input type="text" name="" class="type7" />
-									<button class="lamp_send" data-index="${j}" >保存</button>
-								</div>
-							</div>`
+								    <label for="">模式:</label>
+								    <select class="lamp_xuanxiang" name="" value="">
+									<option value="01">关闭模式</option>
+									<option value="02">打开模式</option>
+									<option value="03">呼吸模式</option>
+									<option value="04">颜色过渡模式</option>
+									<option value="05">正向流水保持模式</option>
+									<option value="06">正向流水不保持模式</option>
+									<option value="07">反向流水保持模式</option>
+									<option value="08">反向流水不保持模式</option>
+									<option value="09">带数量正向流水模式</option>
+									<option value="0A">带数量反向流水模式</option>
+									<option value="0B">正向灭灯流水保持模式</option>
+									<option value="0C">正向灭灯流水模式</option>
+									<option value="0D">正向慢速流水保持模式</option>
+									<option value="0E">正向慢速流水不保持模式</option>
+									<option value="0F">反向慢速流水保持模式</option>
+									<option value="10">反向慢速流水不保持模式</option>
+									<option value="11">带数量正向慢速流水模式</option>
+									<option value="12">带数量反向慢速流水模式</option>
+									<option value="13">带数量正向拖尾流水模式</option>
+									<option value="14">带数量反向拖尾流水模式</option>
+									<option value="15">多彩正向流水模式</option>
+									<option value="16">多彩反向流水模式</option>
+									<option value="17">全彩像素颜色设置模式</option>
+									<option value="18">全彩像素显示模式</option>
+									<option value="19">全彩像素清除模式</option>
+									<option value="1A">单色像素颜色设置模式</option>
+									<option value="1B">单色像素显示模式</option>
+								</select>
+								<span>流动LED:</span>
+								<input class="liudong" type="text">
+								<span>LED数量:</span>
+								<input class="led" type="text">
+								<span>速度:</span>
+								<input class="sudu" type="text">
+								<span>颜色:</span>
+								<input type="color" name="" class="yanse" />
+								<span>白色值:</span>
+								<input type="text" name="" class="type7" />
+								<button class="lamp_send" data-index="${j}" >保存</button>
+							</div>
+						</div>`
 
 			} else if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'elec') {
 				htmlStr +=
@@ -395,36 +395,35 @@ window.onload = function() {
 	 * @param {Object} id
 	 * @param {Object} value   'S123:12:F2,22S'
 	 */
-	function addLogic(index, id, value) {
-		var device = {};
-		var loca = storage.getItem(id);
-		var locaObj = JSON.parse(loca);
-		var Type = locaObj.type;
-
-		// var num  =locaObj.num;
-
+	function addLogic(index, id, num, value) {
+		logicList[index] = {};
+		var Type = JSON.parse(storage.getItem(id)).type;
+		var num = JSON.parse(storage.getItem(id)).num;
+		// console.log(num);
 		switch (Type) {
 			case "03":
-				device.deviceType = "button"; //按钮
-				device.num = locaObj.num;
+				deviceType = "button"; //按钮
+				logicList[index].device.num = num;
 				break;
 			case "0A":
-				device.deviceType = "sensor"; // 传感器
-				device.num = locaObj.num;
+				deviceType = "sensor"; // 传感器
+				logicList[index].num = num;
 				break;
 			default:
 				console.log("没有此类型");
 				break;
 		}
+		logicList[index].deviceId = id;
+		logicList[index].deviceValue = value;
+		logicList[index].delay = 1;
+		// if (!Array.isArray(logicList[index].deviceList)) {
+		// 	logicList[index].deviceList = [];
+		// }
 
-		device.deviceId = id;
-		device.deviceValue = value;
-		if (!Array.isArray(nodeList[index].deviceList)) {
-			nodeList[index].deviceList = [];
-		}
-		nodeList[index].deviceList.push(device);
+		// logicList[index].device;
+		// console.log(index);
 		console.log(logicList);
-		drawLogic();
+		// drawLogic();
 	}
 
 
@@ -433,12 +432,10 @@ window.onload = function() {
 	// NodeIndex
 	//元件库 添加进节点   //灯光
 	$("#library_body_body1").on("click", ".library_body_body_one", function() {
-
 		if ($(".node_small").hasClass('active')) {
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
 			presentNodeIndex = Index;
-
 			if ($(".active").find('#' + Id).length == 0) {
 				addDevice(Index, Id, '00,00,00,00,00,00,00,00');
 			}
@@ -465,32 +462,35 @@ window.onload = function() {
 
 	//逻辑点添加进 界面
 	$("#library_body_body3").on("click", ".library_body_body_one", function() {
-		if ($(".node_small").hasClass('active2')) {
+		if ($(".logic").hasClass('active2')) {
 			var Index = $(".active2").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
+			var num = JSON.parse(storage.getItem(Id)).num;
 			presentNodeIndex = Index;
-			// addDevice(Index, Id, '00,00,00,00,00,00,00,00');
+			// var locaObj =loca);
+			// var Type = locaObj.type;
+			// console.log(Index );
+			// console.log( Id);
+			// console.log(num);
+			addLogic(Index, Id, num, '00,00,00,00,00,00,00,00');
 		}
 	});
 	//逻辑点  设置01 
 	$(".node").on("click", ".button_body_one_btn_circle", function() {
 		var flag = $(this).hasClass("active3");
 		$(".node div").removeClass("active3");
-
 		$(".node select").remove();
 		if (flag) {
 			// $(this).removeClass("active3");
 		} else {
 			$(this).addClass("active3");
-
 			var htmlStr = ``;
 			htmlStr +=
 				`<select>
-							<option value="01">00</option>
-											<option value="02">01
-											</option>
-										</select>`;
-
+					<option value="01">00</option>
+					<option value="02">01</option>
+				</select>
+                <div><input type="text"></div>`;
 			$(this).parents('.button_body_one_btn').append(htmlStr);
 		}
 	});

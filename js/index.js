@@ -347,7 +347,11 @@ window.onload = function() {
 		);
 	};
 
-	connect(); //建立连接
+
+
+	$(function() {
+		// connect(); //建立连接
+	});
 
 	//面向对象的
 	// 第一部分，按钮
