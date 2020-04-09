@@ -411,7 +411,9 @@ body {}
 	color: white;
 	padding: 0.4vw 0.4vw;
 }
-
+.points_delay{
+	/* display: flex; */
+}
 .points label {
 	display: inline-block;
 }

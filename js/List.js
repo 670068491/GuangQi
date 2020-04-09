@@ -16,9 +16,8 @@ window.onload = function() {
 	$(function() {
 		GainName();
 		// connect(); //建立连接
-		
-		initData();//初始化数据
-		// drawHtml(); //初始化界面
+		initData(); //初始化数据
+		drawHtml(); //初始化界面
 	});
 
 
@@ -143,9 +142,9 @@ window.onload = function() {
 		//添加10个节点
 		for (var i = 0; i < nodeIndex; i++) {
 			var node = {};
-			node.remark = "备注";  //remark
-			node.node_name = "结点" + (i + 1);  //nodeName
-			node.node_sort = i;    //nodeSort
+			node.remark = "备注"; //remark
+			node.node_name = "结点" + (i + 1); //nodeName
+			node.node_sort = i; //nodeSort
 			node.deviceList = []; //单节点的设备
 			nodeList.push(node);
 		}
@@ -225,14 +224,10 @@ window.onload = function() {
 				//添加逻辑
 				htmlStr +=
 					`<div class="logic">
+					<span class="logic_span">逻辑<span>${[i]}</span></span>
 						<div class="points">
 							<div  class="points_signal">
-								<!-- <span>门信号</span> -->
-								<label for="">门信号:</label>
-								<select>
-									<option value="01">01</option>
-									<option value="02">00</option>
-								</select>
+								
 							</div>
 							<div  class="points_delay">
 								<span>延迟(执行前)</span>
@@ -387,7 +382,7 @@ window.onload = function() {
 		// drawHtml();
 		drawNode();
 	}
-	
+
 	function save() {
 		// id:id
 		// nodeList  : JSON.stringify(nodeList);
@@ -406,6 +401,21 @@ window.onload = function() {
 		var locaObj = JSON.parse(loca);
 		var Type = locaObj.type;
 
+		// var num  =locaObj.num;
+
+		switch (Type) {
+			case "03":
+				device.deviceType = "button"; //按钮
+				device.num = locaObj.num;
+				break;
+			case "0A":
+				device.deviceType = "sensor"; // 传感器
+				device.num = locaObj.num;
+				break;
+			default:
+				console.log("没有此类型");
+				break;
+		}
 
 		device.deviceId = id;
 		device.deviceValue = value;
@@ -414,13 +424,11 @@ window.onload = function() {
 		}
 		nodeList[index].deviceList.push(device);
 		console.log(logicList);
-		// drawHtml();
 		drawLogic();
-
 	}
 
 
-	
+
 
 	// NodeIndex
 	//元件库 添加进节点   //灯光
@@ -464,24 +472,25 @@ window.onload = function() {
 			// addDevice(Index, Id, '00,00,00,00,00,00,00,00');
 		}
 	});
-//逻辑点  设置01 
+	//逻辑点  设置01 
 	$(".node").on("click", ".button_body_one_btn_circle", function() {
 		var flag = $(this).hasClass("active3");
 		$(".node div").removeClass("active3");
-		
+
 		$(".node select").remove();
 		if (flag) {
 			// $(this).removeClass("active3");
 		} else {
 			$(this).addClass("active3");
-			
+
 			var htmlStr = ``;
-			htmlStr +=`<select>
+			htmlStr +=
+				`<select>
 							<option value="01">00</option>
 											<option value="02">01
 											</option>
 										</select>`;
-			
+
 			$(this).parents('.button_body_one_btn').append(htmlStr);
 		}
 	});
