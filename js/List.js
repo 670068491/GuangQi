@@ -403,7 +403,7 @@ window.onload = function() {
 		switch (Type) {
 			case "03":
 				deviceType = "button"; //按钮
-				logicList[index].device.num = num;
+				logicList[index].num = num;
 				break;
 			case "0A":
 				deviceType = "sensor"; // 传感器
