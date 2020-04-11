@@ -7,7 +7,7 @@ window.onload = function () {
 		// 	console.log(result)
 		// 	// $("span").html(result);
 		// });
-		$.getJSON("http://39.106.47.82:8080/gq/api/getSceneList", {
+		$.getJSON("http://39.106.47.82/gq/api/getSceneList", {
 			// id: 0,
 			// action: 'jobcategoryjson'
 		}, function (data) {
@@ -62,12 +62,13 @@ window.onload = function () {
 		$(".auto .grade").css("display", "none");
 		$(".auto .cover").css("display", "none");
 	});
+	// 新增
 	$("#cut_four").click(function () {
 		// $.get("http://39.105.62.98:8280/api/Values/Get", function(result){
 		//    // $("div").html(result);
 		// console.log(result);
 		//  });
-		$(".auto .code").css("display", "block");
+		$(".auto #code1").css("display", "block");
 		$(".auto .cover").css("display", "block");
 
 	});
@@ -76,33 +77,35 @@ window.onload = function () {
 	$(".auto_body").on("click", ".autoBodyOneDelete", function () {
 		var uid = $(this).data("id");
 		// console.log(uid);
-		$.getJSON("http://39.106.47.82:8080/gq/api/deleteScene", {
+		$.getJSON("http://39.106.47.82/gq/api/deleteScene", {
 			sceneId: uid,
 			// action: 'jobcategoryjson'
-		}, function (data) {
-
-		});
+		}, function (data) {});
 		$(this).parents(".auto_body_one").remove();
 	});
 
-// 打开
+	// 打开
 	$(".auto_body").on("click", ".open", function () {
-
-
-
-
 		var uid = $(this).data("id");
-	// 	// console.log(uid);
-	// 	$.getJSON("http://39.106.47.82:8080/gq/api/deleteScene", {
-	// 		sceneId: uid,
-	// 		// action: 'jobcategoryjson'
-	// 	}, function (data) {
-
-	// 	});
-	// 	$(this).parents(".auto_body_one").remove();
+		// 	// console.log(uid);
+		// 	$.getJSON("http://39.106.47.82:8080/gq/api/deleteScene", {
+		// 		sceneId: uid,
+		// 		// action: 'jobcategoryjson'
+		// 	}, function (data) {
+		// 	});
+		// 	$(this).parents(".auto_body_one").remove();
 	});
 
-//复制
+	//复制
+	$(".auto_body").on("click", ".autoBodyOneCopy", function () {
+		$(".auto #code2").css("display", "block");
+		$(".auto .cover").css("display", "block");
+		var oId = $(this).siblings('.autoBodyOneDelete').data("id");
+		$('#codeButton1').data("data-id", oId);
+		// console.log(oId);
+	});
+
+
 
 
 
@@ -135,11 +138,9 @@ window.onload = function () {
 		// $(".auto_body").prepend($p);
 		$("#CodeSpan1").val("");
 		$("#CodeSpan2").val("");
-
 		// $(".auto .code").css("display", "none");
 		// $(".auto .cover").css("display", "none");
-
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveScene", {
+		$.getJSON("http://39.106.47.82/gq/api/saveScene", {
 			name: name,
 			designer: stylist
 			// action: 'jobcategoryjson'
@@ -148,8 +149,66 @@ window.onload = function () {
 			var uId = data.resultObject.id;
 			location.href = "./List.html?name=" + name + "&stylist=" + stylist + "&uId=" + uId; //此处拼接内容";
 		});
-
 		// $("#time").html(year + "年" + mon + "月" + date + "日" + weeks[week]);
-
 	});
+
+	// var name = null;
+	// var stylist = null; //设计师
+
+	$("#codeButton1").click(function () {
+		name = $("#CodeSpan3").val();
+		stylist = $("#CodeSpan4").val();
+		if (!name) {
+			alert("请输入名称");
+			return;
+		}
+		var myDate = new Date;
+		var year = myDate.getFullYear(); //获取当前年
+		var mon = myDate.getMonth() + 1; //获取当前月
+		var date = myDate.getDate(); //获取当前日
+		var Hours = myDate.getHours(); //获取当前小时数(0-23)
+		var Minutes = myDate.getMinutes(); //获取当前分钟数(0-59)
+		var Seconds = myDate.getSeconds(); //获取当前秒
+		// var week = myDate.getDay();
+		// var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+		console.log(year, mon, date, Hours, Minutes, Seconds);
+		var oTime = year + '-' + mon + '-' + date + ' ' + Hours + ':' + Minutes + ':' + Seconds;
+
+		var $p = `<div class="auto_body_one">
+		<span>开门迎宾</span>
+		<span class="autoBodyOneName">设计师:<span>${name}</span></span>
+		<span class="autoBodyOneData">2020-3-25 09:09:30</span>
+		<button type="button" class="autoBodyOneOpen" id="open">打开</button>
+		<button type="button" class="autoBodyOneCopy">复制</button>
+		<button type="button" class="autoBodyOneDelete">删除</button>
+	</div>`;
+
+
+
+
+
+		// var $p = $('<div class="auto_body_one"><span>' + oName1 + '</span><span class="autoBodyOneName">设计师:<span>' +
+		// 	oName2 + '</span></span><span class="autoBodyOneData">' + oTime +
+		// 	'<button type="button" class="autoBodyOneOpen">打开</button><button type="button" class="autoBodyOneCopy">复制</button><button type="button" class="autoBodyOneDelete">删除</button></div>'
+		// );
+		$(".auto_body").prepend($p);
+		$("#CodeSpan3").val("");
+		$("#CodeSpan4").val("");
+		$(".auto #code2").css("display", "none");
+		$(".auto .cover").css("display", "none");
+		// $.getJSON("http://39.106.47.82/gq/api/saveScene", {
+		// 	name: name,
+		// 	designer: stylist
+		// 	// action: 'jobcategoryjson'
+		// }, function (data) {
+		// 	// console.log(data);
+		// 	var uId = data.resultObject.id;
+		// 	location.href = "./List.html?name=" + name + "&stylist=" + stylist + "&uId=" + uId; //此处拼接内容";
+		// });
+		// $("#time").html(year + "年" + mon + "月" + date + "日" + weeks[week]);
+	});
+
+
+
+
 }

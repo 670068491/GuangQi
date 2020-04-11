@@ -89,8 +89,8 @@ window.onload = function () {
 	function connect() {
 		// console.log('1');
 		// 建立连接对象（还未发起连接）
-		var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
-		// var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
+		// var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
+		var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
 		// var socket = new WebSocket("ws://192.168.1.241:8080/webSocketEndPoint");
 		stompClient = Stomp.over(socket); // 获取 STOMP 子协议的客户端对象
 		stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
@@ -381,7 +381,7 @@ window.onload = function () {
 				oBig.setAttribute("id", Id);
 				var oId = Id + 'i';
 				var oOof = Id + 'a';
-				$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+				$.getJSON("http://39.106.47.82/gq/api/getRemark", {
 					deviceId: Id,
 				}, function (data) {
 					console.log(data);
@@ -1399,7 +1399,7 @@ window.onload = function () {
 		var Id = $(this).parents(".button_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+		$.getJSON("http://39.106.47.82/gq/api/saveRemark", {
 			deviceId: Id,
 			location: -1,
 			value: oValue,
@@ -1434,7 +1434,7 @@ window.onload = function () {
 		var Id = $(this).parents(".rotaryknob_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+		$.getJSON("http://39.106.47.82/gq/api/saveRemark", {
 			deviceId: Id,
 			location: -1,
 			value: oValue,
@@ -1464,7 +1464,7 @@ window.onload = function () {
 		var Id = $(this).parents(".sensor_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+		$.getJSON("http://39.106.47.82/gq/api/saveRemark", {
 			deviceId: Id,
 			location: -1,
 			value: oValue,
@@ -1494,7 +1494,7 @@ window.onload = function () {
 		var Id = $(this).parents(".lamp_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+		$.getJSON("http://39.106.47.82/gq/api/saveRemark", {
 			deviceId: Id,
 			location: -1,
 			value: oValue,
@@ -1522,7 +1522,7 @@ window.onload = function () {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+		$.getJSON("http://39.106.47.82/gq/api/saveRemark", {
 			deviceId: Id,
 			location: -1,
 			value: oValue,
@@ -1549,7 +1549,7 @@ window.onload = function () {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+		$.getJSON("http://39.106.47.82/gq/api/saveRemark", {
 			deviceId: Id,
 			location: -1,
 			value: oValue,
@@ -1577,7 +1577,7 @@ window.onload = function () {
 		var Id = $(this).parents(".proj_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+		$.getJSON("http://39.106.47.82/gq/api/saveRemark", {
 			deviceId: Id,
 			location: -1,
 			value: oValue,
@@ -1605,7 +1605,7 @@ window.onload = function () {
 		var Id = $(this).parents(".outp_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+		$.getJSON("http://39.106.47.82/gq/api/saveRemark", {
 			deviceId: Id,
 			location: -1,
 			value: oValue,

@@ -1014,7 +1014,7 @@ window.onload = function () {
 	});
 
 	function save() {
-		$.getJSON("http://39.106.47.82:8080/gq/api/saveSceneInfo", {
+		$.getJSON("http://39.106.47.82/gq/api/saveSceneInfo", {
 			// deviceId: self.FrameId,
 			sceneId: sceneId,
 			nodeList: JSON.stringify(nodeList),
@@ -1180,7 +1180,7 @@ window.onload = function () {
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
 			// console.log(Id);
-			$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+			$.getJSON("http://39.106.47.82/gq/api/getRemark", {
 				deviceId: self.FrameId,
 			}, function (data) {
 				// console.log(data);
@@ -1212,7 +1212,7 @@ window.onload = function () {
 			var oBig = document.createElement("div"); // 创建元素
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
-			$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+			$.getJSON("http://39.106.47.82/gq/api/getRemark", {
 				deviceId: self.FrameId,
 			}, function (data) {
 				// console.log(data);
@@ -1246,7 +1246,7 @@ window.onload = function () {
 			var oBig = document.createElement("div"); // 创建元素
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
-			$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+			$.getJSON("http://39.106.47.82/gq/api/getRemark", {
 				deviceId: self.FrameId,
 			}, function (data) {
 				// console.log(data);
