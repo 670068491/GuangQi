@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
 	var storage = window.localStorage;
 	//定义全局变量，代表一个session
 	var stompClient = null;
@@ -96,7 +96,7 @@ window.onload = function() {
 		stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
 				// 连接成功时（服务器响应 CONNECTED web帧）的回调方法
 				console.log('[' + frame + ']' + '手动模式：连接成功');
-				stompClient.subscribe('/topic/udp/broadcast', function(response) {
+				stompClient.subscribe('/topic/udp/broadcast', function (response) {
 					// stompClient.subscribe('/topic/socket/201', function (response) {
 					console.log(response.body);
 					var stringResult = response.body.split(',');
@@ -122,8 +122,7 @@ window.onload = function() {
 						// console.log(stringResult);
 						stompClient.send("/app/wu", {}, "S" + FrameId + ",5F,00,00,00,00,00,00,00K");
 						// console.log('发送');
-						// 返回的类型 与 数量
-					} else if (!oYemian && Byte0 == '5E') {
+					} else if (!oYemian && Byte0 == '5E') { // 返回的类型 与 数量
 						// var data = {
 						//     FrameId: FrameId,
 						//     // num: num,
@@ -151,27 +150,26 @@ window.onload = function() {
 							case "03":
 								// 按钮
 								var num = parseInt(Byte4, 16);
-								if (loca) {
-									var locaObj = JSON.parse(loca);
-									var text = locaObj.text;
-									var data = {
-										FrameId: FrameId,
-										num: num,
-										type: Byte5,
-										text: text,
-									};
-									var dater = JSON.stringify(data);
-									storage.setItem(FrameId, dater);
-								} else {
-									var data = {
-										FrameId: FrameId,
-										num: num,
-										type: Byte5,
-										text: '',
-									};
-									var dater = JSON.stringify(data);
-									storage.setItem(FrameId, dater);
-								}
+								// if (loca) {
+								// 	var locaObj = JSON.parse(loca);
+								// 	var text = locaObj.text;
+								// 	var data = {
+								// 		FrameId: FrameId,
+								// 		num: num,
+								// 		type: Byte5,
+								// 		text: text,
+								// 	};
+								// 	var dater = JSON.stringify(data);
+								// 	storage.setItem(FrameId, dater);
+								// } else {
+								var data = {
+									FrameId: FrameId,
+									num: num,
+									type: Byte5,
+								};
+								var dater = JSON.stringify(data);
+								storage.setItem(FrameId, dater);
+								// }
 								new button(FrameId, num, Byte5, Byte6, Byte7, "new");
 								break;
 							case "04":
@@ -305,7 +303,7 @@ window.onload = function() {
 						}
 					}
 				});
-				stompClient.subscribe('/topic/websocket/broadcast', function(response) {
+				stompClient.subscribe('/topic/websocket/broadcast', function (response) {
 					var stringResult = response.body.split(',');
 					// console.log(stringResult);
 					var FrameId = stringResult[0].substr(1);
@@ -339,7 +337,7 @@ window.onload = function() {
 			function errorCallBack(error) {
 				// 连接失败时（服务器响应 ERROR 帧）的回调方法
 				console.log('连接失败[' + error + ']');
-				setTimeout(function() {
+				setTimeout(function () {
 					// 自动重连
 					connect();
 				}, 100);
@@ -347,10 +345,8 @@ window.onload = function() {
 		);
 	};
 
-
-
-	$(function() {
-		// connect(); //建立连接
+	$(function () {
+		connect(); //建立连接
 	});
 
 	//面向对象的
@@ -363,37 +359,55 @@ window.onload = function() {
 		this.Byte6 = parseInt(Byte6, 16);
 		this.Byte7 = parseInt(Byte7, 16);
 		this.New = New;
-		//自动初始化
-		this.init();
+		this.init(); //自动初始化
 	};
 	button.prototype = {
 		constructor: button,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
-			// var Lbyte4Lenght = parseInt(self.Byte4, 16);
 			var Lbyte4Lenght = self.Byte4;
-			var locaObj = JSON.parse(storage.getItem(Id));
-			var text = locaObj.text;
+			var text = null;
+			// var Lbyte4Lenght = parseInt(self.Byte4, 16);
+			// var locaObj = JSON.parse(storage.getItem(Id));
 			// console.log(locaObj);
 			// console.log(Lbyte4Lenght);
-			// 新id
-			if (this.New == 'new') {
+			if (this.New == 'new') { // 新id
 				console.log('新:按钮');
-				// 创建元素
+				// var htmlStr = ``; // 创建元素
 				var oBig = document.createElement("div");
 				oBig.classList.add("button_body_one");
 				oBig.setAttribute("id", Id);
 				var oId = Id + 'i';
 				var oOof = Id + 'a';
-				// 修饰元素
-				oBig.innerHTML =
-					'<input type="text" name="" class="button_remark" value=' + text +
-					'><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' + oOof + '>0x' +
-					Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
+				$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+					deviceId: Id,
+				}, function (data) {
+					console.log(data);
+					if (data.resultObject.length == 0) { // 修饰元素
+						// htmlStr += `<div class="button_body_one" id="${Id}">    </div>`;
+						oBig.innerHTML =
+							'<input type="text" name="" class="button_remark" value=""><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' +
+							oOof + '>0x' + Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
+						// console.log('1');
+						self.oBtnOne.appendChild(oBig);
+
+					} else {
+						text = data.resultObject[0].deviceValue;
+						oBig.innerHTML =
+							'<input type="text" name="" class="button_remark" value=' + text +
+							'><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' + oOof + '>0x' +
+							Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
+						self.oBtnOne.appendChild(oBig);
+
+					}
+
+				});
+				// console.log('1');
+
 				// console.log(typeof(this.Lbyte4) );
-				setTimeout(function() {
+				setTimeout(function () {
 					for (var i = 0; i < Lbyte4Lenght; i++) {
 						// console.log('1');
 						// 创建元素
@@ -404,21 +418,18 @@ window.onload = function() {
 						oBtnBtn.classList.add("button_body_one_btn");
 						oBtnBtn.setAttribute("id", Ssid);
 						oBtnBtn.innerHTML = '<div class="button_body_one_btn_circle" id=' + Ssssid +
-							'></div><div> <input type ="text"></div>';
+							'></div><div> <input type ="text" class="button_small_remark"></div>';
 						oSim.appendChild(oBtnBtn);
 						// this.oContent[i].style.display = "none";
 					}
-				}, 500);
+				}, 800);
 				// 插入元素
-				self.oBtnOne.appendChild(oBig);
-				setTimeout(function() {
+				setTimeout(function () {
 					// oBig.style.color = '#c6c7c7';
 					// oBig.classList.add("active");
 					// oBig.style.color="green"; 
 				}, 3000);
-				// 旧id，刷新状态
-			};
-			if (this.New == 'old') {
+			} else if (this.New == 'old') { // 旧id，刷新状态
 				// console.log('旧');
 				var oId = Id + 'i';
 				// var oOof = Id + 'a';
@@ -511,27 +522,27 @@ window.onload = function() {
 				} else {
 					document.getElementById(oId + 15 + 15).classList.remove("active");
 				}
-				if ((self.Byte6 & 0x80) == 0x80) {
+				if ((self.Byte5 & 0x01) == 0x01) {
 					document.getElementById(oId + 16 + 16).classList.add("active");
 				} else {
 					document.getElementById(oId + 16 + 16).classList.remove("active");
 				}
-				if ((self.Byte5 & 0x01) == 0x01) {
+				if ((self.Byte5 & 0x02) == 0x02) {
 					document.getElementById(oId + 17 + 17).classList.add("active");
 				} else {
 					document.getElementById(oId + 17 + 17).classList.remove("active");
 				}
-				if ((self.Byte5 & 0x02) == 0x02) {
+				if ((self.Byte5 & 0x04) == 0x04) {
 					document.getElementById(oId + 18 + 18).classList.add("active");
 				} else {
 					document.getElementById(oId + 18 + 18).classList.remove("active");
 				}
-				if ((self.Byte5 & 0x04) == 0x04) {
+				if ((self.Byte5 & 0x08) == 0x08) {
 					document.getElementById(oId + 19 + 19).classList.add("active");
 				} else {
 					document.getElementById(oId + 19 + 19).classList.remove("active");
 				}
-				if ((self.Byte5 & 0x08) == 0x08) {
+				if ((self.Byte5 & 0x10) == 0x10) {
 					document.getElementById(oId + 20 + 20).classList.add("active");
 				} else {
 					document.getElementById(oId + 20 + 20).classList.remove("active");
@@ -557,7 +568,7 @@ window.onload = function() {
 	}
 	rotaryknob.prototype = {
 		constructor: rotaryknob,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -610,7 +621,7 @@ window.onload = function() {
 	}
 	sens.prototype = {
 		constructor: sens,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -630,7 +641,7 @@ window.onload = function() {
 					'<input type="text" name="" class="sensor_remark"><span class="sensor_body_one_span">ID: <span class="sensor_body_one_id" id=' +
 					oOof + '>0x' +
 					Id + '</span></span> <div class="sensor_body_one_one" id = ' + oId + '></div>';
-				setTimeout(function() {
+				setTimeout(function () {
 					for (var i = 0; i < Lbyte4Lenght; i++) {
 						// console.log('1');
 						// 创建元素
@@ -779,7 +790,7 @@ window.onload = function() {
 	}
 	lamp.prototype = {
 		constructor: lamp,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -832,7 +843,7 @@ window.onload = function() {
 	}
 	elec.prototype = {
 		constructor: elec,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -870,10 +881,10 @@ window.onload = function() {
 				// 插入元素
 				self.oElecOne.appendChild(oBig);
 				stompClient.send("/app/wu", {}, "S" + Id + ",55,00,00,00,00,00,00,00K");
-				setTimeout(function() {
+				setTimeout(function () {
 					stompClient.send("/app/wu", {}, "S" + Id + ",55,00,00,00,00,00,00,00K");
 				}, 1000);
-				setTimeout(function() {
+				setTimeout(function () {
 					stompClient.send("/app/wu", {}, "S" + Id + ",55,00,00,00,00,00,00,00K");
 				}, 2000);
 				stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
@@ -916,7 +927,7 @@ window.onload = function() {
 	}
 	andr.prototype = {
 		constructor: andr,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -948,7 +959,7 @@ window.onload = function() {
 	}
 	projector.prototype = {
 		constructor: projector,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -981,7 +992,7 @@ window.onload = function() {
 	}
 	outp.prototype = {
 		constructor: outp,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -997,7 +1008,7 @@ window.onload = function() {
 				oBig.innerHTML =
 					'<input type="text" name="" class="outp_remark"><span class="outp_body_one_span">ID:<span class="outp_body_one_id">0x' +
 					Id + '</span>';
-				setTimeout(function() {
+				setTimeout(function () {
 					var oOutpB = document.createElement("div");
 					oOutpB.classList.add("outp_b");
 					oBig.appendChild(oOutpB);
@@ -1020,7 +1031,7 @@ window.onload = function() {
 	};
 
 	// 事件委托，灯光发送
-	$(".lamplight").on("click", ".lamp_send", function() {
+	$(".lamplight").on("click", ".lamp_send", function () {
 		var id = $(this).parents(".lamp_body_one").attr('id');
 		var type0 = $(this).siblings(".lamp_xuanxiang").val();
 		var type1 = $(this).siblings(".liudong").val();
@@ -1077,20 +1088,20 @@ window.onload = function() {
 		}
 	};
 	//事件委托，旋钮按下发送
-	$(".rotaryknob").on("mousedown", "button", function() {
+	$(".rotaryknob").on("mousedown", "button", function () {
 		var id = $(this).parents(".rotaryknob_body_one").attr('id');
 		// stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,01K00,12345");
 		stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,01K");
 		// console.log("S" + id + ",03,00,00,00,00,00,00,01K");
 	});
 	//旋钮松开发送
-	$(".rotaryknob").on("mouseup", "button", function() {
+	$(".rotaryknob").on("mouseup", "button", function () {
 		var id = $(this).parents(".rotaryknob_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,00K");
-		setTimeout(function() {
+		setTimeout(function () {
 			stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,00K");
 		}, 100);
-		setTimeout(function() {
+		setTimeout(function () {
 			stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,00K");
 		}, 200);
 		// console.log("S" + id + ",03,00,00,00,00,00,00,00K");
@@ -1098,34 +1109,34 @@ window.onload = function() {
 
 	// 电机发送
 	var elecSet; //前进
-	$(".elec_body").on("mousedown", ".elec_up", function() {
+	$(".elec_body").on("mousedown", ".elec_up", function () {
 		var id = $(this).parents(".elec_body_one").attr('id');
 		$(this).css("background-color", "pink");
-		elecSet = setInterval(function() {
+		elecSet = setInterval(function () {
 			stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10,50K");
 		}, 100);
 		// console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
 	});
-	$(".elec_body").on("mouseup", ".elec_up", function() {
+	$(".elec_body").on("mouseup", ".elec_up", function () {
 		clearInterval(elecSet);
 		$(this).css("background-color", "#5b9bd5");
 	});
 	var elecSetDown; //后退
-	$(".elec_body").on("mousedown", ".elec_down", function() {
+	$(".elec_body").on("mousedown", ".elec_down", function () {
 		var id = $(this).parents(".elec_body_one").attr('id');
 		$(this).css("background-color", "pink");
-		elecSetDown = setInterval(function() {
+		elecSetDown = setInterval(function () {
 			stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10,50K");
 		}, 50)
 	});
-	$(".elec_body").on("mouseup", ".elec_down", function() {
+	$(".elec_body").on("mouseup", ".elec_down", function () {
 		clearInterval(elecSetDown);
 		$(this).css("background-color", "#5b9bd5");
 	});
 	// var text = "00,00,00,00";
 	// var nam = '101';
 	// 电机保存
-	$(".elec_body").on("click", ".elec_save", function() {
+	$(".elec_body").on("click", ".elec_save", function () {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		var oIdCov = $(this).siblings('.elec_cover').val();
 		var list = $('input:radio[name=' + Id + ']:checked').val();
@@ -1139,7 +1150,7 @@ window.onload = function() {
 		}
 	});
 	// 电机 调用
-	$(".elec_body").on("click", ".elec_send", function() {
+	$(".elec_body").on("click", ".elec_send", function () {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		// var oIdCov = $(this).siblings('.elec_cover').val();
 		var list = $('input:radio[name=' + Id + ']:checked').val();
@@ -1156,20 +1167,20 @@ window.onload = function() {
 		}
 	});
 	//安卓屏
-	$(".andr_body").on("click", "button", function() {
+	$(".andr_body").on("click", "button", function () {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + Id + "", {}, "S" + Id + ",04,00,00,00,00,00,00,00K");
 	});
 
-	$(".andr_body").on("click", ".andr_img1", function() {
+	$(".andr_body").on("click", ".andr_img1", function () {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + Id + "", {}, "S" + Id + ",02,00,00,00,00,00,00,00K");
 	});
-	$(".andr_body").on("click", ".andr_img2", function() {
+	$(".andr_body").on("click", ".andr_img2", function () {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + Id + "", {}, "S" + Id + ",03,00,00,00,00,00,00,00K");
 	});
-	$(".andr_body").on("click", ".andr_img3", function() {
+	$(".andr_body").on("click", ".andr_img3", function () {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + Id + "", {}, "S" + Id + ",01,00,00,00,00,00,00,00K");
 	});
@@ -1177,56 +1188,56 @@ window.onload = function() {
 
 
 	// 投影仪
-	$(".proj_body").on("click", ".elec_save", function() {
+	$(".proj_body").on("click", ".elec_save", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_2", function() {
+	$(".proj_body").on("click", ".proj_2", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",01,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_3", function() {
+	$(".proj_body").on("click", ".proj_3", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_4", function() {
+	$(".proj_body").on("click", ".proj_4", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",04,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_5", function() {
+	$(".proj_body").on("click", ".proj_5", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",05,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_6", function() {
+	$(".proj_body").on("click", ".proj_6", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",06,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_7", function() {
+	$(".proj_body").on("click", ".proj_7", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",07,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_8", function() {
+	$(".proj_body").on("click", ".proj_8", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",08,00,00,00,00,00,00,00K");
 	})
-	$(".proj_body").on("click", ".proj_9", function() {
+	$(".proj_body").on("click", ".proj_9", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",09,00,00,00,00,00,00,00K");
 	})
-	$(".proj_body").on("click", ".proj_10", function() {
+	$(".proj_body").on("click", ".proj_10", function () {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",0A,00,00,00,00,00,00,00K");
 	});
 
 
 	// 输出控制改变文字
-	$(".outp_body").on("blur", ".outp_input", function() {
+	$(".outp_body").on("blur", ".outp_input", function () {
 		$(this).siblings(button).text($(this).val());
 		$(this).val('');
 	});
 	//输出控制  发送
 	var as = new Array(0, 0, 0, 0, 0, 0, 0, 0);
-	$(".outp_body").on("click", "button", function() {
+	$(".outp_body").on("click", "button", function () {
 		var id = $(this).attr('id');
 		var oId = $(this).attr('id').slice(3);
 		id = id.slice(0, 3);
@@ -1279,19 +1290,19 @@ window.onload = function() {
 	var oViry = document.getElementById("virtual_body");
 
 	// 打开
-	oViryAdd.onclick = function() {
+	oViryAdd.onclick = function () {
 		oViryText.style.display = 'block';
 		oViryCov.style.display = 'block';
 	}
 	// 取消
-	oViryEns.onclick = function() {
+	oViryEns.onclick = function () {
 		oViryText.style.display = 'none';
 		oViryCov.style.display = 'none';
 		oViryId.value = '';
 		oViryNum.value = '';
 	}
 	// 确定,然后添加
-	oViryCan.onclick = function() {
+	oViryCan.onclick = function () {
 		var viryId = oViryId.value;
 		var viryNum = oViryNum.value;
 		// parseInt(num, 16);
@@ -1319,7 +1330,7 @@ window.onload = function() {
 				'<input type="text" name="" class="virtual_remark"><span class="virtual_body_one_span">ID: <span class="virtual_body_one_id">0x' +
 				viryId + '</span></span><div class="virtual_body_one_one" id=' + oId + '><div class="virtual_delete" id=' +
 				oIdDel + '>X</div></div>';
-			setTimeout(function() {
+			setTimeout(function () {
 				for (var i = 0; i < viryNum; i++) {
 					// 创建元素
 					// console.log('1');
@@ -1343,12 +1354,12 @@ window.onload = function() {
 		}
 	};
 	//虚拟按钮  删除
-	$(".virtual_body").on("click", ".virtual_delete", function() {
+	$(".virtual_body").on("click", ".virtual_delete", function () {
 		$(this).parents(".virtual_body_one").remove();
 	})
 	//虚拟按钮  发送
 	var virt = new Array(0, 0, 0);
-	$(".virtual_body").on("click", ".virtual_body_one_btn", function() {
+	$(".virtual_body").on("click", ".virtual_body_one_btn", function () {
 		var id = $(this).parents(".virtual_body_one").attr('id');
 		var oId = $(this).children(".virtual_body_one_btn_circle").attr('id').slice(4);
 		var flag = $(this).children(".virtual_body_one_btn_circle").hasClass("active");
@@ -1375,130 +1386,234 @@ window.onload = function() {
 	});
 
 	// 安卓屏发送
-	$(".andr_body").on("click", "button", function() {
+	$(".andr_body").on("click", "button", function () {
 		// $(this).parents(".virtual_body_one").remove();
 		var id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + id + "", {}, "S" + id + ",05,00,00,00,00,00,00,00K");
 		// console.log(id);
 	})
 
+
 	// 离线保存备注
-	$(".button_body").on("blur", ".button_remark", function() {
+	$(".button_body").on("blur", ".button_remark", function () { //按钮
 		var Id = $(this).parents(".button_body_one").attr('id');
-		var buttonval = $(this).val();
-		// var Loca = storage.getItem(Id);
-		var locaObj = JSON.parse(storage.getItem(Id));
-		var FrameId = locaObj.FrameId;
-		var num = locaObj.num;
-		var type = locaObj.type;
-		// var text = locaObj.text;
-		var data = {
-			FrameId: FrameId,
-			num: num,
-			type: type,
-			text: buttonval,
-		};
-		var dater = JSON.stringify(data);
-		localStorage.setItem(FrameId, dater);
+		var oValue = $(this).val();
+		// console.log(Id);
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+			deviceId: Id,
+			location: -1,
+			value: oValue,
+			deviceType: 'button'
+		}, function (data) {
+			console.log(data);
+		});
+		// // var Loca = storage.getItem(Id);
+		// var locaObj = JSON.parse(storage.getItem(Id));
+		// var FrameId = locaObj.FrameId;
+		// var num = locaObj.num;
+		// var type = locaObj.type;
+		// // var text = locaObj.text;
+		// var data = {
+		// 	FrameId: FrameId,
+		// 	num: num,
+		// 	type: type,
+		// 	text: buttonval,
+		// };
+		// var dater = JSON.stringify(data);
+		// localStorage.setItem(FrameId, dater);
 		// console.log(data);
 	});
-	$(".rotaryknob_body").on("blur", ".rotaryknob_remark", function() {
+	// 小型按钮
+	$(".button_body").on("blur", ".button_small_remark", function () { //按钮
+		var Id = $(this).parents(".button_body_one").attr('id');
+		var oValue = $(this).val();
+					var Byte7 = stringResult[8].substring(0, 2);
+
+	});
+	$(".rotaryknob_body").on("blur", ".rotaryknob_remark", function () { //旋钮
 		var Id = $(this).parents(".rotaryknob_body_one").attr('id');
-		var buttonval = $(this).val();
-		var locaObj = JSON.parse(storage.getItem(Id));
-		var FrameId = locaObj.FrameId;
-		var type = locaObj.type;
-		var data = {
-			FrameId: FrameId,
-			type: type,
-			text: buttonval,
-		};
-		var dater = JSON.stringify(data);
-		localStorage.setItem(FrameId, dater);
+		var oValue = $(this).val();
+		// console.log(Id);
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+			deviceId: Id,
+			location: -1,
+			value: oValue,
+			deviceType: 'rotaryknob'
+		}, function (data) {
+			console.log(data);
+		});
+
+
+
+		// var Id = $(this).parents(".rotaryknob_body_one").attr('id');
+		// var buttonval = $(this).val();
+		// var locaObj = JSON.parse(storage.getItem(Id));
+		// var FrameId = locaObj.FrameId;
+		// var type = locaObj.type;
+		// var data = {
+		// 	FrameId: FrameId,
+		// 	type: type,
+		// 	text: buttonval,
+		// };
+		// var dater = JSON.stringify(data);
+		// localStorage.setItem(FrameId, dater);
 		// console.log(data);
 	});
 
-	$(".sensor_body").on("blur", ".sensor_remark", function() {
+	$(".sensor_body").on("blur", ".sensor_remark", function () {
 		var Id = $(this).parents(".sensor_body_one").attr('id');
-		var buttonval = $(this).val();
-		var locaObj = JSON.parse(storage.getItem(Id));
-		var FrameId = locaObj.FrameId;
-		var num = locaObj.num;
-		var type = locaObj.type;
-		var data = {
-			FrameId: FrameId,
-			num: num,
-			type: type,
-			text: buttonval,
-		};
-		var dater = JSON.stringify(data);
-		localStorage.setItem(FrameId, dater);
+		var oValue = $(this).val();
+		// console.log(Id);
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+			deviceId: Id,
+			location: -1,
+			value: oValue,
+			deviceType: 'sensor'
+		}, function (data) {
+			console.log(data);
+		});
+
+		// var Id = $(this).parents(".sensor_body_one").attr('id');
+		// var buttonval = $(this).val();
+		// var locaObj = JSON.parse(storage.getItem(Id));
+		// var FrameId = locaObj.FrameId;
+		// var num = locaObj.num;
+		// var type = locaObj.type;
+		// var data = {
+		// 	FrameId: FrameId,
+		// 	num: num,
+		// 	type: type,
+		// 	text: buttonval,
+		// };
+		// var dater = JSON.stringify(data);
+		// localStorage.setItem(FrameId, dater);
 		// console.log(data);
 	});
 	// 流水灯
-	$(".lamp_body").on("blur", ".lamp_remark", function() {
+	$(".lamp_body").on("blur", ".lamp_remark", function () {
 		var Id = $(this).parents(".lamp_body_one").attr('id');
-		var buttonval = $(this).val();
-		var locaObj = JSON.parse(storage.getItem(Id));
-		var FrameId = locaObj.FrameId;
-		var type = locaObj.type;
-		var data = {
-			FrameId: FrameId,
-			type: type,
-			text: buttonval,
-		};
-		var dater = JSON.stringify(data);
-		localStorage.setItem(FrameId, dater);
+		var oValue = $(this).val();
+		// console.log(Id);
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+			deviceId: Id,
+			location: -1,
+			value: oValue,
+			deviceType: 'lamp'
+		}, function (data) {
+			console.log(data);
+		});
+
+
+		// var Id = $(this).parents(".lamp_body_one").attr('id');
+		// var buttonval = $(this).val();
+		// var locaObj = JSON.parse(storage.getItem(Id));
+		// var FrameId = locaObj.FrameId;
+		// var type = locaObj.type;
+		// var data = {
+		// 	FrameId: FrameId,
+		// 	type: type,
+		// 	text: buttonval,
+		// };
+		// var dater = JSON.stringify(data);
+		// localStorage.setItem(FrameId, dater);
 	});
 	// 电机
-	$(".elec_body").on("blur", ".elec_remark", function() {
+	$(".elec_body").on("blur", ".elec_remark", function () {
 		var Id = $(this).parents(".elec_body_one").attr('id');
-		var buttonval = $(this).val();
-		var locaObj = JSON.parse(storage.getItem(Id));
-		var FrameId = locaObj.FrameId;
-		var type = locaObj.type;
-		var data = {
-			FrameId: FrameId,
-			type: type,
-			text: buttonval,
-		};
-		var dater = JSON.stringify(data);
-		localStorage.setItem(FrameId, dater);
+		var oValue = $(this).val();
+		// console.log(Id);
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+			deviceId: Id,
+			location: -1,
+			value: oValue,
+			deviceType: 'elec'
+		}, function (data) {
+			console.log(data);
+		});
+
+		// var Id = $(this).parents(".elec_body_one").attr('id');
+		// var buttonval = $(this).val();
+		// var locaObj = JSON.parse(storage.getItem(Id));
+		// var FrameId = locaObj.FrameId;
+		// var type = locaObj.type;
+		// var data = {
+		// 	FrameId: FrameId,
+		// 	type: type,
+		// 	text: buttonval,
+		// };
+		// var dater = JSON.stringify(data);
+		// localStorage.setItem(FrameId, dater);
 	});
 	// 安卓屏
-	$(".andr_body").on("blur", ".andr_remark", function() {
+	$(".andr_body").on("blur", ".andr_remark", function () {
 		var Id = $(this).parents(".andr_body_one").attr('id');
-		var buttonval = $(this).val();
-		var locaObj = JSON.parse(storage.getItem(Id));
-		var FrameId = locaObj.FrameId;
-		var type = locaObj.type;
-		var data = {
-			FrameId: FrameId,
-			type: type,
-			text: buttonval,
-		};
-		var dater = JSON.stringify(data);
-		localStorage.setItem(FrameId, dater);
+		var oValue = $(this).val();
+		// console.log(Id);
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+			deviceId: Id,
+			location: -1,
+			value: oValue,
+			deviceType: 'andr'
+		}, function (data) {
+			console.log(data);
+		});
+
+
+		// var Id = $(this).parents(".andr_body_one").attr('id');
+		// var buttonval = $(this).val();
+		// var locaObj = JSON.parse(storage.getItem(Id));
+		// var FrameId = locaObj.FrameId;
+		// var type = locaObj.type;
+		// var data = {
+		// 	FrameId: FrameId,
+		// 	type: type,
+		// 	text: buttonval,
+		// };
+		// var dater = JSON.stringify(data);
+		// localStorage.setItem(FrameId, dater);
 	});
 	// 投影仪
-	$(".proj_body").on("blur", ".proj_remark", function() {
+	$(".proj_body").on("blur", ".proj_remark", function () {
 		var Id = $(this).parents(".proj_body_one").attr('id');
-		var buttonval = $(this).val();
-		var locaObj = JSON.parse(storage.getItem(Id));
-		var FrameId = locaObj.FrameId;
-		var type = locaObj.type;
-		var data = {
-			FrameId: FrameId,
-			type: type,
-			text: buttonval,
-		};
-		var dater = JSON.stringify(data);
-		localStorage.setItem(FrameId, dater);
+		var oValue = $(this).val();
+		// console.log(Id);
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+			deviceId: Id,
+			location: -1,
+			value: oValue,
+			deviceType: 'proj'
+		}, function (data) {
+			console.log(data);
+		});
+
+
+		// var Id = $(this).parents(".proj_body_one").attr('id');
+		// var buttonval = $(this).val();
+		// var locaObj = JSON.parse(storage.getItem(Id));
+		// var FrameId = locaObj.FrameId;
+		// var type = locaObj.type;
+		// var data = {
+		// 	FrameId: FrameId,
+		// 	type: type,
+		// 	text: buttonval,
+		// };
+		// var dater = JSON.stringify(data);
+		// localStorage.setItem(FrameId, dater);
 	});
 	// 输出控制
-
-
-
+	$(".outp_body").on("blur", ".outp_remark", function () {
+		var Id = $(this).parents(".outp_body_one").attr('id');
+		var oValue = $(this).val();
+		// console.log(Id);
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveRemark", {
+			deviceId: Id,
+			location: -1,
+			value: oValue,
+			deviceType: 'outp'
+		}, function (data) {
+			console.log(data);
+		});
+	});
 
 
 
@@ -1521,7 +1636,7 @@ window.onload = function() {
 
 	// 自动模式与手动模式
 	var pattern = true;
-	$("#cut").click(function() {
+	$("#cut").click(function () {
 		location.href = "./Auto.html";
 		// // $(".top_btn2").text("切换为手动");
 		// $(".boy").css("display", "none");
@@ -1593,7 +1708,7 @@ window.onload = function() {
 		// 向服务器发起websocket连接并发送CONNECT帧
 		stompClient.connect({}, function connectCallback(frame) {
 				console.log('[' + frame + ']' + '自动模式：连接成功');
-				stompClient.subscribe('/topic/udp/broadcast', function(response) {
+				stompClient.subscribe('/topic/udp/broadcast', function (response) {
 					// console.log(response.body);
 					var stringResult = response.body.split(',');
 					// console.log(stringResult);
@@ -1633,7 +1748,7 @@ window.onload = function() {
 			// 报错原因
 			function errorCallBack(error) {
 				console.log('连接失败[' + error + ']');
-				setTimeout(function() {
+				setTimeout(function () {
 					// 自动重连
 					connectLed();
 				}, 100);
@@ -1645,28 +1760,28 @@ window.onload = function() {
 	var led3 = false;
 	var led4 = false;
 
-	$("#selfer_three").click(function() {
+	$("#selfer_three").click(function () {
 		connectLed();
 		$(".selfmotion").css("display", "none");
 		$(".Pattern3").css("display", "block");
 		stompClient.send("/app/wu", {}, "S101,5F,00,00,00,00,00,00,00K");
-		setTimeout(function() {
+		setTimeout(function () {
 			stompClient.send("/app/wu", {}, "S102,5F,00,00,00,00,00,00,00K");
 		}, 100);
-		setTimeout(function() {
+		setTimeout(function () {
 			stompClient.send("/app/wu", {}, "S103,5F,00,00,00,00,00,00,00K");
 		}, 200);
 	});
 
-	$(".pattern3_button").click(function() {
+	$(".pattern3_button").click(function () {
 		stompClient.send("/app/wu", {}, "S101,00,00,00,00,00,00,00,00K");
 		$("#pattern3_ico1").addClass("active");
-		setTimeout(function() {
+		setTimeout(function () {
 			stompClient.send("/app/wu", {}, "S102,00,00,00,00,00,00,00,00K");
 			$("#pattern3_ico1").removeClass("active");
 			$("#pattern3_ico2").addClass("active");
 		}, 100);
-		setTimeout(function() {
+		setTimeout(function () {
 			stompClient.send("/app/wu", {}, "S103,00,00,00,00,00,00,00,00K");
 			$("#pattern3_ico1").removeClass("active");
 			$("#pattern3_ico2").addClass("active");
@@ -1674,8 +1789,8 @@ window.onload = function() {
 
 
 	});
-	$(".pattern3_tuichu").click(function() {
-		stompClient.disconnect(function() {
+	$(".pattern3_tuichu").click(function () {
+		stompClient.disconnect(function () {
 			console.log("自动模式-灯光氛围灯:断开");
 		});
 		var led1 = false;

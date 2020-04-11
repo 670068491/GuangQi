@@ -1,65 +1,64 @@
-window.onload = function() {
+window.onload = function () {
 	var storage = window.localStorage;
 	var stompClient = null; //定义全局变量，代表一个session
+	var sceneId = null;
+
+
 
 	function GainName() {
 		var name = $.Request("name");
 		var stylist = $.Request("stylist");
+		var sceneId = $.Request("uId");
+
 		// console.log(name);
 		// console.log(stylist);
 		if (name != "null") {
 			$('.auto_top_two_1').text(name);
 			$('.auto_top_two_3').text(stylist);
+			// uId = 
 		}
+		// console.log(uId);
 	}
 
-	$(function() {
-		GainName();
-		// connect(); //建立连接
+	$(function () {
+		GainName(); //获取链接里的名称
+		connect(); //建立连接
 		initData(); //初始化数据
 		drawHtml(); //初始化界面
 	});
 
 
 
-
-
-
-	$("#back").click(function() {
+	$("#back").click(function () { //返回
 		location.href = "./Auto.html";
 	});
 
-	// $("#plus").click(function() {
-	// 	nodeIndex++;
-	// 	var $One = $(
-	// 		'<div class="node_one"><div class = "string"></div><div class = "logic"></div><div class = "string"></div><div class = "node_small"><span>节点<span>' +
-	// 		nodeIndex +
-	// 		'</span></span><div class="strip"><div class="strip_head"><img src="./img/33.png"  class="strip_head_img"></div><div class="strip_one"></div></div></div></div>'
-	// 	);
-	// 	$(".node").append($One);
-	// });
 
-	$(".lib").click(function() { // 元件库
+
+
+
+
+	$(".lib").click(function () { // 元件库
 		$(".library").animate({
 			opacity: 1
-		}, "slow", function() {
+		}, "slow", function () {
 			$(".library").animate({
 				width: "16vw",
 				height: '100%'
-			}, "slow", function() {})
+			}, "slow", function () {})
 		})
 		// $(".library").stop(true).slideDown("slow");
 	});
 
-	$(".library_Back").click(function() {
+	$(".library_Back").click(function () {
 		// $(".library").stop(true).fadeOut("slow");
 		$(".library").animate({
 			width: "0vw",
 			height: '0vw'
-		}, "slow", function() {
+		}, "slow", function () {
 			$(".library").animate({
 				opacity: 0
-			}, "slow", function() {})
+			}, "slow", function () {})
 		})
 		// $(".library").delay(600).animate({
 		// 	opacity: 0
@@ -68,45 +67,45 @@ window.onload = function() {
 	});
 
 	var pack1 = true;
-	$("#pack1").click(function() {
+	$("#pack1").click(function () {
 		if (pack1) {
 			$("#library_body_body1").animate({
 				height: "0.1vw"
-			}, "slow", function() {})
+			}, "slow", function () {})
 			pack1 = false;
 		} else {
 			$("#library_body_body1").animate({
 				height: "100%"
-			}, "slow", function() {});
+			}, "slow", function () {});
 			pack1 = true;
 		}
 	});
 
 	var pack2 = true; //元件库  电机
-	$("#pack2").click(function() {
+	$("#pack2").click(function () {
 		if (pack2) {
 			$("#library_body_body2").animate({
 				height: "0.1vw"
-			}, "slow", function() {})
+			}, "slow", function () {})
 			pack2 = false;
 		} else {
 			$("#library_body_body2").animate({
 				height: "100%"
-			}, "slow", function() {});
+			}, "slow", function () {});
 			pack2 = true;
 		}
 	});
 	var pack3 = true; //元件库  输入信号
-	$("#pack3").click(function() {
+	$("#pack3").click(function () {
 		if (pack3) {
 			$("#library_body_body3").animate({
 				height: "0.1vw"
-			}, "slow", function() {})
+			}, "slow", function () {})
 			pack3 = false;
 		} else {
 			$("#library_body_body3").animate({
 				height: "100%"
-			}, "slow", function() {});
+			}, "slow", function () {});
 			pack3 = true;
 		}
 	});
@@ -151,14 +150,9 @@ window.onload = function() {
 		}
 		//添加9个逻辑
 		// console.log(nodeList);
-		// private String signalType;
-		//   private long signalValue;
-		//   private long delay;
-		//   private long theOrder;
-
 		for (var i = 0; i < nodeIndex - 1; i++) {
 			var node = {};
-			node.signalType = "";
+			node.signalType = [];
 			node.signalValue = 0;
 			node.delay = 1;
 			node.theOrder = i;
@@ -199,6 +193,32 @@ window.onload = function() {
 										<label for="">模式:</label>
 										<select class="lamp_xuanxiang" name="" value="">
 											<option value="01">关闭模式</option>
+											<option value="02">打开模式</option>
+											<option value="03">呼吸模式</option>
+											<option value="04">颜色过渡模式</option>
+											<option value="05">正向流水保持模式</option>
+											<option value="06">正向流水不保持模式</option>
+											<option value="07">反向流水保持模式</option>
+											<option value="08">反向流水不保持模式</option>
+											<option value="09">带数量正向流水模式</option>
+											<option value="0A">带数量反向流水模式</option>
+											<option value="0B">正向灭灯流水保持模式</option>
+											<option value="0C">正向灭灯流水模式</option>
+											<option value="0D">正向慢速流水保持模式</option>
+											<option value="0E">正向慢速流水不保持模式</option>
+											<option value="0F">反向慢速流水保持模式</option>
+											<option value="10">反向慢速流水不保持模式</option>
+											<option value="11">带数量正向慢速流水模式</option>
+											<option value="12">带数量反向慢速流水模式</option>
+											<option value="13">带数量正向拖尾流水模式</option>
+											<option value="14">带数量反向拖尾流水模式</option>
+											<option value="15">多彩正向流水模式</option>
+											<option value="16">多彩反向流水模式</option>
+											<option value="17">全彩像素颜色设置模式</option>
+											<option value="18">全彩像素显示模式</option>
+											<option value="19">全彩像素清除模式</option>
+											<option value="1A">单色像素颜色设置模式</option>
+											<option value="1B">单色像素显示模式</option>
 										</select>
 										<span>流动LED:</span>
 										<input class="liudong" type="text">
@@ -212,7 +232,7 @@ window.onload = function() {
 										<input type="text" name="" class="type7" />
 										<!-- <button class="lamp_send">执行</button> -->
 									</div>
-								</div>`
+						</div>`
 				}
 			}
 
@@ -230,8 +250,9 @@ window.onload = function() {
 							<div  class="points_signal"></div>
 							<div  class="points_delay">
 								<span>延迟(执行前)</span>
-								<input type="" name="" id="" value="${logicList[i].delay}" />
+								<input type=""  class="points_delay_inp"  name="" id="" value="${logicList[i].delay}" />
 								<span>秒</span>
+								<button type="button" class="points_save">保存</button>
 							</div>
 						</div>
 					</div>`;
@@ -332,7 +353,80 @@ window.onload = function() {
 	}
 
 
+	// 节点里的逻辑刷新
+	function drawLogic() {
+		console.log(logicList);
+		// console.log(logicList[presentNodeIndex].signalType[0].text);
+		var htmlStr = `<div class="points_signal">
+		                  <div class="button_body_one">
+			                 <input type="text" name="" class="button_remark" value="${logicList[presentNodeIndex].signalType[0].text}" readOnly="true">
+			                 <span class="button_body_one_span">ID:
+			                   	<span class="button_body_one_id">0x123</span>
+							 </span>
+						   <div class="button_body_one_one">`
+		for (var i = 0; i < logicList[presentNodeIndex].signalType[0].num; i++) {
+			htmlStr += ` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType[0].id+[i]}">
+							                      <div class="button_body_one_btn_circle"></div>
+						                    </div>  `
+			// console.log('1');
 
+		}
+		`</div>
+		</div>
+		
+	</div>`;
+
+		// htmlStr += `<div class="points_signal">
+
+		// </div>
+		// `;
+
+		// console.log(presentNodeIndex);
+		// if (Array.isArray(nodeList[i].deviceList)) {
+		// for (var j = 0; j < nodeList[presentNodeIndex].deviceList.length; j++) {
+		// 	if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'light') {
+		// 		htmlStr +=
+		// 			``
+
+		// 	} else if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'elec') {
+		// 		htmlStr += ``;
+
+		// 	}
+		// }
+		$(".active2").find('.points_signal').html(htmlStr);
+		console.log(logicList);
+	}
+
+
+
+	$("#plus").click(function () {
+		// nodeIndex++;
+		// for (var i = 0; i < nodeIndex; i++) {
+		// 	var node = {};
+		// 	node.remark = "备注"; //remark
+		// 	node.node_name = "结点" + (i + 1); //nodeName
+		// 	node.node_sort = i; //nodeSort
+		// 	node.deviceList = []; //单节点的设备
+		// 	nodeList.push(node);
+		// }
+
+		// for (var i = 0; i < nodeIndex - 1; i++) {
+		// 	var node = {};
+		// 	node.signalType = "";
+		// 	node.signalValue = 0;
+		// 	node.delay = 1;
+		// 	node.theOrder = i;
+		// 	logicList.push(node);
+		// 	// node.node_name = "结点" + (i + 1);
+		// 	// node.deviceList = []; //单节点的设备
+		// }
+		// var $One = $(
+		// 	'<div class="node_one"><div class = "string"></div><div class = "logic"></div><div class = "string"></div><div class = "node_small"><span>节点<span>' +
+		// 	nodeIndex +
+		// 	'</span></span><div class="strip"><div class="strip_head"><img src="./img/33.png"  class="strip_head_img"></div><div class="strip_one"></div></div></div></div>'
+		// );
+		// $(".node").append($One);
+	});
 
 
 
@@ -383,47 +477,22 @@ window.onload = function() {
 		drawNode();
 	}
 
-	function save() {
-		// id:id
-		// nodeList  : JSON.stringify(nodeList);
-		// logicList	:JSON.stringify(logicList);
-	}
-	/**
-	 * 3，添加设备
-	 * @param {Object} index 当前在第几个结点  从0开始
-	 * @param {Object} name
-	 * @param {Object} id
-	 * @param {Object} value   'S123:12:F2,22S'
-	 */
-	function addLogic(index, id, num, value) {
-		logicList[index] = {};
-		var Type = JSON.parse(storage.getItem(id)).type;
-		var num = JSON.parse(storage.getItem(id)).num;
-		// console.log(num);
-		switch (Type) {
-			case "03":
-				deviceType = "button"; //按钮
-				logicList[index].num = num;
-				break;
-			case "0A":
-				deviceType = "sensor"; // 传感器
-				logicList[index].num = num;
-				break;
-			default:
-				console.log("没有此类型");
-				break;
-		}
-		logicList[index].deviceId = id;
-		logicList[index].deviceValue = value;
-		logicList[index].delay = 1;
-		// if (!Array.isArray(logicList[index].deviceList)) {
-		// 	logicList[index].deviceList = [];
-		// }
 
-		// logicList[index].device;
-		// console.log(index);
+
+	function addLogic(index, id, num, text) {
+		// logicList[index] = {};
+		// var Type = JSON.parse(storage.getItem(id)).type;
+		var num = JSON.parse(storage.getItem(id)).num;
+		logicList[index].signalValue = '00,00,00,00,00,00,00';
+		// logicList[index].signalType = num + ',' + id + ',' + text;
+		// logicList[index].signalType ={};
+		var node = {};
+		node.num = num;
+		node.id = id;
+		node.text = text;
+		logicList[index].signalType.push(node);
 		console.log(logicList);
-		// drawLogic();
+		drawLogic();
 	}
 
 
@@ -431,7 +500,7 @@ window.onload = function() {
 
 	// NodeIndex
 	//元件库 添加进节点   //灯光
-	$("#library_body_body1").on("click", ".library_body_body_one", function() {
+	$("#library_body_body1").on("click", ".library_body_body_one", function () {
 		if ($(".node_small").hasClass('active')) {
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
@@ -440,6 +509,10 @@ window.onload = function() {
 				addDevice(Index, Id, '00,00,00,00,00,00,00,00');
 			}
 		}
+
+
+
+
 		// var oActive = document.getElementsByClassName("active");
 		// console.log($(".node_small").hasClass('active'))
 		// var oYemian = document.getElementById(FrameId);
@@ -451,7 +524,7 @@ window.onload = function() {
 		// $(".active").find(".strip_one").append($One);
 	});
 	//电机
-	$("#library_body_body2").on("click", ".library_body_body_one", function() {
+	$("#library_body_body2").on("click", ".library_body_body_one", function () {
 		if ($(".node_small").hasClass('active')) {
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
@@ -461,25 +534,28 @@ window.onload = function() {
 	});
 
 	//逻辑点添加进 界面
-	$("#library_body_body3").on("click", ".library_body_body_one", function() {
+	$("#library_body_body3").on("click", ".library_body_body_one", function () {
 		if ($(".logic").hasClass('active2')) {
 			var Index = $(".active2").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
 			var num = JSON.parse(storage.getItem(Id)).num;
+			var text = $(this).find('.lib_span').text();
 			presentNodeIndex = Index;
 			// var locaObj =loca);
 			// var Type = locaObj.type;
 			// console.log(Index );
 			// console.log( Id);
-			// console.log(num);
-			addLogic(Index, Id, num, '00,00,00,00,00,00,00,00');
+			// console.log(text);
+			addLogic(Index, Id, num, text);
 		}
 	});
+
+
 	//逻辑点  设置01 
-	$(".node").on("click", ".button_body_one_btn_circle", function() {
+	$(".node").on("click", ".button_body_one_btn_circle", function () {
 		var flag = $(this).hasClass("active3");
 		$(".node div").removeClass("active3");
-		$(".node select").remove();
+		$(".logic select").remove();
 		if (flag) {
 			// $(this).removeClass("active3");
 		} else {
@@ -487,10 +563,8 @@ window.onload = function() {
 			var htmlStr = ``;
 			htmlStr +=
 				`<select>
-					<option value="01">00</option>
-					<option value="02">01</option>
-				</select>
-                <div><input type="text"></div>`;
+					<option value="01">01</option>
+				</select>`;
 			$(this).parents('.button_body_one_btn').append(htmlStr);
 		}
 	});
@@ -502,7 +576,7 @@ window.onload = function() {
 
 
 	// 事件委托，灯光保存
-	$(".node").on("click", ".lamp_send", function() {
+	$(".node").on("click", ".lamp_send", function () {
 		var id = $(this).parents(".lamp_body_one").attr('id');
 		var type0 = $(this).siblings(".lamp_xuanxiang").val();
 		var type1 = $(this).siblings(".liudong").val();
@@ -518,6 +592,16 @@ window.onload = function() {
 		var type5 = parseInt(str[1]).toString(16).toUpperCase();
 		var type6 = parseInt(str[2]).toString(16).toUpperCase();
 
+		if (type1.length < 2) {
+			type1 = "0" + type1;
+		}
+		if (type2.length < 2) {
+			type2 = "0" + type2;
+		}
+		if (type3.length < 2) {
+			type3 = "0" + type3;
+		}
+
 		if (type4.length < 2) {
 			type4 = "0" + type4;
 		}
@@ -527,13 +611,20 @@ window.onload = function() {
 		if (type6.length < 2) {
 			type6 = "0" + type6;
 		}
+		if (type7.length < 2) {
+			type7 = "0" + type7;
+		}
+
+		// console.log(type7);
+
+
 		var arrindex = $(this).attr("data-index");
 		var nodeId = $(this).parents(".node_small").attr('id').substring(1);
 		// console.log($(this).attr("data-index"));
 		// console.log(nodeId);
-		nodeList[nodeId].deviceList[arrindex].deviceValue = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
-			"," + type5 + "," + type6 + "," + type7 + "K";
-		// console.log(nodeList);
+		nodeList[nodeId].deviceList[arrindex].deviceValue = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 + "," + type7 + "K";
+
+		console.log(nodeList);
 		// stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
 		// 	"," + type5 + "," + type6 + "," + type7 + "K");
 		// alert("S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 +
@@ -569,33 +660,33 @@ window.onload = function() {
 
 	// 电机发送
 	var elecSet; //前进
-	$(".node").on("mousedown", ".elec_up", function() {
+	$(".node").on("mousedown", ".elec_up", function () {
 		var id = $(this).parents(".elec_body_one").attr('id');
 		$(this).css("background-color", "pink");
-		elecSet = setInterval(function() {
+		elecSet = setInterval(function () {
 			stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10,50K");
 		}, 100);
 		// console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
 	});
-	$(".node").on("mouseup", ".elec_up", function() {
+	$(".node").on("mouseup", ".elec_up", function () {
 		clearInterval(elecSet);
 		$(this).css("background-color", "#5b9bd5");
 	});
 	var elecSetDown; //后退
-	$(".node").on("mousedown", ".elec_down", function() {
+	$(".node").on("mousedown", ".elec_down", function () {
 		var id = $(this).parents(".elec_body_one").attr('id');
 		$(this).css("background-color", "pink");
-		elecSetDown = setInterval(function() {
+		elecSetDown = setInterval(function () {
 			stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10,50K");
 		}, 50)
 	});
-	$(".node").on("mouseup", ".elec_down", function() {
+	$(".node").on("mouseup", ".elec_down", function () {
 		clearInterval(elecSetDown);
 		$(this).css("background-color", "#5b9bd5");
 	});
 
 	//电机位置保存
-	$(".node").on("click", ".elec_save", function() {
+	$(".node").on("click", ".elec_save", function () {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		var oIdCov = $(this).siblings('.elec_cover').val();
 		var list = $('input:radio[name=' + Id + ']:checked').val();
@@ -610,6 +701,85 @@ window.onload = function() {
 			// alert(id);
 		}
 	});
+	// 逻辑点保存
+	$(".node").on("click", ".points_save", function () {
+		// var index = $(this).parents().siblings('.points_signal').
+		var smallIndex = $(".active3").parents('.button_body_one_btn').attr('id').substring(3);
+		var index = $(this).parents('.logic').attr('id').substr(1);
+
+
+		if (smallIndex == 0) {
+			logicList[index].signalValue = '00,00,00,00,00,00,00,01';
+		} else if (smallIndex == 1) {
+			logicList[index].signalValue = '00,00,00,00,00,00,00,02';
+		} else if (smallIndex == 2) {
+			logicList[index].signalValue = '00,00,00,00,00,00,00,04';
+		} else if (smallIndex == 3) {
+			logicList[index].signalValue = '00,00,00,00,00,00,00,08';
+		} else if (smallIndex == 4) {
+			logicList[index].signalValue = '00,00,00,00,00,00,00,10';
+		} else if (smallIndex == 5) {
+			logicList[index].signalValue = '00,00,00,00,00,00,00,20';
+		} else if (smallIndex == 6) {
+			logicList[index].signalValue = '00,00,00,00,00,00,00,40';
+		} else if (smallIndex == 7) {
+			logicList[index].signalValue = '00,00,00,00,00,00,00,80';
+		} else if (smallIndex == 8) {
+			logicList[index].signalValue = '00,00,00,00,00,00,01,00';
+		} else if (smallIndex == 9) {
+			logicList[index].signalValue = '00,00,00,00,00,00,02,00';
+		} else if (smallIndex == 10) {
+			logicList[index].signalValue = '00,00,00,00,00,00,04,00';
+		} else if (smallIndex == 11) {
+			logicList[index].signalValue = '00,00,00,00,00,00,08,00';
+		} else if (smallIndex == 12) {
+			logicList[index].signalValue = '00,00,00,00,00,00,10,00';
+		} else if (smallIndex == 13) {
+			logicList[index].signalValue = '00,00,00,00,00,00,20,00';
+		} else if (smallIndex == 14) {
+			logicList[index].signalValue = '00,00,00,00,00,00,40,00';
+		} else if (smallIndex == 15) {
+			logicList[index].signalValue = '00,00,00,00,00,00,80,00';
+		} else if (smallIndex == 16) {
+			logicList[index].signalValue = '00,00,00,00,00,01,00,00';
+		} else if (smallIndex == 17) {
+			logicList[index].signalValue = '00,00,00,00,00,02,00,00';
+		} else if (smallIndex == 18) {
+			logicList[index].signalValue = '00,00,00,00,00,04,00,00';
+		} else if (smallIndex == 19) {
+			logicList[index].signalValue = '00,00,00,00,00,08,00,00';
+		} else if (smallIndex == 20) {
+			logicList[index].signalValue = '00,00,00,00,00,10,00,00';
+		}
+
+
+		// if (Index <= 7) {
+		// 	logicV(byte7, smallIndex);
+		// } else if (8 <= Index <= 15) {
+		// 	logicV(byte6, smallIndex);
+		// } else if (15 < Index) {
+		// 	logicV(byte5, smallIndex);
+		// }
+
+
+		// console.log(Index);
+		console.log(logicList);
+	});
+
+	// function logicV(byte, index) {
+
+	// }
+
+
+
+	// 延迟改变
+	$(".node").on("blur", ".points_delay_inp", function () {
+		var oVal = parseInt($(this).val());
+		var index = $(this).parents('.logic').attr('id').substr(1);
+		logicList[index].delay = oVal;
+		console.log(logicList);
+	});
+
 
 
 	// 电机 保存在节点
@@ -641,7 +811,7 @@ window.onload = function() {
 	// 添加逻辑与节点
 
 	// 节点上箭头
-	$(".strip").on("click", ".strip_head_img", function() {
+	$(".strip").on("click", ".strip_head_img", function () {
 		// var oheight = $(this).parents('.strip').height();
 		// console.log(oheight);
 		// $(".active").find(".strip_one").append($One);
@@ -668,7 +838,7 @@ window.onload = function() {
 	});
 
 	// 节点变色
-	$(".node").on("click", ".string_span", function() {
+	$(".node").on("click", ".string_span", function () {
 		// console.log($(this));
 		var flag = $(this).parents(".node_small").hasClass("active");
 		$(".node div").removeClass("active");
@@ -680,7 +850,7 @@ window.onload = function() {
 
 	});
 	// 逻辑点变色
-	$(".node").on("click", ".logic_span", function() {
+	$(".node").on("click", ".logic_span", function () {
 		var flag = $(this).parents(".logic").hasClass("active2");
 		$(".node div").removeClass("active2");
 		if (flag) {
@@ -704,7 +874,7 @@ window.onload = function() {
 	 * 启动功能
 	 */
 
-	$("#start").click(function() {
+	$("#start").click(function () {
 		actionGo();
 	});
 
@@ -735,31 +905,42 @@ window.onload = function() {
 		//开始判断 currentIndex 位置的逻辑
 		if (currentIndex < (nodeIndex - 1)) { // 判断currentIndex位置是否有逻辑  
 			//从页面获取
-			var logicValue = 0; //逻辑信号
-			var logicId = "0x123"; //逻辑的ID  门
-			var delay = 1; //延迟时间秒
-			setTimeout(function() {
-				currentIndex++;
-				isLogic();
-			}, delay * 1000);
-			return;
+			var logicValue = logicList[currentIndex].signalValue; //逻辑信号
 
+			var logicId;
 
-			// for (var i = 0; i < logicMap.length; i++) {
-			// 	if (logicMap[i].id == logicId) {
-			// 		if (logicValue == logicMap[i].value) {
-			// 			setTimeout(function() {
-			// 				currentIndex++;
-			// 				isLogic();
-			// 			}, delay * 1000);
-			// 			return;
+			// var logicId = logicList[currentIndex].signalType[0].id; //逻辑的ID  门
+			var delay = logicList[currentIndex].delay; //延迟时间秒
+			if (logicList[currentIndex].signalType[0]) {
+				logicId = logicList[currentIndex].signalType[0].id; //逻辑的ID  门
+			} else {
 
-			// 		}
-			// 	}
+				setTimeout(function () {
+					currentIndex++;
+					isLogic();
+				}, delay * 1000);
 
-			// }
+			}
+			// setTimeout(function () {
+			// 	currentIndex++;
+			// 	isLogic();
+			// }, delay * 1000);
+			// return;
+
+			for (var i = 0; i < logicMap.length; i++) {
+				if (logicMap[i].id == logicId) {
+					if (logicValue == logicMap[i].value) {
+						setTimeout(function () {
+							currentIndex++;
+							isLogic();
+						}, delay * 1000);
+						return;
+					}
+				}
+			}
+
 			//不满足条件 死循环
-			// loopLogic();
+			loopLogic();
 
 		} else {
 			//已经全部执行完毕
@@ -776,15 +957,20 @@ window.onload = function() {
 		if (!isAction) {
 			return;
 		}
-		setTimeout(function() {
+		setTimeout(function () {
 			//从页面获取
-			var logicValue = 0; //逻辑信号
-			var logicId = "0x123"; //逻辑的ID  门
-			var delay = 1; //延迟时间秒
+			var logicValue = logicList[currentIndex].signalValue; //逻辑信号
+			// var 
+			var logicId;
+			if (logicList[currentIndex].signalType[0]) {
+				logicId = logicList[currentIndex].signalType[0].id; //逻辑的ID  门
+			}
+
+			var delay = logicList[currentIndex].delay; //延迟时间秒
 			for (var i = 0; i < logicMap.length; i++) {
 				if (logicMap[i].id == logicId) {
 					if (logicValue == logicMap[i].value) {
-						setTimeout(function() {
+						setTimeout(function () {
 							currentIndex++;
 							isLogic();
 						}, delay * 1000);
@@ -805,12 +991,40 @@ window.onload = function() {
 	function actionDo() {
 		//TODO 扫描 currentIndex 节点的内容,并发送
 		for (var i = 0; i < nodeList[currentIndex].deviceList.length; i++) {
+			console.log(nodeList);
+			// console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
 
-			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex]
-				.deviceList[i].device_deviceValue);
+			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
+
+
+
+
 		}
 
 	}
+
+
+
+
+
+
+	//保存
+	$("#Save").click(function () {
+		save();
+	});
+
+	function save() {
+		$.getJSON("http://39.106.47.82:8080/gq/api/saveSceneInfo", {
+			// deviceId: self.FrameId,
+			sceneId: sceneId,
+			nodeList: JSON.stringify(nodeList),
+			logicList: JSON.stringify(logicList),
+		}, function (data) {
+			console.log(data);
+		});
+	}
+
+
 
 
 
@@ -832,7 +1046,7 @@ window.onload = function() {
 		stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
 				// 连接成功时（服务器响应 CONNECTED web帧）的回调方法
 				console.log('[' + frame + ']' + '手动模式：连接成功');
-				stompClient.subscribe('/topic/udp/broadcast', function(response) {
+				stompClient.subscribe('/topic/udp/broadcast', function (response) {
 					// stompClient.subscribe('/topic/socket/201', function (response) {
 					console.log(response.body + " " + new Date().getTime());
 					var stringResult = response.body.split(',');
@@ -850,11 +1064,12 @@ window.onload = function() {
 
 					var oHtmlId = document.getElementById(FrameId);
 					var loca = storage.getItem(FrameId);
-					// console.log(typeof(Byte5));
-					// 判断新旧id  /  页面不存在  新id 
-					// 逻辑信号保存到全局变量 TODO
+					//console.log(typeof(Byte5));
+					//判断新旧id  /  页面不存在  新id 
+					//逻辑信号保存到全局变量 TODO
 					//是否使逻辑信号
 					//假设 收到的是逻辑信号  byte0 是 信号值
+
 					if (!oHtmlId) {
 						if (loca) {
 							// console.log('1');
@@ -863,13 +1078,20 @@ window.onload = function() {
 							// var LByte4 = locaObj.Byte4;
 							console.log(locaObj.type);
 							switch (Type) {
-								case "01":
-									// 流水灯
+								case "01": // 流水灯
 									new lamp(FrameId);
 									break;
-								case "06":
-									// 电机
+								case "03": // 按钮
+									var num = locaObj.num;
+									// console.log(num);
+									new button(FrameId, num);
+									break;
+								case "06": // 电机
 									new elec(FrameId);
+									break;
+								case "0A": // 传感器
+									var num = locaObj.num;
+									new button(FrameId, num);
 									break;
 								default:
 									console.log("没有此类型");
@@ -885,15 +1107,16 @@ window.onload = function() {
 
 					for (var i = 0; i < logicMap.length; i++) {
 						if (logicMap[i].id == FrameId) {
-							logicMap[i].value = Byte0;
+							logicMap[i].value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' + Byte6 + ',' + Byte7;
 							return;
 						}
-
 					}
+
 					var temp = {};
 					temp.id = FrameId;
-					temp.value = Byte0;
+					temp.value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' + Byte6 + ',' + Byte7;
 					logicMap.push(temp);
+
 
 
 				});
@@ -931,7 +1154,7 @@ window.onload = function() {
 			function errorCallBack(error) {
 				// 连接失败时（服务器响应 ERROR 帧）的回调方法
 				console.log('连接失败[' + error + ']');
-				setTimeout(function() {
+				setTimeout(function () {
 					// 自动重连
 					connect();
 				}, 100);
@@ -947,7 +1170,7 @@ window.onload = function() {
 	}
 	lamp.prototype = {
 		constructor: lamp,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = '0X' + self.FrameId;
@@ -956,14 +1179,22 @@ window.onload = function() {
 			var oBig = document.createElement("div");
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
-			// 修饰元素
-			oBig.innerHTML = '<span>id:0X' + Id + '</span> <span>前灯1</span>';
-			// 插入元素
-			self.oLamOne.appendChild(oBig);
-			console.log('1');
-
+			// console.log(Id);
+			$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+				deviceId: self.FrameId,
+			}, function (data) {
+				// console.log(data);
+				if (data.resultObject.length == 0) { // 修饰元素
+					oBig.innerHTML = '<span>id:' + Id + '</span> <span></span>'
+					self.oLamOne.appendChild(oBig);
+				} else {
+					text = data.resultObject[0].deviceValue;
+					oBig.innerHTML = '<span>id:' + Id + '</span> <span>' + text + '</span>'
+					self.oLamOne.appendChild(oBig);
+				}
+			});
 		}
-	}
+	};
 
 	function elec(FrameId) { //电机
 		this.oLamOne = document.getElementById("library_body_body2");
@@ -973,23 +1204,98 @@ window.onload = function() {
 	}
 	elec.prototype = {
 		constructor: elec,
-		init: function() {
+		init: function () {
 			//转存this
 			var self = this;
 			var Id = '0X' + self.FrameId;
 			// console.log('新:灯光');
-			// 创建元素
-			var oBig = document.createElement("div");
+			var oBig = document.createElement("div"); // 创建元素
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
-			// 修饰元素
-			oBig.innerHTML = '<span>id:0X' + Id + '</span> <span>前灯1</span>';
-			// 插入元素
-			self.oLamOne.appendChild(oBig);
-			// console.log('1');
-
+			$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+				deviceId: self.FrameId,
+			}, function (data) {
+				// console.log(data);
+				if (data.resultObject.length == 0) { // 修饰元素
+					oBig.innerHTML = '<span>id:' + Id + '</span> <span></span>'
+					self.oLamOne.appendChild(oBig);
+				} else {
+					text = data.resultObject[0].deviceValue;
+					oBig.innerHTML = '<span>id:' + Id + '</span> <span>' + text + '</span>'
+					self.oLamOne.appendChild(oBig);
+				}
+			});
 		}
 	}
+
+
+	function button(FrameId, num) { //按钮
+		this.oLamOne = document.getElementById("library_body_body3");
+		this.FrameId = FrameId;
+		this.num = num;
+		//自动初始化
+		this.init();
+	}
+	button.prototype = {
+		constructor: button,
+		init: function () {
+			//转存this
+			var self = this;
+			var Id = '0X' + self.FrameId;
+			// console.log('新:灯光');
+			var oBig = document.createElement("div"); // 创建元素
+			oBig.classList.add("library_body_body_one");
+			oBig.setAttribute("id", Id);
+			$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+				deviceId: self.FrameId,
+			}, function (data) {
+				// console.log(data);
+				if (data.resultObject.length == 0) { // 修饰元素
+					oBig.innerHTML = '<span>id:' + Id + '</span> <span class="lib_span"></span>'
+					self.oLamOne.appendChild(oBig);
+				} else {
+					text = data.resultObject[0].deviceValue;
+					oBig.innerHTML = '<span>id:' + Id + '</span> <span class="lib_span">' + text + '</span>'
+					self.oLamOne.appendChild(oBig);
+				}
+			});
+		}
+	}
+
+	// function sens(FrameId, num) { //按钮
+	// 	this.oLamOne = document.getElementById("library_body_body3");
+	// 	this.FrameId = FrameId;
+	// 	this.num = num;
+	// 	//自动初始化
+	// 	this.init();
+	// }
+	// sens.prototype = {
+	// 	constructor: sens,
+	// 	init: function () {
+	// 		//转存this
+	// 		var self = this;
+	// 		var Id = '0X' + self.FrameId;
+	// 		// console.log('新:灯光');
+	// 		var oBig = document.createElement("div"); // 创建元素
+	// 		oBig.classList.add("library_body_body_one");
+	// 		oBig.setAttribute("id", Id);
+	// 		$.getJSON("http://39.106.47.82:8080/gq/api/getRemark", {
+	// 			deviceId: self.FrameId,
+	// 		}, function (data) {
+	// 			// console.log(data);
+	// 			if (data.resultObject.length == 0) { // 修饰元素
+	// 				oBig.innerHTML = '<span>id:' + Id + '</span> <span class="lib_span"></span>'
+	// 				self.oLamOne.appendChild(oBig);
+	// 			} else {
+	// 				text = data.resultObject[0].deviceValue;
+	// 				oBig.innerHTML = '<span>id:' + Id + '</span> <span class="lib_span">' + text + '</span>'
+	// 				self.oLamOne.appendChild(oBig);
+	// 			}
+	// 		});
+	// 	}
+	// }
+
+
 
 
 }

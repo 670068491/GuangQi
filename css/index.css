@@ -110,6 +110,7 @@ body {
 	display: inline-block;
 	font-size: 0.7vw;
 	color: #5B9BD5;
+	text-align: center;
 }
 
 .button .button_body_one_span {

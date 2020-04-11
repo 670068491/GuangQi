@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
 	// 获取列表
 	function ListOfScenarios() {
 		// $.post("http://39.106.47.82:8080/gq/api/getSceneList", {
@@ -10,7 +10,7 @@ window.onload = function() {
 		$.getJSON("http://39.106.47.82:8080/gq/api/getSceneList", {
 			// id: 0,
 			// action: 'jobcategoryjson'
-		}, function(data) {
+		}, function (data) {
 			console.log(data);
 			// console.log(JSON.parse(data));
 			// console.log(JSON.stringify(data));
@@ -32,18 +32,18 @@ window.onload = function() {
 		});
 	}
 
-	$(function() {
+	$(function () {
 		ListOfScenarios();
 	});
 
 
 
 
-	$("#cut_two").click(function() { //切换为手动
+	$("#cut_two").click(function () { //切换为手动
 		window.location.href = "./index.html";
 	});
 
-	$("#open").click(function() {
+	$("#open").click(function () {
 		location.href = "./List.html";
 	});
 
@@ -52,17 +52,17 @@ window.onload = function() {
 
 
 
-	$("#cut_three").click(function() {
+	$("#cut_three").click(function () {
 		$(".auto .grade").css("display", "block");
 		$(".auto .cover").css("display", "block");
 	});
 
-	$("#gradeButton").click(function() {
+	$("#gradeButton").click(function () {
 		$(".autoGradeOne input").val('');
 		$(".auto .grade").css("display", "none");
 		$(".auto .cover").css("display", "none");
 	});
-	$("#cut_four").click(function() {
+	$("#cut_four").click(function () {
 		// $.get("http://39.105.62.98:8280/api/Values/Get", function(result){
 		//    // $("div").html(result);
 		// console.log(result);
@@ -73,23 +73,44 @@ window.onload = function() {
 	});
 
 	// 删除
-	$(".auto_body").on("click", ".autoBodyOneDelete", function() {
+	$(".auto_body").on("click", ".autoBodyOneDelete", function () {
 		var uid = $(this).data("id");
 		// console.log(uid);
 		$.getJSON("http://39.106.47.82:8080/gq/api/deleteScene", {
 			sceneId: uid,
 			// action: 'jobcategoryjson'
-		}, function(data) {
+		}, function (data) {
 
 		});
 		$(this).parents(".auto_body_one").remove();
 	});
 
+// 打开
+	$(".auto_body").on("click", ".open", function () {
+
+
+
+
+		var uid = $(this).data("id");
+	// 	// console.log(uid);
+	// 	$.getJSON("http://39.106.47.82:8080/gq/api/deleteScene", {
+	// 		sceneId: uid,
+	// 		// action: 'jobcategoryjson'
+	// 	}, function (data) {
+
+	// 	});
+	// 	$(this).parents(".auto_body_one").remove();
+	});
+
+//复制
+
+
+
 
 	var name = null;
 	var stylist = null; //设计师
 
-	$("#codeButton").click(function() {
+	$("#codeButton").click(function () {
 		name = $("#CodeSpan1").val();
 		stylist = $("#CodeSpan2").val();
 		if (!name) {
@@ -122,11 +143,12 @@ window.onload = function() {
 			name: name,
 			designer: stylist
 			// action: 'jobcategoryjson'
-		}, function(data) {
-
+		}, function (data) {
+			// console.log(data);
+			var uId = data.resultObject.id;
+			location.href = "./List.html?name=" + name + "&stylist=" + stylist + "&uId=" + uId; //此处拼接内容";
 		});
 
-		location.href = "./List.html?name=" + name + "&stylist=" + stylist; //此处拼接内容";
 		// $("#time").html(year + "年" + mon + "月" + date + "日" + weeks[week]);
 
 	});
