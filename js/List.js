@@ -8,7 +8,7 @@ window.onload = function () {
 	function GainName() {
 		var name = $.Request("name");
 		var stylist = $.Request("stylist");
-		var sceneId = $.Request("uId");
+		sceneId = $.Request("uId");
 
 		// console.log(name);
 		// console.log(stylist);
@@ -25,6 +25,9 @@ window.onload = function () {
 		connect(); //建立连接
 		initData(); //初始化数据
 		drawHtml(); //初始化界面
+
+
+
 	});
 
 
@@ -109,10 +112,49 @@ window.onload = function () {
 			pack3 = true;
 		}
 	});
+	var oEvaluate = true;
+	$(".evaluate").click(function () {
 
-
-
-
+		if (oEvaluate) {
+			oEvaluate = false;
+			$(".evaluate_div").css("display", "block");
+			$.getJSON("http://39.106.47.82/gq/api/getEvaluateName", {}, function (data) {
+				console.log(data);
+				$('#evaluate_div_one1').text(data.resultObject.standard1);
+				$('#evaluate_div_one2').text(data.resultObject.standard2);
+				$('#evaluate_div_one3').text(data.resultObject.standard3);
+				$('#evaluate_div_one4').text(data.resultObject.standard4);
+				$('#evaluate_div_one5').text(data.resultObject.standard5);
+				$('#evaluate_div_one6').text(data.resultObject.standard6);
+			});
+			$.getJSON("http://39.106.47.82/gq/api/getEvaluate", {
+				sceneId: sceneId,
+			}, function (data) {
+				console.log(data);
+				$('#maxs1').text(data.resultObject.maxs1);
+				$('#mins1').text(data.resultObject.mins1);
+				$('#avgs1').text(data.resultObject.avgs1);
+				$('#maxs2').text(data.resultObject.maxs2);
+				$('#mins2').text(data.resultObject.mins2);
+				$('#avgs2').text(data.resultObject.avgs2);
+				$('#maxs3').text(data.resultObject.maxs3);
+				$('#mins3').text(data.resultObject.mins3);
+				$('#avgs3').text(data.resultObject.avgs3);
+				$('#maxs4').text(data.resultObject.maxs4);
+				$('#mins4').text(data.resultObject.mins4);
+				$('#avgs4').text(data.resultObject.avgs4);
+				$('#maxs5').text(data.resultObject.maxs5);
+				$('#mins5').text(data.resultObject.mins5);
+				$('#avgs5').text(data.resultObject.avgs5);
+				$('#maxs6').text(data.resultObject.maxs6);
+				$('#mins6').text(data.resultObject.mins6);
+				$('#avgs6').text(data.resultObject.avgs6);
+			});
+		} else {
+			oEvaluate = true;
+			$(".evaluate_div").css("display", "none");
+		}
+	});
 
 
 
@@ -152,8 +194,8 @@ window.onload = function () {
 		// console.log(nodeList);
 		for (var i = 0; i < nodeIndex - 1; i++) {
 			var node = {};
-			node.signalType = [];
-			node.signalValue = 0;
+			node.signalType = '';
+			node.signalValue = '00,00,00,00,00,00,00,00';
 			node.delay = 1;
 			node.theOrder = i;
 			logicList.push(node);
@@ -191,7 +233,7 @@ window.onload = function () {
 									</span>
 									<div class="lamp_body_one_one">
 										<label for="">模式:</label>
-										<select class="lamp_xuanxiang" name="" value="">
+										<select class="lamp_xuanxiang" name="" value="00">
 											<option value="01">关闭模式</option>
 											<option value="02">打开模式</option>
 											<option value="03">呼吸模式</option>
@@ -221,15 +263,15 @@ window.onload = function () {
 											<option value="1B">单色像素显示模式</option>
 										</select>
 										<span>流动LED:</span>
-										<input class="liudong" type="text">
+										<input class="liudong" type="text" value="00">
 										<span>LED数量:</span>
-										<input class="led" type="text">
+										<input class="led" type="text" value="00">
 										<span>速度:</span>
-										<input class="sudu" type="text">
+										<input class="sudu" type="text" value="00">
 										<span>颜色:</span>
-										<input type="color" name="" class="yanse" />
+										<input type="color" name="" class="yanse" value="00"/>
 										<span>白色值:</span>
-										<input type="text" name="" class="type7" />
+										<input type="text" name="" class="type7" value="00"/>
 										<!-- <button class="lamp_send">执行</button> -->
 									</div>
 						</div>`
@@ -244,7 +286,7 @@ window.onload = function () {
 				htmlStr += `<div class="string"></div>`;
 				//添加逻辑
 				htmlStr +=
-					`<div class="logic" id="${'l'+[i]}">
+					`<div class="logic" id="${'l' + [i]}">
 					    <span class="logic_span">逻辑<span>${[i+1]}</span></span>
 						<div class="points">
 							<div  class="points_signal"></div>
@@ -276,7 +318,7 @@ window.onload = function () {
 							</span>
 								<div class="lamp_body_one_one">
 								    <label for="">模式:</label>
-								    <select class="lamp_xuanxiang" name="" value="">
+								    <select class="lamp_xuanxiang" name="" value="00">
 									<option value="01">关闭模式</option>
 									<option value="02">打开模式</option>
 									<option value="03">呼吸模式</option>
@@ -306,15 +348,15 @@ window.onload = function () {
 									<option value="1B">单色像素显示模式</option>
 								</select>
 								<span>流动LED:</span>
-								<input class="liudong" type="text">
+								<input class="liudong" type="text" value="00">
 								<span>LED数量:</span>
-								<input class="led" type="text">
+								<input class="led" type="text" value="00">
 								<span>速度:</span>
-								<input class="sudu" type="text">
+								<input class="sudu" type="text" value="00">
 								<span>颜色:</span>
-								<input type="color" name="" class="yanse" />
+								<input type="color" name="" class="yanse"/>
 								<span>白色值:</span>
-								<input type="text" name="" class="type7" />
+								<input type="text" name="" class="type7" value="00"/>
 								<button class="lamp_send" data-index="${j}" >保存</button>
 							</div>
 						</div>`
@@ -359,13 +401,13 @@ window.onload = function () {
 		// console.log(logicList[presentNodeIndex].signalType[0].text);
 		var htmlStr = `<div class="points_signal">
 		                  <div class="button_body_one">
-			                 <input type="text" name="" class="button_remark" value="${logicList[presentNodeIndex].signalType[0].text}" readOnly="true">
+			                 <input type="text" name="" class="button_remark" value="${logicList[presentNodeIndex].signalType.split(",")[2]}" readOnly="true">
 			                 <span class="button_body_one_span">ID:
-			                   	<span class="button_body_one_id">0x123</span>
+			                   	<span class="button_body_one_id">${logicList[presentNodeIndex].signalType.split(",")[1]}</span>
 							 </span>
 						   <div class="button_body_one_one">`
-		for (var i = 0; i < logicList[presentNodeIndex].signalType[0].num; i++) {
-			htmlStr += ` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType[0].id+[i]}">
+		for (var i = 0; i < logicList[presentNodeIndex].signalType.split(",")[0]; i++) {
+			htmlStr += ` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1]+[i]}">
 							                      <div class="button_body_one_btn_circle"></div>
 						                    </div>  `
 			// console.log('1');
@@ -398,17 +440,26 @@ window.onload = function () {
 	}
 
 
-
+	//节点增加
 	$("#plus").click(function () {
-		// nodeIndex++;
-		// for (var i = 0; i < nodeIndex; i++) {
-		// 	var node = {};
-		// 	node.remark = "备注"; //remark
-		// 	node.node_name = "结点" + (i + 1); //nodeName
-		// 	node.node_sort = i; //nodeSort
-		// 	node.deviceList = []; //单节点的设备
-		// 	nodeList.push(node);
-		// }
+		nodeIndex++;
+
+		var node = {};
+		node.remark = "备注"; //remark
+		node.node_name = "结点" + (nodeIndex); //nodeName
+		node.node_sort = nodeIndex - 1; //nodeSort
+		node.deviceList = []; //单节点的设备
+		nodeList.push(node);
+
+		var node = {};
+		node.signalType = '';
+		node.signalValue = '';
+		node.delay = 1;
+		node.theOrder = nodeIndex - 2;
+		logicList.push(node);
+
+		console.log(nodeList);
+		console.log(logicList);
 
 		// for (var i = 0; i < nodeIndex - 1; i++) {
 		// 	var node = {};
@@ -420,12 +471,34 @@ window.onload = function () {
 		// 	// node.node_name = "结点" + (i + 1);
 		// 	// node.deviceList = []; //单节点的设备
 		// }
-		// var $One = $(
-		// 	'<div class="node_one"><div class = "string"></div><div class = "logic"></div><div class = "string"></div><div class = "node_small"><span>节点<span>' +
-		// 	nodeIndex +
-		// 	'</span></span><div class="strip"><div class="strip_head"><img src="./img/33.png"  class="strip_head_img"></div><div class="strip_one"></div></div></div></div>'
-		// );
-		// $(".node").append($One);
+
+
+		var $One = $(
+			`<div class = "string"></div>
+			
+			<div class = "logic">
+			   <span class="logic_span">逻辑<span>${nodeIndex-1}</span></span>
+			    <div class="points">
+			         <div class="points_signal"></div>
+			         <div class="points_delay">
+				        <span>延迟(执行前)</span>
+				         <input type="" name="" id="" value="1"/>
+				         <span>秒</span>
+				          <button type="button" class="points_save">保存</button>
+			         </div>
+		        </div>
+			</div>
+			<div class = "string"></div>
+			<div class = "node_small"><span class="logic_span">节点<span>${nodeIndex}</span></span>
+				<div class="strip">
+				     <div class="strip_head">
+			             <img src="./img/33.png"  class="strip_head_img">
+			         </div>
+			         <div class="strip_one">
+			         </div>
+			     </div>
+			</div>`);
+		$(".node").append($One);
 	});
 
 
@@ -486,11 +559,15 @@ window.onload = function () {
 		logicList[index].signalValue = '00,00,00,00,00,00,00';
 		// logicList[index].signalType = num + ',' + id + ',' + text;
 		// logicList[index].signalType ={};
-		var node = {};
-		node.num = num;
-		node.id = id;
-		node.text = text;
-		logicList[index].signalType.push(node);
+		// var node = {};
+		// node.num = num;
+		// node.id = id;
+		// node.text = text;
+		// logicList[index].signalType.push(node);
+		// logicList[index].signalobj = node;
+		// logicList[index].signalType = JSON.stringify(node);
+
+		logicList[index].signalType = num + ',' + id + ',' + text;
 		console.log(logicList);
 		drawLogic();
 	}
@@ -874,7 +951,13 @@ window.onload = function () {
 	 * 启动功能
 	 */
 
-	$("#start").click(function () {
+	$("#start").click(function () { //启动
+		// $(this).css()
+		$(this).css("background-color", "#0077ff");
+		setTimeout(function () {
+			$("#start").css("background-color", "#898989");
+		}, 1000);
+
 		actionGo();
 	});
 
@@ -911,10 +994,9 @@ window.onload = function () {
 
 			// var logicId = logicList[currentIndex].signalType[0].id; //逻辑的ID  门
 			var delay = logicList[currentIndex].delay; //延迟时间秒
-			if (logicList[currentIndex].signalType[0]) {
-				logicId = logicList[currentIndex].signalType[0].id; //逻辑的ID  门
+			if (logicList[currentIndex].signalType != '') {
+				logicId = logicList[currentIndex].signalType.split(",")[1]; //逻辑的ID  门
 			} else {
-
 				setTimeout(function () {
 					currentIndex++;
 					isLogic();
@@ -947,10 +1029,19 @@ window.onload = function () {
 			isAction = false;
 		}
 	}
+
+
+	$("#Stop").click(function () { //停止
+		stop();
+		$(this).css("background-color", "red");
+		setTimeout(function () {
+			$("#Stop").css("background-color", "#ff8888");
+		}, 1000);
+	});
+
 	// 停止
 	function stop() {
 		isAction = false;
-
 	}
 
 	function loopLogic() {
@@ -962,8 +1053,8 @@ window.onload = function () {
 			var logicValue = logicList[currentIndex].signalValue; //逻辑信号
 			// var 
 			var logicId;
-			if (logicList[currentIndex].signalType[0]) {
-				logicId = logicList[currentIndex].signalType[0].id; //逻辑的ID  门
+			if (logicList[currentIndex].signalType!='') {
+				logicId = logicList[currentIndex].signalType.split(",")[1]; //逻辑的ID  门
 			}
 
 			var delay = logicList[currentIndex].delay; //延迟时间秒
@@ -993,40 +1084,146 @@ window.onload = function () {
 		for (var i = 0; i < nodeList[currentIndex].deviceList.length; i++) {
 			console.log(nodeList);
 			// console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
-
 			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
-
-
-
-
 		}
-
 	}
 
 
 
 
+	// $(".cover_cancel").click(function () {
 
 
 	//保存
 	$("#Save").click(function () {
 		save();
+		// console.log('1');
 	});
 
 	function save() {
+		console.log(JSON.stringify(nodeList));
+		console.log(JSON.stringify(logicList));
+
 		$.getJSON("http://39.106.47.82/gq/api/saveSceneInfo", {
-			// deviceId: self.FrameId,
 			sceneId: sceneId,
 			nodeList: JSON.stringify(nodeList),
 			logicList: JSON.stringify(logicList),
 		}, function (data) {
 			console.log(data);
 		});
+
+		// 打开问卷调查
+		$(".List .corer").css("display", "block");
+		$(".List .List_cover").css("display", "block");
 	}
 
 
 
+	// 取消
+	$(".cover_cancel").click(function () {
+		$(".List .corer").css("display", "none");
+		$(".List .List_cover").css("display", "none");
+	});
 
+	// 确定
+	$(".cover_confirm").click(function () {
+		$(".List .List_cover").css("display", "none");
+		$(".List .questionnaire").css("display", "block");
+		$.getJSON("http://39.106.47.82/gq/api/getEvaluateName", {}, function (data) {
+			console.log(data);
+			$('#demonstration0').text(data.resultObject.standard1);
+			$('#demonstration1').text(data.resultObject.standard2);
+			$('#demonstration2').text(data.resultObject.standard3);
+			$('#demonstration3').text(data.resultObject.standard4);
+			$('#demonstration4').text(data.resultObject.standard5);
+			$('#demonstration5').text(data.resultObject.standard6);
+		});
+	});
+
+	var standard1 = 0;
+	var standard2 = 0;
+	var standard3 = 0;
+	var standard4 = 0;
+	var standard5 = 0;
+	var standard6 = 0;
+	var Main = {
+		data() {
+			return {
+				value0: 0,
+				value1: 0,
+				value2: 0,
+				value3: 0,
+				value4: 0,
+				value5: 0,
+			}
+		},
+		methods: {
+			formatTooltip(val) {
+				return val / 10;
+			},
+			change(val) {
+				standard1 = val;
+			},
+			change1(val) {
+				standard2 = val;
+			},
+			change2(val) {
+				standard3 = val;
+			},
+			change3(val) {
+				standard4 = val;
+			},
+			change4(val) {
+				standard5 = val;
+			},
+			change5(val) {
+				standard6 = val;
+			},
+
+		}
+	}
+	var Ctor = Vue.extend(Main);
+	new Ctor().$mount('#app');
+
+
+
+	$(".questionnaire_submit").click(function () {
+		var name = $("#ques_inp_input1").val();
+		var age = $("#ques_inp_input2").val();
+		var sex = $("#ques_inp_input3").val();
+		var weight = $("#ques_inp_input4").val();
+		var height = $("#ques_inp_input5").val();
+		var phone = $("#ques_inp_input6").val();
+		// console.log(standard1);
+
+
+		$.getJSON("http://39.106.47.82/gq/api/saveEvaluate", {
+			sceneId: sceneId,
+			standard1: standard1,
+			standard2: standard2,
+			standard3: standard3,
+			standard4: standard4,
+			standard5: standard5,
+			standard6: standard6,
+			name: name,
+			age: age,
+			sex: sex,
+			weight: weight,
+			height: height,
+			phone: phone,
+
+		}, function (data) {
+			console.log(data);
+
+
+		});
+
+
+		$(".List .corer").css("display", "none");
+		$(".List .questionnaire").css("display", "none");
+
+		// console.log(name);
+	});
 
 
 	// $(".node_small").click(function() {

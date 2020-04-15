@@ -89,8 +89,8 @@ window.onload = function () {
 	function connect() {
 		// console.log('1');
 		// 建立连接对象（还未发起连接）
-		// var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
-		var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
+		var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
+		// var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
 		// var socket = new WebSocket("ws://192.168.1.241:8080/webSocketEndPoint");
 		stompClient = Stomp.over(socket); // 获取 STOMP 子协议的客户端对象
 		stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
@@ -102,15 +102,56 @@ window.onload = function () {
 					var stringResult = response.body.split(',');
 					// 转为数组输出[123,456,789];
 					// console.log(stringResult);
-					var FrameId = stringResult[0].substr(1);
-					var Byte0 = stringResult[1];
-					var Byte1 = stringResult[2];
-					var Byte2 = stringResult[3];
-					var Byte3 = stringResult[4];
-					var Byte4 = stringResult[5];
-					var Byte5 = stringResult[6];
-					var Byte6 = stringResult[7];
-					var Byte7 = stringResult[8].substring(0, 2);
+					// var FrameId = stringResult[0].substr(1);
+					// var Byte0 = stringResult[1];
+					// var Byte1 = stringResult[2];
+					// var Byte2 = stringResult[3];
+					// var Byte3 = stringResult[4];
+					// var Byte4 = stringResult[5];
+					// var Byte5 = stringResult[6];
+					// var Byte6 = stringResult[7];
+					// var Byte7 = stringResult[8].substring(0, 2);
+
+					var FrameId;
+					var Byte0;
+					var Byte1;
+					var Byte2;
+					var Byte3;
+					var Byte4;
+					var Byte5;
+					var Byte6;
+					var Byte7;
+
+					if (stringResult[0]) {
+						FrameId = stringResult[0].substr(1);
+					}
+					if (stringResult[1]) {
+						Byte0 = stringResult[1];
+					}
+					if (stringResult[2]) {
+						Byte1 = stringResult[2];
+					}
+					if (stringResult[3]) {
+						Byte2 = stringResult[3];
+					}
+					if (stringResult[4]) {
+						Byte3 = stringResult[4];
+					}
+					if (stringResult[5]) {
+						Byte4 = stringResult[5];
+					}
+					if (stringResult[6]) {
+						Byte5 = stringResult[6];
+					}
+					if (stringResult[7]) {
+						Byte6 = stringResult[7];
+					}
+					if (stringResult[8]) {
+						Byte7 = stringResult[8].substring(0, 2);
+					}
+
+					// console.log(Byte5);
+
 					// var Byte7 = stringResult[8].substring(0, stringResult[8].length - 1);
 					// var Byte7 = Byt7.substring(0, Byt7.length - 1);
 					var oYemian = document.getElementById(FrameId);
@@ -138,11 +179,13 @@ window.onload = function () {
 								var data = {
 									FrameId: FrameId,
 									type: Byte5,
-									text: '',
+
 								};
 								var dat = JSON.stringify(data);
 								storage.setItem(FrameId, dat);
 								new lamp(FrameId, "new");
+								new lamp2(FrameId, "new");
+
 								break;
 							case "02":
 								// rgb
@@ -183,7 +226,7 @@ window.onload = function () {
 								var data = {
 									FrameId: FrameId,
 									type: Byte5,
-									text: '',
+
 								};
 								var dater = JSON.stringify(data);
 								storage.setItem(FrameId, dater);
@@ -194,7 +237,7 @@ window.onload = function () {
 								var data = {
 									FrameId: FrameId,
 									type: Byte5,
-									text: '',
+
 								};
 								var dat = JSON.stringify(data);
 								storage.setItem(FrameId, dat);
@@ -208,7 +251,7 @@ window.onload = function () {
 								var data = {
 									FrameId: FrameId,
 									type: Byte5,
-									text: '',
+
 								};
 								var dat = JSON.stringify(data);
 								storage.setItem(FrameId, dat);
@@ -221,7 +264,7 @@ window.onload = function () {
 									FrameId: FrameId,
 									num: num,
 									type: Byte5,
-									text: '',
+
 								};
 								var dat = JSON.stringify(data);
 								storage.setItem(FrameId, dat);
@@ -234,7 +277,7 @@ window.onload = function () {
 									FrameId: FrameId,
 									num: num,
 									type: Byte5,
-									text: '',
+
 								};
 								var dater = JSON.stringify(data);
 								storage.setItem(FrameId, dater);
@@ -323,7 +366,7 @@ window.onload = function () {
 								var data = {
 									FrameId: FrameId,
 									type: Byte5,
-									text: '',
+
 								};
 								var dater = JSON.stringify(data);
 								storage.setItem(FrameId, dater);
@@ -340,7 +383,7 @@ window.onload = function () {
 				setTimeout(function () {
 					// 自动重连
 					connect();
-				}, 100);
+				}, 500);
 			}
 		);
 	};
@@ -348,6 +391,7 @@ window.onload = function () {
 	$(function () {
 		connect(); //建立连接
 	});
+
 
 	//面向对象的
 	// 第一部分，按钮
@@ -828,6 +872,12 @@ window.onload = function () {
 		}
 	}
 
+
+
+
+
+
+
 	// 电机
 	function elec(FrameId, Byte0, Byte4, Byte5, Byte6, Byte7, New) {
 		this.oElecOne = document.getElementById("elec_body");
@@ -1047,6 +1097,18 @@ window.onload = function () {
 		var type5 = parseInt(str[1]).toString(16).toUpperCase();
 		var type6 = parseInt(str[2]).toString(16).toUpperCase();
 
+
+
+
+		if (type1.length < 2) {
+			type1 = "0" + type1;
+		}
+		if (type2.length < 2) {
+			type2 = "0" + type2;
+		}
+		if (type3.length < 2) {
+			type3 = "0" + type3;
+		}
 		if (type4.length < 2) {
 			type4 = "0" + type4;
 		}
@@ -1058,8 +1120,8 @@ window.onload = function () {
 		}
 		stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
 			"," + type5 + "," + type6 + "," + type7 + "K");
-		alert("S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 +
-			"," + type7 + "K");
+		// alert("S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 +
+		// 	"," + type7 + "K");
 	});
 
 	// HEX 到 RGB ，注意处理简写“#abc”为“#aabbcc”
@@ -1427,7 +1489,7 @@ window.onload = function () {
 	$(".button_body").on("blur", ".button_small_remark", function () { //按钮
 		var Id = $(this).parents(".button_body_one").attr('id');
 		var oValue = $(this).val();
-					var Byte7 = stringResult[8].substring(0, 2);
+		var Byte7 = stringResult[8].substring(0, 2);
 
 	});
 	$(".rotaryknob_body").on("blur", ".rotaryknob_remark", function () { //旋钮
@@ -1615,53 +1677,27 @@ window.onload = function () {
 		});
 	});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// 自动模式与手动模式
-	var pattern = true;
-	$("#cut").click(function () {
+	$("#cut").click(function () {  //自动
 		location.href = "./Auto.html";
-		// // $(".top_btn2").text("切换为手动");
-		// $(".boy").css("display", "none");
-		// $(".auto").css("display", "block");
-		//    if ($('#cut').text() == "切换为自动") {
-		//        $(".top_btn1").text("当前模式：自动");
-		//        pattern = false;
-		//        // stompClient.disconnect(function() {
-		//        //     console.log('手动模式断开')
-		//        // });
-		//        // setTimeout(function() {
-		//        //     connectSelf(); //建立连接,自动模式
-		//        // }, 1000);
-		//        // console.log('1');
-		//    } else {
-		//        $(".top_btn1").text("当前模式：手动");
-		//        $(".top_btn2").text("切换为自动");
-		//        $(".content").css("display", "block");
-		//        $(".selfmotion").css("display", "none");
-		//        pattern = true;
-		//        // stompClient.disconnect(function() {
-		//        //     console.log("自动模式断开");
-		//        // });
-		//        // connect(); //建立连接,手动模式
-		//    }
+	});
+
+
+	// 全部复位
+	$("#restoration").click(function () {
+
+
+	});
+
+	// 打开复位
+	$("#AllRestoration").click(function () {
+		$(".corer").css("display", "block");
+		$(".Restoration").css("display", "block");
+	});
+
+
+	$(".Restoration_cancel").click(function () {
+		$(".corer").css("display", "none");
+		$(".Restoration").css("display", "none");
 	});
 
 
@@ -1673,133 +1709,6 @@ window.onload = function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// 氛围灯光模式
-
-	var oPattern3btn = document.getElementById("pattern3_btn");
-	var oPattern3State = document.getElementById("patt3_state");
-	var oPattern3Z = document.getElementById("pattern3_z");
-
-	function connectLed() {
-		// 建立连接对象（还未发起连接）
-		var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
-		// 获取 STOMP 子协议的客户端对象
-		stompClient = Stomp.over(socket);
-		// 向服务器发起websocket连接并发送CONNECT帧
-		stompClient.connect({}, function connectCallback(frame) {
-				console.log('[' + frame + ']' + '自动模式：连接成功');
-				stompClient.subscribe('/topic/udp/broadcast', function (response) {
-					// console.log(response.body);
-					var stringResult = response.body.split(',');
-					// console.log(stringResult);
-					var FrameId = stringResult[0].substr(1);
-					var Byte0 = stringResult[1];
-					var Byte1 = stringResult[2];
-					var Byte2 = stringResult[3];
-					var Byte3 = stringResult[4];
-					var Byte4 = stringResult[5];
-					var Byte5 = stringResult[6];
-					var Byte6 = stringResult[7];
-					var Byte7 = stringResult[8].substring(0, stringResult[8].length - 1);
-					// var Byte7 = Byt7.substring(0, Byt7.length - 1);
-					var oYemian = document.getElementById(FrameId);
-					var loca = storage.getItem(FrameId);
-					// console.log(typeof(Byte5));
-					// if (response.body == ) {
-					// }
-					if (Byte0 == "5E") {
-						if (FrameId == "101") {
-							var led1 = true;
-						}
-						if (FrameId == "102") {
-							var led2 = true;
-						}
-					}
-
-					if (led1 == true && led2 == true && led3 == true) {
-						oPattern3Z.classList.add("active");
-						oPattern3btn.style.backgroundColor = "#5B9BD5";
-						oPattern3btn.disabled = false;
-						oPattern3State.innerHTML = "可以启动";
-						// element.style.fontWeight = "bold"
-					}
-				});
-			},
-			// 报错原因
-			function errorCallBack(error) {
-				console.log('连接失败[' + error + ']');
-				setTimeout(function () {
-					// 自动重连
-					connectLed();
-				}, 100);
-			}
-		);
-	};
-	var led1 = false;
-	var led2 = false;
-	var led3 = false;
-	var led4 = false;
-
-	$("#selfer_three").click(function () {
-		connectLed();
-		$(".selfmotion").css("display", "none");
-		$(".Pattern3").css("display", "block");
-		stompClient.send("/app/wu", {}, "S101,5F,00,00,00,00,00,00,00K");
-		setTimeout(function () {
-			stompClient.send("/app/wu", {}, "S102,5F,00,00,00,00,00,00,00K");
-		}, 100);
-		setTimeout(function () {
-			stompClient.send("/app/wu", {}, "S103,5F,00,00,00,00,00,00,00K");
-		}, 200);
-	});
-
-	$(".pattern3_button").click(function () {
-		stompClient.send("/app/wu", {}, "S101,00,00,00,00,00,00,00,00K");
-		$("#pattern3_ico1").addClass("active");
-		setTimeout(function () {
-			stompClient.send("/app/wu", {}, "S102,00,00,00,00,00,00,00,00K");
-			$("#pattern3_ico1").removeClass("active");
-			$("#pattern3_ico2").addClass("active");
-		}, 100);
-		setTimeout(function () {
-			stompClient.send("/app/wu", {}, "S103,00,00,00,00,00,00,00,00K");
-			$("#pattern3_ico1").removeClass("active");
-			$("#pattern3_ico2").addClass("active");
-		}, 200);
-
-
-	});
-	$(".pattern3_tuichu").click(function () {
-		stompClient.disconnect(function () {
-			console.log("自动模式-灯光氛围灯:断开");
-		});
-		var led1 = false;
-		var led2 = false;
-		var led3 = false;
-		var led4 = false;
-		$(".selfmotion").css("display", "block");
-		$(".Pattern3").css("display", "none");
-	});
 
 
 };

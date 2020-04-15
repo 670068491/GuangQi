@@ -125,7 +125,7 @@ body {
 
 .auto .grade {
 	position: absolute;
-	top: 7vw;
+	top: 1vw;
 	left: 24vw;
 	background-color: white;
 	z-index: 20;
@@ -163,11 +163,12 @@ body {
 }
 
 .auto .grade button {
-	margin-top: 1vw;
+	margin-top: 5vw;
+	font-size: 1.4vw;
 	padding: 0.4vw 1vw;
-	background-color: #329AF9;
+	background-color: #1A74C5;
 	color: #FFFFFF;
-	margin-left: 24vw;
+	margin-left: 18vw;
 	outline: 0;
 	border-radius: 4px;
 }
@@ -184,7 +185,7 @@ body {
 
 .auto .code {
 	position: absolute;
-	top: 7vw;
+	top: 2vw;
 	left: 24vw;
 	background-color: white;
 	z-index: 20;

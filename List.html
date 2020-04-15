@@ -6,6 +6,7 @@
 	<title></title>
 </head>
 <link rel="stylesheet" type="text/css" href="./css/reset.css" />
+<link rel="stylesheet" type="text/css" href="./lib/index.css" />
 <link rel="stylesheet" type="text/css" href="./css/List.css" />
 
 <body>
@@ -25,8 +26,137 @@
 			<button type="button" id="Save">保存</button>
 			<button type="button" id="back">返回</button>
 			<button type="button">复位</button>
-			<button type="button">评价系统</button>
+			<button type="button" class="evaluate">评价系统</button>
+			<div class="evaluate_div">
+				<div>
+					<span class="evaluate_div_head">最高分</span>
+					<span class="evaluate_div_head1">最低分</span>
+					<span class="evaluate_div_head1">平均分</span>
+				</div>
+				<div class="evaluate_div_one">
+					<span id="evaluate_div_one1" class="evaluate_div_body0">灯光</span>
+					<span class="evaluate_div_body" id="maxs1">97</span>
+					<span class="evaluate_div_body1" id="mins1">60</span>
+					<span class="evaluate_div_body2" id="avgs1">60</span>
+				</div>
+				<div class="evaluate_div_one">
+					<span id="evaluate_div_one2" class="evaluate_div_body0">灯光</span>
+					<span class="evaluate_div_body" id="maxs2">97</span>
+					<span class="evaluate_div_body1" id="mins2">60</span>
+					<span class="evaluate_div_body2" id="avgs2">60</span>
+				</div>
+				<div class="evaluate_div_one">
+					<span id="evaluate_div_one3" class="evaluate_div_body0">灯光</span>
+					<span class="evaluate_div_body" id="maxs3">97</span>
+					<span class="evaluate_div_body1" id="mins3">60</span>
+					<span class="evaluate_div_body2" id="avgs3">60</span>
+				</div>
+				<div class="evaluate_div_one">
+					<span id="evaluate_div_one4" class="evaluate_div_body0">灯光</span>
+					<span class="evaluate_div_body" id="maxs4">97</span>
+					<span class="evaluate_div_body1" id="mins4">60</span>
+					<span class="evaluate_div_body2" id="avgs4">60</span>
+				</div>
+				<div class="evaluate_div_one">
+					<span id="evaluate_div_one5" class="evaluate_div_body0">灯光</span>
+					<span class="evaluate_div_body" id="maxs5">97</span>
+					<span class="evaluate_div_body1" id="mins5">60</span>
+					<span class="evaluate_div_body2" id="avgs5">60</span>
+				</div>
+				<div class="evaluate_div_one">
+					<span id="evaluate_div_one6" class="evaluate_div_body0">灯光</span>
+					<span class="evaluate_div_body" id="maxs6">97</span>
+					<span class="evaluate_div_body1" id="mins6">60</span>
+					<span class="evaluate_div_body2" id="avgs6">60</span>
+				</div>
+
+
+			</div>
+
+
 		</div>
+
+		<div class="corer"></div>
+		<div class="questionnaire">
+			<div id="app">
+				<div class="questionnaire_head">问卷调查</div>
+				<div class="block">
+					<span class="demonstration">1.<span id="demonstration0">灯光</span>： </span>
+					<el-slider :max=10 v-model="value0" @change="change" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+				</div>
+				<div class="block">
+					<span class="demonstration">2.<span id="demonstration1">音乐</span>： </span>
+					<el-slider :max=10 v-model="value1" @change="change1" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+				</div>
+				<div class="block">
+					<span class="demonstration">3.<span id="demonstration2">台架</span>： </span>
+					<el-slider :max=10 v-model="value2" @change="change2" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+
+				</div>
+				<div class="block">
+					<span class="demonstration">4.<span id="demonstration3">台架</span>： </span>
+					<el-slider :max=10 v-model="value3" @change="change3" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+				</div>
+				<div class="block">
+					<span class="demonstration">5.<span id="demonstration4">台架</span>： </span>
+					<el-slider :max=10 v-model="value4" @change="change4" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+
+				</div>
+				<div class="block">
+					<span class="demonstration">6.<span id="demonstration5">台架</span>： </span>
+					<el-slider :max=10 v-model="value5" @change="change5" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">7.<span class="">姓名</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入姓名" id="ques_inp_input1">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">8.<span class="">年龄</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入年龄" id="ques_inp_input2">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">9.<span class="">性别</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入性别" id="ques_inp_input3">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">9.<span class="">体重</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入体重" id="ques_inp_input4">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">9.<span class="">身高</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入身高" id="ques_inp_input5">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">9.<span class="">电话</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入电话" id="ques_inp_input6">
+
+				</div>
+				<button class="questionnaire_submit">提交</button>
+			</div>
+
+		</div>
+		<div class="List_cover">
+			<div class="cover_span">
+				是否参与调查问卷？
+			</div>
+			<div>
+				<button class="cover_confirm">确定</button>
+				<button class="cover_cancel">取消</button>
+			</div>
+		</div>
+
+
 
 		<div class="node">
 			<!-- <div class="node_one"> -->
@@ -188,11 +318,17 @@
 			</div>
 		</div>
 	</div>
+	<!-- </div> -->
 	<script type="text/javascript" src="./lib/sockjs.min.js"></script>
 	<script type="text/javascript" src="./lib/stomp.min1.js"></script>
 	<script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="./lib/Getparam.js"></script>
+	<script type="text/javascript" src="./lib/vue.js"></script>
+	<script type="text/javascript" src="./lib/index.js"></script>
 	<script type="text/javascript" src="./js/List.js"></script>
+
+	<!-- <script src="//unpkg.com/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/element-ui@2.13.1/lib/index.js"></script> -->
 </body>
 
 </html>

@@ -58,7 +58,63 @@ body {}
 .auto_head {
 	margin-top: 2vw;
 	padding: 1vw 0 0 8vw;
+	position: relative;
 }
+
+/* 平均分 */
+.evaluate_div {
+	position: absolute;
+	top: 3vw;
+	right: 2vw;
+	z-index: 21;
+	background-color: white;
+	padding: 1vw 3vw;
+	color: black;
+	font-size: 1.1vw;
+	display: none;
+}
+
+.evaluate_div_head {
+	margin-left: 6vw;
+}
+
+.evaluate_div_head1 {
+	margin-left: 4vw;
+}
+
+.evaluate_div_one {
+	margin-top: 1.5vw;
+}
+.evaluate_div_body0 {
+	/* margin-left: 4.9vw; */
+	display: inline-block;
+	width: 4vw;
+	text-align: center;
+}
+.evaluate_div_body {
+	/* margin-left: 4.9vw; */
+	display: inline-block;
+	width: 7vw;
+	text-align: center;
+}
+
+.evaluate_div_body1 {
+	/* margin-left: 5.3vw; */
+	display: inline-block;
+	width: 7vw;
+	text-align: center;
+}
+
+.evaluate_div_body2 {
+	display: inline-block;
+	/* margin-left: 5.9vw; */
+	width: 7vw;
+	text-align: center;
+}
+
+
+
+
 
 .head_start {
 	background-color: #898989;
@@ -69,7 +125,7 @@ body {}
 }
 
 .head_stop {
-	background-color: red;
+	background-color: #ff8888;
 	color: white;
 	font-size: 1vw;
 	border-radius: 50%;
@@ -358,7 +414,7 @@ body {}
 
 /* 逻辑点 */
 .node .active2 {
-	background-color: #fffe05;
+	background-color: #7E9875;
 }
 
 .node_small {
@@ -627,4 +683,154 @@ body {}
 	/* mar */
 	/* border: 1px solid #555555; */
 	/* width: 4vw; */
+}
+
+.corer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 19;
+	display: none;
+}
+
+.List_cover {
+	position: fixed;
+	top: 4vw;
+	left: 10vw;
+	width: 80vw;
+	height: 80vh;
+	background-color: white;
+	z-index: 20;
+	display: none;
+
+}
+
+.cover_span {
+	color: #1A74C5;
+	font-size: 1.5vw;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 3vw;
+}
+
+
+.List_cover button {
+	margin-top: 12vw;
+	font-size: 1.4vw;
+	padding: 0.4vw 1vw;
+	background-color: #1A74C5;
+	color: #FFFFFF;
+	margin-left: 25vw;
+	outline: 0;
+	border-radius: 4px;
+}
+
+/* 问卷 */
+.questionnaire {
+	position: absolute;
+	top: 2vw;
+	left: 9vw;
+	width: 78vw;
+	/* height: 80vh; */
+	background-color: white;
+	/* padding: 0 4vw; */
+	padding-left: 4vw;
+	padding-bottom: 4vw;
+	z-index: 20;
+	display: none;
+}
+
+.questionnaire_head {
+	color: #1A74C5;
+	font-size: 1.5vw;
+	/* text-align: center; */
+	font-weight: bold;
+	margin-top: 1vw;
+	margin-left: 31vw;
+}
+
+.block {
+	margin-top: 1.5vw;
+
+}
+
+.demonstration {
+	font-size: 1.35vw;
+	color: black;
+
+}
+
+.valu1 {
+	width: 68vw;
+	margin-left: 2vw;
+	margin-top: 1vw;
+	/* height: 2vw; */
+}
+
+.el-slider__bar {
+	background-color: #FFA220;
+}
+
+.el-slider__button {
+	width: 30px;
+	height: 30px;
+	background-image: url(../img/star.png);
+	background-position: top center;
+	background-size: cover;
+	border: 0px solid #409EFF;
+	background-color: rgba(0, 0, 0, 0);
+	border-radius: 0;
+	-webkit-transition: .2s;
+	transition: .2s;
+	user-select: none;
+}
+
+.el-slider__runway {
+	height: 10px;
+}
+
+.el-slider__bar {
+	height: 10px;
+
+}
+
+.questionnaire_0 {
+	font-size: 1.3vw;
+	color: black;
+	padding-left: 2vw;
+
+}
+
+.questionnaire_10 {
+	padding-left: 65vw;
+	font-size: 1.3vw;
+	color: black;
+}
+
+
+.ques_inp {
+	margin-top: 2vw;
+}
+
+.ques_inp_input {
+	display: block;
+	border: 0;
+	font-size: 1.4vw;
+	width: 20vw;
+	margin-top: 2vw;
+	margin-left: 4vw;
+}
+
+.questionnaire_submit {
+	margin-top: 4vw;
+	font-size: 1.4vw;
+	padding: 0.4vw 1vw;
+	background-color: #1A74C5;
+	color: #FFFFFF;
+	margin-left: 33vw;
+	outline: 0;
+	border-radius: 6px;
 }

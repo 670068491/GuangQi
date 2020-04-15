@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-	</head>
-	<link rel="stylesheet" type="text/css" href="./css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="./css/Auto.css" />
-	<body>
-		<!-- 自动模式 -->
-		<div class="auto">
-			<!-- 头部 -->
-			<div class="auto_top">
-				<div class="auto_top_one">广汽研究院场景模拟平台</div>
-				<div class="auto_top_one2">场景体验列表</div>
-				<div class="auto_top_two">
-					<!-- <span class="top_btn1">当前模式：手动</span> -->
-					<!-- <span class="auto_top_btn1">当前模式：手动</span> -->
-					<span class="auto_top_btn2 top_btn3" id="cut_two">切换为手动</span>
-					<span class="auto_top_btn2" id="cut_three">修改评价标准</span>
-					<span class="auto_top_btn2" id="cut_four">新增场景</span>
 
-				</div>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+<link rel="stylesheet" type="text/css" href="./css/Auto.css" />
+
+<body>
+	<!-- 自动模式 -->
+	<div class="auto">
+		<!-- 头部 -->
+		<div class="auto_top">
+			<div class="auto_top_one">广汽研究院场景模拟平台</div>
+			<div class="auto_top_one2">场景体验列表</div>
+			<div class="auto_top_two">
+				<!-- <span class="top_btn1">当前模式：手动</span> -->
+				<!-- <span class="auto_top_btn1">当前模式：手动</span> -->
+				<span class="auto_top_btn2 top_btn3" id="cut_two">切换为手动</span>
+				<span class="auto_top_btn2" id="cut_three">修改评价标准</span>
+				<span class="auto_top_btn2" id="cut_four">新增场景</span>
+
 			</div>
-			<!-- 列表 -->
-			<div class="auto_body">
-				<!-- <div class="auto_body_one">
+		</div>
+
+
+
+
+		<!-- 列表 -->
+		<div class="auto_body">
+			<!-- <div class="auto_body_one">
 					<span>开门迎宾</span>
 					<span class="autoBodyOneName">设计师:<span>常董青</span></span>
 					<span class="autoBodyOneData">2020-3-25 09:09:30</span>
@@ -32,40 +38,43 @@
 					<button type="button" class="autoBodyOneCopy">复制</button>
 					<button type="button" class="autoBodyOneDelete">删除</button>
 				</div> -->
-			</div>
-			<!-- 评分 -->
-			<div class="grade">
-				<div class="autoGradeSpan">修改评价标准</div>
-				<div class="autoGradeSpan2">点击修改名称</div>
-				<span class="autoGradeOne">标准一: <input type="text"></span>
-				<span class="autoGradeOne">标准二: <input type="text"></span>
-				<span class="autoGradeOne">标准三: <input type="text"></span>
-				<span class="autoGradeOne">标准四: <input type="text"></span>
-				<span class="autoGradeOne">标准五: <input type="text"></span>
-				<button type="button" id="gradeButton">保存</button>
-			</div>
-			<!-- 名称 -->
-			<div class="code" id="code1">
-				<div class="autoCodeSpan">请输入场景名称与设计师名称</div>
-				<span class="autoCodeOne">场景名称:<input type="text" id="CodeSpan1"></span>
-				<span class="autoCodeOne">设计师:<input type="text" id="CodeSpan2"></span>
-				<button type="button" id="codeButton">保存</button>
-			</div>
-			<div class="code" id="code2">
-				<div class="autoCodeSpan">请输入场景名称与设计师名称</div>
-				<span class="autoCodeOne">场景名称:<input type="text" id="CodeSpan3"></span>
-				<span class="autoCodeOne">设计师:<input type="text" id="CodeSpan4"></span>
-				<button type="button" id="codeButton1">保存</button>
-			</div>
-			<div class="cover"></div>
-			<!-- 尾部 -->
-			<div class="bottom">
-				技术支持：上海肩并肩电子科技有限公司
-			</div>
 		</div>
-		<script type="text/javascript" src="./lib/sockjs.min.js"></script>
-		<script type="text/javascript" src="./lib/stomp.min1.js"></script>
-		<script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="./js/Auto.js"></script>
-	</body>
+		<!-- 评分 -->
+		<div class="grade">
+			<div class="autoGradeSpan">修改评价标准</div>
+			<div class="autoGradeSpan2">点击修改名称</div>
+			<span class="autoGradeOne">标准一: <input type="text" id="autoGradeOne1"></span>
+			<span class="autoGradeOne">标准二: <input type="text" id="autoGradeOne2"></span>
+			<span class="autoGradeOne">标准三: <input type="text" id="autoGradeOne3"></span>
+			<span class="autoGradeOne">标准四: <input type="text" id="autoGradeOne4"></span>
+			<span class="autoGradeOne">标准五: <input type="text" id="autoGradeOne5"></span>
+			<span class="autoGradeOne">标准六: <input type="text" id="autoGradeOne6"></span>
+
+			<button type="button" id="gradeButton">保存</button>
+		</div>
+		<!-- 名称 -->
+		<div class="code" id="code1">
+			<div class="autoCodeSpan">请输入场景名称与设计师名称</div>
+			<span class="autoCodeOne">场景名称:<input type="text" id="CodeSpan1"></span>
+			<span class="autoCodeOne">设计师:<input type="text" id="CodeSpan2"></span>
+			<button type="button" id="codeButton">保存</button>
+		</div>
+		<div class="code" id="code2">
+			<div class="autoCodeSpan">请输入场景名称与设计师名称</div>
+			<span class="autoCodeOne">场景名称:<input type="text" id="CodeSpan3"></span>
+			<span class="autoCodeOne">设计师:<input type="text" id="CodeSpan4"></span>
+			<button type="button" id="codeButton1">保存</button>
+		</div>
+		<div class="cover"></div>
+		<!-- 尾部 -->
+		<div class="bottom">
+			技术支持：上海肩并肩电子科技有限公司
+		</div>
+	</div>
+	<script type="text/javascript" src="./lib/sockjs.min.js"></script>
+	<script type="text/javascript" src="./lib/stomp.min1.js"></script>
+	<script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="./js/Auto.js"></script>
+</body>
+
 </html>

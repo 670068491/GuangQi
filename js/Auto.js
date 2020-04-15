@@ -55,12 +55,70 @@ window.onload = function () {
 	$("#cut_three").click(function () {
 		$(".auto .grade").css("display", "block");
 		$(".auto .cover").css("display", "block");
+
+		$.getJSON("http://39.106.47.82/gq/api/getEvaluateName", {
+		}, function (data) {
+			// console.log(data);
+			$("#autoGradeOne1").val(data.resultObject.standard1);
+			$("#autoGradeOne2").val(data.resultObject.standard2);
+			$("#autoGradeOne3").val(data.resultObject.standard3);
+			$("#autoGradeOne4").val(data.resultObject.standard4);
+			$("#autoGradeOne5").val(data.resultObject.standard5);
+			$("#autoGradeOne6").val(data.resultObject.standard6);
+		});
+
+
+
 	});
 
 	$("#gradeButton").click(function () {
-		$(".autoGradeOne input").val('');
-		$(".auto .grade").css("display", "none");
-		$(".auto .cover").css("display", "none");
+		var standard1 = $("#autoGradeOne1").val();
+		var standard2 = $("#autoGradeOne2").val();
+		var standard3 = $("#autoGradeOne3").val();
+		var standard4 = $("#autoGradeOne4").val();
+		var standard5 = $("#autoGradeOne5").val();
+		var standard6 = $("#autoGradeOne6").val();
+
+
+		if (!standard1) {
+			alert('请输入标准一');
+			return;
+		}
+		if (!standard2) {
+			alert('请输入标准二');
+			return;
+		}
+		if (!standard3) {
+			alert('请输入标准三');
+			return;
+		}
+		if (!standard4) {
+			alert('请输入标准四');
+			return;
+		}
+		if (!standard5) {
+			alert('请输入标准五');
+			return;
+		}
+		if (!standard6) {
+			alert('请输入标准六');
+			return;
+		}
+
+		// console.log(standard1);
+		$.getJSON("http://39.106.47.82/gq/api/saveEvaluateName", {
+			standard1: standard1,
+			standard2: standard2,
+			standard3: standard3,
+			standard4: standard4,
+			standard5: standard5,
+			standard6: standard6,
+		}, function (data) {
+			$(".autoGradeOne input").val('');
+			$(".auto .grade").css("display", "none");
+			$(".auto .cover").css("display", "none");
+		});
+
 	});
 	// 新增
 	$("#cut_four").click(function () {
@@ -80,7 +138,9 @@ window.onload = function () {
 		$.getJSON("http://39.106.47.82/gq/api/deleteScene", {
 			sceneId: uid,
 			// action: 'jobcategoryjson'
-		}, function (data) {});
+		}, function (data) {
+			
+		});
 		$(this).parents(".auto_body_one").remove();
 	});
 
@@ -102,6 +162,12 @@ window.onload = function () {
 		$(".auto .cover").css("display", "block");
 		var oId = $(this).siblings('.autoBodyOneDelete').data("id");
 		$('#codeButton1').data("data-id", oId);
+
+
+
+
+
+
 		// console.log(oId);
 	});
 
