@@ -1,7 +1,12 @@
-window.onload = function () {
+window.onload = function() {
 	var storage = window.localStorage;
 	var stompClient = null; //定义全局变量，代表一个session
 	var sceneId = null;
+var myIp ="http://192.168.1.10:8081/gq/api/";
+
+var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
+
+
 
 
 
@@ -15,110 +20,102 @@ window.onload = function () {
 		if (name != "null") {
 			$('.auto_top_two_1').text(name);
 			$('.auto_top_two_3').text(stylist);
-			// uId = 
+
 		}
 		// console.log(uId);
 	}
 
-	$(function () {
+	$(function() {
 		GainName(); //获取链接里的名称
 		connect(); //建立连接
 		initData(); //初始化数据
 		drawHtml(); //初始化界面
-
-
-
 	});
 
 
 
-	$("#back").click(function () { //返回
+	$("#back").click(function() { //返回
 		location.href = "./Auto.html";
 	});
 
 
 
 
-
-
-	$(".lib").click(function () { // 元件库
+	$(".lib").click(function() { // 元件库
 		$(".library").animate({
 			opacity: 1
-		}, "slow", function () {
+		}, "slow", function() {
 			$(".library").animate({
 				width: "16vw",
 				height: '100%'
-			}, "slow", function () {})
+			}, "slow", function() {})
 		})
 		// $(".library").stop(true).slideDown("slow");
 	});
 
-	$(".library_Back").click(function () {
+	$(".library_Back").click(function() {
 		// $(".library").stop(true).fadeOut("slow");
 		$(".library").animate({
 			width: "0vw",
 			height: '0vw'
-		}, "slow", function () {
+		}, "slow", function() {
 			$(".library").animate({
 				opacity: 0
-			}, "slow", function () {})
+			}, "slow", function() {})
 		})
-		// $(".library").delay(600).animate({
-		// 	opacity: 0
-		// }, 200);
 
 	});
 
 	var pack1 = true;
-	$("#pack1").click(function () {
+	$("#pack1").click(function() {
 		if (pack1) {
 			$("#library_body_body1").animate({
 				height: "0.1vw"
-			}, "slow", function () {})
+			}, "slow", function() {})
 			pack1 = false;
 		} else {
 			$("#library_body_body1").animate({
 				height: "100%"
-			}, "slow", function () {});
+			}, "slow", function() {});
 			pack1 = true;
 		}
 	});
 
 	var pack2 = true; //元件库  电机
-	$("#pack2").click(function () {
+	$("#pack2").click(function() {
 		if (pack2) {
 			$("#library_body_body2").animate({
 				height: "0.1vw"
-			}, "slow", function () {})
+			}, "slow", function() {})
 			pack2 = false;
 		} else {
 			$("#library_body_body2").animate({
 				height: "100%"
-			}, "slow", function () {});
+			}, "slow", function() {});
 			pack2 = true;
 		}
 	});
 	var pack3 = true; //元件库  输入信号
-	$("#pack3").click(function () {
+	$("#pack3").click(function() {
 		if (pack3) {
 			$("#library_body_body3").animate({
 				height: "0.1vw"
-			}, "slow", function () {})
+			}, "slow", function() {})
 			pack3 = false;
 		} else {
 			$("#library_body_body3").animate({
 				height: "100%"
-			}, "slow", function () {});
+			}, "slow", function() {});
 			pack3 = true;
 		}
 	});
 	var oEvaluate = true;
-	$(".evaluate").click(function () {
+	$(".evaluate").click(function() {
 
 		if (oEvaluate) {
 			oEvaluate = false;
 			$(".evaluate_div").css("display", "block");
-			$.getJSON("http://39.106.47.82/gq/api/getEvaluateName", {}, function (data) {
+			$.getJSON(myIp+"", {}, function(data) {
 				console.log(data);
 				$('#evaluate_div_one1').text(data.resultObject.standard1);
 				$('#evaluate_div_one2').text(data.resultObject.standard2);
@@ -127,9 +124,9 @@ window.onload = function () {
 				$('#evaluate_div_one5').text(data.resultObject.standard5);
 				$('#evaluate_div_one6').text(data.resultObject.standard6);
 			});
-			$.getJSON("http://39.106.47.82/gq/api/getEvaluate", {
+			$.getJSON(port, {
 				sceneId: sceneId,
-			}, function (data) {
+			}, function(data) {
 				console.log(data);
 				$('#maxs1').text(data.resultObject.maxs1);
 				$('#mins1').text(data.resultObject.mins1);
@@ -399,7 +396,8 @@ window.onload = function () {
 	function drawLogic() {
 		console.log(logicList);
 		// console.log(logicList[presentNodeIndex].signalType[0].text);
-		var htmlStr = `<div class="points_signal">
+		var htmlStr =
+			`<div class="points_signal">
 		                  <div class="button_body_one">
 			                 <input type="text" name="" class="button_remark" value="${logicList[presentNodeIndex].signalType.split(",")[2]}" readOnly="true">
 			                 <span class="button_body_one_span">ID:
@@ -407,7 +405,8 @@ window.onload = function () {
 							 </span>
 						   <div class="button_body_one_one">`
 		for (var i = 0; i < logicList[presentNodeIndex].signalType.split(",")[0]; i++) {
-			htmlStr += ` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1]+[i]}">
+			htmlStr +=
+				` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1]+[i]}">
 							                      <div class="button_body_one_btn_circle"></div>
 						                    </div>  `
 			// console.log('1');
@@ -441,7 +440,7 @@ window.onload = function () {
 
 
 	//节点增加
-	$("#plus").click(function () {
+	$("#plus").click(function() {
 		nodeIndex++;
 
 		var node = {};
@@ -497,7 +496,8 @@ window.onload = function () {
 			         <div class="strip_one">
 			         </div>
 			     </div>
-			</div>`);
+			</div>`
+		);
 		$(".node").append($One);
 	});
 
@@ -577,7 +577,7 @@ window.onload = function () {
 
 	// NodeIndex
 	//元件库 添加进节点   //灯光
-	$("#library_body_body1").on("click", ".library_body_body_one", function () {
+	$("#library_body_body1").on("click", ".library_body_body_one", function() {
 		if ($(".node_small").hasClass('active')) {
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
@@ -601,7 +601,7 @@ window.onload = function () {
 		// $(".active").find(".strip_one").append($One);
 	});
 	//电机
-	$("#library_body_body2").on("click", ".library_body_body_one", function () {
+	$("#library_body_body2").on("click", ".library_body_body_one", function() {
 		if ($(".node_small").hasClass('active')) {
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
@@ -611,7 +611,7 @@ window.onload = function () {
 	});
 
 	//逻辑点添加进 界面
-	$("#library_body_body3").on("click", ".library_body_body_one", function () {
+	$("#library_body_body3").on("click", ".library_body_body_one", function() {
 		if ($(".logic").hasClass('active2')) {
 			var Index = $(".active2").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
@@ -629,7 +629,7 @@ window.onload = function () {
 
 
 	//逻辑点  设置01 
-	$(".node").on("click", ".button_body_one_btn_circle", function () {
+	$(".node").on("click", ".button_body_one_btn_circle", function() {
 		var flag = $(this).hasClass("active3");
 		$(".node div").removeClass("active3");
 		$(".logic select").remove();
@@ -653,7 +653,7 @@ window.onload = function () {
 
 
 	// 事件委托，灯光保存
-	$(".node").on("click", ".lamp_send", function () {
+	$(".node").on("click", ".lamp_send", function() {
 		var id = $(this).parents(".lamp_body_one").attr('id');
 		var type0 = $(this).siblings(".lamp_xuanxiang").val();
 		var type1 = $(this).siblings(".liudong").val();
@@ -699,7 +699,8 @@ window.onload = function () {
 		var nodeId = $(this).parents(".node_small").attr('id').substring(1);
 		// console.log($(this).attr("data-index"));
 		// console.log(nodeId);
-		nodeList[nodeId].deviceList[arrindex].deviceValue = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 + "," + type7 + "K";
+		nodeList[nodeId].deviceList[arrindex].deviceValue = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
+			"," + type5 + "," + type6 + "," + type7 + "K";
 
 		console.log(nodeList);
 		// stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
@@ -737,33 +738,33 @@ window.onload = function () {
 
 	// 电机发送
 	var elecSet; //前进
-	$(".node").on("mousedown", ".elec_up", function () {
+	$(".node").on("mousedown", ".elec_up", function() {
 		var id = $(this).parents(".elec_body_one").attr('id');
 		$(this).css("background-color", "pink");
-		elecSet = setInterval(function () {
+		elecSet = setInterval(function() {
 			stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10,50K");
 		}, 100);
 		// console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
 	});
-	$(".node").on("mouseup", ".elec_up", function () {
+	$(".node").on("mouseup", ".elec_up", function() {
 		clearInterval(elecSet);
 		$(this).css("background-color", "#5b9bd5");
 	});
 	var elecSetDown; //后退
-	$(".node").on("mousedown", ".elec_down", function () {
+	$(".node").on("mousedown", ".elec_down", function() {
 		var id = $(this).parents(".elec_body_one").attr('id');
 		$(this).css("background-color", "pink");
-		elecSetDown = setInterval(function () {
+		elecSetDown = setInterval(function() {
 			stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10,50K");
 		}, 50)
 	});
-	$(".node").on("mouseup", ".elec_down", function () {
+	$(".node").on("mouseup", ".elec_down", function() {
 		clearInterval(elecSetDown);
 		$(this).css("background-color", "#5b9bd5");
 	});
 
 	//电机位置保存
-	$(".node").on("click", ".elec_save", function () {
+	$(".node").on("click", ".elec_save", function() {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		var oIdCov = $(this).siblings('.elec_cover').val();
 		var list = $('input:radio[name=' + Id + ']:checked').val();
@@ -779,7 +780,7 @@ window.onload = function () {
 		}
 	});
 	// 逻辑点保存
-	$(".node").on("click", ".points_save", function () {
+	$(".node").on("click", ".points_save", function() {
 		// var index = $(this).parents().siblings('.points_signal').
 		var smallIndex = $(".active3").parents('.button_body_one_btn').attr('id').substring(3);
 		var index = $(this).parents('.logic').attr('id').substr(1);
@@ -850,7 +851,7 @@ window.onload = function () {
 
 
 	// 延迟改变
-	$(".node").on("blur", ".points_delay_inp", function () {
+	$(".node").on("blur", ".points_delay_inp", function() {
 		var oVal = parseInt($(this).val());
 		var index = $(this).parents('.logic').attr('id').substr(1);
 		logicList[index].delay = oVal;
@@ -888,7 +889,7 @@ window.onload = function () {
 	// 添加逻辑与节点
 
 	// 节点上箭头
-	$(".strip").on("click", ".strip_head_img", function () {
+	$(".strip").on("click", ".strip_head_img", function() {
 		// var oheight = $(this).parents('.strip').height();
 		// console.log(oheight);
 		// $(".active").find(".strip_one").append($One);
@@ -915,7 +916,7 @@ window.onload = function () {
 	});
 
 	// 节点变色
-	$(".node").on("click", ".string_span", function () {
+	$(".node").on("click", ".string_span", function() {
 		// console.log($(this));
 		var flag = $(this).parents(".node_small").hasClass("active");
 		$(".node div").removeClass("active");
@@ -927,7 +928,7 @@ window.onload = function () {
 
 	});
 	// 逻辑点变色
-	$(".node").on("click", ".logic_span", function () {
+	$(".node").on("click", ".logic_span", function() {
 		var flag = $(this).parents(".logic").hasClass("active2");
 		$(".node div").removeClass("active2");
 		if (flag) {
@@ -951,10 +952,10 @@ window.onload = function () {
 	 * 启动功能
 	 */
 
-	$("#start").click(function () { //启动
+	$("#start").click(function() { //启动
 		// $(this).css()
 		$(this).css("background-color", "#0077ff");
-		setTimeout(function () {
+		setTimeout(function() {
 			$("#start").css("background-color", "#898989");
 		}, 1000);
 
@@ -997,7 +998,7 @@ window.onload = function () {
 			if (logicList[currentIndex].signalType != '') {
 				logicId = logicList[currentIndex].signalType.split(",")[1]; //逻辑的ID  门
 			} else {
-				setTimeout(function () {
+				setTimeout(function() {
 					currentIndex++;
 					isLogic();
 				}, delay * 1000);
@@ -1012,7 +1013,7 @@ window.onload = function () {
 			for (var i = 0; i < logicMap.length; i++) {
 				if (logicMap[i].id == logicId) {
 					if (logicValue == logicMap[i].value) {
-						setTimeout(function () {
+						setTimeout(function() {
 							currentIndex++;
 							isLogic();
 						}, delay * 1000);
@@ -1031,10 +1032,10 @@ window.onload = function () {
 	}
 
 
-	$("#Stop").click(function () { //停止
+	$("#Stop").click(function() { //停止
 		stop();
 		$(this).css("background-color", "red");
-		setTimeout(function () {
+		setTimeout(function() {
 			$("#Stop").css("background-color", "#ff8888");
 		}, 1000);
 	});
@@ -1048,12 +1049,12 @@ window.onload = function () {
 		if (!isAction) {
 			return;
 		}
-		setTimeout(function () {
-			//从页面获取
+		setTimeout(function() {
+			//从页面获取signalValue
 			var logicValue = logicList[currentIndex].signalValue; //逻辑信号
 			// var 
 			var logicId;
-			if (logicList[currentIndex].signalType!='') {
+			if (logicList[currentIndex].signalType != '') {
 				logicId = logicList[currentIndex].signalType.split(",")[1]; //逻辑的ID  门
 			}
 
@@ -1061,7 +1062,7 @@ window.onload = function () {
 			for (var i = 0; i < logicMap.length; i++) {
 				if (logicMap[i].id == logicId) {
 					if (logicValue == logicMap[i].value) {
-						setTimeout(function () {
+						setTimeout(function() {
 							currentIndex++;
 							isLogic();
 						}, delay * 1000);
@@ -1084,7 +1085,8 @@ window.onload = function () {
 		for (var i = 0; i < nodeList[currentIndex].deviceList.length; i++) {
 			console.log(nodeList);
 			// console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
-			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
+			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[
+				i].deviceValue);
 		}
 	}
 
@@ -1095,7 +1097,7 @@ window.onload = function () {
 
 
 	//保存
-	$("#Save").click(function () {
+	$("#Save").click(function() {
 		save();
 		// console.log('1');
 	});
@@ -1104,11 +1106,11 @@ window.onload = function () {
 		console.log(JSON.stringify(nodeList));
 		console.log(JSON.stringify(logicList));
 
-		$.getJSON("http://39.106.47.82/gq/api/saveSceneInfo", {
+		$.getJSON("http://192.168.1.10:8081/gq/api/saveSceneInfo", {
 			sceneId: sceneId,
 			nodeList: JSON.stringify(nodeList),
 			logicList: JSON.stringify(logicList),
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 
@@ -1120,16 +1122,16 @@ window.onload = function () {
 
 
 	// 取消
-	$(".cover_cancel").click(function () {
+	$(".cover_cancel").click(function() {
 		$(".List .corer").css("display", "none");
 		$(".List .List_cover").css("display", "none");
 	});
 
 	// 确定
-	$(".cover_confirm").click(function () {
+	$(".cover_confirm").click(function() {
 		$(".List .List_cover").css("display", "none");
 		$(".List .questionnaire").css("display", "block");
-		$.getJSON("http://39.106.47.82/gq/api/getEvaluateName", {}, function (data) {
+		$.getJSON("http://192.168.1.10:8081/gq/api/getEvaluateName", {}, function(data) {
 			console.log(data);
 			$('#demonstration0').text(data.resultObject.standard1);
 			$('#demonstration1').text(data.resultObject.standard2);
@@ -1187,7 +1189,7 @@ window.onload = function () {
 
 
 
-	$(".questionnaire_submit").click(function () {
+	$(".questionnaire_submit").click(function() {
 		var name = $("#ques_inp_input1").val();
 		var age = $("#ques_inp_input2").val();
 		var sex = $("#ques_inp_input3").val();
@@ -1197,7 +1199,7 @@ window.onload = function () {
 		// console.log(standard1);
 
 
-		$.getJSON("http://39.106.47.82/gq/api/saveEvaluate", {
+		$.getJSON("http://192.168.1.10:8081/gq/api/saveEvaluate", {
 			sceneId: sceneId,
 			standard1: standard1,
 			standard2: standard2,
@@ -1212,7 +1214,7 @@ window.onload = function () {
 			height: height,
 			phone: phone,
 
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 
 
@@ -1236,16 +1238,16 @@ window.onload = function () {
 	function connect() {
 		// console.log('1');
 		// 建立连接对象（还未发起连接）
-		var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
-		// var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
+		// var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
+		var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
 		// var socket = new WebSocket("ws://192.168.1.241:8080/webSocketEndPoint");
 		stompClient = Stomp.over(socket); // 获取 STOMP 子协议的客户端对象
 		stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
 				// 连接成功时（服务器响应 CONNECTED web帧）的回调方法
 				console.log('[' + frame + ']' + '手动模式：连接成功');
-				stompClient.subscribe('/topic/udp/broadcast', function (response) {
+				stompClient.subscribe('/topic/udp/broadcast', function(response) {
 					// stompClient.subscribe('/topic/socket/201', function (response) {
-					console.log(response.body + " " + new Date().getTime());
+					// console.log(response.body + " " + new Date().getTime());
 					var stringResult = response.body.split(',');
 					// 转为数组输出[123,456,789];
 					// console.log(stringResult);
@@ -1259,21 +1261,24 @@ window.onload = function () {
 					var Byte6 = stringResult[7];
 					var Byte7 = stringResult[8].substring(0, 2);
 
-					var oHtmlId = document.getElementById(FrameId);
+					var id = "0X" + FrameId;
+					
+					// var oHtmlId = document.getElementById(id);
 					var loca = storage.getItem(FrameId);
 					//console.log(typeof(Byte5));
 					//判断新旧id  /  页面不存在  新id 
 					//逻辑信号保存到全局变量 TODO
 					//是否使逻辑信号
 					//假设 收到的是逻辑信号  byte0 是 信号值
-
-					if (!oHtmlId) {
+					// console.log(oHtmlId);
+				
+					if (!document.getElementById(id)) {
 						if (loca) {
 							// console.log('1');
 							var locaObj = JSON.parse(loca);
 							var Type = locaObj.type;
 							// var LByte4 = locaObj.Byte4;
-							console.log(locaObj.type);
+							// console.log(locaObj.type);
 							switch (Type) {
 								case "01": // 流水灯
 									new lamp(FrameId);
@@ -1291,27 +1296,25 @@ window.onload = function () {
 									new button(FrameId, num);
 									break;
 								default:
-									console.log("没有此类型");
+									// console.log("没有此类型");
 									break;
 							}
-
-
 						}
 					}
 
 
-
-
 					for (var i = 0; i < logicMap.length; i++) {
 						if (logicMap[i].id == FrameId) {
-							logicMap[i].value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' + Byte6 + ',' + Byte7;
+							logicMap[i].value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' +
+								Byte6 + ',' + Byte7;
 							return;
 						}
 					}
 
 					var temp = {};
 					temp.id = FrameId;
-					temp.value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' + Byte6 + ',' + Byte7;
+					temp.value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' + Byte6 + ',' +
+						Byte7;
 					logicMap.push(temp);
 
 
@@ -1351,7 +1354,7 @@ window.onload = function () {
 			function errorCallBack(error) {
 				// 连接失败时（服务器响应 ERROR 帧）的回调方法
 				console.log('连接失败[' + error + ']');
-				setTimeout(function () {
+				setTimeout(function() {
 					// 自动重连
 					connect();
 				}, 100);
@@ -1367,7 +1370,7 @@ window.onload = function () {
 	}
 	lamp.prototype = {
 		constructor: lamp,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = '0X' + self.FrameId;
@@ -1377,9 +1380,9 @@ window.onload = function () {
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
 			// console.log(Id);
-			$.getJSON("http://39.106.47.82/gq/api/getRemark", {
+			$.getJSON("http://192.168.1.10:8081/gq/api/getRemark", {
 				deviceId: self.FrameId,
-			}, function (data) {
+			}, function(data) {
 				// console.log(data);
 				if (data.resultObject.length == 0) { // 修饰元素
 					oBig.innerHTML = '<span>id:' + Id + '</span> <span></span>'
@@ -1401,7 +1404,7 @@ window.onload = function () {
 	}
 	elec.prototype = {
 		constructor: elec,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = '0X' + self.FrameId;
@@ -1409,9 +1412,9 @@ window.onload = function () {
 			var oBig = document.createElement("div"); // 创建元素
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
-			$.getJSON("http://39.106.47.82/gq/api/getRemark", {
+			$.getJSON("http://192.168.1.10:8081/gq/api/getRemark", {
 				deviceId: self.FrameId,
-			}, function (data) {
+			}, function(data) {
 				// console.log(data);
 				if (data.resultObject.length == 0) { // 修饰元素
 					oBig.innerHTML = '<span>id:' + Id + '</span> <span></span>'
@@ -1435,7 +1438,7 @@ window.onload = function () {
 	}
 	button.prototype = {
 		constructor: button,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = '0X' + self.FrameId;
@@ -1443,9 +1446,9 @@ window.onload = function () {
 			var oBig = document.createElement("div"); // 创建元素
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
-			$.getJSON("http://39.106.47.82/gq/api/getRemark", {
+			$.getJSON("http://192.168.1.10:8081/gq/api/getRemark", {
 				deviceId: self.FrameId,
-			}, function (data) {
+			}, function(data) {
 				// console.log(data);
 				if (data.resultObject.length == 0) { // 修饰元素
 					oBig.innerHTML = '<span>id:' + Id + '</span> <span class="lib_span"></span>'

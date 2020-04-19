@@ -7,7 +7,7 @@ window.onload = function () {
 		// 	console.log(result)
 		// 	// $("span").html(result);
 		// });
-		$.getJSON("http://39.106.47.82/gq/api/getSceneList", {
+		$.getJSON("http://192.168.1.10:8081/gq/api/getSceneList", {
 			// id: 0,
 			// action: 'jobcategoryjson'
 		}, function (data) {
@@ -56,7 +56,7 @@ window.onload = function () {
 		$(".auto .grade").css("display", "block");
 		$(".auto .cover").css("display", "block");
 
-		$.getJSON("http://39.106.47.82/gq/api/getEvaluateName", {
+		$.getJSON("http://192.168.1.10:8081/gq/api/getEvaluateName", {
 		}, function (data) {
 			// console.log(data);
 			$("#autoGradeOne1").val(data.resultObject.standard1);
@@ -106,7 +106,7 @@ window.onload = function () {
 		}
 
 		// console.log(standard1);
-		$.getJSON("http://39.106.47.82/gq/api/saveEvaluateName", {
+		$.getJSON("http://192.168.1.10:8081/gq/api/saveEvaluateName", {
 			standard1: standard1,
 			standard2: standard2,
 			standard3: standard3,
@@ -135,7 +135,7 @@ window.onload = function () {
 	$(".auto_body").on("click", ".autoBodyOneDelete", function () {
 		var uid = $(this).data("id");
 		// console.log(uid);
-		$.getJSON("http://39.106.47.82/gq/api/deleteScene", {
+		$.getJSON("http://192.168.1.10:8081/gq/api/deleteScene", {
 			sceneId: uid,
 			// action: 'jobcategoryjson'
 		}, function (data) {
@@ -206,7 +206,7 @@ window.onload = function () {
 		$("#CodeSpan2").val("");
 		// $(".auto .code").css("display", "none");
 		// $(".auto .cover").css("display", "none");
-		$.getJSON("http://39.106.47.82/gq/api/saveScene", {
+		$.getJSON("http://192.168.1.10:8081/gq/api/saveScene", {
 			name: name,
 			designer: stylist
 			// action: 'jobcategoryjson'

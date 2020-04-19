@@ -1,7 +1,8 @@
-window.onload = function () {
+window.onload = function() {
 	var storage = window.localStorage;
 	//定义全局变量，代表一个session
 	var stompClient = null;
+	var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 	// var oBtn = document.getElementById("btn");
 	// var oX = document.getElementsByClassName("button_body_one_span")[0];
 	// var box2 = document.getElementsByTagName('button_body_one_btn_circle');
@@ -89,81 +90,83 @@ window.onload = function () {
 	function connect() {
 		// console.log('1');
 		// 建立连接对象（还未发起连接）
-		var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
-		// var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
+		// var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
+		var socket = new WebSocket("ws://192.168.1.10:8080/webSocketEndPoint");
 		// var socket = new WebSocket("ws://192.168.1.241:8080/webSocketEndPoint");
 		stompClient = Stomp.over(socket); // 获取 STOMP 子协议的客户端对象
 		stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
 				// 连接成功时（服务器响应 CONNECTED web帧）的回调方法
 				console.log('[' + frame + ']' + '手动模式：连接成功');
-				stompClient.subscribe('/topic/udp/broadcast', function (response) {
+				stompClient.subscribe('/topic/udp/broadcast', function(response) {
 					// stompClient.subscribe('/topic/socket/201', function (response) {
 					console.log(response.body);
 					var stringResult = response.body.split(',');
 					// 转为数组输出[123,456,789];
 					// console.log(stringResult);
-					// var FrameId = stringResult[0].substr(1);
-					// var Byte0 = stringResult[1];
-					// var Byte1 = stringResult[2];
-					// var Byte2 = stringResult[3];
-					// var Byte3 = stringResult[4];
-					// var Byte4 = stringResult[5];
-					// var Byte5 = stringResult[6];
-					// var Byte6 = stringResult[7];
-					// var Byte7 = stringResult[8].substring(0, 2);
+					var FrameId = stringResult[0].substr(1);
+					var Byte0 = stringResult[1];
+					var Byte1 = stringResult[2];
+					var Byte2 = stringResult[3];
+					var Byte3 = stringResult[4];
+					var Byte4 = stringResult[5];
+					var Byte5 = stringResult[6];
+					var Byte6 = stringResult[7];
+					var Byte7 = stringResult[8].substring(0, 2);
 
-					var FrameId;
-					var Byte0;
-					var Byte1;
-					var Byte2;
-					var Byte3;
-					var Byte4;
-					var Byte5;
-					var Byte6;
-					var Byte7;
+					// var FrameId;
+					// var Byte0;
+					// var Byte1;
+					// var Byte2;
+					// var Byte3;
+					// var Byte4;
+					// var Byte5;
+					// var Byte6;
+					// var Byte7;
 
-					if (stringResult[0]) {
-						FrameId = stringResult[0].substr(1);
-					}
-					if (stringResult[1]) {
-						Byte0 = stringResult[1];
-					}
-					if (stringResult[2]) {
-						Byte1 = stringResult[2];
-					}
-					if (stringResult[3]) {
-						Byte2 = stringResult[3];
-					}
-					if (stringResult[4]) {
-						Byte3 = stringResult[4];
-					}
-					if (stringResult[5]) {
-						Byte4 = stringResult[5];
-					}
-					if (stringResult[6]) {
-						Byte5 = stringResult[6];
-					}
-					if (stringResult[7]) {
-						Byte6 = stringResult[7];
-					}
-					if (stringResult[8]) {
-						Byte7 = stringResult[8].substring(0, 2);
-					}
+					// if (stringResult[0]) {
+					// 	FrameId = stringResult[0].substr(1);
+					// }
+					// if (stringResult[1]) {
+					// 	Byte0 = stringResult[1];
+					// }
+					// if (stringResult[2]) {
+					// 	Byte1 = stringResult[2];
+					// }
+					// if (stringResult[3]) {
+					// 	Byte2 = stringResult[3];
+					// }
+					// if (stringResult[4]) {
+					// 	Byte3 = stringResult[4];
+					// }
+					// if (stringResult[5]) {
+					// 	Byte4 = stringResult[5];
+					// }
+					// if (stringResult[6]) {
+					// 	Byte5 = stringResult[6];
+					// }
+					// if (stringResult[7]) {
+					// 	Byte6 = stringResult[7];
+					// }
+					// if (stringResult[8]) {
+					// 	Byte7 = stringResult[8].substring(0, 2);
+					// }
 
 					// console.log(Byte5);
 
 					// var Byte7 = stringResult[8].substring(0, stringResult[8].length - 1);
 					// var Byte7 = Byt7.substring(0, Byt7.length - 1);
-					var oYemian = document.getElementById(FrameId);
+					// var oYemian = document.getElementById(FrameId);
 					var loca = storage.getItem(FrameId);
 					// console.log(typeof(Byte5));
 					// 判断新旧id  /  页面不存在  新id 
-					if (!oYemian && Byte0 != '5E' && Byte0 != '5F') {
+					if (!document.getElementById(FrameId) && Byte0 != '5E' && Byte0 != '5F') {
 						// 发送出去
 						// console.log(stringResult);
+						// setTimeout(function() {
 						stompClient.send("/app/wu", {}, "S" + FrameId + ",5F,00,00,00,00,00,00,00K");
+						// }, 500);
 						// console.log('发送');
-					} else if (!oYemian && Byte0 == '5E') { // 返回的类型 与 数量
+					} else if (!document.getElementById(FrameId) && Byte0 == '5E') { // 返回的类型 与 数量
 						// var data = {
 						//     FrameId: FrameId,
 						//     // num: num,
@@ -179,41 +182,27 @@ window.onload = function () {
 								var data = {
 									FrameId: FrameId,
 									type: Byte5,
-
 								};
 								var dat = JSON.stringify(data);
 								storage.setItem(FrameId, dat);
 								new lamp(FrameId, "new");
-								new lamp2(FrameId, "new");
-
+								// new lamp2(FrameId, "new");
 								break;
 							case "02":
 								// rgb
 								break;
 							case "03":
 								// 按钮
-								var num = parseInt(Byte4, 16);
-								// if (loca) {
-								// 	var locaObj = JSON.parse(loca);
-								// 	var text = locaObj.text;
-								// 	var data = {
-								// 		FrameId: FrameId,
-								// 		num: num,
-								// 		type: Byte5,
-								// 		text: text,
-								// 	};
-								// 	var dater = JSON.stringify(data);
-								// 	storage.setItem(FrameId, dater);
-								// } else {
+								// var num = parseInt(Byte4, 16);
 								var data = {
 									FrameId: FrameId,
-									num: num,
+									num: parseInt(Byte4, 16),
 									type: Byte5,
 								};
 								var dater = JSON.stringify(data);
 								storage.setItem(FrameId, dater);
-								// }
-								new button(FrameId, num, Byte5, Byte6, Byte7, "new");
+
+								new button(FrameId, Byte4, Byte5, Byte6, Byte7, "new");
 								break;
 							case "04":
 								//点阵控制板
@@ -287,7 +276,7 @@ window.onload = function () {
 								console.log("没有此类型");
 								break;
 						}
-					} else if (oYemian) {
+					} else if (document.getElementById(FrameId)) {
 						// 刷新状态
 						var locaObj = JSON.parse(loca);
 						var Type = locaObj.type;
@@ -304,8 +293,10 @@ window.onload = function () {
 							case "03":
 								// 按钮
 								if (Byte0 == '5B') {
+									// var locaObj = JSON.parse(loca);
+									// var num = locaObj.num;
 									// console.log('old');
-									new button(FrameId, Byte5, Byte6, Byte7, "old");
+									new button(FrameId, Byte4, Byte5, Byte6, Byte7, "old");
 								}
 								break;
 							case "04":
@@ -346,7 +337,7 @@ window.onload = function () {
 						}
 					}
 				});
-				stompClient.subscribe('/topic/websocket/broadcast', function (response) {
+				stompClient.subscribe('/topic/websocket/broadcast', function(response) {
 					var stringResult = response.body.split(',');
 					// console.log(stringResult);
 					var FrameId = stringResult[0].substr(1);
@@ -380,7 +371,7 @@ window.onload = function () {
 			function errorCallBack(error) {
 				// 连接失败时（服务器响应 ERROR 帧）的回调方法
 				console.log('连接失败[' + error + ']');
-				setTimeout(function () {
+				setTimeout(function() {
 					// 自动重连
 					connect();
 				}, 500);
@@ -388,17 +379,18 @@ window.onload = function () {
 		);
 	};
 
-	$(function () {
+	$(function() {
 		connect(); //建立连接
 	});
 
 
 	//面向对象的
 	// 第一部分，按钮
-	function button(FrameId, num, Byte5, Byte6, Byte7, New) {
+	function button(FrameId, Byte4, Byte5, Byte6, Byte7, New) {
 		this.oBtnOne = document.getElementById("button_body");
 		this.FrameId = FrameId;
-		this.Byte4 = num;
+		this.Byte4 = parseInt(Byte4, 16);
+
 		this.Byte5 = parseInt(Byte5, 16);
 		this.Byte6 = parseInt(Byte6, 16);
 		this.Byte7 = parseInt(Byte7, 16);
@@ -407,7 +399,7 @@ window.onload = function () {
 	};
 	button.prototype = {
 		constructor: button,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -425,33 +417,41 @@ window.onload = function () {
 				oBig.setAttribute("id", Id);
 				var oId = Id + 'i';
 				var oOof = Id + 'a';
-				$.getJSON("http://39.106.47.82/gq/api/getRemark", {
-					deviceId: Id,
-				}, function (data) {
-					console.log(data);
-					if (data.resultObject.length == 0) { // 修饰元素
-						// htmlStr += `<div class="button_body_one" id="${Id}">    </div>`;
-						oBig.innerHTML =
-							'<input type="text" name="" class="button_remark" value=""><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' +
-							oOof + '>0x' + Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
-						// console.log('1');
-						self.oBtnOne.appendChild(oBig);
 
-					} else {
-						text = data.resultObject[0].deviceValue;
-						oBig.innerHTML =
-							'<input type="text" name="" class="button_remark" value=' + text +
-							'><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' + oOof + '>0x' +
-							Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
-						self.oBtnOne.appendChild(oBig);
+				oBig.innerHTML =
+					'<input type="text" name="" class="button_remark" value=""><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' +
+					oOof + '>0x' + Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
+				// console.log('1');
+				self.oBtnOne.appendChild(oBig);
 
-					}
 
-				});
+				// $.getJSON("http://39.106.47.82/gq/api/getRemark", {
+				// 	deviceId: Id,
+				// }, function(data) {
+				// 	console.log(data);
+				// 	if (data.resultObject.length == 0) { // 修饰元素
+				// 		// htmlStr += `<div class="button_body_one" id="${Id}">    </div>`;
+				// 		oBig.innerHTML =
+				// 			'<input type="text" name="" class="button_remark" value=""><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' +
+				// 			oOof + '>0x' + Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
+				// 		// console.log('1');
+				// 		self.oBtnOne.appendChild(oBig);
+
+				// 	} else {
+				// 		text = data.resultObject[0].deviceValue;
+				// 		oBig.innerHTML =
+				// 			'<input type="text" name="" class="button_remark" value=' + text +
+				// 			'><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' + oOof + '>0x' +
+				// 			Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
+				// 		self.oBtnOne.appendChild(oBig);
+
+				// 	}
+
+				// });
 				// console.log('1');
 
 				// console.log(typeof(this.Lbyte4) );
-				setTimeout(function () {
+				setTimeout(function() {
 					for (var i = 0; i < Lbyte4Lenght; i++) {
 						// console.log('1');
 						// 创建元素
@@ -463,19 +463,21 @@ window.onload = function () {
 						oBtnBtn.setAttribute("id", Ssid);
 						oBtnBtn.innerHTML = '<div class="button_body_one_btn_circle" id=' + Ssssid +
 							'></div><div> <input type ="text" class="button_small_remark"></div>';
-						oSim.appendChild(oBtnBtn);
+						document.getElementById(oId).appendChild(oBtnBtn);
+						// oSim
 						// this.oContent[i].style.display = "none";
 					}
-				}, 800);
+				}, 200);
 				// 插入元素
-				setTimeout(function () {
-					// oBig.style.color = '#c6c7c7';
-					// oBig.classList.add("active");
-					// oBig.style.color="green"; 
-				}, 3000);
-			} else if (this.New == 'old') { // 旧id，刷新状态
+				// setTimeout(function() {
+				// 	// oBig.style.color = '#c6c7c7';
+				// 	// oBig.classList.add("active");
+				// 	// oBig.style.color="green"; 
+				// }, 3000);
+			} else if (self.New == 'old') { // 旧id，刷新状态
 				// console.log('旧');
 				var oId = Id + 'i';
+
 				// var oOof = Id + 'a';
 				// document.getElementById(oOof).innerText = self.Byte7;
 				// var oSim = document.getElementById(oId);
@@ -483,113 +485,150 @@ window.onload = function () {
 				if ((self.Byte7 & 0x01) == 0x01) {
 					document.getElementById(oId + 0 + 0).classList.add("active");
 				} else {
-					document.getElementById(oId + 0 + 0).classList.remove("active");
+					if (document.getElementById(oId + 0 + 0)) {
+						document.getElementById(oId + 0 + 0).classList.remove("active");
+					}
 				}
 				if ((self.Byte7 & 0x02) == 0x02) {
 					document.getElementById(oId + 1 + 1).classList.add("active");
 				} else {
-					document.getElementById(oId + 1 + 1).classList.remove("active");
+					if (document.getElementById(oId + 1 + 1)) {
+						document.getElementById(oId + 1 + 1).classList.remove("active");
+					}
 				}
 				if ((self.Byte7 & 0x04) == 0x04) {
 					document.getElementById(oId + 2 + 2).classList.add("active");
 				} else {
-					document.getElementById(oId + 2 + 2).classList.remove("active");
+					if (document.getElementById(oId + 2 + 2)) {
+						document.getElementById(oId + 2 + 2).classList.remove("active");
+					}
 				}
 				if ((self.Byte7 & 0x08) == 0x08) {
 					document.getElementById(oId + 3 + 3).classList.add("active");
 				} else {
-					document.getElementById(oId + 3 + 3).classList.remove("active");
+					if (document.getElementById(oId + 3 + 3)) {
+						document.getElementById(oId + 3 + 3).classList.remove("active");
+					}
 				}
 				if ((self.Byte7 & 0x10) == 0x10) {
 					document.getElementById(oId + 4 + 4).classList.add("active");
 				} else {
-					document.getElementById(oId + 4 + 4).classList.remove("active");
+					if (document.getElementById(oId + 4 + 4)) {
+						document.getElementById(oId + 4 + 4).classList.remove("active");
+					}
 				}
 				if ((self.Byte7 & 0x20) == 0x20) {
 					document.getElementById(oId + 5 + 5).classList.add("active");
 				} else {
-					document.getElementById(oId + 5 + 5).classList.remove("active");
+					if (document.getElementById(oId + 5 + 5)) {
+						document.getElementById(oId + 5 + 5).classList.remove("active");
+					}
 				}
 				if ((self.Byte7 & 0x40) == 0x40) {
 					document.getElementById(oId + 6 + 6).classList.add("active");
 				} else {
-					document.getElementById(oId + 6 + 6).classList.remove("active");
+					if (document.getElementById(oId + 6 + 6)) {
+						document.getElementById(oId + 6 + 6).classList.remove("active");
+					}
 				}
 				if ((self.Byte7 & 0x80) == 0x80) {
 					document.getElementById(oId + 7 + 7).classList.add("active");
 				} else {
-					document.getElementById(oId + 7 + 7).classList.remove("active");
-				}
-				if ((self.Byte7 & 0x80) == 0x80) {
-					document.getElementById(oId + 7 + 7).classList.add("active");
-				} else {
-					document.getElementById(oId + 7 + 7).classList.remove("active");
+					if (document.getElementById(oId + 7 + 7)) {
+						document.getElementById(oId + 7 + 7).classList.remove("active");
+					}
 				}
 
 				if ((self.Byte6 & 0x01) == 0x01) {
 					document.getElementById(oId + 8 + 8).classList.add("active");
 				} else {
-					document.getElementById(oId + 8 + 8).classList.remove("active");
+					if (document.getElementById(oId + 8 + 8)) {
+						document.getElementById(oId + 8 + 8).classList.remove("active");
+					}
 				}
 				if ((self.Byte6 & 0x02) == 0x02) {
 					document.getElementById(oId + 9 + 9).classList.add("active");
 				} else {
-					document.getElementById(oId + 9 + 9).classList.remove("active");
+					if (document.getElementById(oId + 9 + 9)) {
+						document.getElementById(oId + 9 + 9).classList.remove("active");
+					}
 				}
 				if ((self.Byte6 & 0x04) == 0x04) {
 					document.getElementById(oId + 10 + 10).classList.add("active");
 				} else {
-					document.getElementById(oId + 10 + 10).classList.remove("active");
+					if (document.getElementById(oId + 10 + 10)) {
+						document.getElementById(oId + 10 + 10).classList.remove("active");
+					}
 				}
 				if ((self.Byte6 & 0x08) == 0x08) {
 					document.getElementById(oId + 11 + 11).classList.add("active");
 				} else {
-					document.getElementById(oId + 11 + 11).classList.remove("active");
+					if (document.getElementById(oId + 11 + 11)) {
+						document.getElementById(oId + 11 + 11).classList.remove("active");
+					}
 				}
 				if ((self.Byte6 & 0x10) == 0x10) {
 					document.getElementById(oId + 12 + 12).classList.add("active");
 				} else {
-					document.getElementById(oId + 12 + 12).classList.remove("active");
+					if (document.getElementById(oId + 12 + 12)) {
+						document.getElementById(oId + 12 + 12).classList.remove("active");
+					}
 				}
 				if ((self.Byte6 & 0x20) == 0x20) {
 					document.getElementById(oId + 13 + 13).classList.add("active");
 				} else {
-					document.getElementById(oId + 13 + 13).classList.remove("active");
+					if (document.getElementById(oId + 13 + 13)) {
+						document.getElementById(oId + 13 + 13).classList.remove("active");
+					}
 				}
 				if ((self.Byte6 & 0x40) == 0x40) {
 					document.getElementById(oId + 14 + 14).classList.add("active");
 				} else {
-					document.getElementById(oId + 14 + 14).classList.remove("active");
+					if (document.getElementById(oId + 14 + 14)) {
+						document.getElementById(oId + 14 + 14).classList.remove("active");
+					}
 				}
 				if ((self.Byte6 & 0x80) == 0x80) {
 					document.getElementById(oId + 15 + 15).classList.add("active");
 				} else {
-					document.getElementById(oId + 15 + 15).classList.remove("active");
+					if (document.getElementById(oId + 15 + 15)) {
+						document.getElementById(oId + 15 + 15).classList.remove("active");
+					}
 				}
 				if ((self.Byte5 & 0x01) == 0x01) {
 					document.getElementById(oId + 16 + 16).classList.add("active");
 				} else {
-					document.getElementById(oId + 16 + 16).classList.remove("active");
+					if (document.getElementById(oId + 16 + 16)) {
+						document.getElementById(oId + 16 + 16).classList.remove("active");
+					}
 				}
 				if ((self.Byte5 & 0x02) == 0x02) {
 					document.getElementById(oId + 17 + 17).classList.add("active");
 				} else {
-					document.getElementById(oId + 17 + 17).classList.remove("active");
+					if (document.getElementById(oId + 17 + 17)) {
+						document.getElementById(oId + 17 + 17).classList.remove("active");
+					}
 				}
 				if ((self.Byte5 & 0x04) == 0x04) {
 					document.getElementById(oId + 18 + 18).classList.add("active");
 				} else {
-					document.getElementById(oId + 18 + 18).classList.remove("active");
+					if (document.getElementById(oId + 18 + 18)) {
+						document.getElementById(oId + 18 + 18).classList.remove("active");
+					}
 				}
 				if ((self.Byte5 & 0x08) == 0x08) {
 					document.getElementById(oId + 19 + 19).classList.add("active");
 				} else {
-					document.getElementById(oId + 19 + 19).classList.remove("active");
+					if (document.getElementById(oId + 19 + 19)) {
+						document.getElementById(oId + 19 + 19).classList.remove("active");
+					}
 				}
 				if ((self.Byte5 & 0x10) == 0x10) {
 					document.getElementById(oId + 20 + 20).classList.add("active");
 				} else {
-					document.getElementById(oId + 20 + 20).classList.remove("active");
+					if (document.getElementById(oId + 20 + 20)) {
+						document.getElementById(oId + 20 + 20).classList.remove("active");
+					}
 				}
 				// }
 				// }, 500);
@@ -612,7 +651,7 @@ window.onload = function () {
 	}
 	rotaryknob.prototype = {
 		constructor: rotaryknob,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -665,7 +704,7 @@ window.onload = function () {
 	}
 	sens.prototype = {
 		constructor: sens,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -685,7 +724,7 @@ window.onload = function () {
 					'<input type="text" name="" class="sensor_remark"><span class="sensor_body_one_span">ID: <span class="sensor_body_one_id" id=' +
 					oOof + '>0x' +
 					Id + '</span></span> <div class="sensor_body_one_one" id = ' + oId + '></div>';
-				setTimeout(function () {
+				setTimeout(function() {
 					for (var i = 0; i < Lbyte4Lenght; i++) {
 						// console.log('1');
 						// 创建元素
@@ -834,7 +873,7 @@ window.onload = function () {
 	}
 	lamp.prototype = {
 		constructor: lamp,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -856,10 +895,7 @@ window.onload = function () {
 				// var oId = self.LFrameId + 'i';
 				// 修饰元素
 				oBig.innerHTML =
-					'<input type="text" name="" class="lamp_remark"><span class="lamp_body_one_span">ID: <span class="lamp_body_one_id">0x' +
-					Id +
-					'</span></span><div class="lamp_body_one_one"><label for="">模式:</label><select class="lamp_xuanxiang" name="" id=' +
-					oIdBy0 +
+					'<input type="text" name="" class="lamp_remark"><span class="lamp_body_one_span">ID: <span class="lamp_body_one_id">0x' + Id +	'</span></span><div class="lamp_body_one_one"><label for="">模式:</label><select class="lamp_xuanxiang" name="" id=' +	oIdBy0 +
 					'><option value = "01">关闭模式</option><option value="02">打开模式</option><option value="03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value="05">正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水保持模式</option><option value = "0C">正向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value = "19">全彩像素清除模式</option><option value = "1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span>流动LED:</span><input type ="text" class="liudong"  id=' +
 					oIdBy1 + '><span>LED数量:</span><input type = "text" class="led" id=' + oIdBy2 +
 					'><span>速度:</span><input class="sudu" type = "text"  id=' + oIdBy3 +
@@ -867,6 +903,23 @@ window.onload = function () {
 					oIdBy7 + '/><button class = "lamp_send">执行</button></div>';
 				// 插入元素
 				self.oLamOne.appendChild(oBig);
+
+				var oDiv = document.createElement("div");
+				oDiv.classList.add("lamp_body_one");
+				oDiv.setAttribute("id", Id+'rema');
+
+var oRestoration = document.getElementById("Restoration");
+
+oDiv.innerHTML ='<input type="text" name="" class="lamp_remark"><span class="lamp_body_one_span">ID: <span class="lamp_body_one_id">0x' + Id +	'</span></span><div class="lamp_body_one_one"><label for="">模式:</label><select class="lamp_xuanxiang" name="" id=' +	oIdBy0 +
+					'><option value = "01">关闭模式</option><option value="02">打开模式</option><option value="03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value="05">正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水保持模式</option><option value = "0C">正向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value = "19">全彩像素清除模式</option><option value = "1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span>流动LED:</span><input type ="text" class="liudong"  id=' +
+					oIdBy1 + '><span>LED数量:</span><input type = "text" class="led" id=' + oIdBy2 +
+					'><span>速度:</span><input class="sudu" type = "text"  id=' + oIdBy3 +
+					'><span>颜色:</span><input type="color" name="" class="yanse"/><span>白色值:</span><input type="text" name="" class="type7" id=' +
+					oIdBy7 + '/><button class = "lamp_send"></button></div>';
+				// 插入元素
+			oRestoration.appendChild(oDiv);
+
+
 			}
 			if (this.New == 'old') {}
 		}
@@ -893,7 +946,7 @@ window.onload = function () {
 	}
 	elec.prototype = {
 		constructor: elec,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -931,10 +984,10 @@ window.onload = function () {
 				// 插入元素
 				self.oElecOne.appendChild(oBig);
 				stompClient.send("/app/wu", {}, "S" + Id + ",55,00,00,00,00,00,00,00K");
-				setTimeout(function () {
+				setTimeout(function() {
 					stompClient.send("/app/wu", {}, "S" + Id + ",55,00,00,00,00,00,00,00K");
 				}, 1000);
-				setTimeout(function () {
+				setTimeout(function() {
 					stompClient.send("/app/wu", {}, "S" + Id + ",55,00,00,00,00,00,00,00K");
 				}, 2000);
 				stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
@@ -977,7 +1030,7 @@ window.onload = function () {
 	}
 	andr.prototype = {
 		constructor: andr,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -1000,7 +1053,7 @@ window.onload = function () {
 	}
 
 	//投影仪
-	function projector(FrameId, Byte4, Byte5, Byte6, Byte7, New) {
+	function projector(FrameId, New) {
 		this.oProOne = document.getElementById("proj_body");
 		this.FrameId = FrameId;
 		this.New = New;
@@ -1009,7 +1062,7 @@ window.onload = function () {
 	}
 	projector.prototype = {
 		constructor: projector,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -1042,7 +1095,7 @@ window.onload = function () {
 	}
 	outp.prototype = {
 		constructor: outp,
-		init: function () {
+		init: function() {
 			//转存this
 			var self = this;
 			var Id = self.FrameId;
@@ -1058,7 +1111,7 @@ window.onload = function () {
 				oBig.innerHTML =
 					'<input type="text" name="" class="outp_remark"><span class="outp_body_one_span">ID:<span class="outp_body_one_id">0x' +
 					Id + '</span>';
-				setTimeout(function () {
+				setTimeout(function() {
 					var oOutpB = document.createElement("div");
 					oOutpB.classList.add("outp_b");
 					oBig.appendChild(oOutpB);
@@ -1081,7 +1134,7 @@ window.onload = function () {
 	};
 
 	// 事件委托，灯光发送
-	$(".lamplight").on("click", ".lamp_send", function () {
+	$(".lamplight").on("click", ".lamp_send", function() {
 		var id = $(this).parents(".lamp_body_one").attr('id');
 		var type0 = $(this).siblings(".lamp_xuanxiang").val();
 		var type1 = $(this).siblings(".liudong").val();
@@ -1150,20 +1203,20 @@ window.onload = function () {
 		}
 	};
 	//事件委托，旋钮按下发送
-	$(".rotaryknob").on("mousedown", "button", function () {
+	$(".rotaryknob").on("mousedown", "button", function() {
 		var id = $(this).parents(".rotaryknob_body_one").attr('id');
 		// stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,01K00,12345");
 		stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,01K");
 		// console.log("S" + id + ",03,00,00,00,00,00,00,01K");
 	});
 	//旋钮松开发送
-	$(".rotaryknob").on("mouseup", "button", function () {
+	$(".rotaryknob").on("mouseup", "button", function() {
 		var id = $(this).parents(".rotaryknob_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,00K");
-		setTimeout(function () {
+		setTimeout(function() {
 			stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,00K");
 		}, 100);
-		setTimeout(function () {
+		setTimeout(function() {
 			stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,00K");
 		}, 200);
 		// console.log("S" + id + ",03,00,00,00,00,00,00,00K");
@@ -1171,34 +1224,34 @@ window.onload = function () {
 
 	// 电机发送
 	var elecSet; //前进
-	$(".elec_body").on("mousedown", ".elec_up", function () {
+	$(".elec_body").on("mousedown", ".elec_up", function() {
 		var id = $(this).parents(".elec_body_one").attr('id');
 		$(this).css("background-color", "pink");
-		elecSet = setInterval(function () {
+		elecSet = setInterval(function() {
 			stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10,50K");
 		}, 100);
 		// console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
 	});
-	$(".elec_body").on("mouseup", ".elec_up", function () {
+	$(".elec_body").on("mouseup", ".elec_up", function() {
 		clearInterval(elecSet);
 		$(this).css("background-color", "#5b9bd5");
 	});
 	var elecSetDown; //后退
-	$(".elec_body").on("mousedown", ".elec_down", function () {
+	$(".elec_body").on("mousedown", ".elec_down", function() {
 		var id = $(this).parents(".elec_body_one").attr('id');
 		$(this).css("background-color", "pink");
-		elecSetDown = setInterval(function () {
+		elecSetDown = setInterval(function() {
 			stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10,50K");
 		}, 50)
 	});
-	$(".elec_body").on("mouseup", ".elec_down", function () {
+	$(".elec_body").on("mouseup", ".elec_down", function() {
 		clearInterval(elecSetDown);
 		$(this).css("background-color", "#5b9bd5");
 	});
 	// var text = "00,00,00,00";
 	// var nam = '101';
 	// 电机保存
-	$(".elec_body").on("click", ".elec_save", function () {
+	$(".elec_body").on("click", ".elec_save", function() {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		var oIdCov = $(this).siblings('.elec_cover').val();
 		var list = $('input:radio[name=' + Id + ']:checked').val();
@@ -1212,7 +1265,7 @@ window.onload = function () {
 		}
 	});
 	// 电机 调用
-	$(".elec_body").on("click", ".elec_send", function () {
+	$(".elec_body").on("click", ".elec_send", function() {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		// var oIdCov = $(this).siblings('.elec_cover').val();
 		var list = $('input:radio[name=' + Id + ']:checked').val();
@@ -1229,20 +1282,20 @@ window.onload = function () {
 		}
 	});
 	//安卓屏
-	$(".andr_body").on("click", "button", function () {
+	$(".andr_body").on("click", "button", function() {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + Id + "", {}, "S" + Id + ",04,00,00,00,00,00,00,00K");
 	});
 
-	$(".andr_body").on("click", ".andr_img1", function () {
+	$(".andr_body").on("click", ".andr_img1", function() {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + Id + "", {}, "S" + Id + ",02,00,00,00,00,00,00,00K");
 	});
-	$(".andr_body").on("click", ".andr_img2", function () {
+	$(".andr_body").on("click", ".andr_img2", function() {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + Id + "", {}, "S" + Id + ",03,00,00,00,00,00,00,00K");
 	});
-	$(".andr_body").on("click", ".andr_img3", function () {
+	$(".andr_body").on("click", ".andr_img3", function() {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + Id + "", {}, "S" + Id + ",01,00,00,00,00,00,00,00K");
 	});
@@ -1250,56 +1303,56 @@ window.onload = function () {
 
 
 	// 投影仪
-	$(".proj_body").on("click", ".elec_save", function () {
+	$(".proj_body").on("click", ".proj_1", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_2", function () {
+	$(".proj_body").on("click", ".proj_2", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",01,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_3", function () {
+	$(".proj_body").on("click", ".proj_3", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_4", function () {
+	$(".proj_body").on("click", ".proj_4", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",04,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_5", function () {
+	$(".proj_body").on("click", ".proj_5", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",05,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_6", function () {
+	$(".proj_body").on("click", ".proj_6", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",06,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_7", function () {
+	$(".proj_body").on("click", ".proj_7", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",07,00,00,00,00,00,00,00K");
 	});
-	$(".proj_body").on("click", ".proj_8", function () {
+	$(".proj_body").on("click", ".proj_8", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",08,00,00,00,00,00,00,00K");
 	})
-	$(".proj_body").on("click", ".proj_9", function () {
+	$(".proj_body").on("click", ".proj_9", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",09,00,00,00,00,00,00,00K");
 	})
-	$(".proj_body").on("click", ".proj_10", function () {
+	$(".proj_body").on("click", ".proj_10", function() {
 		var id = $(this).parents(".proj_body_one").attr('id');
 		stompClient.send("/app/wu", {}, "S" + id + ",0A,00,00,00,00,00,00,00K");
 	});
 
 
 	// 输出控制改变文字
-	$(".outp_body").on("blur", ".outp_input", function () {
+	$(".outp_body").on("blur", ".outp_input", function() {
 		$(this).siblings(button).text($(this).val());
 		$(this).val('');
 	});
 	//输出控制  发送
 	var as = new Array(0, 0, 0, 0, 0, 0, 0, 0);
-	$(".outp_body").on("click", "button", function () {
+	$(".outp_body").on("click", "button", function() {
 		var id = $(this).attr('id');
 		var oId = $(this).attr('id').slice(3);
 		id = id.slice(0, 3);
@@ -1352,19 +1405,19 @@ window.onload = function () {
 	var oViry = document.getElementById("virtual_body");
 
 	// 打开
-	oViryAdd.onclick = function () {
+	oViryAdd.onclick = function() {
 		oViryText.style.display = 'block';
 		oViryCov.style.display = 'block';
 	}
 	// 取消
-	oViryEns.onclick = function () {
+	oViryEns.onclick = function() {
 		oViryText.style.display = 'none';
 		oViryCov.style.display = 'none';
 		oViryId.value = '';
 		oViryNum.value = '';
 	}
 	// 确定,然后添加
-	oViryCan.onclick = function () {
+	oViryCan.onclick = function() {
 		var viryId = oViryId.value;
 		var viryNum = oViryNum.value;
 		// parseInt(num, 16);
@@ -1392,7 +1445,7 @@ window.onload = function () {
 				'<input type="text" name="" class="virtual_remark"><span class="virtual_body_one_span">ID: <span class="virtual_body_one_id">0x' +
 				viryId + '</span></span><div class="virtual_body_one_one" id=' + oId + '><div class="virtual_delete" id=' +
 				oIdDel + '>X</div></div>';
-			setTimeout(function () {
+			setTimeout(function() {
 				for (var i = 0; i < viryNum; i++) {
 					// 创建元素
 					// console.log('1');
@@ -1416,12 +1469,12 @@ window.onload = function () {
 		}
 	};
 	//虚拟按钮  删除
-	$(".virtual_body").on("click", ".virtual_delete", function () {
+	$(".virtual_body").on("click", ".virtual_delete", function() {
 		$(this).parents(".virtual_body_one").remove();
 	})
 	//虚拟按钮  发送
 	var virt = new Array(0, 0, 0);
-	$(".virtual_body").on("click", ".virtual_body_one_btn", function () {
+	$(".virtual_body").on("click", ".virtual_body_one_btn", function() {
 		var id = $(this).parents(".virtual_body_one").attr('id');
 		var oId = $(this).children(".virtual_body_one_btn_circle").attr('id').slice(4);
 		var flag = $(this).children(".virtual_body_one_btn_circle").hasClass("active");
@@ -1448,7 +1501,7 @@ window.onload = function () {
 	});
 
 	// 安卓屏发送
-	$(".andr_body").on("click", "button", function () {
+	$(".andr_body").on("click", "button", function() {
 		// $(this).parents(".virtual_body_one").remove();
 		var id = $(this).parents(".andr_body_one").attr('id');
 		stompClient.send("/app/user/" + id + "", {}, "S" + id + ",05,00,00,00,00,00,00,00K");
@@ -1457,7 +1510,7 @@ window.onload = function () {
 
 
 	// 离线保存备注
-	$(".button_body").on("blur", ".button_remark", function () { //按钮
+	$(".button_body").on("blur", ".button_remark", function() { //按钮
 		var Id = $(this).parents(".button_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
@@ -1466,7 +1519,7 @@ window.onload = function () {
 			location: -1,
 			value: oValue,
 			deviceType: 'button'
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 		// // var Loca = storage.getItem(Id);
@@ -1486,13 +1539,13 @@ window.onload = function () {
 		// console.log(data);
 	});
 	// 小型按钮
-	$(".button_body").on("blur", ".button_small_remark", function () { //按钮
+	$(".button_body").on("blur", ".button_small_remark", function() { //按钮
 		var Id = $(this).parents(".button_body_one").attr('id');
 		var oValue = $(this).val();
 		var Byte7 = stringResult[8].substring(0, 2);
 
 	});
-	$(".rotaryknob_body").on("blur", ".rotaryknob_remark", function () { //旋钮
+	$(".rotaryknob_body").on("blur", ".rotaryknob_remark", function() { //旋钮
 		var Id = $(this).parents(".rotaryknob_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
@@ -1501,7 +1554,7 @@ window.onload = function () {
 			location: -1,
 			value: oValue,
 			deviceType: 'rotaryknob'
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 
@@ -1522,7 +1575,7 @@ window.onload = function () {
 		// console.log(data);
 	});
 
-	$(".sensor_body").on("blur", ".sensor_remark", function () {
+	$(".sensor_body").on("blur", ".sensor_remark", function() {
 		var Id = $(this).parents(".sensor_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
@@ -1531,7 +1584,7 @@ window.onload = function () {
 			location: -1,
 			value: oValue,
 			deviceType: 'sensor'
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 
@@ -1552,7 +1605,7 @@ window.onload = function () {
 		// console.log(data);
 	});
 	// 流水灯
-	$(".lamp_body").on("blur", ".lamp_remark", function () {
+	$(".lamp_body").on("blur", ".lamp_remark", function() {
 		var Id = $(this).parents(".lamp_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
@@ -1561,7 +1614,7 @@ window.onload = function () {
 			location: -1,
 			value: oValue,
 			deviceType: 'lamp'
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 
@@ -1580,7 +1633,7 @@ window.onload = function () {
 		// localStorage.setItem(FrameId, dater);
 	});
 	// 电机
-	$(".elec_body").on("blur", ".elec_remark", function () {
+	$(".elec_body").on("blur", ".elec_remark", function() {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
@@ -1589,7 +1642,7 @@ window.onload = function () {
 			location: -1,
 			value: oValue,
 			deviceType: 'elec'
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 
@@ -1607,7 +1660,7 @@ window.onload = function () {
 		// localStorage.setItem(FrameId, dater);
 	});
 	// 安卓屏
-	$(".andr_body").on("blur", ".andr_remark", function () {
+	$(".andr_body").on("blur", ".andr_remark", function() {
 		var Id = $(this).parents(".andr_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
@@ -1616,7 +1669,7 @@ window.onload = function () {
 			location: -1,
 			value: oValue,
 			deviceType: 'andr'
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 
@@ -1635,7 +1688,7 @@ window.onload = function () {
 		// localStorage.setItem(FrameId, dater);
 	});
 	// 投影仪
-	$(".proj_body").on("blur", ".proj_remark", function () {
+	$(".proj_body").on("blur", ".proj_remark", function() {
 		var Id = $(this).parents(".proj_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
@@ -1644,7 +1697,7 @@ window.onload = function () {
 			location: -1,
 			value: oValue,
 			deviceType: 'proj'
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 
@@ -1663,7 +1716,7 @@ window.onload = function () {
 		// localStorage.setItem(FrameId, dater);
 	});
 	// 输出控制
-	$(".outp_body").on("blur", ".outp_remark", function () {
+	$(".outp_body").on("blur", ".outp_remark", function() {
 		var Id = $(this).parents(".outp_body_one").attr('id');
 		var oValue = $(this).val();
 		// console.log(Id);
@@ -1672,33 +1725,36 @@ window.onload = function () {
 			location: -1,
 			value: oValue,
 			deviceType: 'outp'
-		}, function (data) {
+		}, function(data) {
 			console.log(data);
 		});
 	});
 
-	$("#cut").click(function () {  //自动
+	$("#cut").click(function() { //自动
 		location.href = "./Auto.html";
 	});
 
 
 	// 全部复位
-	$("#restoration").click(function () {
+	$("#restoration").click(function() {
 
 
 	});
 
 	// 打开复位
-	$("#AllRestoration").click(function () {
+	$("#AllRestoration").click(function() {
 		$(".corer").css("display", "block");
 		$(".Restoration").css("display", "block");
 	});
 
 
-	$(".Restoration_cancel").click(function () {
+	$(".Restoration_cancel").click(function() {
 		$(".corer").css("display", "none");
 		$(".Restoration").css("display", "none");
 	});
+	// 复位设置
+	var RemarkInit = []; //总节点
+
 
 
 
