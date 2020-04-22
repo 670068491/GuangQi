@@ -7,6 +7,7 @@ window.onload = function () {
     var List = []; //总数组
     var ListType = []; //类型数组
     var libraryList = []; //初始化复位
+    var elecList = []; //电机复位
 
 
     function connect() {
@@ -905,10 +906,8 @@ window.onload = function () {
                     var oLibrId = 'libr' + Id;
                     oLibr.classList.add("library_body_body_one");
                     oLibr.setAttribute("id", oLibrId);
-                    oLibr.innerHTML = '<span>id:0X' + Id + '</span> <span>' + text + '</span>'
+                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span>' + text + '</span>';
                     document.getElementById("library_body_body1").appendChild(oLibr);
-
-
                 });
                 // var oId = self.LFrameId + 'i';
             }
@@ -1106,7 +1105,19 @@ window.onload = function () {
                         '<input type="text" name="" class="proj_remark" value=' + text + '><span class="proj_body_one_span">ID: <span class="proj_body_one_id">0x' + Id + '</span></span><div class="proj_top"><button class="proj_1">开机</button><button class="proj_2">关机</button></div><div class="proj_bott"><button class="proj_3">视频1</button><button class="proj_4">视频2</button><button class="proj_5">视频3</button><button class="proj_6">视频4</button><button class="proj_7">视频5</button><button class="proj_8">视频6</button><button class="proj_9">视频7</button><button class="proj_10">视频8</button></div>';
                     // 插入元素
                     self.oProOne.appendChild(oBig);
+
+                    // 元件库创建
+                    var oLibr = document.createElement("div");
+                    var oLibrId = 'libr' + Id;
+                    oLibr.classList.add("library_body_body_one");
+                    oLibr.setAttribute("id", oLibrId);
+                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span>' + text + '</span>';
+                    document.getElementById("library_body_body3").appendChild(oLibr);
+
+
                 })
+
+
             }
         }
     };
@@ -1144,11 +1155,8 @@ window.onload = function () {
                     console.log(data);
                     text = data.resultObject.remark;
                     // 修饰元素
-                    oBig.innerHTML =
-                        '<input type="text" name="" class="outp_remark" value=' + text + '><span class="outp_body_one_span">ID:<span class="outp_body_one_id">0x' + Id + '</span>';
-
+                    oBig.innerHTML = '<input type="text" name="" class="outp_remark" value=' + text + '><span class="outp_body_one_span">ID:<span class="outp_body_one_id">0x' + Id + '</span>';
                     self.oOutpOne.appendChild(oBig);
-
 
                     var oOutpB = document.createElement("div");
                     oOutpB.classList.add("outp_b");
@@ -1162,18 +1170,22 @@ window.onload = function () {
                         var text1 = data.resultObject.samllremark[i];
 
                         // oBtnBtn.setAttribute("id", Ssid);
-                        oBtnBtn.innerHTML = '<input type="text" name=""   class="outp_input" value=' + text1 + '><button type="button" id=' +
-                            oId + '></button>';
+                        oBtnBtn.innerHTML = '<input type="text" name="" class="outp_input"><button type="button" id=' +
+                            oId + '>' + text1 + '</button>';
                         oOutpB.appendChild(oBtnBtn);
                         // this.oContent[i].style.display = "none";
                     }
+
+                    // 元件库创建
+                    var oLibr = document.createElement("div");
+                    var oLibrId = 'libr' + Id;
+                    oLibr.classList.add("library_body_body_one");
+                    oLibr.setAttribute("id", oLibrId);
+                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span>' + text + '</span>';
+                    document.getElementById("library_body_body3").appendChild(oLibr);
+
+
                 })
-
-
-                // setTimeout(function() {
-
-                // }, 500);
-                // 插入元素
 
             }
         }
@@ -1239,8 +1251,8 @@ window.onload = function () {
     //事件委托，旋钮按下发送
     $(".rotaryknob").on("mousedown", "button", function () {
         var id = $(this).parents(".rotaryknob_body_one").attr('id');
-        // stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,01K00,12345");
         stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,01K");
+        // stompClient.send("/app/wu", {}, "S" + id + ",03,00,00,00,00,00,00,01K00,12345");
         // console.log("S" + id + ",03,00,00,00,00,00,00,01K");
     });
     //旋钮松开发送
@@ -1734,23 +1746,18 @@ window.onload = function () {
 
 
     // 全部复位
-    $("#restoration").click(function () {
-
-
-    });
-
-    // 打开复位
-    $("#AllRestoration").click(function () {
-        $(".corer").css("display", "block");
-        $(".Restoration").css("display", "block");
-
-        $.getJSON(port + "getRemarkInitAll", {}, function(data) {
+    $("#restorationBtn").click(function () {
+        // console.log(libraryList);
+        $.getJSON(port + "getRemarkInitAll", {}, function (data) {
             console.log(data);
-
-
+            if (data.resultObject.lenght != 0) {
+                libraryList = data.resultObject;
+                for (var i = 0; i < libraryList.length; i++) {
+                    stompClient.send("/app/wu", {}, "S" + libraryList[i].deviceId + "," + libraryList[i].deviceValue);
+                    console.log("S" + libraryList[i].deviceId + "," + libraryList[i].deviceValue);
+                }
+            }
         })
-
-
     });
 
 
@@ -1758,76 +1765,137 @@ window.onload = function () {
         $(".corer").css("display", "none");
         $(".Restoration").css("display", "none");
     });
+    // 打开复位
+    $("#AllRestoration").click(function () {
+        $(".corer").css("display", "block");
+        $(".Restoration").css("display", "block");
 
+        $.getJSON(port + "getRemarkInitAll", {}, function (data) {
+            console.log(data);
+            if (data.resultObject.lenght == 0) {
 
-    $("#library_body_body1").on("click", ".library_body_body_one", function () { //元件库添加进页面
-        var Id = $(this).attr('id').substring(4);
-        var type = JSON.parse(storage.getItem(Id)).type;
-
-        if (libraryList.indexOf(Id) == -1) {
-            var device = {};
-            device.Id = Id;
-            // device.type = type;
-            device.value = '00,00,00,00,00,00,00,00';
-            libraryList.push(device);
-            console.log(libraryList);
-        }
-        var oBig = document.createElement("div");
-        oBig.classList.add("lamp_body_one");
-        oBig.setAttribute("id", 'res' + Id);
-        var oIdBy0 = Id + 'by0';
-        var oIdBy1 = Id + 'by1';
-        var oIdBy2 = Id + 'by2';
-        var oIdBy3 = Id + 'by3';
-        var oIdBy4 = Id + 'by4';
-        var oIdBy5 = Id + 'by5';
-        var oIdBy6 = Id + 'by6';
-        var oIdBy7 = Id + 'by7';
-        var text = '';
-        $.getJSON(port + "getRemark", {
-            deviceId: Id,
-            num: 0
-        }, function (data) {
-            // if (data.resultObject.length != 0) {  // }
-            text = data.resultObject.remark;
-            // 修饰元素
-            oBig.innerHTML =
-                '<input type="text" name="" class="lamp_remark" value=' + text + '><span class="lamp_body_one_span">ID: <span class="lamp_body_one_id">0x' +
-                Id +
-                '</span></span><div class="lamp_body_one_one"><label for="">模式:</label><select class="lamp_xuanxiang" name="" id=' +
-                oIdBy0 +
-                '><option value = "01">关闭模式</option><option value="02">打开模式</option><option value="03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value="05">正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水保持模式</option><option value = "0C">正向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value = "19">全彩像素清除模式</option><option value = "1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span>流动LED:</span><input type ="text" class="liudong"  id=' +
-                oIdBy1 + '><span>LED数量:</span><input type = "text" class="led" id=' + oIdBy2 +
-                '><span>速度:</span><input class="sudu" type = "text"  id=' + oIdBy3 +
-                '><span>颜色:</span><input type="color" name="" class="yanse"/><span>白色值:</span><input type="text" name="" class="type7" id=' +
-                oIdBy7 + '/><button class = "lamp_send">删除</button><button class = "lamp_save">保存</button></div>';
-            // 插入元素
-            document.getElementById('Restoration').appendChild(oBig);
-        });
-
-
-        // console.log(libraryList);
-        // console.log(Id);
-        // addDevice(type, Id, '00,00,00,00,00,00,00,00');
-
-
-        // var Index = $(".active").attr('id').substring(1);
-        // presentNodeIndex = Index;
-        // if ($(".active").find('#' + Id).length == 0) {
-        // }
+            } else {
+                libraryList = data.resultObject;
+                getDeviceHtml();  //刷新页面
+            }
+        })
     });
+
+    function addOneDevice(id, type, value) {
+        //查找 libraryList  里面有没有
+        //如果没有
+        for (var i = 0; i < libraryList.length; i++) {
+            if (libraryList[i].deviceId == id) {
+                return;
+            }
+        }
+        var device = {};
+        device.location = libraryList.length;
+        device.deviceId = id;
+        device.deviceType = type;
+        device.deviceValue = value;
+        libraryList.push(device);
+        //刷新页面
+        getDeviceHtml();
+        console.log(libraryList);
+    }
+
+// <input type="text" name="" class="lamp_remark" value="${libraryList[j].remark}">
+    function getDeviceHtml() {
+        var htmlStr = ``;
+        for (var j = 0; j < libraryList.length; j++) {
+            if (libraryList[j].deviceType == '01') {
+                var defaultValue = libraryList[j].deviceValue.replace("K", "").split(",");
+                htmlStr += `<div class="lamp_body_one" id="Res${libraryList[j].deviceId}">
+						
+							<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${libraryList[j].deviceId}</span></span>
+								<div class="lamp_body_one_one">
+								    <label for="">模式:</label>
+								    <select class="lamp_xuanxiang" name="">
+									<option value="01" ${defaultValue[0] == "01" ? "selected='selected'" : ""} >关闭模式</option>
+									<option value="02" ${defaultValue[0] == "02" ? "selected='selected'" : ""} >打开模式</option>
+									<option value="03" ${defaultValue[0] == "03" ? "selected='selected'" : ""} >呼吸模式</option>
+									<option value="04" ${defaultValue[0] == "04" ? "selected='selected'" : ""} >颜色过渡模式</option>
+									<option value="05" ${defaultValue[0] == "05" ? "selected='selected'" : ""}  >正向流水保持模式</option>
+									<option value="06" ${defaultValue[0] == "06" ? "selected='selected'" : ""} >正向流水不保持模式</option>
+									<option value="07" ${defaultValue[0] == "07" ? "selected='selected'" : ""} >反向流水保持模式</option>
+									<option value="08" ${defaultValue[0] == "08" ? "selected='selected'" : ""} >反向流水不保持模式</option>
+									<option value="09" ${defaultValue[0] == "09" ? "selected='selected'" : ""} >带数量正向流水模式</option>
+									<option value="0A" ${defaultValue[0] == "0A" ? "selected='selected'" : ""} >带数量反向流水模式</option>
+									<option value="0B" ${defaultValue[0] == "0B" ? "selected='selected'" : ""} >正向灭灯流水保持模式</option>
+									<option value="0C" ${defaultValue[0] == "0C" ? "selected='selected'" : ""} >正向灭灯流水模式</option>
+									<option value="0D" ${defaultValue[0] == "0D" ? "selected='selected'" : ""} >正向慢速流水保持模式</option>
+									<option value="0E" ${defaultValue[0] == "0E" ? "selected='selected'" : ""} >正向慢速流水不保持模式</option>
+									<option value="0F" ${defaultValue[0] == "0F" ? "selected='selected'" : ""} >反向慢速流水保持模式</option>
+									<option value="10" ${defaultValue[0] == "10" ? "selected='selected'" : ""} >反向慢速流水不保持模式</option>
+									<option value="11" ${defaultValue[0] == "11" ? "selected='selected'" : ""} >带数量正向慢速流水模式</option>
+									<option value="12" ${defaultValue[0] == "12" ? "selected='selected'" : ""} >带数量反向慢速流水模式</option>
+									<option value="13" ${defaultValue[0] == "13" ? "selected='selected'" : ""} >带数量正向拖尾流水模式</option>
+									<option value="14" ${defaultValue[0] == "14" ? "selected='selected'" : ""} >带数量反向拖尾流水模式</option>
+									<option value="15" ${defaultValue[0] == "15" ? "selected='selected'" : ""} >多彩正向流水模式</option>
+									<option value="16" ${defaultValue[0] == "16" ? "selected='selected'" : ""} >多彩反向流水模式</option>
+									<option value="17" ${defaultValue[0] == "17" ? "selected='selected'" : ""} >全彩像素颜色设置模式</option>
+									<option value="18" ${defaultValue[0] == "18" ? "selected='selected'" : ""} >全彩像素显示模式</option>
+									<option value="19" ${defaultValue[0] == "19" ? "selected='selected'" : ""} >全彩像素清除模式</option>
+									<option value="1A" ${defaultValue[0] == "1A" ? "selected='selected'" : ""} >单色像素颜色设置模式</option>
+									<option value="1B" ${defaultValue[0] == "1B" ? "selected='selected'" : ""} >单色像素显示模式</option>
+								</select>
+								<span>流动LED:</span>
+								<input class="liudong" type="text" value="${defaultValue[1]}">
+								<span>LED数量:</span>
+								<input class="led" type="text" value="${defaultValue[2]}">
+								<span>速度:</span>
+								<input class="sudu" type="text" value="${defaultValue[3]}">
+								<span>颜色:</span>
+								<input type="color" name="" class="yanse" value="#${defaultValue[4] + defaultValue[5] + defaultValue[6]}"/>
+								<span>白色值:</span>
+								<input type="text" name="" class="type7" value="${defaultValue[7]}"/>
+								<button class="lamp_send" data-index="${j}">删除</button>
+								<button class="lamp_save" data-index="${j}">保存</button>
+								
+							</div>
+						</div>`;
+
+            } else if (libraryList[j].deviceType == '06') {
+                var defaultValue = libraryList[j].deviceValue.replace("K", "").split(",");
+                // htmlStr +=
+
+
+            }
+
+
+        }
+        $("#RestorationDiv").html(htmlStr);
+    }
+
+
+    $("#library_body_body1").on("click", ".library_body_body_one", function () { //元件库 灯光 添加进页面
+        var Id = $(this).attr('id').substring(4);
+        // var type = JSON.parse(storage.getItem(Id)).type;
+        addOneDevice(Id, '01', '00,00,00,00,00,00,00,00');
+
+
+    });
+    $("#library_body_body2").on("click", ".library_body_body_one", function () { //元件库 电机 添加进页面
+        var Id = $(this).attr('id').substring(4);
+        addOneDevice(Id, '06', '00,00,00,00,00,00,00,00');
+        // var type = JSON.parse(storage.getItem(Id)).type;
+    });
+
     // 灯光保存
     $("#Restoration").on("click", ".lamp_save", function () {
         var id = $(this).parents(".lamp_body_one").attr('id').substr(3);
-        var type0 = $(this).siblings(".lamp_xuanxiang").val();
-        var type1 = $(this).siblings(".liudong").val();
-        var type2 = $(this).siblings(".led").val();
-        var type3 = $(this).siblings(".sudu").val();
-        var type7 = $(this).siblings(".type7").val();
+        var type0 = $(this).siblings(".lamp_xuanxiang").val().toUpperCase();
+        var type1 = $(this).siblings(".liudong").val().toUpperCase();
+        var type2 = $(this).siblings(".led").val().toUpperCase();
+        var type3 = $(this).siblings(".sudu").val().toUpperCase();
+        var type7 = $(this).siblings(".type7").val().toUpperCase();
         // var oColor = $(this).siblings(".yanse").val();
+
         var colvul = hex2rgb($(this).siblings(".yanse").val());
         colvul = colvul.substring(0, colvul.length - 1).slice(4);
         var str = colvul.split(',');
+
         var type4 = parseInt(str[0]).toString(16).toUpperCase();
         var type5 = parseInt(str[1]).toString(16).toUpperCase();
         var type6 = parseInt(str[2]).toString(16).toUpperCase();
@@ -1840,75 +1908,41 @@ window.onload = function () {
         type6 = (type6.length < 2) ? "0" + type6 : type6;
         type7 = (type7.length < 2) ? "0" + type7 : type7;
 
+        var index = $(this).data(index).index;
+        // console.log(libraryList);
+        // console.log(libraryList[index]);
+        // console.log(index);
+        libraryList[index].deviceValue = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 + "," + type7 + "K";
+        // console.log(libraryList[index]);
 
-        // console.log(id);
-
+        // getDeviceHtml();  //刷新页面
     })
 
 
     //删除
     $("#Restoration").on("click", ".lamp_send", function () {
         // console.log('1')
-        $(this).parents('.lamp_body_one').remove();
-
+        // $(this).parents('.lamp_body_one').remove();
+        var Id = $(this).parents('.lamp_body_one').attr('id').replace("Res", "");
+        var index = $(this).data(index);
+        libraryList.splice(index, 1);
+        getDeviceHtml();  //刷新页面
 
     });
 
 
     // 保存
     $(".Restoration_seva").click(function () {
-        // console.log(JSON.stringify(libraryList));
-        console.log(ListType);
-
-        // $.getJSON(port + "saveRemarkInitAll", {
-        //     libraryList: JSON.stringify(libraryList),
-        // }, function(data) {
-        //     console.log(data);
-
-
-        // })
-
-    })
-
-
-    function addDevice(type, id, value) {
-        /*
-        `deviceType` varchar(512) DEFAULT NULL COMMENT '设备类型',
-          `deviceValue` varchar(512) DEFAULT NULL COMMENT '设备值',
-          `deviceId` varchar(128) DEFAULT NULL COMMENT '设备id',
-          `the_order` int
-        */
-        var device = {};
-        var loca = storage.getItem(id);
-        var locaObj = JSON.parse(loca);
-        var Type = locaObj.type;
-
-        switch (Type) {
-            case "01":
-                // 流水灯
-                device.deviceType = "light";
-                break;
-            case "06":
-                // 电机
-                device.deviceType = "elec";
-                break;
-            default:
-                console.log("没有此类型");
-                break;
-        }
-
-        // device.deviceType = "light";
-        device.theOrder = index;
-        device.deviceId = id;
-        device.deviceValue = value;
-        if (!Array.isArray(nodeList[index].deviceList)) {
-            nodeList[index].deviceList = [];
-        }
-        nodeList[index].deviceList.push(device);
-        console.log(nodeList);
-        // drawHtml();
-        // drawNode();
-    }
+        console.log(JSON.stringify(libraryList));
+        // console.log(ListType);
+        $.getJSON(port + "saveRemarkInitAll", {
+            jsonList: JSON.stringify(libraryList),
+        }, function (data) {
+            console.log(data);
+        })
+        $(".corer").css("display", "none");
+        $(".Restoration").css("display", "none");
+    });
 
 
 };
