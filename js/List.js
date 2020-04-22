@@ -2,17 +2,33 @@ window.onload = function() {
 	var storage = window.localStorage;
 	var stompClient = null; //定义全局变量，代表一个session
 	var sceneId = null;
-var myIp ="http://192.168.1.10:8081/gq/api/";
+	var isopen = null;
+	
+	var nodeList = []; //总节点
+	var logicList = []; //逻辑节点
+	
+	var currentIndex = 0; //当前执行节点位置
+	var nodeIndex = 10; //共有10个节点
+	// var nodeSum = nodeIndex; 
+	var presentNodeIndex = null; //用户点击的当前节点  index
+// var myIp =serverAddr+"";
+// var serverAddr = "http://www.shoulder-tech.com/gq/api/";
+// var serverAddr = "http://127.0.0.1:8080/api/";
+var serverAddr = "http://192.168.1.10:8081/gq/api/";
+var port  = serverAddr+"getEvaluateName";
 
-var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
+	var elcarray = [];//存放点击四个预设值
+	//当选择次点击是 先从此处查询，如果没有，则请求服务器，获取
+	
 
 
 
 
-
+	
 	function GainName() {
 		var name = $.Request("name");
 		var stylist = $.Request("stylist");
+		isopen = $.Request("isopen");
 		sceneId = $.Request("uId");
 
 		// console.log(name);
@@ -28,10 +44,26 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 	$(function() {
 		GainName(); //获取链接里的名称
 		connect(); //建立连接
-		initData(); //初始化数据
-		drawHtml(); //初始化界面
+		console.log(isopen);
+		if(isopen == "open") {
+			console.log(isopen);
+			getDataFormServer();
+		} else {
+			initData(); //初始化数据
+			drawHtml(); //初始化界面
+		}
+		
 	});
-
+	function getDataFormServer() {
+		$.getJSON(serverAddr+"getSceneInfo", {
+			sceneId:sceneId
+		}, function(data) {
+			console.log(data);
+			nodeList = data.resultObject.nodeList;
+			logicList = data.resultObject.logicList;
+			drawHtml();
+		});
+	}
 
 
 	$("#back").click(function() { //返回
@@ -115,7 +147,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 		if (oEvaluate) {
 			oEvaluate = false;
 			$(".evaluate_div").css("display", "block");
-			$.getJSON(myIp+"", {}, function(data) {
+			$.getJSON(serverAddr+"getEvaluateName", {}, function(data) {
 				console.log(data);
 				$('#evaluate_div_one1').text(data.resultObject.standard1);
 				$('#evaluate_div_one2').text(data.resultObject.standard2);
@@ -124,7 +156,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 				$('#evaluate_div_one5').text(data.resultObject.standard5);
 				$('#evaluate_div_one6').text(data.resultObject.standard6);
 			});
-			$.getJSON(port, {
+			$.getJSON(serverAddr+"getEvaluate", {
 				sceneId: sceneId,
 			}, function(data) {
 				console.log(data);
@@ -167,13 +199,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 
 
 
-	var nodeList = []; //总节点
-	var logicList = []; //逻辑节点
 
-	var currentIndex = 0; //当前执行节点位置
-	var nodeIndex = 10; //共有10个节点
-	// var nodeSum = nodeIndex; 
-	var presentNodeIndex = null; //用户点击的当前节点  index
 
 
 	//1 init data 第一步，初始化
@@ -182,8 +208,8 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 		for (var i = 0; i < nodeIndex; i++) {
 			var node = {};
 			node.remark = "备注"; //remark
-			node.node_name = "结点" + (i + 1); //nodeName
-			node.node_sort = i; //nodeSort
+			node.nodeName = "结点" + (i + 1); //nodeName
+			node.nodeSort = i; //nodeSort
 			node.deviceList = []; //单节点的设备
 			nodeList.push(node);
 		}
@@ -196,7 +222,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			node.delay = 1;
 			node.theOrder = i;
 			logicList.push(node);
-			// node.node_name = "结点" + (i + 1);
+			// node.nodeName = "结点" + (i + 1);
 			// node.deviceList = []; //单节点的设备
 		}
 	}
@@ -212,7 +238,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			//添加一个结点
 			htmlStr +=
 				`<div class="node_small" id="${'o'+[i]}">
-						<span class="string_span">${nodeList[i].node_name}</span>
+						<span class="string_span">${nodeList[i].nodeName}</span>
 						<div class="strip">
 							<div class="strip_head"><img src="./img/33.png" class="strip_head_img"></div>
 							<div class="strip_one">`
@@ -221,58 +247,8 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			if (Array.isArray(nodeList[i].deviceList)) {
 				// console.log(nodeList[i].deviceList);
 				// console.log(nodeList);
-				for (var j = 0; j < nodeList[i].deviceList.length; j++) {
-					//判断类型，等
-					htmlStr +=
-						`<div class="lamp_body_one">
-									<input type="text" name="" class="lamp_remark ">
-									<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0x123</span>
-									</span>
-									<div class="lamp_body_one_one">
-										<label for="">模式:</label>
-										<select class="lamp_xuanxiang" name="" value="00">
-											<option value="01">关闭模式</option>
-											<option value="02">打开模式</option>
-											<option value="03">呼吸模式</option>
-											<option value="04">颜色过渡模式</option>
-											<option value="05">正向流水保持模式</option>
-											<option value="06">正向流水不保持模式</option>
-											<option value="07">反向流水保持模式</option>
-											<option value="08">反向流水不保持模式</option>
-											<option value="09">带数量正向流水模式</option>
-											<option value="0A">带数量反向流水模式</option>
-											<option value="0B">正向灭灯流水保持模式</option>
-											<option value="0C">正向灭灯流水模式</option>
-											<option value="0D">正向慢速流水保持模式</option>
-											<option value="0E">正向慢速流水不保持模式</option>
-											<option value="0F">反向慢速流水保持模式</option>
-											<option value="10">反向慢速流水不保持模式</option>
-											<option value="11">带数量正向慢速流水模式</option>
-											<option value="12">带数量反向慢速流水模式</option>
-											<option value="13">带数量正向拖尾流水模式</option>
-											<option value="14">带数量反向拖尾流水模式</option>
-											<option value="15">多彩正向流水模式</option>
-											<option value="16">多彩反向流水模式</option>
-											<option value="17">全彩像素颜色设置模式</option>
-											<option value="18">全彩像素显示模式</option>
-											<option value="19">全彩像素清除模式</option>
-											<option value="1A">单色像素颜色设置模式</option>
-											<option value="1B">单色像素显示模式</option>
-										</select>
-										<span>流动LED:</span>
-										<input class="liudong" type="text" value="00">
-										<span>LED数量:</span>
-										<input class="led" type="text" value="00">
-										<span>速度:</span>
-										<input class="sudu" type="text" value="00">
-										<span>颜色:</span>
-										<input type="color" name="" class="yanse" value="00"/>
-										<span>白色值:</span>
-										<input type="text" name="" class="type7" value="00"/>
-										<!-- <button class="lamp_send">执行</button> -->
-									</div>
-						</div>`
-				}
+				htmlStr += getDeviceHtml(i);
+				
 			}
 
 			htmlStr += `</div>
@@ -302,68 +278,75 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 	}
 	// 节点里的组件刷新
 	function drawNode() {
+	
+		$(".active").find('.strip_one').html(getDeviceHtml(presentNodeIndex));
+		// console.log(nodeList);
+	}
+
+	function getDeviceHtml(tIndex){
 		var htmlStr = ``;
 		//判断类型，等
 		// console.log(presentNodeIndex);
 		// if (Array.isArray(nodeList[i].deviceList)) {
-		for (var j = 0; j < nodeList[presentNodeIndex].deviceList.length; j++) {
-			if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'light') {
+		for (var j = 0; j < nodeList[tIndex].deviceList.length; j++) {
+			if (nodeList[tIndex].deviceList[j].deviceType == 'light') {
+				var defaultValue = nodeList[tIndex].deviceList[j].deviceValue.replace("K","").split(",");
 				htmlStr +=
-					`<div class="lamp_body_one" id="${nodeList[presentNodeIndex].deviceList[j].deviceId}">
+					`<div class="lamp_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
 							<input type="text" name="" class="lamp_remark">
-							<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].deviceId}</span>
+							<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
 							</span>
 								<div class="lamp_body_one_one">
 								    <label for="">模式:</label>
-								    <select class="lamp_xuanxiang" name="" value="00">
-									<option value="01">关闭模式</option>
-									<option value="02">打开模式</option>
-									<option value="03">呼吸模式</option>
-									<option value="04">颜色过渡模式</option>
-									<option value="05">正向流水保持模式</option>
-									<option value="06">正向流水不保持模式</option>
-									<option value="07">反向流水保持模式</option>
-									<option value="08">反向流水不保持模式</option>
-									<option value="09">带数量正向流水模式</option>
-									<option value="0A">带数量反向流水模式</option>
-									<option value="0B">正向灭灯流水保持模式</option>
-									<option value="0C">正向灭灯流水模式</option>
-									<option value="0D">正向慢速流水保持模式</option>
-									<option value="0E">正向慢速流水不保持模式</option>
-									<option value="0F">反向慢速流水保持模式</option>
-									<option value="10">反向慢速流水不保持模式</option>
-									<option value="11">带数量正向慢速流水模式</option>
-									<option value="12">带数量反向慢速流水模式</option>
-									<option value="13">带数量正向拖尾流水模式</option>
-									<option value="14">带数量反向拖尾流水模式</option>
-									<option value="15">多彩正向流水模式</option>
-									<option value="16">多彩反向流水模式</option>
-									<option value="17">全彩像素颜色设置模式</option>
-									<option value="18">全彩像素显示模式</option>
-									<option value="19">全彩像素清除模式</option>
-									<option value="1A">单色像素颜色设置模式</option>
-									<option value="1B">单色像素显示模式</option>
+								    <select class="lamp_xuanxiang" name="">
+									<option value="01" ${defaultValue[0] == "01"?"selected='selected'":""} >关闭模式</option>
+									<option value="02" ${defaultValue[0] == "02"?"selected='selected'":""} >打开模式</option>
+									<option value="03" ${defaultValue[0] == "03"?"selected='selected'":""} >呼吸模式</option>
+									<option value="04" ${defaultValue[0] == "04"?"selected='selected'":""} >颜色过渡模式</option>
+									<option value="05" ${defaultValue[0] == "05"?"selected='selected'":""}  >正向流水保持模式</option>
+									<option value="06" ${defaultValue[0] == "06"?"selected='selected'":""} >正向流水不保持模式</option>
+									<option value="07" ${defaultValue[0] == "07"?"selected='selected'":""} >反向流水保持模式</option>
+									<option value="08" ${defaultValue[0] == "08"?"selected='selected'":""} >反向流水不保持模式</option>
+									<option value="09" ${defaultValue[0] == "09"?"selected='selected'":""} >带数量正向流水模式</option>
+									<option value="0A" ${defaultValue[0] == "0A"?"selected='selected'":""} >带数量反向流水模式</option>
+									<option value="0B" ${defaultValue[0] == "0B"?"selected='selected'":""} >正向灭灯流水保持模式</option>
+									<option value="0C" ${defaultValue[0] == "0C"?"selected='selected'":""} >正向灭灯流水模式</option>
+									<option value="0D" ${defaultValue[0] == "0D"?"selected='selected'":""} >正向慢速流水保持模式</option>
+									<option value="0E" ${defaultValue[0] == "0E"?"selected='selected'":""} >正向慢速流水不保持模式</option>
+									<option value="0F" ${defaultValue[0] == "0F"?"selected='selected'":""} >反向慢速流水保持模式</option>
+									<option value="10" ${defaultValue[0] == "10"?"selected='selected'":""} >反向慢速流水不保持模式</option>
+									<option value="11" ${defaultValue[0] == "11"?"selected='selected'":""} >带数量正向慢速流水模式</option>
+									<option value="12" ${defaultValue[0] == "12"?"selected='selected'":""} >带数量反向慢速流水模式</option>
+									<option value="13" ${defaultValue[0] == "13"?"selected='selected'":""} >带数量正向拖尾流水模式</option>
+									<option value="14" ${defaultValue[0] == "14"?"selected='selected'":""} >带数量反向拖尾流水模式</option>
+									<option value="15" ${defaultValue[0] == "15"?"selected='selected'":""} >多彩正向流水模式</option>
+									<option value="16" ${defaultValue[0] == "16"?"selected='selected'":""} >多彩反向流水模式</option>
+									<option value="17" ${defaultValue[0] == "17"?"selected='selected'":""} >全彩像素颜色设置模式</option>
+									<option value="18" ${defaultValue[0] == "18"?"selected='selected'":""} >全彩像素显示模式</option>
+									<option value="19" ${defaultValue[0] == "19"?"selected='selected'":""} >全彩像素清除模式</option>
+									<option value="1A" ${defaultValue[0] == "1A"?"selected='selected'":""} >单色像素颜色设置模式</option>
+									<option value="1B" ${defaultValue[0] == "1B"?"selected='selected'":""} >单色像素显示模式</option>
 								</select>
 								<span>流动LED:</span>
-								<input class="liudong" type="text" value="00">
+								<input class="liudong" type="text" value="${defaultValue[1]}">
 								<span>LED数量:</span>
-								<input class="led" type="text" value="00">
+								<input class="led" type="text" value="${defaultValue[2]}">
 								<span>速度:</span>
-								<input class="sudu" type="text" value="00">
+								<input class="sudu" type="text" value="${defaultValue[3]}">
 								<span>颜色:</span>
-								<input type="color" name="" class="yanse"/>
+								<input type="color" name="" class="yanse" value="#${defaultValue[4]+defaultValue[5]+defaultValue[6]}"/>
 								<span>白色值:</span>
-								<input type="text" name="" class="type7" value="00"/>
+								<input type="text" name="" class="type7" value="${defaultValue[7]}"/>
 								<button class="lamp_send" data-index="${j}" >保存</button>
 							</div>
 						</div>`
-
-			} else if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'elec') {
+		
+			} else if (nodeList[tIndex].deviceList[j].deviceType == 'elec') {
 				htmlStr +=
-					`<div class="elec_body_one" id="${nodeList[presentNodeIndex].deviceList[j].deviceId}">
+					`<div class="elec_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
 									<input type="text" name="" class="elec_remark">
 									<span class="elec_body_one_span">ID:
-										<span class="elec_body_one_id">0X${nodeList[presentNodeIndex].deviceList[j].deviceId}</span>
+										<span class="elec_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
 									</span>
 									<div class="elec_right">
 										
@@ -374,12 +357,12 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 										
 										<button type="button" class="elec_up">前进</button>
 										<button type="button" class="elec_down">后退</button>
-
+		
 										<label for="">
-											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].deviceId}" value="1">1
-											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].deviceId}" value="2">2
-											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].deviceId}" value="3">3
-											<input type="radio" name="${nodeList[presentNodeIndex].deviceList[j].deviceId}" value="2">4
+											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId}" value="1">1
+											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId}" value="2">2
+											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId}" value="3">3
+											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId}" value="2">4
 										</label>
 										<button type="button" class="elec_save">保存位置</button>
 									</div>
@@ -387,10 +370,8 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 								</div>`;
 			}
 		}
-		$(".active").find('.strip_one').html(htmlStr);
-		// console.log(nodeList);
+		return htmlStr;
 	}
-
 
 	// 节点里的逻辑刷新
 	function drawLogic() {
@@ -445,8 +426,8 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 
 		var node = {};
 		node.remark = "备注"; //remark
-		node.node_name = "结点" + (nodeIndex); //nodeName
-		node.node_sort = nodeIndex - 1; //nodeSort
+		node.nodeName = "结点" + (nodeIndex); //nodeName
+		node.nodeSort = nodeIndex - 1; //nodeSort
 		node.deviceList = []; //单节点的设备
 		nodeList.push(node);
 
@@ -467,7 +448,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 		// 	node.delay = 1;
 		// 	node.theOrder = i;
 		// 	logicList.push(node);
-		// 	// node.node_name = "结点" + (i + 1);
+		// 	// node.nodeName = "结点" + (i + 1);
 		// 	// node.deviceList = []; //单节点的设备
 		// }
 
@@ -538,12 +519,13 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 		}
 
 		// device.deviceType = "light";
-		device.theOrder = index;
+		// device.theOrder = index;
 		device.deviceId = id;
 		device.deviceValue = value;
 		if (!Array.isArray(nodeList[index].deviceList)) {
 			nodeList[index].deviceList = [];
 		}
+		device.theOrder = nodeList[index].deviceList.length;
 		nodeList[index].deviceList.push(device);
 		console.log(nodeList);
 		// drawHtml();
@@ -583,7 +565,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			var Id = $(this).attr('id').substring(2);
 			presentNodeIndex = Index;
 			if ($(".active").find('#' + Id).length == 0) {
-				addDevice(Index, Id, '00,00,00,00,00,00,00,00');
+				addDevice(Index, Id, '00,00,00,00,00,00,00,00K');
 			}
 		}
 
@@ -606,7 +588,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
 			presentNodeIndex = Index;
-			addDevice(Index, Id, '00,00,00,00,00,00,00,00');
+			addDevice(Index, Id, '00,00,00,00,00,00,00,00K');
 		}
 	});
 
@@ -1010,20 +992,20 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			// }, delay * 1000);
 			// return;
 
-			for (var i = 0; i < logicMap.length; i++) {
-				if (logicMap[i].id == logicId) {
-					if (logicValue == logicMap[i].value) {
-						setTimeout(function() {
-							currentIndex++;
-							isLogic();
-						}, delay * 1000);
-						return;
-					}
-				}
-			}
+			// for (var i = 0; i < logicMap.length; i++) {
+			// 	if (logicMap[i].id == logicId) {
+			// 		if (logicValue == logicMap[i].value) {
+			// 			setTimeout(function() {
+			// 				currentIndex++;
+			// 				isLogic();
+			// 			}, delay * 1000);
+			// 			return;
+			// 		}
+			// 	}
+			// }
 
 			//不满足条件 死循环
-			loopLogic();
+			// loopLogic();
 
 		} else {
 			//已经全部执行完毕
@@ -1051,6 +1033,8 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 		}
 		setTimeout(function() {
 			//从页面获取signalValue
+			console.log(logicList)
+			console.log(currentIndex)
 			var logicValue = logicList[currentIndex].signalValue; //逻辑信号
 			// var 
 			var logicId;
@@ -1083,7 +1067,8 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 	function actionDo() {
 		//TODO 扫描 currentIndex 节点的内容,并发送
 		for (var i = 0; i < nodeList[currentIndex].deviceList.length; i++) {
-			console.log(nodeList);
+			console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[
+				i].deviceValue);
 			// console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
 			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[
 				i].deviceValue);
@@ -1106,7 +1091,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 		console.log(JSON.stringify(nodeList));
 		console.log(JSON.stringify(logicList));
 
-		$.getJSON("http://192.168.1.10:8081/gq/api/saveSceneInfo", {
+		$.getJSON(serverAddr+"saveSceneInfo", {
 			sceneId: sceneId,
 			nodeList: JSON.stringify(nodeList),
 			logicList: JSON.stringify(logicList),
@@ -1131,7 +1116,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 	$(".cover_confirm").click(function() {
 		$(".List .List_cover").css("display", "none");
 		$(".List .questionnaire").css("display", "block");
-		$.getJSON("http://192.168.1.10:8081/gq/api/getEvaluateName", {}, function(data) {
+		$.getJSON(serverAddr+"getEvaluateName", {}, function(data) {
 			console.log(data);
 			$('#demonstration0').text(data.resultObject.standard1);
 			$('#demonstration1').text(data.resultObject.standard2);
@@ -1199,7 +1184,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 		// console.log(standard1);
 
 
-		$.getJSON("http://192.168.1.10:8081/gq/api/saveEvaluate", {
+		$.getJSON(serverAddr+"saveEvaluate", {
 			sceneId: sceneId,
 			standard1: standard1,
 			standard2: standard2,
@@ -1380,18 +1365,17 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
 			// console.log(Id);
-			$.getJSON("http://192.168.1.10:8081/gq/api/getRemark", {
+			$.getJSON(serverAddr+"getRemark", {
 				deviceId: self.FrameId,
+				num:0
 			}, function(data) {
 				// console.log(data);
-				if (data.resultObject.length == 0) { // 修饰元素
-					oBig.innerHTML = '<span>id:' + Id + '</span> <span></span>'
-					self.oLamOne.appendChild(oBig);
-				} else {
-					text = data.resultObject[0].deviceValue;
+			
+					
+					text = data.resultObject.remark;
 					oBig.innerHTML = '<span>id:' + Id + '</span> <span>' + text + '</span>'
 					self.oLamOne.appendChild(oBig);
-				}
+				
 			});
 		}
 	};
@@ -1412,18 +1396,17 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			var oBig = document.createElement("div"); // 创建元素
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
-			$.getJSON("http://192.168.1.10:8081/gq/api/getRemark", {
+			$.getJSON(serverAddr+"getRemark", {
 				deviceId: self.FrameId,
+				num:0
 			}, function(data) {
 				// console.log(data);
-				if (data.resultObject.length == 0) { // 修饰元素
-					oBig.innerHTML = '<span>id:' + Id + '</span> <span></span>'
-					self.oLamOne.appendChild(oBig);
-				} else {
-					text = data.resultObject[0].deviceValue;
+				
+					
+					text = data.resultObject.remark;
 					oBig.innerHTML = '<span>id:' + Id + '</span> <span>' + text + '</span>'
 					self.oLamOne.appendChild(oBig);
-				}
+				
 			});
 		}
 	}
@@ -1446,18 +1429,16 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 			var oBig = document.createElement("div"); // 创建元素
 			oBig.classList.add("library_body_body_one");
 			oBig.setAttribute("id", Id);
-			$.getJSON("http://192.168.1.10:8081/gq/api/getRemark", {
+			$.getJSON(serverAddr+"getRemark", {
 				deviceId: self.FrameId,
+				num:0
 			}, function(data) {
 				// console.log(data);
-				if (data.resultObject.length == 0) { // 修饰元素
-					oBig.innerHTML = '<span>id:' + Id + '</span> <span class="lib_span"></span>'
-					self.oLamOne.appendChild(oBig);
-				} else {
-					text = data.resultObject[0].deviceValue;
+				
+					text = data.resultObject.remark;
 					oBig.innerHTML = '<span>id:' + Id + '</span> <span class="lib_span">' + text + '</span>'
 					self.oLamOne.appendChild(oBig);
-				}
+				
 			});
 		}
 	}

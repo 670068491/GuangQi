@@ -422,10 +422,10 @@ body {}
 	margin-bottom: 1vw;
 	color: white;
 	width: 2vw;
-	padding: 0.8vw 0.2vw;
+	padding: 0.8vw 0.8vw;
 	background-color: #6f779c;
 	text-align: center;
-	margin-left: 0.1vw;
+	margin-left: -0.3vw;
 	position: relative;
 	border-radius: 50%;
 	/* margin-left: 1.4vw; */

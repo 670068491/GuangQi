@@ -1,7 +1,7 @@
 window.onload = function () {
 	
-	// var serverAddr = "http://192.168.1.10:8081/gq/api/";
-	var serverAddr = "http://www.shoulder-tech.com/gq/api/";
+	var serverAddr = "http://192.168.1.10:8081/gq/api/";
+	// var serverAddr = "http://www.shoulder-tech.com/gq/api/";
 	// 获取列表
 	function ListOfScenarios() {
 		// $.post("http://39.106.47.82:8080/gq/api/getSceneList", {
@@ -26,8 +26,16 @@ window.onload = function () {
 					<span>${data.resultObject[i].name}</span>
 					<span class="autoBodyOneName">设计师:<span>${data.resultObject[i].designer}</span></span>
 					<span class="autoBodyOneData">${data.resultObject[i].changeTime}</span>
-					<button type="button" class="autoBodyOneOpen" id="open">打开</button>
-					<button type="button" class="autoBodyOneCopy">复制</button>
+					<button type="button" 
+						class="autoBodyOneOpen" 
+						id="open" 
+						data-id="${data.resultObject[i].id}"
+						data-name="${data.resultObject[i].name}"
+						data-designer="${data.resultObject[i].designer}"
+						>
+							打开
+					</button>
+					<button type="button" class="autoBodyOneCopy" data-id="${data.resultObject[i].id}">复制</button>
 					<button type="button" class="autoBodyOneDelete" data-id="${data.resultObject[i].id}">删除</button>
 				</div>`;
 			}
@@ -59,7 +67,7 @@ window.onload = function () {
 		$(".auto .grade").css("display", "block");
 		$(".auto .cover").css("display", "block");
 
-		$.getJSON("http://192.168.1.10:8081/gq/api/getEvaluateName", {
+		$.getJSON(serverAddr+"getEvaluateName", {
 		}, function (data) {
 			// console.log(data);
 			$("#autoGradeOne1").val(data.resultObject.standard1);
@@ -109,7 +117,7 @@ window.onload = function () {
 		}
 
 		// console.log(standard1);
-		$.getJSON("http://192.168.1.10:8081/gq/api/saveEvaluateName", {
+		$.getJSON(serverAddr+"saveEvaluateName", {
 			standard1: standard1,
 			standard2: standard2,
 			standard3: standard3,
@@ -138,7 +146,7 @@ window.onload = function () {
 	$(".auto_body").on("click", ".autoBodyOneDelete", function () {
 		var uid = $(this).data("id");
 		// console.log(uid);
-		$.getJSON("http://192.168.1.10:8081/gq/api/deleteScene", {
+		$.getJSON(serverAddr+"deleteScene", {
 			sceneId: uid,
 			// action: 'jobcategoryjson'
 		}, function (data) {
@@ -148,8 +156,12 @@ window.onload = function () {
 	});
 
 	// 打开
-	$(".auto_body").on("click", ".open", function () {
+	$(".auto_body").on("click", ".autoBodyOneOpen", function () {
 		var uid = $(this).data("id");
+		var name = $(this).data("name");
+		var designer = $(this).data("designer");
+		location.href = "./List.html?name=" + name + "&stylist=" + designer + "&uId=" + uid + "&isopen=open"; //此处拼接内容";
+		
 		// 	// console.log(uid);
 		// 	$.getJSON("http://39.106.47.82:8080/gq/api/deleteScene", {
 		// 		sceneId: uid,
@@ -209,7 +221,7 @@ window.onload = function () {
 		$("#CodeSpan2").val("");
 		// $(".auto .code").css("display", "none");
 		// $(".auto .cover").css("display", "none");
-		$.getJSON("http://192.168.1.10:8081/gq/api/saveScene", {
+		$.getJSON(serverAddr+"saveScene", {
 			name: name,
 			designer: stylist
 			// action: 'jobcategoryjson'
