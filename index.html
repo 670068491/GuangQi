@@ -1,468 +1,519 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="utf-8" />
-	<title></title>
+    <meta charset="utf-8"/>
+    <title></title>
 </head>
-
 <body>
-	<link rel="stylesheet" type="text/css" href="./css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="./css/index.css" />
-	<div class="boy">
-		<!-- 头部 -->
-		<div class="top">
-			<div class="top_one">广汽研究院场景模拟平台</div>
-			<div class="top_two">
-				<!-- <span class="top_btn1">当前模式：手动</span> -->
-				<span class="top_btn1">当前模式：手动</span>
-				<span class="top_btn2 top_btn3" id="restoration">复位</span>
-				<span class="top_btn2" id="AllRestoration">复位设置</span>
-				<span class="top_btn2" id="cut">切换为自动</span>
-			</div>
-		</div>
-		<!-- 手动模式 -->
-		<div class="content">
-			<div class="contenter">
+<link rel="stylesheet" type="text/css" href="./css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="./css/index.css"/>
+<div class="boy">
+    <!-- 头部 -->
+    <div class="top">
+        <div class="top_one">广汽研究院场景模拟平台</div>
+        <div class="top_two">
+            <!-- <span class="top_btn1">当前模式：手动</span> -->
+            <span class="top_btn1">当前模式：手动</span>
+            <span class="top_btn2 top_btn3" id="restoration">复位</span>
+            <span class="top_btn2" id="AllRestoration">复位设置</span>
+            <span class="top_btn2" id="cut">切换为自动</span>
+        </div>
+    </div>
+    <!-- 手动模式 -->
+    <div class="content">
+        <div class="contenter">
 
-				<div class="corer"></div>
-				<div class="Restoration" id="Restoration">
-					<div class="lamp_body_one">
-						<input type="text" name="" class="lamp_remark ">
-						<span class="lamp_body_one_span">ID:
+            <div class="corer"></div>
+            <div class="Restoration" id="Restoration">
+                <div class="lamp_body_one">
+                    <input type="text" name="" class="lamp_remark ">
+                    <span class="lamp_body_one_span">ID:
 							<span class="lamp_body_one_id">0x123</span>
 						</span>
-						<div class="lamp_body_one_one">
-							<label for="">模式:</label>
-							<select class="lamp_xuanxiang" name="" value="">
-								<option value="01">关闭模式</option>
-								<option value="02">打开模式</option>
-								<option value="03">呼吸模式</option>
-								<option value="04">颜色过渡模式</option>
-								<option value="05">正向流水保持模式</option>
-							</select>
-							<span>流动LED:</span>
-							<input class="liudong" type="text">
-							<span>LED数量:</span>
-							<input class="led" type="text">
-							<span>速度:</span>
-							<input class="sudu" type="text">
-							<span>颜色:</span>
+                    <div class="lamp_body_one_one">
+                        <label for="">模式:</label>
+                        <select class="lamp_xuanxiang" name="" value="">
+                            <option value="01">关闭模式</option>
+                            <option value="02">打开模式</option>
+                            <option value="03">呼吸模式</option>
+                            <option value="04">颜色过渡模式</option>
+                            <option value="05">正向流水保持模式</option>
+                        </select>
+                        <span>流动LED:</span>
+                        <input class="liudong" type="text">
+                        <span>LED数量:</span>
+                        <input class="led" type="text">
+                        <span>速度:</span>
+                        <input class="sudu" type="text">
+                        <span>颜色:</span>
 
-							<input type="color" name="" class="yanse" />
-							<span>白色值:</span>
-							<input type="text" name="" class="type7" />
-							<button class="lamp_send">删除</button>
-						</div>
-				
-			
-					</div>
-
-					<div class="Restoration_btn">
-						<button class="Restoration_cancel">取消</button>
-						<button>保存</button>
-					</div>
-				</div>
+                        <input type="color" name="" class="yanse"/>
+                        <span>白色值:</span>
+                        <input type="text" name="" class="type7"/>
+                        <button class="lamp_send">删除</button>
+                    </div>
+                </div>
 
 
-				<div class="left">
-					<!-- 按钮 -->
-					<div class="button">
-						<div class="button_span">按钮</div>
-						<div class="button_body" id="button_body">
-							<!-- <div class="button_body_one">
-									<input type="text" name="" class="button_remark">
-									<span class="button_body_one_span">ID:
-										<span class="button_body_one_id">0x123</span>
-									</span>
-									<div class="button_body_one_one">
-										<div class="button_body_one_btn">
-											<div class="button_body_one_btn_circle"></div>
-											<div><input type="text"></div>
-										</div>
-										<div class="button_body_one_btn">
-											<div class="button_body_one_btn_circle"></div>
-											<div><input type="text"></div>
-										</div>
-										<div class="button_body_one_btn">
-											<div class="button_body_one_btn_circle"></div>
-											<div><input type="text"></div>
-										</div>
+                <div class="Rest_library">
+                    <div class="library_head">
+                        <span>设备在线状态</span>
+                        <img src="img/22.png" class="library_Back">
+                    </div>
+                    <div class="library_body">
+                        <div class="library_body_name">
+                            <span>氛围灯</span>
+                            <span class="pack" id="pack1"></span>
+                        </div>
+                        <div class="library_body_body" id="library_body_body1">
 
-									</div>
-								</div> -->
-						</div>
-					</div>
-					<!-- 虚拟按钮 -->
-					<div class="virtual">
-						<div class="virtual_span">虚拟按钮</div>
-						<div class="virt_text" id="virt_text">
-							<div class="virt_text_id"><span>ID:</span>
-								<input type="number" class="virt_text_span" id="virt_text_span">
-							</div>
-							<div class="virt_text_num"><span>数量:</span>
-								<input type="number" class="virt_text_span" id="virt_text_num">
-							</div>
-							<div>
-								<button type="button" id="virt_ensure">取消</button>
-								<button type="button" id="virt_cancel">确定</button>
-							</div>
-						</div>
-						<div class="virt_cover" id="virt_cover"></div>
-						<!-- 加号 -->
-						<div class="virtual_add" id="virt_add">+</div>
-						<div class="virtual_body" id="virtual_body">
+                        </div>
+                        <div class="library_body_name">
+                            <span>电机</span>
+                            <span class="pack" id="pack2"></span>
+                        </div>
+                        <div class="library_body_body" id="library_body_body2">
 
-							<!-- <div class="virtual_body_one">
-                                <input type="text" name="" class="virtual_remark">
-                                <span class="virtual_body_one_span">ID:<span class="virtual_body_one_id">0x123</span></span>
+                        </div>
+                        <div class="library_body_name">
+                            <span>投影仪</span>
+                            <span class="pack"></span>
+                        </div>
+                        <div class="library_body_body" id="library_body_body3">
+
+                        </div>
+                        <div class="library_body_name">
+                            <span>输出控制</span>
+                            <span class="pack"></span>
+                        </div>
+                        <div class="library_body_body" id="library_body_body3">
+
+                        </div>
+                    </div>
+                    <div class="library_head">
+                        <span>信号</span>
+                    </div>
+                    <div class="library_body">
+                        <div class="library_body_name">
+                            <span>输入信号</span>
+                            <span class="pack" id="pack3"></span>
+                        </div>
+                        <div class="library_body_body" id="library_body_body4">
+                            <div class="library_body_body_one" id="0X201">
+                                <span>id:0X201</span>
+                                <span class="lib_span">前门1</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="Restoration_btn">
+                    <button class="Restoration_cancel">取消</button>
+                    <button class="Restoration_seva">保存</button>
+                </div>
+
+            </div>
+            <div class="left">
+                <!-- 按钮 -->
+                <div class="button">
+                    <div class="button_span">按钮</div>
+                    <div class="button_body" id="button_body">
+                        <!-- <div class="button_body_one">
+                                <input type="text" name="" class="button_remark">
+                                <span class="button_body_one_span">ID:
+                                    <span class="button_body_one_id">0x123</span>
+                                </span>
                                 <div class="button_body_one_one">
-                                    <div class="virtual_body_one_btn">
-                                        <div class="virtual_body_one_btn_circle"></div>
+                                    <div class="button_body_one_btn">
+                                        <div class="button_body_one_btn_circle"></div>
                                         <div><input type="text"></div>
                                     </div>
-                                    <div class="virtual_body_one_btn">
-                                        <div class="virtual_body_one_btn_circle"></div>
+                                    <div class="button_body_one_btn">
+                                        <div class="button_body_one_btn_circle"></div>
                                         <div><input type="text"></div>
                                     </div>
-                                    <div class="virtual_delete">X</div>
+                                    <div class="button_body_one_btn">
+                                        <div class="button_body_one_btn_circle"></div>
+                                        <div><input type="text"></div>
+                                    </div>
+
                                 </div>
                             </div> -->
+                    </div>
+                </div>
+                <!-- 虚拟按钮 -->
+                <div class="virtual">
+                    <div class="virtual_span">虚拟按钮</div>
+                    <div class="virt_text" id="virt_text">
+                        <div class="virt_text_id"><span>ID:</span>
+                            <input type="number" class="virt_text_span" id="virt_text_span">
+                        </div>
+                        <div class="virt_text_num"><span>数量:</span>
+                            <input type="number" class="virt_text_span" id="virt_text_num">
+                        </div>
+                        <div>
+                            <button type="button" id="virt_ensure">取消</button>
+                            <button type="button" id="virt_cancel">确定</button>
+                        </div>
+                    </div>
+                    <div class="virt_cover" id="virt_cover"></div>
+                    <!-- 加号 -->
+                    <div class="virtual_add" id="virt_add">+</div>
+                    <div class="virtual_body" id="virtual_body">
 
-						</div>
-					</div>
-					<!-- 旋钮 -->
-					<div class="rotaryknob">
-						<div class="rotaryknob_span">旋钮</div>
-						<div class="rotaryknob_body" id="rotaryknob_body">
-							<!-- <div class="rotaryknob_body_one">
-									<input type="text" name="" class="rotaryknob_remark">
-									<span class="rotaryknob_body_one_span">ID:
-										<span class="rotaryknob_body_one_id">0x123</span>
-									</span>
-									<input type="text" readonly="readonly" class="rotaryknob_remark_one">
-									<input type="text" value="旋转步数" class="rotaryknob_remark_two">
-									<button type="button" class="rota_btn">Power</button>
-								</div> -->
-						</div>
-					</div>
-					<!-- 传感器 -->
-					<div class="sensor">
-						<div class="sensor_span">传感器</div>
-						<div class="sensor_body" id="sensor_body">
-							<!-- <div class="sensor_body_one">
-									<input type="text" name="" class="sensor_remark ">
-									<span class="sensor_body_one_span">ID:
-										<span class="sensor_body_one_id">0x123</span>
-									</span>
+                        <!-- <div class="virtual_body_one">
+                            <input type="text" name="" class="virtual_remark">
+                            <span class="virtual_body_one_span">ID:<span class="virtual_body_one_id">0x123</span></span>
+                            <div class="button_body_one_one">
+                                <div class="virtual_body_one_btn">
+                                    <div class="virtual_body_one_btn_circle"></div>
+                                    <div><input type="text"></div>
+                                </div>
+                                <div class="virtual_body_one_btn">
+                                    <div class="virtual_body_one_btn_circle"></div>
+                                    <div><input type="text"></div>
+                                </div>
+                                <div class="virtual_delete">X</div>
+                            </div>
+                        </div> -->
 
-									<div class="sensor_body_one_one">
-										<div class="sensor_body_one_btn">
-											<div class="sensor_body_one_btn_circle"></div>
-											<div><input type="text"></div>
-										</div>
-										<div class="sensor_body_one_btn">
-											<div class="sensor_body_one_btn_circle"></div>
-											<div><input type="text"></div>
-										</div>
-										<div class="sensor_body_one_btn">
-											<div class="sensor_body_one_btn_circle"></div>
-											<div><input type="text"></div>
-										</div>
-									</div>
-								</div> -->
-						</div>
-					</div>
-				</div>
-
-				<div class="right">
-					<!-- 灯光 -->
-					<div class="lamplight">
-						<div class="lamp_span">灯光</div>
-						<div class="lamp_body" id="lamp_body">
-							<!-- <div class="lamp_body_one">
-									<input type="text" name="" class="lamp_remark ">
-									<span class="lamp_body_one_span">ID:
-										<span class="lamp_body_one_id">0x123</span>
-									</span>
-									<div class="lamp_body_one_one">
-										<label for="">模式:</label>
-										<select class="lamp_xuanxiang" name="" value="">
-											<option value="01">关闭模式</option>
-											<option value="02">打开模式</option>
-											<option value="03">呼吸模式</option>
-											<option value="04">颜色过渡模式</option>
-											<option value="05">正向流水保持模式</option>
-											<option value="06">正向流水不保持模式</option>
-											<option value="07">反向流水保持模式</option>
-											<option value="08">反向流水不保持模式</option>
-											<option value="09">带数量正向流水模式</option>
-											<option value="0A">带数量反向流水模式</option>
-											<option value="0B">正向灭灯流水保持模式</option>
-											<option value="0C">正向灭灯流水模式</option>
-											<option value="0D">正向慢速流水保持模式</option>
-											<option value="0E">正向慢速流水不保持模式</option>
-											<option value="0F">反向慢速流水保持模式</option>
-											<option value="10">反向慢速流水不保持模式</option>
-											<option value="11">带数量正向慢速流水模式</option>
-											<option value="12">带数量反向慢速流水模式</option>
-											<option value="13">带数量正向拖尾流水模式</option>
-											<option value="14">带数量反向拖尾流水模式</option>
-											<option value="15">多彩正向流水模式</option>
-											<option value="16">多彩反向流水模式</option>
-											<option value="17">全彩像素颜色设置模式</option>
-											<option value="18">全彩像素显示模式</option>
-											<option value="19">全彩像素清除模式</option>
-											<option value="1A">单色像素颜色设置模式</option>
-											<option value="1B">单色像素显示模式</option>
-										</select>
-										<span>流动LED:</span>
-										<input class="liudong" type="text">
-										<span>LED数量:</span>
-										<input class="led" type="text">
-										<span>速度:</span>
-										<input class="sudu" type="text">
-										<span>颜色:</span>
-									
-										<input type="color" name="" class="yanse" />
-										<span>白色值:</span>
-										<input type="text" name="" class="type7" />
-										<button class="lamp_send">执行</button>
-									</div>
-								</div -->
-						</div>
-					</div>
-					<!-- 电机 -->
-					<div class="electrical">
-						<div class="elec_span">电机</div>
-						<div class="elec_body" id="elec_body">
-							<!-- <div class="elec_body_one">
-									<input type="text" name="" class="elec_remark">
-									<span class="elec_body_one_span">ID:
-										<span class="elec_body_one_id">0x123</span>
-									</span>
-									<div class="elec_right">
-										
-										<input type="range" disabled="true" name="" min="0" max="100" value="10" step="1" class="elec_int">
-										<input type="text" value="" class="elec_cover">
-										<input type="text" value="" class="elec_OverAll">
-										<input type="text" value="" class="elec_Current">
-										
-										<button type="button" class="elec_up">前进</button>
-										<button type="button" class="elec_down">后退</button>
-
-										<label for="">
-											<input type="radio" name="101" value="1">1
-											<input type="radio" name="101" value="2">2
-											<input type="radio" name="101" value="3">3
-											<input type="radio" name="101" value="2">4
-										</label>
-										<button type="button" class="elec_save">保存</button>
-										<button type="button" class="elec_send">调用</button>
-									</div>
-								</div> -->
-						</div>
-
-					</div>
-					<!-- 安卓屏 -->
-					<div class="android">
-						<div class="andr_span">安卓屏</div>
-						<div class="andr_body" id="andr_body">
-							<!-- <div class="andr_body_one">
-									<input type="text" name="" class="andr_remark">
-									<span class="andr_body_one_span">ID:
-										<span class="andr_body_one_id">0x123</span>
-									</span>
-									<div class="andr_body_one_one">
-										<input type="file">
-										<button type="button">打开</button>
-										<img src="./img/st.png" alt="" class="andr_img1">
-										<img src="./img/pl.png" alt="" class="andr_img2">
-										<img src="./img/cea.png" alt="" class="andr_img3">
-									</div>
-								</div> -->
-
-						</div>
-					</div>
-
-					<!-- 投影仪 -->
-					<div class="projector">
-						<div class="proj_span">投影仪</div>
-						<div class="proj_body" id="proj_body">
-							<!-- <div class="proj_body_one">
-                                <input type="text" name="" class="proj_remark">
-                                <span class="proj_body_one_span">ID:
-                                    <span class="proj_body_one_id">0x123</span>
+                    </div>
+                </div>
+                <!-- 旋钮 -->
+                <div class="rotaryknob">
+                    <div class="rotaryknob_span">旋钮</div>
+                    <div class="rotaryknob_body" id="rotaryknob_body">
+                        <!-- <div class="rotaryknob_body_one">
+                                <input type="text" name="" class="rotaryknob_remark">
+                                <span class="rotaryknob_body_one_span">ID:
+                                    <span class="rotaryknob_body_one_id">0x123</span>
                                 </span>
-                                <div class="proj_top">
-                                    <button class="proj_1">开机</button>
-                                    <button class="proj_2">关机</button>
-                                </div>
-                                <div class="proj_bott">
-                                    <button class="proj_3">视频1</button>
-                                    <button class="proj_4">视频2</button>
-                                    <button class="proj_5">视频3</button>
-                                    <button class="proj_6">视频4</button>
-                                    <button class="proj_7">视频5</button>
-                                    <button class="proj_8">视频6</button>
-                                    <button class="proj_9">视频7</button>
-                                    <button class="proj_10">视频8</button>
-                                </div>
+                                <input type="text" readonly="readonly" class="rotaryknob_remark_one">
+                                <input type="text" value="旋转步数" class="rotaryknob_remark_two">
+                                <button type="button" class="rota_btn">Power</button>
                             </div> -->
-						</div>
-					</div>
-					<!-- 输出控制 -->
-					<div class="output">
-						<div class="outp_span">输出控制</div>
-						<div class="outp_body" id="outp_body">
-							<!-- <div class="outp_body_one">
-                                <input type="text" name="" class="outp_remark">
-                                <span class="outp_body_one_span">ID:
-                                    <span class="outp_body_one_id">0x123</span>
+                    </div>
+                </div>
+                <!-- 传感器 -->
+                <div class="sensor">
+                    <div class="sensor_span">传感器</div>
+                    <div class="sensor_body" id="sensor_body">
+                        <!-- <div class="sensor_body_one">
+                                <input type="text" name="" class="sensor_remark ">
+                                <span class="sensor_body_one_span">ID:
+                                    <span class="sensor_body_one_id">0x123</span>
                                 </span>
-                                <div class="outp_b">
-                                    <div class="outp_btn">
-                                        <input type="text" name="" value="" class="outp_input" />
-                                        <button type="button"></button>
+
+                                <div class="sensor_body_one_one">
+                                    <div class="sensor_body_one_btn">
+                                        <div class="sensor_body_one_btn_circle"></div>
+                                        <div><input type="text"></div>
                                     </div>
-                                    <div class="outp_btn">
-                                        <input type="text" name="" value="" class="outp_input" />
-                                        <button type="button"></button>
+                                    <div class="sensor_body_one_btn">
+                                        <div class="sensor_body_one_btn_circle"></div>
+                                        <div><input type="text"></div>
                                     </div>
-                                    <div class="outp_btn">
-                                        <input type="text" name="" value="" class="outp_input" />
-                                        <button type="button"></button>
-                                    </div>
-                                    <div class="outp_btn">
-                                        <input type="text" name="" value="" class="outp_input" />
-                                        <button type="button"></button>
+                                    <div class="sensor_body_one_btn">
+                                        <div class="sensor_body_one_btn_circle"></div>
+                                        <div><input type="text"></div>
                                     </div>
                                 </div>
                             </div> -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                    </div>
+                </div>
+            </div>
 
-		<!-- 自动模式 -->
-		<div class="selfmotion">
-			<div class="selfer">
-				<div class="selfer_one" id="selfer_one">
-					<div class="selfer_lef">
-						<span>操作讲解</span>
-						<span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
-					</div>
-					<div class="selfer_one_con">
-						<span>迎宾上车</span>
-						<!-- <input type="text" value="迎宾上车" name="" id=""> -->
-					</div>
-					<div class="selfer_one_right">
-						<span>介绍</span>
-						<span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<!-- <input type="text" value="11111111111111111111111111111111111111111111111111111111111"> -->
-						<!-- <textarea name="" cols="10" rows="10">xxxxxxxxxxxxxxxxxxxx</textarea> -->
-					</div>
-				</div>
-				<div class="selfer_one" id="selfer_two">
-					<div class="selfer_lef">
-						<span>操作讲解</span>
-						<span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
-					</div>
-					<div class="selfer_one_con">
-						<span>欢送下车</span>
-						<!-- <input type="text" value="欢送下车" name=""> -->
-					</div>
-					<div class="selfer_one_right">
-						<span>介绍</span>
-						<span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<!-- <input type="text" value="11111111111111111111111111111111111111111111111111111111111"> -->
-						<!-- <textarea name="" cols="10" rows="10">xxxxxxxxxxxxxxxxxxxx</textarea> -->
-					</div>
-				</div>
-				<div class="selfer_one" id="selfer_three">
-					<div class="selfer_lef">
-						<span>操作讲解</span>
-						<span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
-					</div>
-					<div class="selfer_one_con">
-						<span>氛围灯体验</span>
-						<!-- <input type="text" value="氛围灯体验" name="" id=""> -->
-					</div>
-					<div class="selfer_one_right">
-						<span>介绍</span>
-						<span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
-						<!-- <input type="text" value="11111111111111111111111111111111111111111111111111111111111"> -->
-						<!-- <textarea name="" cols="10" rows="10">xxxxxxxxxxxxxxxxxxxx</textarea> -->
-					</div>
-				</div>
-			</div>
-		</div>
+            <div class="right">
+                <!-- 灯光 -->
+                <div class="lamplight">
+                    <div class="lamp_span">灯光</div>
+                    <div class="lamp_body" id="lamp_body">
+                        <!-- <div class="lamp_body_one">
+                                <input type="text" name="" class="lamp_remark ">
+                                <span class="lamp_body_one_span">ID:
+                                    <span class="lamp_body_one_id">0x123</span>
+                                </span>
+                                <div class="lamp_body_one_one">
+                                    <label for="">模式:</label>
+                                    <select class="lamp_xuanxiang" name="" value="">
+                                        <option value="01">关闭模式</option>
+                                        <option value="02">打开模式</option>
+                                        <option value="03">呼吸模式</option>
+                                        <option value="04">颜色过渡模式</option>
+                                        <option value="05">正向流水保持模式</option>
+                                        <option value="06">正向流水不保持模式</option>
+                                        <option value="07">反向流水保持模式</option>
+                                        <option value="08">反向流水不保持模式</option>
+                                        <option value="09">带数量正向流水模式</option>
+                                        <option value="0A">带数量反向流水模式</option>
+                                        <option value="0B">正向灭灯流水保持模式</option>
+                                        <option value="0C">正向灭灯流水模式</option>
+                                        <option value="0D">正向慢速流水保持模式</option>
+                                        <option value="0E">正向慢速流水不保持模式</option>
+                                        <option value="0F">反向慢速流水保持模式</option>
+                                        <option value="10">反向慢速流水不保持模式</option>
+                                        <option value="11">带数量正向慢速流水模式</option>
+                                        <option value="12">带数量反向慢速流水模式</option>
+                                        <option value="13">带数量正向拖尾流水模式</option>
+                                        <option value="14">带数量反向拖尾流水模式</option>
+                                        <option value="15">多彩正向流水模式</option>
+                                        <option value="16">多彩反向流水模式</option>
+                                        <option value="17">全彩像素颜色设置模式</option>
+                                        <option value="18">全彩像素显示模式</option>
+                                        <option value="19">全彩像素清除模式</option>
+                                        <option value="1A">单色像素颜色设置模式</option>
+                                        <option value="1B">单色像素显示模式</option>
+                                    </select>
+                                    <span>流动LED:</span>
+                                    <input class="liudong" type="text">
+                                    <span>LED数量:</span>
+                                    <input class="led" type="text">
+                                    <span>速度:</span>
+                                    <input class="sudu" type="text">
+                                    <span>颜色:</span>
 
-		<!-- 自动模式3 氛围灯 -->
-		<div class="Pattern3">
-			<div class="pattern3_top">氛围灯</div>
-			<div class="pattern3_btn">
-				<span>状态:<span id="patt3_state">不可启动</span></span>
-				<div class="pattern3_div" id="pattern3_z"></div>
-				<button type="button" class="pattern3_button" disabled="true">启动</button>
-				<button type="button" class="pattern3_tuichu">退出</button>
+                                    <input type="color" name="" class="yanse" />
+                                    <span>白色值:</span>
+                                    <input type="text" name="" class="type7" />
+                                    <button class="lamp_send">执行</button>
+                                </div>
+                            </div -->
+                    </div>
+                </div>
+                <!-- 电机 -->
+                <div class="electrical">
+                    <div class="elec_span">电机</div>
+                    <div class="elec_body" id="elec_body">
+                        <!-- <div class="elec_body_one">
+                                <input type="text" name="" class="elec_remark">
+                                <span class="elec_body_one_span">ID:
+                                    <span class="elec_body_one_id">0x123</span>
+                                </span>
+                                <div class="elec_right">
 
-			</div>
-			<div class="pattern3_bott">
-				<div class="pattern3_one">
-					<div class="pattern3_ico" id="pattern3_ico1"></div>
-					<div class="pattern3_num">A.xxxxxxxxxxxxx</div>
-				</div>
-				<div class="pattern3_one">
-					<div class="pattern3_ico" id="pattern3_ico2"></div>
-					<div class="pattern3_num">A.xxxxxxxxxxxxx</div>
-				</div>
-				<div class="pattern3_one">
-					<div class="pattern3_ico" id="pattern3_ico3"></div>
-					<div class="pattern3_num">A.xxxxxxxxxxxxx</div>
-				</div>
-				<div class="pattern3_one">
-					<div class="pattern3_ico" id="pattern3_ico4"></div>
-					<div class="pattern3_num">A.xxxxxxxxxxxxx</div>
-				</div>
-				<div class="pattern3_one">
-					<div class="pattern3_ico" id="pattern3_ico5"></div>
-					<div class="pattern3_num">A.xxxxxxxxxxxxx</div>
-				</div>
-				<div class="pattern3_one">
-					<div class="pattern3_ico" id="pattern3_ico6"></div>
-					<div class="pattern3_num">A.xxxxxxxxxxxxx</div>
-				</div>
-			</div>
-		</div>
+                                    <input type="range" disabled="true" name="" min="0" max="100" value="10" step="1" class="elec_int">
+                                    <input type="text" value="" class="elec_cover">
+                                    <input type="text" value="" class="elec_OverAll">
+                                    <input type="text" value="" class="elec_Current">
 
-		<!-- 尾部 -->
-		<div class="bottom">
-			技术支持：上海肩并肩电子科技有限公司
-		</div>
-	</div>
+                                    <button type="button" class="elec_up">前进</button>
+                                    <button type="button" class="elec_down">后退</button>
+
+                                    <label for="">
+                                        <input type="radio" name="101" value="1">1
+                                        <input type="radio" name="101" value="2">2
+                                        <input type="radio" name="101" value="3">3
+                                        <input type="radio" name="101" value="2">4
+                                    </label>
+                                    <button type="button" class="elec_save">保存</button>
+                                    <button type="button" class="elec_send">调用</button>
+                                </div>
+                            </div> -->
+                    </div>
+
+                </div>
+                <!-- 安卓屏 -->
+                <div class="android">
+                    <div class="andr_span">安卓屏</div>
+                    <div class="andr_body" id="andr_body">
+                        <!-- <div class="andr_body_one">
+                                <input type="text" name="" class="andr_remark">
+                                <span class="andr_body_one_span">ID:
+                                    <span class="andr_body_one_id">0x123</span>
+                                </span>
+                                <div class="andr_body_one_one">
+                                    <input type="file">
+                                    <button type="button">打开</button>
+                                    <img src="./img/st.png" alt="" class="andr_img1">
+                                    <img src="./img/pl.png" alt="" class="andr_img2">
+                                    <img src="./img/cea.png" alt="" class="andr_img3">
+                                </div>
+                            </div> -->
+
+                    </div>
+                </div>
+
+                <!-- 投影仪 -->
+                <div class="projector">
+                    <div class="proj_span">投影仪</div>
+                    <div class="proj_body" id="proj_body">
+                        <!-- <div class="proj_body_one">
+                            <input type="text" name="" class="proj_remark">
+                            <span class="proj_body_one_span">ID:
+                                <span class="proj_body_one_id">0x123</span>
+                            </span>
+                            <div class="proj_top">
+                                <button class="proj_1">开机</button>
+                                <button class="proj_2">关机</button>
+                            </div>
+                            <div class="proj_bott">
+                                <button class="proj_3">视频1</button>
+                                <button class="proj_4">视频2</button>
+                                <button class="proj_5">视频3</button>
+                                <button class="proj_6">视频4</button>
+                                <button class="proj_7">视频5</button>
+                                <button class="proj_8">视频6</button>
+                                <button class="proj_9">视频7</button>
+                                <button class="proj_10">视频8</button>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <!-- 输出控制 -->
+                <div class="output">
+                    <div class="outp_span">输出控制</div>
+                    <div class="outp_body" id="outp_body">
+                        <!-- <div class="outp_body_one">
+                            <input type="text" name="" class="outp_remark">
+                            <span class="outp_body_one_span">ID:
+                                <span class="outp_body_one_id">0x123</span>
+                            </span>
+                            <div class="outp_b">
+                                <div class="outp_btn">
+                                    <input type="text" name="" value="" class="outp_input" />
+                                    <button type="button"></button>
+                                </div>
+                                <div class="outp_btn">
+                                    <input type="text" name="" value="" class="outp_input" />
+                                    <button type="button"></button>
+                                </div>
+                                <div class="outp_btn">
+                                    <input type="text" name="" value="" class="outp_input" />
+                                    <button type="button"></button>
+                                </div>
+                                <div class="outp_btn">
+                                    <input type="text" name="" value="" class="outp_input" />
+                                    <button type="button"></button>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
+    </div>
 
 
-	<!-- <button type="button" id="btn">发送</button> -->
-	<script type="text/javascript" src="./lib/sockjs.min.js"></script>
-	<script type="text/javascript" src="./lib/stomp.min1.js"></script>
-	<script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="./js/index.js"></script>
+    <!-- 自动模式 -->
+    <div class="selfmotion">
+        <div class="selfer">
+            <div class="selfer_one" id="selfer_one">
+                <div class="selfer_lef">
+                    <span>操作讲解</span>
+                    <span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
+                </div>
+                <div class="selfer_one_con">
+                    <span>迎宾上车</span>
+                    <!-- <input type="text" value="迎宾上车" name="" id=""> -->
+                </div>
+                <div class="selfer_one_right">
+                    <span>介绍</span>
+                    <span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <!-- <input type="text" value="11111111111111111111111111111111111111111111111111111111111"> -->
+                    <!-- <textarea name="" cols="10" rows="10">xxxxxxxxxxxxxxxxxxxx</textarea> -->
+                </div>
+            </div>
+            <div class="selfer_one" id="selfer_two">
+                <div class="selfer_lef">
+                    <span>操作讲解</span>
+                    <span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
+                </div>
+                <div class="selfer_one_con">
+                    <span>欢送下车</span>
+                    <!-- <input type="text" value="欢送下车" name=""> -->
+                </div>
+                <div class="selfer_one_right">
+                    <span>介绍</span>
+                    <span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <!-- <input type="text" value="11111111111111111111111111111111111111111111111111111111111"> -->
+                    <!-- <textarea name="" cols="10" rows="10">xxxxxxxxxxxxxxxxxxxx</textarea> -->
+                </div>
+            </div>
+            <div class="selfer_one" id="selfer_three">
+                <div class="selfer_lef">
+                    <span>操作讲解</span>
+                    <span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
+                </div>
+                <div class="selfer_one_con">
+                    <span>氛围灯体验</span>
+                    <!-- <input type="text" value="氛围灯体验" name="" id=""> -->
+                </div>
+                <div class="selfer_one_right">
+                    <span>介绍</span>
+                    <span>1.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>2.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <span>3.xxxxxxxxxxxxxxxxxxxxxx</span>
+                    <!-- <input type="text" value="11111111111111111111111111111111111111111111111111111111111"> -->
+                    <!-- <textarea name="" cols="10" rows="10">xxxxxxxxxxxxxxxxxxxx</textarea> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自动模式3 氛围灯 -->
+    <div class="Pattern3">
+        <div class="pattern3_top">氛围灯</div>
+        <div class="pattern3_btn">
+            <span>状态:<span id="patt3_state">不可启动</span></span>
+            <div class="pattern3_div" id="pattern3_z"></div>
+            <button type="button" class="pattern3_button" disabled="true">启动</button>
+            <button type="button" class="pattern3_tuichu">退出</button>
+
+        </div>
+        <div class="pattern3_bott">
+            <div class="pattern3_one">
+                <div class="pattern3_ico" id="pattern3_ico1"></div>
+                <div class="pattern3_num">A.xxxxxxxxxxxxx</div>
+            </div>
+            <div class="pattern3_one">
+                <div class="pattern3_ico" id="pattern3_ico2"></div>
+                <div class="pattern3_num">A.xxxxxxxxxxxxx</div>
+            </div>
+            <div class="pattern3_one">
+                <div class="pattern3_ico" id="pattern3_ico3"></div>
+                <div class="pattern3_num">A.xxxxxxxxxxxxx</div>
+            </div>
+            <div class="pattern3_one">
+                <div class="pattern3_ico" id="pattern3_ico4"></div>
+                <div class="pattern3_num">A.xxxxxxxxxxxxx</div>
+            </div>
+            <div class="pattern3_one">
+                <div class="pattern3_ico" id="pattern3_ico5"></div>
+                <div class="pattern3_num">A.xxxxxxxxxxxxx</div>
+            </div>
+            <div class="pattern3_one">
+                <div class="pattern3_ico" id="pattern3_ico6"></div>
+                <div class="pattern3_num">A.xxxxxxxxxxxxx</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 尾部 -->
+    <div class="bottom">
+        技术支持：上海肩并肩电子科技有限公司
+    </div>
+</div>
+
+
+<!-- <button type="button" id="btn">发送</button> -->
+<script type="text/javascript" src="./lib/sockjs.min.js"></script>
+<script type="text/javascript" src="./lib/stomp.min1.js"></script>
+<script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="./js/index.js"></script>
 </body>
 
 </html>

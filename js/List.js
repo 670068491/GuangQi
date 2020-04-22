@@ -953,7 +953,7 @@ var port  = "http://192.168.1.10:8081/gq/api/getEvaluateName";
 	 */
 
 	$("#start").click(function() { //启动
-		// $(this).css()
+		// $(this).css();
 		$(this).css("background-color", "#0077ff");
 		setTimeout(function() {
 			$("#start").css("background-color", "#898989");

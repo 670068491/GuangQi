@@ -140,3 +140,137 @@ document.body.appendChild(new_element);
 		$(".selfmotion").css("display", "block");
 		$(".Pattern3").css("display", "none");
 	});
+
+// var array = nums.split("");
+
+
+
+
+
+// var Id = $(this).parents(".proj_body_one").attr('id');
+// var buttonval = $(this).val();
+// var locaObj = JSON.parse(storage.getItem(Id));
+// var FrameId = locaObj.FrameId;
+// var type = locaObj.type;
+// var data = {
+// 	FrameId: FrameId,
+// 	type: type,
+// 	text: buttonval,
+// };
+// var dater = JSON.stringify(data);
+// localStorage.setItem(FrameId, dater);
+
+
+
+// var Id = $(this).parents(".andr_body_one").attr('id');
+// var buttonval = $(this).val();
+// var locaObj = JSON.parse(storage.getItem(Id));
+// var FrameId = locaObj.FrameId;
+// var type = locaObj.type;
+// var data = {
+// 	FrameId: FrameId,
+// 	type: type,
+// 	text: buttonval,
+// };
+// var dater = JSON.stringify(data);
+// localStorage.setItem(FrameId, dater);
+// var Id = $(this).parents(".elec_body_one").attr('id');
+// var buttonval = $(this).val();
+// var locaObj = JSON.parse(storage.getItem(Id));
+// var FrameId = locaObj.FrameId;
+// var type = locaObj.type;
+// var data = {
+// 	FrameId: FrameId,
+// 	type: type,
+// 	text: buttonval,
+// };
+// var dater = JSON.stringify(data);
+// localStorage.setItem(FrameId, dater);
+// // var Loca = storage.getItem(Id);
+// var locaObj = JSON.parse(storage.getItem(Id));
+// var FrameId = locaObj.FrameId;
+// var num = locaObj.num;
+// var type = locaObj.type;
+// // var text = locaObj.text;
+// var data = {
+// 	FrameId: FrameId,
+// 	num: num,
+// 	type: type,
+// 	text: buttonval,
+// };
+// var dater = JSON.stringify(data);
+// localStorage.setItem(FrameId, dater);
+// console.log(data);
+
+
+
+// var Id = $(this).parents(".rotaryknob_body_one").attr('id');
+// var buttonval = $(this).val();
+// var locaObj = JSON.parse(storage.getItem(Id));
+// var FrameId = locaObj.FrameId;
+// var type = locaObj.type;
+// var data = {
+// 	FrameId: FrameId,
+// 	type: type,
+// 	text: buttonval,
+// };
+// var dater = JSON.stringify(data);
+// localStorage.setItem(FrameId, dater);
+// console.log(data);
+
+
+// var Id = $(this).parents(".sensor_body_one").attr('id');
+// var buttonval = $(this).val();
+// var locaObj = JSON.parse(storage.getItem(Id));
+// var FrameId = locaObj.FrameId;
+// var num = locaObj.num;
+// var type = locaObj.type;
+// var data = {
+// 	FrameId: FrameId,
+// 	num: num,
+// 	type: type,
+// 	text: buttonval,
+// };
+// var dater = JSON.stringify(data);
+// localStorage.setItem(FrameId, dater);
+// console.log(data);
+
+
+// var Id = $(this).parents(".lamp_body_one").attr('id');
+// var buttonval = $(this).val();
+// var locaObj = JSON.parse(storage.getItem(Id));
+// var FrameId = locaObj.FrameId;
+// var type = locaObj.type;
+// var data = {
+// 	FrameId: FrameId,
+// 	type: type,
+// 	text: buttonval,
+// };
+// var dater = JSON.stringify(data);
+// localStorage.setItem(FrameId, dater);
+
+if (data.resultObject.length == 0) { // 修饰元素
+	// htmlStr += `<div class="button_body_one" id="${Id}">    </div>`;
+	oBig.innerHTML =
+		'<input type="text" name="" class="button_remark" value=""><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' +
+		oOof + '>0x' + Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
+	// console.log('1');
+	self.oBtnOne.appendChild(oBig);
+} else {
+	text = data.resultObject[0].deviceValue;
+
+}
+
+
+// oBig.innerHTML =
+//     '<input type="text" name="" class="button_remark" value=""><span class="button_body_one_span">ID: <span class="button_body_one_id" id=' +
+//     oOof + '>0x' + Id + '</span></span><div class="button_body_one_one" id = ' + oId + '></div>';
+// // console.log('1');
+// self.oBtnOne.appendChild(oBig);
+
+ // setTimeout(function () {
+                //
+                // }, 200);
+
+
+
