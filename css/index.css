@@ -1090,7 +1090,7 @@ body {
     height: 100vh;
     z-index: 19;
     background-color: rgba(0, 0, 0, 0.5);
-    /* display: none; */
+     display: none;
 }
 
 .content .Restoration {
@@ -1103,7 +1103,7 @@ body {
     background-color: #ffffff;
     padding-top: 1vw;
     padding-left: 1vw;
-    /* display: none; */
+    display: none;
 }
 
 /* 复位灯光 */

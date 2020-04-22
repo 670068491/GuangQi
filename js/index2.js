@@ -270,7 +270,95 @@ if (data.resultObject.length == 0) { // 修饰元素
 
  // setTimeout(function () {
                 //
-                // }, 200);
+				// }, 200);
+				
+
+
+
+
+				 // oX.onclick = function() {
+    // 	oX.classList.add("active");
+    // 	// console.log(nu.toString(16).toUpperCase());
+    // 	var yte;
+    // 	// var yte = yte4 + yte5 + yte6 + yte7;
+    // 	yte = parseInt(yte4 + yte5 + yte6 + yte7, 16) - 0x8000;
+    // 	var bte = parseInt(bte4 + bte5 + bte6 + bte7, 16) - 0x8000;
+    // 	bte = (bte / yte).toFixed(2);
+    // 	// elecval.value ='333';
+    // 	console.log(bte * 100);
+    // document.getElementById("444all").value = "200";
+    // console.log(oAc.value);
+    // document.getElementById("1").classList.remove("active");
+    // var num = parseInt(num, 16).toString(2).split('');
+    // var stringR = numm;
+    // console.log(stringR);
+    // console.log(num);
+    // string2Result.[0] = 0;
+    // var ele = string2Result.splice(a, 1, '0');
+    // console.log(ele);
+    // var replace = lang.splice(1,4,"c#","ruby"); //删除4项，插入两项
+    // console.log(lang); //asp,c#,ruby
+    // console.log(replace); //php,返回删除的项
+    // var childs = oA.childNodes;
+    // for (var i = childs.length - 1; i >= 0; i--) {
+    // 	// alert(childs[i].nodeName);
+    // 	oA.removeChild(childs[i]);
+    // }
+    // 	// ox.setAttribute("id", oId);
+    // 	// ox.setAttribute("id", '1');
+    // 	console.log("1");
+    // oX.removeChild(oA);
+    // 	// var thisNode = document.getElementById("demo");
+    // 	// thisNode.parentNode.removeNode(thisNode);
+    // };
+
+    // oBtn.onclick = function() {
+    // console.log(document.getElementById("444all").value)
+    // stompClient.send("/app/user/1", {}, "S201,5F,00,00,00,08,03,00,00K");
+    // localStorage.setItem("c", "Jquery");
+    // localStorage.a = "iwanc";
+    // localStorage["b"] = "HTML5";
+    // localStorage.setItem("c", "Jquery");
+    // if (localStorage.getItem('a')) {
+    // 	console.log('1')
+    // }
+    // var data = {
+    //     state: '00,00,00,00,00,00k',
+    //     text: '外灯',
+    //     type: '1',
+    // };
+    // var d = JSON.stringify(data);
+    // storage.setItem("data", d);
+    // var json = storage.getItem("data");
+    // var jsonObj = JSON.parse(json);
+    // console.log(jsonObj);
+	// };
+	
+
+
+	    // var oBtn = document.getElementById("btn");
+    // var oX = document.getElementsByClassName("button_body_one_span")[0];
+    // var box2 = document.getElementsByTagName('button_body_one_btn_circle');
+   
+    // var oA = document.getElementById(oF + "i");
+    // var oA = document.querySelectorAll('#button_body_one_btn');
+    // var oA = document.getElementsByClassName('button_body_one_one')[0];
+    // var ox = document.getElementsByClassName("button_body_one_span");
+    // var oD=document.querySelectorAll("#button_body_one_btn_circle");
+    //  var oAc = document.getElementById("elec_cover");
+    // var elecval = document.getElementById("444all");
+    var num = parseInt("0C", 16);
+    var nu = 255;
+    var nums = 123456;
+    var yte4 = "02";
+    var yte5 = "01";
+    var yte6 = "01";
+    var yte7 = "01";
+
+    var bte4 = "01";
+    var bte5 = "01";
+    var bte6 = "01";
+    var bte7 = "01";
 
 
 
