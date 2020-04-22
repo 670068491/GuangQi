@@ -11,11 +11,11 @@ window.onload = function() {
 	var nodeIndex = 10; //共有10个节点
 	// var nodeSum = nodeIndex; 
 	var presentNodeIndex = null; //用户点击的当前节点  index
-// var myIp =serverAddr+"";
-// var serverAddr = "http://www.shoulder-tech.com/gq/api/";
-// var serverAddr = "http://127.0.0.1:8080/api/";
-var serverAddr = "http://192.168.1.10:8081/gq/api/";
-var port  = serverAddr+"getEvaluateName";
+	// var myIp =serverAddr+"";
+	// var serverAddr = "http://www.shoulder-tech.com/gq/api/";
+	// var serverAddr = "http://127.0.0.1:8080/api/";
+	var serverAddr = "http://192.168.1.10:8081/gq/api/";
+	var port  = serverAddr+"getEvaluateName";
 
 	var elcarray = [];//存放点击四个预设值
 	//当选择次点击是 先从此处查询，如果没有，则请求服务器，获取
@@ -45,15 +45,29 @@ var port  = serverAddr+"getEvaluateName";
 		GainName(); //获取链接里的名称
 		connect(); //建立连接
 		console.log(isopen);
-		if(isopen == "open") {
-			console.log(isopen);
-			getDataFormServer();
-		} else {
-			initData(); //初始化数据
-			drawHtml(); //初始化界面
-		}
+		getElcAll();
+		
 		
 	});
+	
+	//先获取点击四个值
+	function getElcAll() {
+		$.getJSON(serverAddr+"getElcAll", {
+			
+		}, function(data) {
+			console.log(data);
+			elcarray = data.resultObject;
+			if(isopen == "open") {
+				// console.log(isopen);
+				getDataFormServer();
+			} else {
+				initData(); //初始化数据
+				drawHtml(); //初始化界面
+			}
+			
+		});
+	}
+	
 	function getDataFormServer() {
 		$.getJSON(serverAddr+"getSceneInfo", {
 			sceneId:sceneId
@@ -256,7 +270,7 @@ var port  = serverAddr+"getEvaluateName";
 					</div>`;
 			if (i < logicList.length) {
 				//添加一个竖杠
-				htmlStr += `<div class="string"></div>`;
+				htmlStr += `<div class="string" style="height:${nodeList[i].deviceList.length*2+2}vw" ></div>`;
 				//添加逻辑
 				htmlStr +=
 					`<div class="logic" id="${'l' + [i]}">
@@ -342,6 +356,17 @@ var port  = serverAddr+"getEvaluateName";
 						</div>`
 		
 			} else if (nodeList[tIndex].deviceList[j].deviceType == 'elec') {
+				var vlc = {};
+				vlc.v1 = "0D,00,00,50,00,00,00,00";
+				vlc.v2 = "0D,00,00,50,00,00,00,00";
+				vlc.v3 = "0D,00,00,50,00,00,00,00";
+				vlc.v4 = "0D,00,00,50,00,00,00,00";
+				for(var m=0;m<elcarray.length;m++) {
+					if(elcarray[m].id == nodeList[tIndex].deviceList[j].deviceId){
+						vlc = elcarray[m];
+					}
+				}
+				
 				htmlStr +=
 					`<div class="elec_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
 									<input type="text" name="" class="elec_remark">
@@ -350,21 +375,13 @@ var port  = serverAddr+"getEvaluateName";
 									</span>
 									<div class="elec_right">
 										
-										<input type="range" disabled="true" name="" min="0" max="100" value="10" step="1" class="elec_int">
-										<input type="text" value="" class="elec_cover">
-										<input type="text" value="" class="elec_OverAll">
-										<input type="text" value="" class="elec_Current">
 										
-										<button type="button" class="elec_up">前进</button>
-										<button type="button" class="elec_down">后退</button>
-		
 										<label for="">
-											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId}" value="1">1
-											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId}" value="2">2
-											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId}" value="3">3
-											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId}" value="2">4
+											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId+tIndex}" value="${vlc.v1}">1
+											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId+tIndex}" value="${vlc.v2}">2
+											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId+tIndex}" value="${vlc.v3}">3
+											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId+tIndex}" value="${vlc.v4}">4
 										</label>
-										<button type="button" class="elec_save">保存位置</button>
 									</div>
 									<button type="button" class="elec_Allsave" data-index="${j}">保存</button>
 								</div>`;
@@ -377,26 +394,7 @@ var port  = serverAddr+"getEvaluateName";
 	function drawLogic() {
 		console.log(logicList);
 		// console.log(logicList[presentNodeIndex].signalType[0].text);
-		var htmlStr =
-			`<div class="points_signal">
-		                  <div class="button_body_one">
-			                 <input type="text" name="" class="button_remark" value="${logicList[presentNodeIndex].signalType.split(",")[2]}" readOnly="true">
-			                 <span class="button_body_one_span">ID:
-			                   	<span class="button_body_one_id">${logicList[presentNodeIndex].signalType.split(",")[1]}</span>
-							 </span>
-						   <div class="button_body_one_one">`
-		for (var i = 0; i < logicList[presentNodeIndex].signalType.split(",")[0]; i++) {
-			htmlStr +=
-				` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1]+[i]}">
-							                      <div class="button_body_one_btn_circle"></div>
-						                    </div>  `
-			// console.log('1');
-
-		}
-		`</div>
-		</div>
 		
-	</div>`;
 
 		// htmlStr += `<div class="points_signal">
 
@@ -415,8 +413,32 @@ var port  = serverAddr+"getEvaluateName";
 
 		// 	}
 		// }
-		$(".active2").find('.points_signal').html(htmlStr);
+		$(".active2").find('.points_signal').html(getlogicHtml(presentNodeIndex));
 		console.log(logicList);
+	}
+	function getlogicHtml(presentNodeIndex) {
+		var htmlStr =
+				`<div class="points_signal">
+			                  <div class="button_body_one">
+				                 <input type="text" name="" class="button_remark" value="${logicList[presentNodeIndex].signalType.split(",")[2]}" readOnly="true">
+				                 <span class="button_body_one_span">ID:
+				                   	<span class="button_body_one_id">${logicList[presentNodeIndex].signalType.split(",")[1]}</span>
+								 </span>
+							   <div class="button_body_one_one">`
+			for (var i = 0; i < logicList[presentNodeIndex].signalType.split(",")[0]; i++) {
+				htmlStr +=
+					` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1]+[i]}">
+								                      <div class="button_body_one_btn_circle"></div>
+							                    </div>  `
+				// console.log('1');
+		
+			}
+			htmlStr +=
+			`</div>
+			</div>
+			
+		</div>`;
+		return htmlStr;
 	}
 
 
@@ -588,7 +610,7 @@ var port  = serverAddr+"getEvaluateName";
 			var Index = $(".active").attr('id').substring(1);
 			var Id = $(this).attr('id').substring(2);
 			presentNodeIndex = Index;
-			addDevice(Index, Id, '00,00,00,00,00,00,00,00K');
+			addDevice(Index, Id, '0D,00,00,50,00,00,00,00K');
 		}
 	});
 
@@ -630,9 +652,29 @@ var port  = serverAddr+"getEvaluateName";
 
 
 
-
-
-
+	// 事件委托，灯光保存
+	$(".node").on("click", ".elec_Allsave", function() {
+		var arrindex = $(this).attr("data-index");
+		var nodeId = $(this).parents(".node_small").attr('id').substring(1);
+		var Id = $(this).parents(".elec_body_one").attr('id');
+		console.log(Id);
+		var list = $('input:radio[name=' + Id +nodeId+ ']:checked').val();
+		if (list == null) {
+			alert("请选中一个!");
+			return false;
+		} else {
+			// alert(list);
+			// stompClient.send("/app/wu", {}, "S" + Id + ",0D,00,00,50," + list + "K");
+			console.log( list + "K");
+			// console.log($(this).attr("data-index"));
+			console.log(nodeId);
+			nodeList[nodeId].deviceList[arrindex].deviceValue = list + "K";
+			console.log(nodeList);
+			// $('input:radio[name=' + id + ']:checked').val(oIdCov);
+			// alert($('input:radio[name=' + id + ']:checked').val());
+			// alert(id);
+		}
+	});
 
 	// 事件委托，灯光保存
 	$(".node").on("click", ".lamp_send", function() {
