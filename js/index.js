@@ -9,7 +9,6 @@ window.onload = function () {
     var libraryList = []; //初始化复位
     var elecList = []; //电机复位
 
-
     function connect() {
         // 建立连接对象（还未发起连接）
         // var socket = new WebSocket("ws://localhost:8080/webSocketEndPoint");
@@ -1182,7 +1181,7 @@ window.onload = function () {
                     oLibr.classList.add("library_body_body_one");
                     oLibr.setAttribute("id", oLibrId);
                     oLibr.innerHTML = '<span>id:0X' + Id + '</span><span>' + text + '</span>';
-                    document.getElementById("library_body_body3").appendChild(oLibr);
+                    document.getElementById("library_body_body4").appendChild(oLibr);
 
 
                 })
@@ -1776,12 +1775,13 @@ window.onload = function () {
 
             } else {
                 libraryList = data.resultObject;
-                getDeviceHtml();  //刷新页面
+                getDeviceHtml(); //刷新页面
             }
         })
     });
 
-    function addOneDevice(id, type, value) {
+    //添加进数组
+    function addOneDevice(id, type, value, num) {
         //查找 libraryList  里面有没有
         //如果没有
         for (var i = 0; i < libraryList.length; i++) {
@@ -1794,20 +1794,23 @@ window.onload = function () {
         device.deviceId = id;
         device.deviceType = type;
         device.deviceValue = value;
+        device.deviceNum = num;
+        device.remark = '';
         libraryList.push(device);
         //刷新页面
         getDeviceHtml();
         console.log(libraryList);
     }
 
-// <input type="text" name="" class="lamp_remark" value="${libraryList[j].remark}">
+
+    //刷新复位页面
     function getDeviceHtml() {
         var htmlStr = ``;
         for (var j = 0; j < libraryList.length; j++) {
             if (libraryList[j].deviceType == '01') {
                 var defaultValue = libraryList[j].deviceValue.replace("K", "").split(",");
                 htmlStr += `<div class="lamp_body_one" id="Res${libraryList[j].deviceId}">
-						
+						 <input type="text" name="" class="lamp_remark" value="${libraryList[j].remark}">
 							<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${libraryList[j].deviceId}</span></span>
 								<div class="lamp_body_one_one">
 								    <label for="">模式:</label>
@@ -1857,13 +1860,55 @@ window.onload = function () {
 						</div>`;
 
             } else if (libraryList[j].deviceType == '06') {
+
+
                 var defaultValue = libraryList[j].deviceValue.replace("K", "").split(",");
                 // htmlStr +=
 
 
+            } else if (libraryList[j].deviceType == '09') {
+                var defaultValue = libraryList[j].deviceValue.replace("K", "").split(",");
+                htmlStr += `<div class="proj_body_one" id="Res${libraryList[j].deviceId}">
+                              <input type="text" name="" class="proj_remark" value="${libraryList[j].remark}">
+                             
+                                 <span class="proj_body_one_span">ID:
+                                      <span class="proj_body_one_id">0X${libraryList[j].deviceId}</span></span>       
+                                 <div class="proj_top">
+                                     <button class="proj_1">开机</button>
+                                     <button class="proj_2">关机</button>
+                                 </div>
+                                 <div class="proj_bott">
+                                     <button class="proj_3">视频1</button>
+                                     <button class="proj_4">视频2</button>
+                                     <button class="proj_5">视频3</button>
+                                     <button class="proj_6">视频4</button>
+                                     <button class="proj_7">视频5</button>
+                                     <button class="proj_8">视频6</button>
+                                     <button class="proj_9">视频7</button>
+                                     <button class="proj_10">视频8</button>
+                                     <button class="proj_del" data-index="${j}">删除</button>
+                                     <button class="proj_save" data-index="${j}">保存</button>
+                                   </div>
+                            </div> `;
+
+            } else if (libraryList[j].deviceType == '0B') {
+                // <input type="text" name="" class="outp_remark">
+                htmlStr += `<div class="outp_body_one" id="Res${libraryList[j].deviceId}">
+                            <input type="text" name="" class="outp_remark" value="${libraryList[j].remark}">
+                            <span class="outp_body_one_span">ID:
+                                <span class="outp_body_one_id">0X${libraryList[j].deviceId}</span>
+                            </span>
+                            <div class="outp_b">`
+                for (var i = 0; i < libraryList[j].deviceNum; i++) {
+                    htmlStr += ` <div class="outp_btn">
+                                    <input type="text" name="" value="" class="outp_input" />
+                                    <button type="button"></button>
+                                </div>`}
+                htmlStr += `</div>
+                            <button class="outp_save">保存</button>
+                            <button class="outp_del" data-index="${j}">删除</button>
+                        </div>`;
             }
-
-
         }
         $("#RestorationDiv").html(htmlStr);
     }
@@ -1880,6 +1925,21 @@ window.onload = function () {
         var Id = $(this).attr('id').substring(4);
         addOneDevice(Id, '06', '00,00,00,00,00,00,00,00');
         // var type = JSON.parse(storage.getItem(Id)).type;
+    });
+    $("#library_body_body3").on("click", ".library_body_body_one", function () {  //元件库 投影仪 添加进页面
+        var Id = $(this).attr('id').substring(4);
+        addOneDevice(Id, '09', '00,00,00,00,00,00,00,00');
+
+    });
+    $("#library_body_body4").on("click", ".library_body_body_one", function () {  //元件库 输出控制 添加进页面
+        var Id = $(this).attr('id').substring(4);
+        $.getJSON(port + "getDeviceType", {
+            FrameId: Id,
+        }, function (data) {
+            var oNum = data.resultObject.fnum;
+            addOneDevice(Id, '0B', '00,00,00,00,00,00,00,00', oNum);
+        })
+
     });
 
     // 灯光保存
@@ -1920,17 +1980,24 @@ window.onload = function () {
 
 
     //删除
-    $("#Restoration").on("click", ".lamp_send", function () {
-        // console.log('1')
-        // $(this).parents('.lamp_body_one').remove();
-        var Id = $(this).parents('.lamp_body_one').attr('id').replace("Res", "");
-        var index = $(this).data(index);
+    $("#Restoration").on("click", ".lamp_send", function () { //灯光删除
+        // var Id = $(this).parents('.lamp_body_one').attr('id').replace("Res", "");
+        var index = $(this).data(index).index;
         libraryList.splice(index, 1);
-        getDeviceHtml();  //刷新页面
-
+        getDeviceHtml(); //刷新页面
     });
 
+    $("#Restoration").on("click", ".proj_del", function () { //投影仪删除
+        var index = $(this).data(index).index;
+        libraryList.splice(index, 1);
+        getDeviceHtml();
+    });
 
+    $("#Restoration").on("click", ".outp_del", function () { //输出控制删除
+        var index = $(this).data(index).index;
+        libraryList.splice(index, 1);
+        getDeviceHtml();
+    });
     // 保存
     $(".Restoration_seva").click(function () {
         console.log(JSON.stringify(libraryList));
