@@ -1342,6 +1342,14 @@ body {
     border-radius: 0.3vw;
 }
 
+.RestorationDiv .proj_top .active {
+    background-color: hotpink;
+}
+
+.RestorationDiv .proj_bott .active {
+    background-color: hotpink;
+}
+
 
 .RestorationDiv .outp_span {
     font-size: 1.5vw;
@@ -1413,6 +1421,25 @@ body {
     text-align: center;
     margin-bottom: 0.1vw;
 }
+.RestorationDiv .outp_del {
+    /*display: block;*/
+    border: 0px;
+    font-size: 0.6vw;
+    background-color: #5b9bd5;
+    color: white;
+    width: 3.8vw;
+    /*height: 1.4vw;*/
+    padding: 0.3vw 0vw;
+    margin-top: 1vw;
+    /*margin-right: 1vw;*/
+    /*margin-bottom: 0.4vw;*/
+    border-radius: 0.3vw;
+}
+
+
+
+
+
 /*//电机*/
 .RestorationDiv .elec_span {
     font-size: 1.5vw;
@@ -1509,6 +1536,7 @@ body {
     color: white;
     border-radius: 5%;
 }
+
 .RestorationDiv .elec_del {
     background-color: #5B9BD5;
     border: 0;
@@ -1518,10 +1546,6 @@ body {
     color: white;
     border-radius: 5%;
 }
-
-
-
-
 
 
 /* 尾部 */
