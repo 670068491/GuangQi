@@ -1413,6 +1413,115 @@ body {
     text-align: center;
     margin-bottom: 0.1vw;
 }
+/*//电机*/
+.RestorationDiv .elec_span {
+    font-size: 1.5vw;
+    color: #5B9BD5;
+    font-weight: bold;
+}
+
+.RestorationDiv .elec_body {
+    padding-top: 0.5vw;
+}
+
+.RestorationDiv .elec_body_one {
+    display: flex;
+}
+
+.RestorationDiv .elec_remark {
+    margin-top: 1.1vw;
+    border: 0px;
+    width: 5vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+.RestorationDiv .elec_body_one_span {
+    padding-left: 1vw;
+    color: #5B9BD5;
+    margin-top: 1vw;
+    font-size: 1.2vw;
+    width: 6vw;
+    display: inline-block;
+}
+
+.RestorationDiv .elec_right {
+    display: flex;
+    padding-top: 1vw;
+}
+
+.RestorationDiv .elec_sm_left {
+    width: 1.4vw;
+    height: 1.4vw;
+    background-color: #5b9bd5;
+    border-radius: 50%;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.RestorationDiv .elec_int {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.RestorationDiv .elec_cover {
+    /* display: none; */
+    opacity: 0;
+    width: 1px;
+}
+
+.RestorationDiv .elec_OverAll {
+    /* display: none; */
+    opacity: 0;
+    width: 1px;
+}
+
+.RestorationDiv .elec_Current {
+    display: none;
+}
+
+.RestorationDiv .elec_sm_right {
+    width: 1.4vw;
+    height: 1.4vw;
+    background-color: #5b9bd5;
+    border-radius: 50%;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.RestorationDiv .elec_right label {
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 0.5vw;
+    font-size: 1vw;
+}
+
+.RestorationDiv .elec_right label input {
+    margin-left: 1vw;
+}
+
+.RestorationDiv .elec_Allsave {
+    background-color: #5B9BD5;
+    border: 0;
+    margin-left: 1vw;
+    margin-top: 0.6vw;
+    padding: 0.1vw 0.8vw;
+    color: white;
+    border-radius: 5%;
+}
+.RestorationDiv .elec_del {
+    background-color: #5B9BD5;
+    border: 0;
+    margin-left: 2vw;
+    margin-top: 0.6vw;
+    padding: 0.1vw 0.8vw;
+    color: white;
+    border-radius: 5%;
+}
+
+
+
+
 
 
 /* 尾部 */

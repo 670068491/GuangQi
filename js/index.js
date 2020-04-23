@@ -7,7 +7,17 @@ window.onload = function () {
     var List = []; //总数组
     var ListType = []; //类型数组
     var libraryList = []; //初始化复位
-    var elecList = []; //电机复位
+    var getRemarkInitAll = []; //全部备注
+    var elcarray = []; //存放点击四个预设值
+
+    $(function () {
+        connect(); //建立连接
+        $.getJSON(port + "getElcAll", {}, function (data) {
+            console.log(data);
+            elcarray = data.resultObject;
+        });
+    });
+
 
     function connect() {
         // 建立连接对象（还未发起连接）
@@ -44,15 +54,12 @@ window.onload = function () {
                         stompClient.send("/app/wu", {}, "S" + FrameId + ",5F,00,00,00,00,00,00,00K");
                         // console.log(stringResult);
                         // console.log('发送');
-                        // !document.getElementById(FrameId)
                     } else if (List.indexOf(FrameId) == -1 && Byte0 == '5E') { //返回的类型与数量
                         List.push(FrameId);
                         var node = {};
                         node.FrameId = FrameId;
                         node.node_type = Byte5;
                         ListType.push(node);
-
-
                         // console.log(List);
                         // node.id = FrameId;
                         // node.value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' + Byte6 + ',' + Byte7;
@@ -171,7 +178,6 @@ window.onload = function () {
                                 var data = {
                                     FrameId: FrameId,
                                     type: Byte5,
-
                                 };
                                 var dat = JSON.stringify(data);
                                 storage.setItem(FrameId, dat);
@@ -206,7 +212,6 @@ window.onload = function () {
                                 }, function (data) {
                                     // console.log(data);
                                 });
-
                                 var data = {
                                     FrameId: FrameId,
                                     num: parseInt(Byte4, 16),
@@ -225,12 +230,10 @@ window.onload = function () {
                                 }, function (data) {
                                     // console.log(data);
                                 });
-
                                 var data = {
                                     FrameId: FrameId,
                                     num: parseInt(Byte4, 16),
                                     type: Byte5,
-
                                 };
                                 var dater = JSON.stringify(data);
                                 storage.setItem(FrameId, dater);
@@ -240,18 +243,13 @@ window.onload = function () {
                                 // console.log("没有此类型");
                                 break;
                         }
-
                         // document.getElementById(FrameId)
                     } else if (List.indexOf(FrameId) > -1) { // 刷新状态
                         var Type = JSON.parse(storage.getItem(FrameId)).type;
-
-
                         // var loca = storage.getItem(FrameId);
                         // var Type = JSON.parse(loca).type;
                         // // console.log(loca);
-
                         // var locaObj = JSON.parse(loca);
-
                         // var LByte4 = locaObj.Byte4;
                         // console.log(locaObj.type);
                         // $.getJSON(port + "getDeviceType", {
@@ -302,7 +300,7 @@ window.onload = function () {
                             case "0A":
                                 // 传感器
                                 if (Byte0 == '5B') {
-                                    new sens(FrameId, Byte5, Byte6, Byte7, "old");
+                                    new sens(FrameId, '00', Byte5, Byte6, Byte7, "old");
                                 }
                                 break;
                             default:
@@ -354,13 +352,9 @@ window.onload = function () {
         );
     };
 
-    $(function () {
-        connect(); //建立连接
-    });
-
 
     //面向对象的
-    // 第一部分，按钮
+    //第一部分，按钮
     function button(FrameId, Byte4, Byte5, Byte6, Byte7, New) {
         this.oBtnOne = document.getElementById("button_body");
         this.FrameId = FrameId;
@@ -432,162 +426,178 @@ window.onload = function () {
             } else if (self.New == 'old') { // 旧id，刷新状态
                 // console.log('旧');
                 var oId = Id + 'i';
-                // var oOof = Id + 'a';
+
                 // document.getElementById(oOof).innerText = self.Byte7;
                 // var oSim = document.getElementById(oId);
                 // setTimeout(function() {
-                if ((self.Byte7 & 0x01) == 0x01) {
-                    document.getElementById(oId + 0 + 0).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 0 + 0)) {
+                if (document.getElementById(oId + 0 + 0)) {
+                    if ((self.Byte7 & 0x01) == 0x01) {
+                        document.getElementById(oId + 0 + 0).classList.add("active");
+                    } else {
                         document.getElementById(oId + 0 + 0).classList.remove("active");
                     }
                 }
-                if ((self.Byte7 & 0x02) == 0x02) {
-                    document.getElementById(oId + 1 + 1).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 1 + 1)) {
+                if (document.getElementById(oId + 1 + 1)) {
+
+                    if ((self.Byte7 & 0x02) == 0x02) {
+                        document.getElementById(oId + 1 + 1).classList.add("active");
+                    } else {
                         document.getElementById(oId + 1 + 1).classList.remove("active");
                     }
                 }
-                if ((self.Byte7 & 0x04) == 0x04) {
-                    document.getElementById(oId + 2 + 2).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 2 + 2)) {
+                if (document.getElementById(oId + 2 + 2)) {
+
+                    if ((self.Byte7 & 0x04) == 0x04) {
+                        document.getElementById(oId + 2 + 2).classList.add("active");
+                    } else {
                         document.getElementById(oId + 2 + 2).classList.remove("active");
                     }
                 }
-                if ((self.Byte7 & 0x08) == 0x08) {
-                    document.getElementById(oId + 3 + 3).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 3 + 3)) {
+                if (document.getElementById(oId + 3 + 3)) {
+
+                    if ((self.Byte7 & 0x08) == 0x08) {
+                        document.getElementById(oId + 3 + 3).classList.add("active");
+                    } else {
                         document.getElementById(oId + 3 + 3).classList.remove("active");
                     }
                 }
-                if ((self.Byte7 & 0x10) == 0x10) {
-                    document.getElementById(oId + 4 + 4).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 4 + 4)) {
+                if (document.getElementById(oId + 4 + 4)) {
+
+                    if ((self.Byte7 & 0x10) == 0x10) {
+                        document.getElementById(oId + 4 + 4).classList.add("active");
+                    } else {
                         document.getElementById(oId + 4 + 4).classList.remove("active");
                     }
                 }
-                if ((self.Byte7 & 0x20) == 0x20) {
-                    document.getElementById(oId + 5 + 5).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 5 + 5)) {
+                if (document.getElementById(oId + 5 + 5)) {
+
+                    if ((self.Byte7 & 0x20) == 0x20) {
+                        document.getElementById(oId + 5 + 5).classList.add("active");
+                    } else {
                         document.getElementById(oId + 5 + 5).classList.remove("active");
                     }
                 }
-                if ((self.Byte7 & 0x40) == 0x40) {
-                    document.getElementById(oId + 6 + 6).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 6 + 6)) {
+                if (document.getElementById(oId + 6 + 6)) {
+
+                    if ((self.Byte7 & 0x40) == 0x40) {
+                        document.getElementById(oId + 6 + 6).classList.add("active");
+                    } else {
                         document.getElementById(oId + 6 + 6).classList.remove("active");
                     }
                 }
-                if ((self.Byte7 & 0x80) == 0x80) {
-                    document.getElementById(oId + 7 + 7).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 7 + 7)) {
+                if (document.getElementById(oId + 7 + 7)) {
+                    if ((self.Byte7 & 0x80) == 0x80) {
+                        document.getElementById(oId + 7 + 7).classList.add("active");
+                    } else {
                         document.getElementById(oId + 7 + 7).classList.remove("active");
                     }
                 }
-
-                if ((self.Byte6 & 0x01) == 0x01) {
-                    document.getElementById(oId + 8 + 8).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 8 + 8)) {
+                if (document.getElementById(oId + 8 + 8)) {
+                    if ((self.Byte6 & 0x01) == 0x01) {
+                        document.getElementById(oId + 8 + 8).classList.add("active");
+                    } else {
                         document.getElementById(oId + 8 + 8).classList.remove("active");
                     }
                 }
-                if ((self.Byte6 & 0x02) == 0x02) {
-                    document.getElementById(oId + 9 + 9).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 9 + 9)) {
+                if (document.getElementById(oId + 9 + 9)) {
+
+                    if ((self.Byte6 & 0x02) == 0x02) {
+                        document.getElementById(oId + 9 + 9).classList.add("active");
+                    } else {
                         document.getElementById(oId + 9 + 9).classList.remove("active");
                     }
                 }
-                if ((self.Byte6 & 0x04) == 0x04) {
-                    document.getElementById(oId + 10 + 10).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 10 + 10)) {
+                if (document.getElementById(oId + 10 + 10)) {
+
+                    if ((self.Byte6 & 0x04) == 0x04) {
+                        document.getElementById(oId + 10 + 10).classList.add("active");
+                    } else {
                         document.getElementById(oId + 10 + 10).classList.remove("active");
                     }
                 }
-                if ((self.Byte6 & 0x08) == 0x08) {
-                    document.getElementById(oId + 11 + 11).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 11 + 11)) {
+                if (document.getElementById(oId + 11 + 11)) {
+
+                    if ((self.Byte6 & 0x08) == 0x08) {
+                        document.getElementById(oId + 11 + 11).classList.add("active");
+                    } else {
                         document.getElementById(oId + 11 + 11).classList.remove("active");
                     }
                 }
-                if ((self.Byte6 & 0x10) == 0x10) {
-                    document.getElementById(oId + 12 + 12).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 12 + 12)) {
+                if (document.getElementById(oId + 12 + 12)) {
+
+                    if ((self.Byte6 & 0x10) == 0x10) {
+                        document.getElementById(oId + 12 + 12).classList.add("active");
+                    } else {
                         document.getElementById(oId + 12 + 12).classList.remove("active");
                     }
                 }
-                if ((self.Byte6 & 0x20) == 0x20) {
-                    document.getElementById(oId + 13 + 13).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 13 + 13)) {
+                if (document.getElementById(oId + 13 + 13)) {
+
+                    if ((self.Byte6 & 0x20) == 0x20) {
+                        document.getElementById(oId + 13 + 13).classList.add("active");
+                    } else {
                         document.getElementById(oId + 13 + 13).classList.remove("active");
                     }
                 }
-                if ((self.Byte6 & 0x40) == 0x40) {
-                    document.getElementById(oId + 14 + 14).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 14 + 14)) {
+                if (document.getElementById(oId + 14 + 14)) {
+
+                    if ((self.Byte6 & 0x40) == 0x40) {
+                        document.getElementById(oId + 14 + 14).classList.add("active");
+                    } else {
                         document.getElementById(oId + 14 + 14).classList.remove("active");
                     }
                 }
-                if ((self.Byte6 & 0x80) == 0x80) {
-                    document.getElementById(oId + 15 + 15).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 15 + 15)) {
+                if (document.getElementById(oId + 15 + 15)) {
+
+                    if ((self.Byte6 & 0x80) == 0x80) {
+                        document.getElementById(oId + 15 + 15).classList.add("active");
+                    } else {
                         document.getElementById(oId + 15 + 15).classList.remove("active");
                     }
                 }
-                if ((self.Byte5 & 0x01) == 0x01) {
-                    document.getElementById(oId + 16 + 16).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 16 + 16)) {
+                if (document.getElementById(oId + 16 + 16)) {
+
+                    if ((self.Byte5 & 0x01) == 0x01) {
+                        document.getElementById(oId + 16 + 16).classList.add("active");
+                    } else {
                         document.getElementById(oId + 16 + 16).classList.remove("active");
                     }
                 }
-                if ((self.Byte5 & 0x02) == 0x02) {
-                    document.getElementById(oId + 17 + 17).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 17 + 17)) {
+                if (document.getElementById(oId + 17 + 17)) {
+
+                    if ((self.Byte5 & 0x02) == 0x02) {
+                        document.getElementById(oId + 17 + 17).classList.add("active");
+                    } else {
                         document.getElementById(oId + 17 + 17).classList.remove("active");
                     }
                 }
-                if ((self.Byte5 & 0x04) == 0x04) {
-                    document.getElementById(oId + 18 + 18).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 18 + 18)) {
+                if (document.getElementById(oId + 18 + 18)) {
+
+                    if ((self.Byte5 & 0x04) == 0x04) {
+                        document.getElementById(oId + 18 + 18).classList.add("active");
+                    } else {
                         document.getElementById(oId + 18 + 18).classList.remove("active");
                     }
                 }
-                if ((self.Byte5 & 0x08) == 0x08) {
-                    document.getElementById(oId + 19 + 19).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 19 + 19)) {
+                if (document.getElementById(oId + 19 + 19)) {
+
+                    if ((self.Byte5 & 0x08) == 0x08) {
+                        document.getElementById(oId + 19 + 19).classList.add("active");
+                    } else {
                         document.getElementById(oId + 19 + 19).classList.remove("active");
                     }
                 }
-                if ((self.Byte5 & 0x10) == 0x10) {
-                    document.getElementById(oId + 20 + 20).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 20 + 20)) {
+                if (document.getElementById(oId + 20 + 20)) {
+                    if ((self.Byte5 & 0x10) == 0x10) {
+                        document.getElementById(oId + 20 + 20).classList.add("active");
+                    } else {
                         document.getElementById(oId + 20 + 20).classList.remove("active");
                     }
                 }
                 // }
                 // }, 500);
             }
-            ;
+
 
         }
     };
@@ -730,122 +740,164 @@ window.onload = function () {
             ;
             // 旧id，刷新状态
             if (this.New == 'old') {
-                console.log('旧');
+                // console.log('旧');
                 var oId = Id + 'i';
-                if ((self.Byte7 & 0x01) == 0x01) {
-                    document.getElementById(oId + 0 + 0).classList.add("active");
-                } else {
-                    if (document.getElementById(oId + 0 + 0)) {
+                // console.log(self.Byte5 + "," + self.Byte6 + "," + self.Byte7);
+                if (document.getElementById(oId + 0 + 0)) {
+                    if ((self.Byte7 & 0x01) == 0x01) {
+                        document.getElementById(oId + 0 + 0).classList.add("active");
+                    } else {
                         document.getElementById(oId + 0 + 0).classList.remove("active");
                     }
                 }
-                if ((self.Byte7 & 0x02) == 0x02) {
-                    document.getElementById(oId + 1 + 1).classList.add("active");
-                } else {
-                    document.getElementById(oId + 1 + 1).classList.remove("active");
+                if (document.getElementById(oId + 1 + 1)) {
+                    if ((self.Byte7 & 0x02) == 0x02) {
+                        document.getElementById(oId + 1 + 1).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 1 + 1).classList.remove("active");
+                    }
                 }
-                if ((self.Byte7 & 0x04) == 0x04) {
-                    document.getElementById(oId + 2 + 2).classList.add("active");
-                } else {
-                    document.getElementById(oId + 2 + 2).classList.remove("active");
+                ;
+                if (document.getElementById(oId + 2 + 2)) {
+                    if ((self.Byte7 & 0x04) == 0x04) {
+                        document.getElementById(oId + 2 + 2).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 2 + 2).classList.remove("active");
+                    }
                 }
-                if ((self.Byte7 & 0x08) == 0x08) {
-                    document.getElementById(oId + 3 + 3).classList.add("active");
-                } else {
-                    document.getElementById(oId + 3 + 3).classList.remove("active");
+                if (document.getElementById(oId + 3 + 3)) {
+                    if ((self.Byte7 & 0x08) == 0x08) {
+                        document.getElementById(oId + 3 + 3).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 3 + 3).classList.remove("active");
+                    }
                 }
-                if ((self.Byte7 & 0x10) == 0x10) {
-                    document.getElementById(oId + 4 + 4).classList.add("active");
-                } else {
-                    document.getElementById(oId + 4 + 4).classList.remove("active");
+                if (document.getElementById(oId + 4 + 4)) {
+                    if ((self.Byte7 & 0x10) == 0x10) {
+                        document.getElementById(oId + 4 + 4).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 4 + 4).classList.remove("active");
+                    }
                 }
-                if ((self.Byte7 & 0x20) == 0x20) {
-                    document.getElementById(oId + 5 + 5).classList.add("active");
-                } else {
-                    document.getElementById(oId + 5 + 5).classList.remove("active");
+                if (document.getElementById(oId + 5 + 5)) {
+                    if ((self.Byte7 & 0x20) == 0x20) {
+                        document.getElementById(oId + 5 + 5).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 5 + 5).classList.remove("active");
+                    }
                 }
-                if ((self.Byte7 & 0x40) == 0x40) {
-                    document.getElementById(oId + 6 + 6).classList.add("active");
-                } else {
-                    document.getElementById(oId + 6 + 6).classList.remove("active");
+                if (document.getElementById(oId + 6 + 6)) {
+                    if ((self.Byte7 & 0x40) == 0x40) {
+                        document.getElementById(oId + 6 + 6).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 6 + 6).classList.remove("active");
+                    }
                 }
-                if ((self.Byte7 & 0x80) == 0x80) {
-                    document.getElementById(oId + 7 + 7).classList.add("active");
-                } else {
-                    document.getElementById(oId + 7 + 7).classList.remove("active");
+                if (document.getElementById(oId + 7 + 7)) {
+                    if ((self.Byte7 & 0x80) == 0x80) {
+                        document.getElementById(oId + 7 + 7).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 7 + 7).classList.remove("active");
+                    }
                 }
-                if ((self.Byte7 & 0x80) == 0x80) {
-                    document.getElementById(oId + 7 + 7).classList.add("active");
-                } else {
-                    document.getElementById(oId + 7 + 7).classList.remove("active");
+                if (document.getElementById(oId + 7 + 7)) {
+                    if ((self.Byte7 & 0x80) == 0x80) {
+                        document.getElementById(oId + 7 + 7).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 7 + 7).classList.remove("active");
+                    }
                 }
-
-                if ((self.Byte6 & 0x01) == 0x01) {
-                    document.getElementById(oId + 8 + 8).classList.add("active");
-                } else {
-                    document.getElementById(oId + 8 + 8).classList.remove("active");
+                if (document.getElementById(oId + 8 + 8)) {
+                    if ((self.Byte6 & 0x01) == 0x01) {
+                        document.getElementById(oId + 8 + 8).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 8 + 8).classList.remove("active");
+                    }
                 }
-                if ((self.Byte6 & 0x02) == 0x02) {
-                    document.getElementById(oId + 9 + 9).classList.add("active");
-                } else {
-                    document.getElementById(oId + 9 + 9).classList.remove("active");
+                if (document.getElementById(oId + 9 + 9)) {
+                    if ((self.Byte6 & 0x02) == 0x02) {
+                        document.getElementById(oId + 9 + 9).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 9 + 9).classList.remove("active");
+                    }
                 }
-                if ((self.Byte6 & 0x04) == 0x04) {
-                    document.getElementById(oId + 10 + 10).classList.add("active");
-                } else {
-                    document.getElementById(oId + 10 + 10).classList.remove("active");
+                if (document.getElementById(oId + 10 + 10)) {
+                    if ((self.Byte6 & 0x04) == 0x04) {
+                        document.getElementById(oId + 10 + 10).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 10 + 10).classList.remove("active");
+                    }
                 }
-                if ((self.Byte6 & 0x08) == 0x08) {
-                    document.getElementById(oId + 11 + 11).classList.add("active");
-                } else {
-                    document.getElementById(oId + 11 + 11).classList.remove("active");
+                if (document.getElementById(oId + 11 + 11)) {
+                    if ((self.Byte6 & 0x08) == 0x08) {
+                        document.getElementById(oId + 11 + 11).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 11 + 11).classList.remove("active");
+                    }
                 }
-                if ((self.Byte6 & 0x10) == 0x10) {
-                    document.getElementById(oId + 12 + 12).classList.add("active");
-                } else {
-                    document.getElementById(oId + 12 + 12).classList.remove("active");
+                if (document.getElementById(oId + 12 + 12)) {
+                    if ((self.Byte6 & 0x10) == 0x10) {
+                        document.getElementById(oId + 12 + 12).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 12 + 12).classList.remove("active");
+                    }
                 }
-                if ((self.Byte6 & 0x20) == 0x20) {
-                    document.getElementById(oId + 13 + 13).classList.add("active");
-                } else {
-                    document.getElementById(oId + 13 + 13).classList.remove("active");
+                if (document.getElementById(oId + 13 + 13)) {
+                    if ((self.Byte6 & 0x20) == 0x20) {
+                        document.getElementById(oId + 13 + 13).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 13 + 13).classList.remove("active");
+                    }
                 }
-                if ((self.Byte6 & 0x40) == 0x40) {
-                    document.getElementById(oId + 14 + 14).classList.add("active");
-                } else {
-                    document.getElementById(oId + 14 + 14).classList.remove("active");
+                if (document.getElementById(oId + 14 + 14)) {
+                    if ((self.Byte6 & 0x40) == 0x40) {
+                        document.getElementById(oId + 14 + 14).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 14 + 14).classList.remove("active");
+                    }
                 }
-                if ((self.Byte6 & 0x80) == 0x80) {
-                    document.getElementById(oId + 15 + 15).classList.add("active");
-                } else {
-                    document.getElementById(oId + 15 + 15).classList.remove("active");
+                if (document.getElementById(oId + 15 + 15)) {
+                    if ((self.Byte6 & 0x80) == 0x80) {
+                        document.getElementById(oId + 15 + 15).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 15 + 15).classList.remove("active");
+                    }
                 }
-                if ((self.Byte6 & 0x80) == 0x80) {
-                    document.getElementById(oId + 16 + 16).classList.add("active");
-                } else {
-                    document.getElementById(oId + 16 + 16).classList.remove("active");
+                if (document.getElementById(oId + 16 + 16)) {
+                    if ((self.Byte6 & 0x80) == 0x80) {
+                        document.getElementById(oId + 16 + 16).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 16 + 16).classList.remove("active");
+                    }
                 }
-                if ((self.Byte5 & 0x01) == 0x01) {
-                    document.getElementById(oId + 17 + 17).classList.add("active");
-                } else {
-                    document.getElementById(oId + 17 + 17).classList.remove("active");
+                if (document.getElementById(oId + 17 + 17)) {
+                    if ((self.Byte5 & 0x01) == 0x01) {
+                        document.getElementById(oId + 17 + 17).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 17 + 17).classList.remove("active");
+                    }
                 }
-                if ((self.Byte5 & 0x02) == 0x02) {
-                    document.getElementById(oId + 18 + 18).classList.add("active");
-                } else {
-                    document.getElementById(oId + 18 + 18).classList.remove("active");
+                if (document.getElementById(oId + 18 + 18)) {
+                    if ((self.Byte5 & 0x02) == 0x02) {
+                        document.getElementById(oId + 18 + 18).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 18 + 18).classList.remove("active");
+                    }
                 }
-                if ((self.Byte5 & 0x04) == 0x04) {
-                    document.getElementById(oId + 19 + 19).classList.add("active");
-                } else {
-                    document.getElementById(oId + 19 + 19).classList.remove("active");
+                if (document.getElementById(oId + 19 + 19)) {
+                    if ((self.Byte5 & 0x04) == 0x04) {
+                        document.getElementById(oId + 19 + 19).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 19 + 19).classList.remove("active");
+                    }
                 }
-                if ((self.Byte5 & 0x08) == 0x08) {
-                    document.getElementById(oId + 20 + 20).classList.add("active");
-                } else {
-                    document.getElementById(oId + 20 + 20).classList.remove("active");
+                if (document.getElementById(oId + 20 + 20)) {
+                    if ((self.Byte5 & 0x08) == 0x08) {
+                        document.getElementById(oId + 20 + 20).classList.add("active");
+                    } else {
+                        document.getElementById(oId + 20 + 20).classList.remove("active");
+                    }
                 }
-
             }
         }
     };
@@ -905,7 +957,7 @@ window.onload = function () {
                     var oLibrId = 'libr' + Id;
                     oLibr.classList.add("library_body_body_one");
                     oLibr.setAttribute("id", oLibrId);
-                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span>' + text + '</span>';
+                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span class="lamp_remake">' + text + '</span>';
                     document.getElementById("library_body_body1").appendChild(oLibr);
                 });
                 // var oId = self.LFrameId + 'i';
@@ -990,7 +1042,7 @@ window.onload = function () {
                     var oLibrId = 'libr' + Id;
                     oLibr.classList.add("library_body_body_one");
                     oLibr.setAttribute("id", oLibrId);
-                    oLibr.innerHTML = '<span>id:0X' + Id + '</span> <span>' + text + '</span>'
+                    oLibr.innerHTML = '<span>id:0X' + Id + '</span> <span class="elec_remake">' + text + '</span>'
                     document.getElementById("library_body_body2").appendChild(oLibr);
 
                 })
@@ -1110,7 +1162,7 @@ window.onload = function () {
                     var oLibrId = 'libr' + Id;
                     oLibr.classList.add("library_body_body_one");
                     oLibr.setAttribute("id", oLibrId);
-                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span>' + text + '</span>';
+                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span class="proj_remake">' + text + '</span>';
                     document.getElementById("library_body_body3").appendChild(oLibr);
 
 
@@ -1180,7 +1232,7 @@ window.onload = function () {
                     var oLibrId = 'libr' + Id;
                     oLibr.classList.add("library_body_body_one");
                     oLibr.setAttribute("id", oLibrId);
-                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span>' + text + '</span>';
+                    oLibr.innerHTML = '<span>id:0X' + Id + '</span><span class="outp_remake">' + text + '</span>';
                     document.getElementById("library_body_body4").appendChild(oLibr);
 
 
@@ -1281,6 +1333,10 @@ window.onload = function () {
         clearInterval(elecSet);
         $(this).css("background-color", "#5b9bd5");
     });
+    $(".elec_body").on("mouseleave", ".elec_up", function () {
+        clearInterval(elecSet);
+        $(this).css("background-color", "#5b9bd5");
+    });
     var elecSetDown; //后退
     $(".elec_body").on("mousedown", ".elec_down", function () {
         var id = $(this).parents(".elec_body_one").attr('id');
@@ -1293,6 +1349,11 @@ window.onload = function () {
         clearInterval(elecSetDown);
         $(this).css("background-color", "#5b9bd5");
     });
+    $(".elec_body").on("mouseleave", ".elec_down", function () {
+        clearInterval(elecSetDown);
+        $(this).css("background-color", "#5b9bd5");
+    });
+
     // var text = "00,00,00,00";
     // var nam = '101';
     // 电机保存
@@ -1751,6 +1812,8 @@ window.onload = function () {
             console.log(data);
             if (data.resultObject.lenght != 0) {
                 libraryList = data.resultObject;
+                
+
                 for (var i = 0; i < libraryList.length; i++) {
                     stompClient.send("/app/wu", {}, "S" + libraryList[i].deviceId + "," + libraryList[i].deviceValue);
                     console.log("S" + libraryList[i].deviceId + "," + libraryList[i].deviceValue);
@@ -1781,7 +1844,7 @@ window.onload = function () {
     });
 
     //添加进数组
-    function addOneDevice(id, type, value, num) {
+    function addOneDevice(id, type, value, num, remark) {
         //查找 libraryList  里面有没有
         //如果没有
         for (var i = 0; i < libraryList.length; i++) {
@@ -1795,7 +1858,7 @@ window.onload = function () {
         device.deviceType = type;
         device.deviceValue = value;
         device.deviceNum = num;
-        device.remark = '';
+        device.remark = remark;
         libraryList.push(device);
         //刷新页面
         getDeviceHtml();
@@ -1853,16 +1916,41 @@ window.onload = function () {
 								<input type="color" name="" class="yanse" value="#${defaultValue[4] + defaultValue[5] + defaultValue[6]}"/>
 								<span>白色值:</span>
 								<input type="text" name="" class="type7" value="${defaultValue[7]}"/>
-								<button class="lamp_send" data-index="${j}">删除</button>
+								<button class="lamp_del" data-index="${j}">删除</button>
 								<button class="lamp_save" data-index="${j}">保存</button>
 								
 							</div>
 						</div>`;
 
             } else if (libraryList[j].deviceType == '06') {
-
-
                 var defaultValue = libraryList[j].deviceValue.replace("K", "").split(",");
+                var vlc = {};
+                vlc.v1 = "0D,00,00,50,00,00,00,00";
+                vlc.v2 = "0D,00,00,50,00,00,00,00";
+                vlc.v3 = "0D,00,00,50,00,00,00,00";
+                vlc.v4 = "0D,00,00,50,00,00,00,00";
+                for (var m = 0; m < elcarray.length; m++) {
+                    if (elcarray[m].id == libraryList[j].deviceId) {
+                        vlc = elcarray[m];
+                    }
+                }
+                htmlStr += `<div class="elec_body_one" id="Res${libraryList[j].deviceId}">                 
+									<input type="text" name="" class="elec_remark" value="${libraryList[j].remark}">
+									<span class="elec_body_one_span">ID:
+										<span class="elec_body_one_id">0X${libraryList[j].deviceId}</span>
+									</span>
+									<div class="elec_right">																				
+										<label for="">
+											<input type="radio" name="R${libraryList[j].deviceId}" value="${vlc.v1}">1
+											<input type="radio" name="R${libraryList[j].deviceId}" value="${vlc.v2}">2
+											<input type="radio" name="R${libraryList[j].deviceId}" value="${vlc.v3}">3
+											<input type="radio" name="R${libraryList[j].deviceId}" value="${vlc.v4}">4
+										</label>
+									</div>
+                                    <button type="button" class="elec_Allsave" data-index="${j}">保存</button>
+                                    <button type="button" class="elec_del" data-index="${j}">删除</button>
+								</div>`;
+
                 // htmlStr +=
 
 
@@ -1903,7 +1991,8 @@ window.onload = function () {
                     htmlStr += ` <div class="outp_btn">
                                     <input type="text" name="" value="" class="outp_input" />
                                     <button type="button"></button>
-                                </div>`}
+                                </div>`
+                }
                 htmlStr += `</div>
                             <button class="outp_save">保存</button>
                             <button class="outp_del" data-index="${j}">删除</button>
@@ -1916,8 +2005,9 @@ window.onload = function () {
 
     $("#library_body_body1").on("click", ".library_body_body_one", function () { //元件库 灯光 添加进页面
         var Id = $(this).attr('id').substring(4);
+        var remake = $(this).find('.lamp_remark').val();
         // var type = JSON.parse(storage.getItem(Id)).type;
-        addOneDevice(Id, '01', '00,00,00,00,00,00,00,00');
+        addOneDevice(Id, '01', '00,00,00,00,00,00,00,00', 0, remake);
 
 
     });
@@ -1926,12 +2016,12 @@ window.onload = function () {
         addOneDevice(Id, '06', '00,00,00,00,00,00,00,00');
         // var type = JSON.parse(storage.getItem(Id)).type;
     });
-    $("#library_body_body3").on("click", ".library_body_body_one", function () {  //元件库 投影仪 添加进页面
+    $("#library_body_body3").on("click", ".library_body_body_one", function () { //元件库 投影仪 添加进页面
         var Id = $(this).attr('id').substring(4);
         addOneDevice(Id, '09', '00,00,00,00,00,00,00,00');
 
     });
-    $("#library_body_body4").on("click", ".library_body_body_one", function () {  //元件库 输出控制 添加进页面
+    $("#library_body_body4").on("click", ".library_body_body_one", function () { //元件库 输出控制 添加进页面
         var Id = $(this).attr('id').substring(4);
         $.getJSON(port + "getDeviceType", {
             FrameId: Id,
@@ -1978,15 +2068,42 @@ window.onload = function () {
         // getDeviceHtml();  //刷新页面
     })
 
+    //电机保存
+    $("#Restoration").on("click", ".elec_Allsave", function () {
+        var Id = "R" + $(this).parents(".elec_body_one").attr('id').substr(3);
+        var index = $(this).data(index).index;
+        // var oIdCov = $(this).siblings('.elec_cover').val();
+        var list = $('input:radio[name=' + Id + ']:checked').val();
+        // var index = $('input:radio[name=' + Id + ']:checked').data(index).index;
+        if (list == null) {
+            alert("请选中一个!");
+            return false;
+        } else {
+            libraryList[index].deviceValue = list;
+            // $('input:radio[name=' + Id + ']:checked').val(oIdCov);
+            // console.log($('input:radio[name=' + Id + ']:checked').val());
+
+        }
+
+
+        console.log(Id);
+        // libraryList[index].deviceValue =
+    })
+
 
     //删除
-    $("#Restoration").on("click", ".lamp_send", function () { //灯光删除
+    $("#Restoration").on("click", ".lamp_del", function () { //灯光删除
         // var Id = $(this).parents('.lamp_body_one').attr('id').replace("Res", "");
         var index = $(this).data(index).index;
         libraryList.splice(index, 1);
         getDeviceHtml(); //刷新页面
     });
-
+    //电机删除
+    $("#Restoration").on("click", ".elec_del", function () {
+        var index = $(this).data(index).index;
+        libraryList.splice(index, 1);
+        getDeviceHtml(); //刷新页面
+    })
     $("#Restoration").on("click", ".proj_del", function () { //投影仪删除
         var index = $(this).data(index).index;
         libraryList.splice(index, 1);
