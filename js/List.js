@@ -3,7 +3,8 @@ window.onload = function() {
 	var stompClient = null; //定义全局变量，代表一个session
 	var sceneId = null;
 	var isopen = null;
-	
+
+	var List = []; //总数组
 	var nodeList = []; //总节点
 	var logicList = []; //逻辑节点
 	
@@ -15,7 +16,7 @@ window.onload = function() {
 	// var serverAddr = "http://www.shoulder-tech.com/gq/api/";
 	// var serverAddr = "http://127.0.0.1:8080/api/";
 	var serverAddr = "http://192.168.1.10:8081/gq/api/";
-	var port  = serverAddr+"getEvaluateName";
+	// var port  = serverAddr+"getEvaluateName";
 
 	var elcarray = [];//存放点击四个预设值
 	//当选择次点击是 先从此处查询，如果没有，则请求服务器，获取
@@ -1395,7 +1396,9 @@ window.onload = function() {
 					//假设 收到的是逻辑信号  byte0 是 信号值
 					// console.log(oHtmlId);
 				
-					if (!document.getElementById(id)) {
+					
+					if(List.indexOf(FrameId) == -1){
+						List.push(FrameId);
 						if (loca) {
 							// console.log('1');
 							var locaObj = JSON.parse(loca);
@@ -1435,6 +1438,16 @@ window.onload = function() {
 									break;
 							}
 						}
+					}
+
+
+
+					if (!document.getElementById(id)) {
+
+
+
+						
+						
 					}
 
 					
@@ -1624,7 +1637,7 @@ window.onload = function() {
 	            oBig.setAttribute("id", Id);
 	            var oId = Id + 'i';
 	
-	            $.getJSON(port + "getRemark", {
+	            $.getJSON(serverAddr + "getRemark", {
 	                deviceId: Id,
 	                num: 0
 	            }, function (data) {
@@ -1666,7 +1679,7 @@ window.onload = function() {
 	            var oBig = document.createElement("div");
 	            oBig.classList.add("proj_body_one");
 	            oBig.setAttribute("id", Id);
-	            $.getJSON(port + "getRemark", {
+	            $.getJSON(serverAddr + "getRemark", {
 	                deviceId: Id,
 	                num: 0
 	            }, function (data) {
@@ -1720,44 +1733,53 @@ window.onload = function() {
 	            oBig.classList.add("outp_body_one");
 	            oBig.setAttribute("id", Id);
 	
-	            $.getJSON(port + "getRemark", {
-	                deviceId: Id,
-	                num: Lbyte4Lenght
-	            }, function (data) {
-	                console.log(data);
-	                text = data.resultObject.remark;
-	                // 修饰元素
-	                oBig.innerHTML = '<input type="text" name="" class="outp_remark" value=' + text + '><span class="outp_body_one_span">ID:<span class="outp_body_one_id">0x' + Id + '</span>';
-	                self.oOutpOne.appendChild(oBig);
-	
-	                var oOutpB = document.createElement("div");
-	                oOutpB.classList.add("outp_b");
-	                oBig.appendChild(oOutpB);
-	
-	                for (var i = 0; i < Lbyte4Lenght; i++) {
-	                    var oId = Id + [i];
-	                    // 创建元素
-	                    var oBtnBtn = document.createElement("div");
-	                    oBtnBtn.classList.add("outp_btn");
-	                    var text1 = data.resultObject.samllremark[i];
-	
-	                    // oBtnBtn.setAttribute("id", Ssid);
-	                    oBtnBtn.innerHTML = '<input type="text" name="" class="outp_input"><button type="button" id=' +
-	                        oId + '>' + text1 + '</button>';
-	                    oOutpB.appendChild(oBtnBtn);
-	                    // this.oContent[i].style.display = "none";
-	                }
-	
-	                // 元件库创建
+     // 元件库创建
 	                var oLibr = document.createElement("div");
 	                var oLibrId = 'libr' + Id;
 	                oLibr.classList.add("library_body_body_one");
 	                oLibr.setAttribute("id", oLibrId);
 	                oLibr.innerHTML = '<span>id:0X' + Id + '</span><span class="outp_remake">' + text + '</span>';
 	                document.getElementById("library_body_body4").appendChild(oLibr);
+
+
+	            // $.getJSON(serverAddr + "getRemark", {
+	            //     deviceId: Id,
+	            //     num: Lbyte4Lenght
+	            // }, function (data) {
+	            //     console.log(data);
+	            //     text = data.resultObject.remark;
+	            //     // 修饰元素
+	            //     oBig.innerHTML = '<input type="text" name="" class="outp_remark" value=' + text + '><span class="outp_body_one_span">ID:<span class="outp_body_one_id">0x' + Id + '</span>';
+	            //     self.oOutpOne.appendChild(oBig);
+	
+	            //     var oOutpB = document.createElement("div");
+	            //     oOutpB.classList.add("outp_b");
+	            //     oBig.appendChild(oOutpB);
+	
+	            //     for (var i = 0; i < Lbyte4Lenght; i++) {
+	            //         var oId = Id + [i];
+	            //         // 创建元素
+	            //         var oBtnBtn = document.createElement("div");
+	            //         oBtnBtn.classList.add("outp_btn");
+	            //         var text1 = data.resultObject.samllremark[i];
+	
+	            //         // oBtnBtn.setAttribute("id", Ssid);
+	            //         oBtnBtn.innerHTML = '<input type="text" name="" class="outp_input"><button type="button" id=' +
+	            //             oId + '>' + text1 + '</button>';
+	            //         oOutpB.appendChild(oBtnBtn);
+	            //         // this.oContent[i].style.display = "none";
+	            //     }
+	
+	            //     // 元件库创建
+	            //     var oLibr = document.createElement("div");
+	            //     var oLibrId = 'libr' + Id;
+	            //     oLibr.classList.add("library_body_body_one");
+	            //     oLibr.setAttribute("id", oLibrId);
+	            //     oLibr.innerHTML = '<span>id:0X' + Id + '</span><span class="outp_remake">' + text + '</span>';
+	            //     document.getElementById("library_body_body4").appendChild(oLibr);
 	
 	
-	            })
+	            // })
 	
 	        }
 	    }
