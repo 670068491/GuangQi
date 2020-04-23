@@ -166,11 +166,16 @@ window.onload = function () {
 
     //复制
     $(".auto_body").on("click", ".autoBodyOneCopy", function () {
-        $(".auto #code2").css("display", "block");
-        $(".auto .cover").css("display", "block");
-        var oId = $(this).siblings('.autoBodyOneDelete').data("id");
-        $('#codeButton1').data("data-id", oId);
-
+        // $(".auto #code2").css("display", "block");
+        // $(".auto .cover").css("display", "block");
+        // var oId = $(this).siblings('.autoBodyOneDelete').data("id");
+		
+		var uid = $(this).data("id");
+		oldId = uid;
+		
+        // $('#codeButton1').data("data-id", uid);
+		$(".auto #code2").css("display", "block");
+		$(".auto .cover").css("display", "block");
 
         // console.log(oId);
     });
@@ -328,7 +333,7 @@ window.onload = function () {
 
     // var name = null;
     // var stylist = null; //设计师
-
+	var oldId = '';
     $("#codeButton1").click(function () {
         name = $("#CodeSpan3").val();
         stylist = $("#CodeSpan4").val();
@@ -336,47 +341,40 @@ window.onload = function () {
             alert("请输入名称");
             return;
         }
-        var myDate = new Date;
-        var year = myDate.getFullYear(); //获取当前年
-        var mon = myDate.getMonth() + 1; //获取当前月
-        var date = myDate.getDate(); //获取当前日
-        var Hours = myDate.getHours(); //获取当前小时数(0-23)
-        var Minutes = myDate.getMinutes(); //获取当前分钟数(0-59)
-        var Seconds = myDate.getSeconds(); //获取当前秒
-        // var week = myDate.getDay();
-        // var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-        console.log(year, mon, date, Hours, Minutes, Seconds);
-        var oTime = year + '-' + mon + '-' + date + ' ' + Hours + ':' + Minutes + ':' + Seconds;
-
-        var $p = `<div class="auto_body_one">
-		<span>开门迎宾</span>
-		<span class="autoBodyOneName">设计师:<span>${name}</span></span>
-		<span class="autoBodyOneData">2020-3-25 09:09:30</span>
-		<button type="button" class="autoBodyOneOpen" id="open">打开</button>
-		<button type="button" class="autoBodyOneCopy">复制</button>
-		<button type="button" class="autoBodyOneDelete">删除</button>
-	</div>`;
-
-
-        // var $p = $('<div class="auto_body_one"><span>' + oName1 + '</span><span class="autoBodyOneName">设计师:<span>' +
-        // 	oName2 + '</span></span><span class="autoBodyOneData">' + oTime +
-        // 	'<button type="button" class="autoBodyOneOpen">打开</button><button type="button" class="autoBodyOneCopy">复制</button><button type="button" class="autoBodyOneDelete">删除</button></div>'
-        // );
-        $(".auto_body").prepend($p);
+		// var oldId = $("#codeButton1").data("id");
+		// console.log(oldId);
         $("#CodeSpan3").val("");
         $("#CodeSpan4").val("");
-        $(".auto #code2").css("display", "none");
-        $(".auto .cover").css("display", "none");
-        // $.getJSON("http://39.106.47.82/gq/api/saveScene", {
-        // 	name: name,
-        // 	designer: stylist
-        // 	// action: 'jobcategoryjson'
-        // }, function (data) {
-        // 	// console.log(data);
-        // 	var uId = data.resultObject.id;
-        // 	location.href = "./List.html?name=" + name + "&stylist=" + stylist + "&uId=" + uId; //此处拼接内容";
-        // });
-        // $("#time").html(year + "年" + mon + "月" + date + "日" + weeks[week]);
+        // $(".auto .code").css("display", "none");
+        // $(".auto .cover").css("display", "none");
+        $.getJSON(serverAddr + "saveScene", {
+            name: name,
+            designer: stylist
+            // action: 'jobcategoryjson'
+        }, function (data) {
+			
+            // console.log(data);
+            var uId = data.resultObject.id;
+			$.getJSON(serverAddr+"getSceneInfo", {
+				sceneId:oldId
+			}, function(data) {
+				// console.log(data);
+				var nodeList = data.resultObject.nodeList;
+				var logicList = data.resultObject.logicList;
+				// drawHtml();
+				$.getJSON(serverAddr+"saveSceneInfo", {
+					sceneId: uId,
+					nodeList: JSON.stringify(nodeList),
+					logicList: JSON.stringify(logicList),
+				}, function(data) {
+					
+						// console.log(data);
+					location.href = "./List.html?name=" + name + "&stylist=" + stylist + "&uId=" + uId+"&isopen=open"; //此处拼接内容";
+					
+				});
+			});
+        });
+       
     });
 
 
