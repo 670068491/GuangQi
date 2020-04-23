@@ -4,11 +4,11 @@ window.onload = function () {
     var stompClient = null;
     var port = "http://192.168.1.10:8081/gq/api/";
 
-    var List = []; //总数组
-    var ListType = []; //类型数组
-    var libraryList = []; //初始化复位
-    var getRemarkInitAll = []; //全部备注
-    var elcarray = []; //存放点击四个预设值
+    var List = []; //总数组  只保存id
+    var ListType = []; //类型数组  包含所有的id,类型,num  localStorage作用
+    var libraryList = []; //初始化复位,保存所有复位信息
+    // var getRemarkInitAll = []; //
+    var elcarray = []; //存放点击电机四个预设值
 
     $(function () {
         connect(); //建立连接
@@ -16,12 +16,11 @@ window.onload = function () {
             console.log(data);
             elcarray = data.resultObject;
         });
-        // $.getJSON(port + "getElcAll", {}, function (data) {
-        //     console.log(data);
-        //     elcarray = data.resultObject;
-        // });
+        $.getJSON(port + "getDeviceTypeAll", {}, function (data) {
 
-
+            ListType = data.resultObject;
+            console.log(ListType);
+        });
     });
 
 
@@ -62,10 +61,10 @@ window.onload = function () {
                         // console.log('发送');
                     } else if (List.indexOf(FrameId) == -1 && Byte0 == '5E') { //返回的类型与数量
                         List.push(FrameId);
-                        var node = {};
-                        node.FrameId = FrameId;
-                        node.node_type = Byte5;
-                        ListType.push(node);
+                        // var node = {};
+                        // node.FrameId = FrameId;
+                        // node.node_type = Byte5;
+                        // ListType.push(node);
                         // console.log(List);
                         // node.id = FrameId;
                         // node.value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' + Byte6 + ',' + Byte7;
@@ -80,12 +79,21 @@ window.onload = function () {
                         // console.log(stringResult);
                         switch (Byte5) {
                             case "00":
-                                var data = {
+                                $.getJSON(port + "saveDeviceType", {
                                     FrameId: FrameId,
-                                    type: Byte5,
-                                };
-                                var dat = JSON.stringify(data);
-                                storage.setItem(FrameId, dat);
+                                    Ftype: Byte5,
+                                    Fnum: 0,
+                                }, function (data) {
+                                    // console.log(data);
+                                });
+
+
+                                // var data = {
+                                //     FrameId: FrameId,
+                                //     type: Byte5,
+                                // };
+                                // var dat = JSON.stringify(data);
+                                // storage.setItem(FrameId, dat);
                                 break;
                             case "01":
                                 // 流水灯
@@ -98,12 +106,12 @@ window.onload = function () {
                                 });
                                 new lamp(FrameId, "new");
 
-                                var data = {
-                                    FrameId: FrameId,
-                                    type: Byte5,
-                                };
-                                var dat = JSON.stringify(data);
-                                storage.setItem(FrameId, dat);
+                                // var data = {
+                                //     FrameId: FrameId,
+                                //     type: Byte5,
+                                // };
+                                // var dat = JSON.stringify(data);
+                                // storage.setItem(FrameId, dat);
 
                                 break;
                             case "02":
@@ -127,13 +135,13 @@ window.onload = function () {
                                     // console.log(data);
                                 });
                                 new button(FrameId, Byte4, Byte5, Byte6, Byte7, "new");
-                                var data = {
-                                    FrameId: FrameId,
-                                    num: parseInt(Byte4, 16),
-                                    type: Byte5,
-                                };
-                                var dater = JSON.stringify(data);
-                                storage.setItem(FrameId, dater);
+                                // var data = {
+                                //     FrameId: FrameId,
+                                //     num: parseInt(Byte4, 16),
+                                //     type: Byte5,
+                                // };
+                                // var dater = JSON.stringify(data);
+                                // storage.setItem(FrameId, dater);
                                 break;
                             case "04":
                                 //点阵控制板
@@ -164,12 +172,12 @@ window.onload = function () {
                                 }, function (data) {
                                     // console.log(data);
                                 });
-                                var data = {
-                                    FrameId: FrameId,
-                                    type: Byte5,
-                                };
-                                var dater = JSON.stringify(data);
-                                storage.setItem(FrameId, dater);
+                                // var data = {
+                                //     FrameId: FrameId,
+                                //     type: Byte5,
+                                // };
+                                // var dater = JSON.stringify(data);
+                                // storage.setItem(FrameId, dater);
                                 new elec(FrameId, "00", "00", "00", "00", "00", "new");
                                 break;
                             case "07":
@@ -181,13 +189,14 @@ window.onload = function () {
                                 }, function (data) {
                                     // console.log(data);
                                 });
-                                var data = {
-                                    FrameId: FrameId,
-                                    type: Byte5,
-                                };
-                                var dat = JSON.stringify(data);
-                                storage.setItem(FrameId, dat);
                                 new rotaryknob(FrameId, Byte4, Byte5, Byte6, Byte7, "new");
+
+                                // var data = {
+                                //     FrameId: FrameId,
+                                //     type: Byte5,
+                                // };
+                                // var dat = JSON.stringify(data);
+                                // storage.setItem(FrameId, dat);
                                 break;
                             case "08":
                                 // 安卓屏
@@ -201,12 +210,12 @@ window.onload = function () {
                                 }, function (data) {
                                     // console.log(data);
                                 });
-                                var data = {
-                                    FrameId: FrameId,
-                                    type: Byte5,
-                                };
-                                var dat = JSON.stringify(data);
-                                storage.setItem(FrameId, dat);
+                                // var data = {
+                                //     FrameId: FrameId,
+                                //     type: Byte5,
+                                // };
+                                // var dat = JSON.stringify(data);
+                                // storage.setItem(FrameId, dat);
                                 new projector(FrameId, "new");
                                 break;
                             case "0A":
@@ -218,13 +227,13 @@ window.onload = function () {
                                 }, function (data) {
                                     // console.log(data);
                                 });
-                                var data = {
-                                    FrameId: FrameId,
-                                    num: parseInt(Byte4, 16),
-                                    type: Byte5,
-                                };
-                                var dat = JSON.stringify(data);
-                                storage.setItem(FrameId, dat);
+                                // var data = {
+                                //     FrameId: FrameId,
+                                //     num: parseInt(Byte4, 16),
+                                //     type: Byte5,
+                                // };
+                                // var dat = JSON.stringify(data);
+                                // storage.setItem(FrameId, dat);
                                 new sens(FrameId, parseInt(Byte4, 16), Byte5, Byte6, Byte7, "new");
                                 break;
                             case "0B":
@@ -236,13 +245,13 @@ window.onload = function () {
                                 }, function (data) {
                                     // console.log(data);
                                 });
-                                var data = {
-                                    FrameId: FrameId,
-                                    num: parseInt(Byte4, 16),
-                                    type: Byte5,
-                                };
-                                var dater = JSON.stringify(data);
-                                storage.setItem(FrameId, dater);
+                                // var data = {
+                                //     FrameId: FrameId,
+                                //     num: parseInt(Byte4, 16),
+                                //     type: Byte5,
+                                // };
+                                // var dater = JSON.stringify(data);
+                                // storage.setItem(FrameId, dater);
                                 new outp(FrameId, parseInt(Byte4, 16), "new");
                                 break;
                             default:
@@ -251,18 +260,12 @@ window.onload = function () {
                         }
                         // document.getElementById(FrameId)
                     } else if (List.indexOf(FrameId) > -1) { // 刷新状态
-                        var Type = JSON.parse(storage.getItem(FrameId)).type;
-                        // var loca = storage.getItem(FrameId);
-                        // var Type = JSON.parse(loca).type;
-                        // // console.log(loca);
-                        // var locaObj = JSON.parse(loca);
-                        // var LByte4 = locaObj.Byte4;
-                        // console.log(locaObj.type);
-                        // $.getJSON(port + "getDeviceType", {
-                        //     FrameId: FrameId,
-                        // }, function (data) {
-                        //     // console.log(data);
-                        //     var Type = data.resultObject.ftype;
+                        var Type;
+                        for (let i = 0; i < ListType.length; i++) {
+                            if (ListType[i].frameId == FrameId) {
+                                Type = ListType[i].ftype;
+                            }
+                        }
                         switch (Type) {
                             case "01":
                                 // 流水灯
@@ -1474,6 +1477,9 @@ window.onload = function () {
     $(".outp_body").on("click", "button", function () {
         var id = $(this).attr('id');
         var oId = $(this).attr('id').slice(3);
+        // console.log(id)
+        // console.log(oId)
+
         id = id.slice(0, 3);
         var color = $(this).css("background-color");
 
@@ -1969,7 +1975,7 @@ window.onload = function () {
 
             } else if (libraryList[j].deviceType == '0B') {
                 // <input type="text" name="" class="outp_remark">
-                htmlStr += `<div class="outp_body_one" id="Res${libraryList[j].deviceId}">
+                htmlStr += `<div class="outp_body_one" id="Res${libraryList[j].deviceId}" data-ind="${j}">
                             <input type="text" name="" class="outp_remark" value="${libraryList[j].remark}">
                             <span class="outp_body_one_span">ID:
                                 <span class="outp_body_one_id">0X${libraryList[j].deviceId}</span>
@@ -1981,11 +1987,7 @@ window.onload = function () {
                                     <button class="outp_button" data-index="${i}" type="button"></button>
                                 </div>`
                 }
-                htmlStr += `<button class="outp_del" data-index="${j}">删除</button></div>
-<!--                             <div>-->
-                            
-<!--                             </div>-->
-                            
+                htmlStr += `<button class="outp_del" data-index="${j}">删除</button></div>                            
                         </div>`;
             }
         }
@@ -2024,8 +2026,6 @@ window.onload = function () {
         })
 
     });
-
-
 
 
     // 灯光保存
@@ -2104,11 +2104,55 @@ window.onload = function () {
 
     //输出控制保存
     var Ras = new Array(0, 0, 0, 0, 0, 0, 0, 0);
-    $("#Restoration").on("click", ".outp_button ", function (){
-        var id = $(this).parents('').attr('id');
+    $("#Restoration").on("click", ".outp_button ", function () {
+        var id = $(this).parents('.outp_body_one').attr('id').substr(3);
+        // var indexT = $(this).data(index).index;
+        var ind = $(this).parents(".outp_body_one").data(ind).ind;
+        var index = $(this).data(index).index;
+        var color = $(this).css("background-color");
+
+        let val = parseInt(index);
+        let yu = val % 8;
+        let zheng = parseInt(index / 8);
+        if (color == 'rgb(91, 155, 213)') {
+            Ras[zheng] |= 0x01 << yu;
+            $(this).css("background-color", "rgb(255, 0, 0)");
+        } else {
+            Ras[zheng] &= ~(0x01 << yu);
+            $(this).css("background-color", "rgb(91, 155, 213)");
+        }
+        var as0 = as[0] > 0x0f ? "" : "0";
+        var as1 = Ras[1] > 0x0f ? "" : "0";
+        var as2 = Ras[2] > 0x0f ? "" : "0";
+        var as3 = Ras[3] > 0x0f ? "" : "0";
+        var as4 = Ras[4] > 0x0f ? "" : "0";
+        var as5 = Ras[5] > 0x0f ? "" : "0";
+        var as6 = Ras[6] > 0x0f ? "" : "0";
+        var as7 = Ras[7] > 0x0f ? "" : "0";
+        if (index < 32) {
+            libraryList[ind].deviceValue = "02,00,00,00," + as3 + (as[3].toString(16)).toUpperCase() + "," + as2 +
+                (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(16)).toUpperCase();
+            // stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00," + as3 + (as[3].toString(16)).toUpperCase() + "," + as2 +
+            //     (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(
+            //         16)).toUpperCase() + "K");
+            // console.log("S" + id + ",02,00,00,00," + as3 + (as[3].toString(16)).toUpperCase() + "," + as2 + (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(16)).toUpperCase() + "K");
+        } else {
+            libraryList[ind].deviceValue = "02,00,00,01," + as7 + (as[7].toString(16)).toUpperCase() + "," + as6 +
+                (as[6].toString(16)).toUpperCase() + "," + as5 + (as[5].toString(16)).toUpperCase() + "," + as4 + (as[4].toString(16)).toUpperCase();
+            // stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,01," + as7 + (as[7].toString(16)).toUpperCase() + "," + as6 +
+            //     (as[6].toString(16)).toUpperCase() + "," + as5 + (as[5].toString(16)).toUpperCase() + "," + as4 + (as[4].toString(
+            //         16)).toUpperCase() + "K");
+            // console.log("S" + id + ",02,00,00,01," + as7 + (as[7].toString(16)).toUpperCase() + "," + as6 + (as[6].toString(16)).toUpperCase() + "," + as5 + (as[5].toString(16)).toUpperCase() + "," + as4 + (as[4].toString(16)).toUpperCase() + "K");
+
+        }
+
+
+        // var oId = $(this).data(index).index;
+
+        // console.log(id + "-" + index);
+        // console.log(id);
 
     })
-
 
 
     //删除

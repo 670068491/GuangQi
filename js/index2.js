@@ -360,5 +360,16 @@ if (data.resultObject.length == 0) { // 修饰元素
     var bte6 = "01";
     var bte7 = "01";
 
-
+// var Type = JSON.parse(storage.getItem(FrameId)).type;
+// var loca = storage.getItem(FrameId);
+// var Type = JSON.parse(loca).type;
+// // console.log(loca);
+// var locaObj = JSON.parse(loca);
+// var LByte4 = locaObj.Byte4;
+// console.log(locaObj.type);
+// $.getJSON(port + "getDeviceType", {
+//     FrameId: FrameId,
+// }, function (data) {
+//     // console.log(data);
+//     var Type = data.resultObject.ftype;
 
