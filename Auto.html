@@ -6,6 +6,7 @@
 	<title></title>
 </head>
 <link rel="stylesheet" type="text/css" href="./css/reset.css" />
+<link rel="stylesheet" type="text/css" href="./lib/index.css" />
 <link rel="stylesheet" type="text/css" href="./css/Auto.css" />
 
 <body>
@@ -25,7 +26,77 @@
 			</div>
 		</div>
 
+		<!--评分-->
+		<div class="questionnaire">
+			<div id="app">
+				<div class="questionnaire_head">问卷调查</div>
+				<div class="block">
+					<span class="demonstration">1.<span id="demonstration0">灯光</span>： </span>
+					<el-slider :max=10 v-model="value0" @change="change" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+				</div>
+				<div class="block">
+					<span class="demonstration">2.<span id="demonstration1">音乐</span>： </span>
+					<el-slider :max=10 v-model="value1" @change="change1" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+				</div>
+				<div class="block">
+					<span class="demonstration">3.<span id="demonstration2">台架</span>： </span>
+					<el-slider :max=10 v-model="value2" @change="change2" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
 
+				</div>
+				<div class="block">
+					<span class="demonstration">4.<span id="demonstration3">台架</span>： </span>
+					<el-slider :max=10 v-model="value3" @change="change3" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+				</div>
+				<div class="block">
+					<span class="demonstration">5.<span id="demonstration4">台架</span>： </span>
+					<el-slider :max=10 v-model="value4" @change="change4" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+
+				</div>
+				<div class="block">
+					<span class="demonstration">6.<span id="demonstration5">台架</span>： </span>
+					<el-slider :max=10 v-model="value5" @change="change5" class="valu1"></el-slider>
+					<span class="questionnaire_0">0</span><span class="questionnaire_10">10</span>
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">7.<span class="">姓名</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入姓名" id="ques_inp_input1">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">8.<span class="">年龄</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入年龄" id="ques_inp_input2">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">9.<span class="">性别</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入性别" id="ques_inp_input3">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">9.<span class="">体重</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入体重" id="ques_inp_input4">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">9.<span class="">身高</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入身高" id="ques_inp_input5">
+
+				</div>
+				<div class="ques_inp">
+					<span class="demonstration">9.<span class="">电话</span>： </span>
+					<input type="text" name="" class="ques_inp_input" placeholder="请输入电话" id="ques_inp_input6">
+
+				</div>
+				<button class="questionnaire_calcel">取消</button>
+				<button class="questionnaire_submit">提交</button>
+			</div>
+
+		</div>
 
 
 		<!-- 列表 -->
@@ -74,6 +145,8 @@
 	<script type="text/javascript" src="./lib/sockjs.min.js"></script>
 	<script type="text/javascript" src="./lib/stomp.min1.js"></script>
 	<script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="./lib/vue.js"></script>
+	<script type="text/javascript" src="./lib/index.js"></script>
 	<script type="text/javascript" src="./js/Auto.js"></script>
 </body>
 

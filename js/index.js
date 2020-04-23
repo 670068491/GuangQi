@@ -1812,7 +1812,7 @@ window.onload = function () {
             console.log(data);
             if (data.resultObject.lenght != 0) {
                 libraryList = data.resultObject;
-                
+
 
                 for (var i = 0; i < libraryList.length; i++) {
                     stompClient.send("/app/wu", {}, "S" + libraryList[i].deviceId + "," + libraryList[i].deviceValue);
