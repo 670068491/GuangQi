@@ -270,7 +270,7 @@ window.onload = function() {
 					</div>`;
 			if (i < logicList.length) {
 				//添加一个竖杠
-				htmlStr += `<div class="string" style="height:${nodeList[i].deviceList.length*2+2}vw" ></div>`;
+				htmlStr += `<div class="string" style="height:${nodeList[i].deviceList.length*2+2}vw" id="${'lines' + i}"></div>`;
 				//添加逻辑
 				htmlStr +=
 					`<div class="logic" id="${'l' + [i]}">
@@ -297,6 +297,8 @@ window.onload = function() {
 	function drawNode() {
 	
 		$(".active").find('.strip_one').html(getDeviceHtml(presentNodeIndex));
+		
+		$("#lines"+presentNodeIndex).css("height",$(".active").find('.strip').height()+"px");
 		// console.log(nodeList);
 	}
 
@@ -395,31 +397,17 @@ window.onload = function() {
 
 	// 节点里的逻辑刷新
 	function drawLogic() {
-		console.log(logicList);
-		// console.log(logicList[presentNodeIndex].signalType[0].text);
+		// console.log(logicList);
 		
-
-		// htmlStr += `<div class="points_signal">
-
-		// </div>
-		// `;
-
-		// console.log(presentNodeIndex);
-		// if (Array.isArray(nodeList[i].deviceList)) {
-		// for (var j = 0; j < nodeList[presentNodeIndex].deviceList.length; j++) {
-		// 	if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'light') {
-		// 		htmlStr +=
-		// 			``
-
-		// 	} else if (nodeList[presentNodeIndex].deviceList[j].deviceType == 'elec') {
-		// 		htmlStr += ``;
-
-		// 	}
-		// }
 		$(".active2").find('.points_signal').html(getlogicHtml(presentNodeIndex));
 		console.log(logicList);
 	}
 	function getlogicHtml(presentNodeIndex) {
+		var ln = '';
+		var lid = '';
+		var lnum = 0;
+		
+		
 		var htmlStr =
 				`<div class="points_signal">
 			                  <div class="button_body_one">
@@ -476,35 +464,35 @@ window.onload = function() {
 		// 	// node.nodeName = "结点" + (i + 1);
 		// 	// node.deviceList = []; //单节点的设备
 		// }
+		drawHtml();
 
-
-		var $One = $(
-			`<div class = "string"></div>
+		// var $One = $(
+		// 	`<div class = "string"></div>
 			
-			<div class = "logic">
-			   <span class="logic_span">逻辑<span>${nodeIndex-1}</span></span>
-			    <div class="points">
-			         <div class="points_signal"></div>
-			         <div class="points_delay">
-				        <span>延迟(执行前)</span>
-				         <input type="" name="" id="" value="1"/>
-				         <span>秒</span>
-				          <button type="button" class="points_save">保存</button>
-			         </div>
-		        </div>
-			</div>
-			<div class = "string"></div>
-			<div class = "node_small"><span class="logic_span">节点<span>${nodeIndex}</span></span>
-				<div class="strip">
-				     <div class="strip_head">
-			             <img src="./img/33.png"  class="strip_head_img">
-			         </div>
-			         <div class="strip_one">
-			         </div>
-			     </div>
-			</div>`
-		);
-		$(".node").append($One);
+		// 	<div class = "logic">
+		// 	   <span class="logic_span">逻辑<span>${nodeIndex-1}</span></span>
+		// 	    <div class="points">
+		// 	         <div class="points_signal"></div>
+		// 	         <div class="points_delay">
+		// 		        <span>延迟(执行前)</span>
+		// 		         <input type="" name="" id="" value="1"/>
+		// 		         <span>秒</span>
+		// 		          <button type="button" class="points_save">保存</button>
+		// 	         </div>
+		//         </div>
+		// 	</div>
+		// 	<div class = "string"></div>
+		// 	<div class = "node_small"><span class="logic_span">节点<span>${nodeIndex}</span></span>
+		// 		<div class="strip">
+		// 		     <div class="strip_head">
+		// 	             <img src="./img/33.png"  class="strip_head_img">
+		// 	         </div>
+		// 	         <div class="strip_one">
+		// 	         </div>
+		// 	     </div>
+		// 	</div>`
+		// );
+		// $(".node").append($One);
 	});
 
 
@@ -1430,6 +1418,18 @@ window.onload = function() {
 									var num = locaObj.num;
 									new button(FrameId, num);
 									break;
+								case "08":
+								    new andr(FrameId, "new");
+								    // 安卓屏
+								    break;
+								case "09":
+								    // 投影仪
+								    new projector(FrameId, "new");
+								    break;
+								case "0B":
+								    // 输出控制
+								    new outp(FrameId, parseInt(Byte4, 16), "new");
+								    break;
 								default:
 									// console.log("没有此类型");
 									break;
@@ -1595,6 +1595,173 @@ window.onload = function() {
 			});
 		}
 	}
+	
+	//安卓屏
+	function andr(FrameId, New) {
+	    this.oAndrOne = document.getElementById("library_body_body5");
+	    this.FrameId = FrameId;
+	    // this.Byte4 = num;
+	    // this.Byte5 = parseInt(Byte5, 16);
+	    // this.Byte6 = parseInt(Byte6, 16);
+	    // this.Byte7 = parseInt(Byte7, 16);
+	    this.New = New;
+	    //自动初始化
+	    this.init();
+	}
+	
+	andr.prototype = {
+	    constructor: andr,
+	    init: function () {
+	        //转存this
+	        var self = this;
+	        var Id = self.FrameId;
+	        var text = '';
+	        if (this.New == 'new') {
+	            // 创建元素
+	            console.log('新:安卓屏');
+	            var oBig = document.createElement("div");
+	            oBig.classList.add("andr_body_one");
+	            oBig.setAttribute("id", Id);
+	            var oId = Id + 'i';
+	
+	            $.getJSON(port + "getRemark", {
+	                deviceId: Id,
+	                num: 0
+	            }, function (data) {
+	                console.log(data);
+	                text = data.resultObject.remark;
+	                // 修饰元素
+	                oBig.innerHTML =
+	                    '<input type="text" name="" class="andr_remark" value=' + text + '><span class="andr_body_one_span">ID: <span class="andr_body_one_id">0x' + Id +
+	                    '</span></span><div class="andr_body_one_one"><input type="file"><button type="button">打开</button><img src="./img/st.png" alt="" class="andr_img1"><img src="./img/pl.png" alt="" class="andr_img2"><img src="./img/cea.png" alt="" class="andr_img3"></div>';
+	                // 插入元素
+	                self.oAndrOne.appendChild(oBig);
+	
+	            })
+	
+	        }
+	    }
+	}
+	
+	//投影仪
+	function projector(FrameId, New) {
+	    this.oProOne = document.getElementById("library_body_body6");
+	    this.FrameId = FrameId;
+	    this.New = New;
+	    //自动初始化
+	    this.init();
+	}
+	
+	projector.prototype = {
+	    constructor: projector,
+	    init: function () {
+	        //转存this
+	        var self = this;
+	        var Id = self.FrameId;
+	        var text = '';
+	        // 新id
+	        if (this.New == 'new') {
+	            console.log('新:投影仪');
+	            // 创建元素
+	            var oBig = document.createElement("div");
+	            oBig.classList.add("proj_body_one");
+	            oBig.setAttribute("id", Id);
+	            $.getJSON(port + "getRemark", {
+	                deviceId: Id,
+	                num: 0
+	            }, function (data) {
+	                console.log(data);
+	                text = data.resultObject.remark;
+	                // 修饰元素
+	                oBig.innerHTML =
+	                    '<input type="text" name="" class="proj_remark" value=' + text + '><span class="proj_body_one_span">ID: <span class="proj_body_one_id">0x' + Id + '</span></span><div class="proj_top"><button class="proj_1">开机</button><button class="proj_2">关机</button></div><div class="proj_bott"><button class="proj_3">视频1</button><button class="proj_4">视频2</button><button class="proj_5">视频3</button><button class="proj_6">视频4</button><button class="proj_7">视频5</button><button class="proj_8">视频6</button><button class="proj_9">视频7</button><button class="proj_10">视频8</button></div>';
+	                // 插入元素
+	                self.oProOne.appendChild(oBig);
+	
+	                // 元件库创建
+	                var oLibr = document.createElement("div");
+	                var oLibrId = 'libr' + Id;
+	                oLibr.classList.add("library_body_body_one");
+	                oLibr.setAttribute("id", oLibrId);
+	                oLibr.innerHTML = '<span>id:0X' + Id + '</span><span class="proj_remake">' + text + '</span>';
+	                document.getElementById("library_body_body3").appendChild(oLibr);
+	
+	
+	            })
+	
+	
+	        }
+	    }
+	};
+	
+	// 输出控制
+	function outp(FrameId, num, New) {
+	    this.oOutpOne = document.getElementById("library_body_body4");
+	    this.FrameId = FrameId;
+	    this.Lbyte4 = parseInt(num);
+	    this.New = New;
+	    //自动初始化
+	    this.init();
+	}
+	
+	outp.prototype = {
+	    constructor: outp,
+	    init: function () {
+	        //转存this
+	        var self = this;
+	        var Id = self.FrameId;
+	        var Lbyte4Lenght = self.Lbyte4;
+	        var text = '';
+	        // 新id
+	        if (this.New == 'new') {
+	            console.log('新：输出控制');
+	            // 创建元素
+	            var oBig = document.createElement("div");
+	            oBig.classList.add("outp_body_one");
+	            oBig.setAttribute("id", Id);
+	
+	            $.getJSON(port + "getRemark", {
+	                deviceId: Id,
+	                num: Lbyte4Lenght
+	            }, function (data) {
+	                console.log(data);
+	                text = data.resultObject.remark;
+	                // 修饰元素
+	                oBig.innerHTML = '<input type="text" name="" class="outp_remark" value=' + text + '><span class="outp_body_one_span">ID:<span class="outp_body_one_id">0x' + Id + '</span>';
+	                self.oOutpOne.appendChild(oBig);
+	
+	                var oOutpB = document.createElement("div");
+	                oOutpB.classList.add("outp_b");
+	                oBig.appendChild(oOutpB);
+	
+	                for (var i = 0; i < Lbyte4Lenght; i++) {
+	                    var oId = Id + [i];
+	                    // 创建元素
+	                    var oBtnBtn = document.createElement("div");
+	                    oBtnBtn.classList.add("outp_btn");
+	                    var text1 = data.resultObject.samllremark[i];
+	
+	                    // oBtnBtn.setAttribute("id", Ssid);
+	                    oBtnBtn.innerHTML = '<input type="text" name="" class="outp_input"><button type="button" id=' +
+	                        oId + '>' + text1 + '</button>';
+	                    oOutpB.appendChild(oBtnBtn);
+	                    // this.oContent[i].style.display = "none";
+	                }
+	
+	                // 元件库创建
+	                var oLibr = document.createElement("div");
+	                var oLibrId = 'libr' + Id;
+	                oLibr.classList.add("library_body_body_one");
+	                oLibr.setAttribute("id", oLibrId);
+	                oLibr.innerHTML = '<span>id:0X' + Id + '</span><span class="outp_remake">' + text + '</span>';
+	                document.getElementById("library_body_body4").appendChild(oLibr);
+	
+	
+	            })
+	
+	        }
+	    }
+	};
 
 	// function sens(FrameId, num) { //按钮
 	// 	this.oLamOne = document.getElementById("library_body_body3");
