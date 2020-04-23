@@ -232,7 +232,7 @@ window.onload = function() {
 		for (var i = 0; i < nodeIndex - 1; i++) {
 			var node = {};
 			node.signalType = '';
-			node.signalValue = '00,00,00,00,00,00,00,00';
+			node.signalValue = '0,00';
 			node.delay = 1;
 			node.theOrder = i;
 			logicList.push(node);
@@ -276,7 +276,10 @@ window.onload = function() {
 					`<div class="logic" id="${'l' + [i]}">
 					    <span class="logic_span">逻辑<span>${[i+1]}</span></span>
 						<div class="points">
-							<div  class="points_signal"></div>
+							<div  class="points_signal">`
+				htmlStr += getlogicHtml(i);		
+							
+				htmlStr +=			`</div>
 							<div  class="points_delay">
 								<span>延迟(执行前)</span>
 								<input type=""  class="points_delay_inp"  name="" id="" value="${logicList[i].delay}" />
@@ -455,7 +458,7 @@ window.onload = function() {
 
 		var node = {};
 		node.signalType = '';
-		node.signalValue = '';
+		node.signalValue = '0,00';
 		node.delay = 1;
 		node.theOrder = nodeIndex - 2;
 		logicList.push(node);
@@ -560,7 +563,7 @@ window.onload = function() {
 		// logicList[index] = {};
 		// var Type = JSON.parse(storage.getItem(id)).type;
 		var num = JSON.parse(storage.getItem(id)).num;
-		logicList[index].signalValue = '00,00,00,00,00,00,00';
+		logicList[index].signalValue = '0,00';
 		// logicList[index].signalType = num + ',' + id + ',' + text;
 		// logicList[index].signalType ={};
 		// var node = {};
@@ -644,6 +647,7 @@ window.onload = function() {
 			var htmlStr = ``;
 			htmlStr +=
 				`<select>
+					<option value="00">00</option>
 					<option value="01">01</option>
 				</select>`;
 			$(this).parents('.button_body_one_btn').append(htmlStr);
@@ -808,51 +812,10 @@ window.onload = function() {
 		// var index = $(this).parents().siblings('.points_signal').
 		var smallIndex = $(".active3").parents('.button_body_one_btn').attr('id').substring(3);
 		var index = $(this).parents('.logic').attr('id').substr(1);
-
-
-		if (smallIndex == 0) {
-			logicList[index].signalValue = '00,00,00,00,00,00,00,01';
-		} else if (smallIndex == 1) {
-			logicList[index].signalValue = '00,00,00,00,00,00,00,02';
-		} else if (smallIndex == 2) {
-			logicList[index].signalValue = '00,00,00,00,00,00,00,04';
-		} else if (smallIndex == 3) {
-			logicList[index].signalValue = '00,00,00,00,00,00,00,08';
-		} else if (smallIndex == 4) {
-			logicList[index].signalValue = '00,00,00,00,00,00,00,10';
-		} else if (smallIndex == 5) {
-			logicList[index].signalValue = '00,00,00,00,00,00,00,20';
-		} else if (smallIndex == 6) {
-			logicList[index].signalValue = '00,00,00,00,00,00,00,40';
-		} else if (smallIndex == 7) {
-			logicList[index].signalValue = '00,00,00,00,00,00,00,80';
-		} else if (smallIndex == 8) {
-			logicList[index].signalValue = '00,00,00,00,00,00,01,00';
-		} else if (smallIndex == 9) {
-			logicList[index].signalValue = '00,00,00,00,00,00,02,00';
-		} else if (smallIndex == 10) {
-			logicList[index].signalValue = '00,00,00,00,00,00,04,00';
-		} else if (smallIndex == 11) {
-			logicList[index].signalValue = '00,00,00,00,00,00,08,00';
-		} else if (smallIndex == 12) {
-			logicList[index].signalValue = '00,00,00,00,00,00,10,00';
-		} else if (smallIndex == 13) {
-			logicList[index].signalValue = '00,00,00,00,00,00,20,00';
-		} else if (smallIndex == 14) {
-			logicList[index].signalValue = '00,00,00,00,00,00,40,00';
-		} else if (smallIndex == 15) {
-			logicList[index].signalValue = '00,00,00,00,00,00,80,00';
-		} else if (smallIndex == 16) {
-			logicList[index].signalValue = '00,00,00,00,00,01,00,00';
-		} else if (smallIndex == 17) {
-			logicList[index].signalValue = '00,00,00,00,00,02,00,00';
-		} else if (smallIndex == 18) {
-			logicList[index].signalValue = '00,00,00,00,00,04,00,00';
-		} else if (smallIndex == 19) {
-			logicList[index].signalValue = '00,00,00,00,00,08,00,00';
-		} else if (smallIndex == 20) {
-			logicList[index].signalValue = '00,00,00,00,00,10,00,00';
-		}
+		// logicList[index].signalValue = parseInt(smallIndex)+1;
+        var value = $(".active3").siblings('select').val();
+		console.log(value);
+		logicList[index].signalValue = parseInt(smallIndex)+1+","+value;
 
 
 		// if (Index <= 7) {
@@ -1017,8 +980,10 @@ window.onload = function() {
 
 			var logicId;
 
+			//先判断是否有逻辑 值
 			// var logicId = logicList[currentIndex].signalType[0].id; //逻辑的ID  门
 			var delay = logicList[currentIndex].delay; //延迟时间秒
+			
 			if (logicList[currentIndex].signalType != '') {
 				logicId = logicList[currentIndex].signalType.split(",")[1]; //逻辑的ID  门
 			} else {
@@ -1026,28 +991,41 @@ window.onload = function() {
 					currentIndex++;
 					isLogic();
 				}, delay * 1000);
-
+				return;
 			}
 			// setTimeout(function () {
 			// 	currentIndex++;
 			// 	isLogic();
 			// }, delay * 1000);
 			// return;
-
-			// for (var i = 0; i < logicMap.length; i++) {
-			// 	if (logicMap[i].id == logicId) {
-			// 		if (logicValue == logicMap[i].value) {
-			// 			setTimeout(function() {
-			// 				currentIndex++;
-			// 				isLogic();
-			// 			}, delay * 1000);
-			// 			return;
-			// 		}
-			// 	}
-			// }
+			var logicValue = logicValue.split(",");
+			
+			if (logicValue.length<2 || logicValue[0]=='0') {
+				setTimeout(function() {
+					currentIndex++;
+					isLogic();
+				}, delay * 1000);
+				return;
+			}
+			console.log(logicList)
+			for (var i = 0; i < logicMap.length; i++) {
+				if (logicMap[i].id == logicId) {
+					
+					console.log(logicValue);
+					console.log(logicMap[i].value);
+					
+					if (logicValue[1]=='00' ? !isThelogic(logicValue[0],logicMap[i].value):isThelogic(logicValue[0],logicMap[i].value)) {
+						setTimeout(function() {
+							currentIndex++;
+							isLogic();
+						}, delay * 1000);
+						return;
+					}
+				}
+			}
 
 			//不满足条件 死循环
-			// loopLogic();
+			loopLogic();
 
 		} else {
 			//已经全部执行完毕
@@ -1075,7 +1053,7 @@ window.onload = function() {
 		}
 		setTimeout(function() {
 			//从页面获取signalValue
-			console.log(logicList)
+			// console.log(logicList)
 			console.log(currentIndex)
 			var logicValue = logicList[currentIndex].signalValue; //逻辑信号
 			// var 
@@ -1083,11 +1061,13 @@ window.onload = function() {
 			if (logicList[currentIndex].signalType != '') {
 				logicId = logicList[currentIndex].signalType.split(",")[1]; //逻辑的ID  门
 			}
-
+			logicValue = logicValue.split(",");
 			var delay = logicList[currentIndex].delay; //延迟时间秒
 			for (var i = 0; i < logicMap.length; i++) {
 				if (logicMap[i].id == logicId) {
-					if (logicValue == logicMap[i].value) {
+					// console.log(logicValue);
+					// console.log(logicId+" "+logicMap[i].value);
+					if (logicValue[1]=='00' ? !isThelogic(logicValue[0],logicMap[i].value):isThelogic(logicValue[0],logicMap[i].value)) {
 						setTimeout(function() {
 							currentIndex++;
 							isLogic();
@@ -1103,20 +1083,148 @@ window.onload = function() {
 
 
 	}
+	
+	function isThelogic(lIndex,value) {
+		var vs = value.split(",");
+		if(vs.length<8) {
+			return false;
+		}
+		var byte5 = parseInt(vs[5],16);
+		var byte6 = parseInt(vs[6],16);
+		var byte7 = parseInt(vs[7],16);
+		var lIndex = parseInt(lIndex);
+		// console.log(vs[7]+" "+byte7 + " " + byte6 + " " + byte5)
+		// console.log(lIndex)
+		if(lIndex < 9) {
+			var thebyte = byte7;
+			if (lIndex == 1 && (thebyte & 0x01) == 0x01) {
+				return true;
+			} 
+			if (lIndex == 2 && (thebyte & 0x02) == 0x02) {
+			    return true;
+			} 
+			if (lIndex == 3 && (thebyte & 0x04) == 0x04) {
+			    return true;
+			} 
+			if (lIndex == 4 && (thebyte & 0x08) == 0x08) {
+			    return true;
+			} 
+			if (lIndex == 5 && (thebyte & 0x10) == 0x10) {
+			    return true;
+			} 
+			if (lIndex == 6 && (thebyte & 0x20) == 0x20) {
+			    return true;
+			} 
+			if (lIndex == 7 && (thebyte & 0x40) == 0x40) {
+			    return true;
+			} 
+			if (lIndex == 8 && (thebyte & 0x80) == 0x80) {
+			    return true;
+			} 
+			
+		} else if(lIndex < 17) {
+			var thebyte = byte6;
+			lIndex = lIndex - 8;
+			if (lIndex == 1 && (thebyte & 0x01) == 0x01) {
+				return true;
+			} 
+			if (lIndex == 2 && (thebyte & 0x02) == 0x02) {
+			    return true;
+			} 
+			if (lIndex == 3 && (thebyte & 0x04) == 0x04) {
+			    return true;
+			} 
+			if (lIndex == 4 && (thebyte & 0x08) == 0x08) {
+			    return true;
+			} 
+			if (lIndex == 5 && (thebyte & 0x10) == 0x10) {
+			    return true;
+			} 
+			if (lIndex == 6 && (thebyte & 0x20) == 0x20) {
+			    return true;
+			} 
+			if (lIndex == 7 && (thebyte & 0x40) == 0x40) {
+			    return true;
+			} 
+			if (lIndex == 8 && (thebyte & 0x80) == 0x80) {
+			    return true;
+			} 
+		} else if(lIndex < 25) {
+			var thebyte = byte5;
+			lIndex = lIndex - 16;
+			if (lIndex == 1 && (thebyte & 0x01) == 0x01) {
+				return true;
+			} 
+			if (lIndex == 2 && (thebyte & 0x02) == 0x02) {
+			    return true;
+			} 
+			if (lIndex == 3 && (thebyte & 0x04) == 0x04) {
+			    return true;
+			} 
+			if (lIndex == 4 && (thebyte & 0x08) == 0x08) {
+			    return true;
+			} 
+			if (lIndex == 5 && (thebyte & 0x10) == 0x10) {
+			    return true;
+			} 
+			if (lIndex == 6 && (thebyte & 0x20) == 0x20) {
+			    return true;
+			} 
+			if (lIndex == 7 && (thebyte & 0x40) == 0x40) {
+			    return true;
+			} 
+			if (lIndex == 8 && (thebyte & 0x80) == 0x80) {
+			    return true;
+			} 
+		} 
+		
+		
+	}
 
 
 
 	function actionDo() {
 		//TODO 扫描 currentIndex 节点的内容,并发送
 		for (var i = 0; i < nodeList[currentIndex].deviceList.length; i++) {
-			console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[
-				i].deviceValue);
 			// console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
-			stompClient.send("/app/wu", {}, "S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[
-				i].deviceValue);
+			var sendstr = "S" + nodeList[currentIndex].deviceList[i].deviceId + 
+				',' + nodeList[currentIndex].deviceList[i].deviceValue;
+				
+			// 	theDeIndex = i;
+			// 	cuIn = currentIndex;
+			// setTimeout(function(){
+			// 	var ti = theDeIndex;
+			// 	stompClient.send("/app/wu", {}, "S" + nodeList[cuIn].deviceList[ti].deviceId + 
+			// 	',' + nodeList[cuIn].deviceList[ti].deviceValue);
+			// 	theDeIndex++;
+			// },i*10)
+			
+			sendQueue.push(sendstr);
+			// theDeIndex = i;
+			// sendStr(sendstr,i*50);
+			// console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
+			
 		}
+		sendStr();
 	}
-
+	
+	var sendQueue = [];
+	
+	
+	
+	function sendStr() {
+		// console.log(str);
+		
+		setTimeout(function(){
+			if(sendQueue.length > 0) {
+				console.log(sendQueue[0]);
+				stompClient.send("/app/wu", {}, sendQueue[0]);
+				sendQueue.splice(0,1);
+				sendStr();
+			}
+			
+		},50)
+	}
 
 
 
@@ -1275,7 +1383,7 @@ window.onload = function() {
 				stompClient.subscribe('/topic/udp/broadcast', function(response) {
 					// stompClient.subscribe('/topic/socket/201', function (response) {
 					// console.log(response.body + " " + new Date().getTime());
-					var stringResult = response.body.split(',');
+					var stringResult = response.body.replace("K","").split(',');
 					// 转为数组输出[123,456,789];
 					// console.log(stringResult);
 					var FrameId = stringResult[0].substr(1);
@@ -1286,7 +1394,7 @@ window.onload = function() {
 					var Byte4 = stringResult[5];
 					var Byte5 = stringResult[6];
 					var Byte6 = stringResult[7];
-					var Byte7 = stringResult[8].substring(0, 2);
+					var Byte7 = stringResult[8];
 
 					var id = "0X" + FrameId;
 					
@@ -1329,11 +1437,13 @@ window.onload = function() {
 						}
 					}
 
-
+					
 					for (var i = 0; i < logicMap.length; i++) {
 						if (logicMap[i].id == FrameId) {
 							logicMap[i].value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' +
 								Byte6 + ',' + Byte7;
+							if(FrameId == "220")
+							// console.log(FrameId+logicMap[i].value);
 							return;
 						}
 					}
@@ -1344,6 +1454,7 @@ window.onload = function() {
 						Byte7;
 					logicMap.push(temp);
 
+					// console.log(logicMap);
 
 
 				});
