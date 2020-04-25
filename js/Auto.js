@@ -182,6 +182,17 @@ window.onload = function () {
 
 //评分
     $(".auto_body").on("click", ".autoBodyOneGrade", function () {
+        $.getJSON(serverAddr + "getEvaluateName", {}, function(data) {
+            console.log(data);
+            $('#demonstration0').text(data.resultObject.standard1);
+            $('#demonstration1').text(data.resultObject.standard2);
+            $('#demonstration2').text(data.resultObject.standard3);
+            $('#demonstration3').text(data.resultObject.standard4);
+            $('#demonstration4').text(data.resultObject.standard5);
+            $('#demonstration5').text(data.resultObject.standard6);
+        });
+
+
         var uid = $(this).data("id");
         $(".auto .questionnaire").css("display", "block");
         $(".auto .cover").css("display", "block");
