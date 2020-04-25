@@ -366,6 +366,7 @@ window.onload = function() {
                         vlc = elcarray[m];
                     }
                 }
+				var xzdev = nodeList[tIndex].deviceList[j].deviceValue.replace("K", "");
                 htmlStr +=
                     `<div class="elec_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
 									<input type="text" name="" class="elec_remark">
@@ -374,10 +375,10 @@ window.onload = function() {
 									</span>
 									<div class="elec_right">
 										<label for="">
-											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v1}">1
-											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v2}">2
-											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v3}">3
-											<input type="radio" name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v4}">4
+											<input type="radio" ${xzdev == vlc.v1?"checked":""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v1}">1
+											<input type="radio" ${xzdev == vlc.v2?"checked":""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v2}">2
+											<input type="radio" ${xzdev == vlc.v3?"checked":""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v3}">3
+											<input type="radio" ${xzdev == vlc.v4?"checked":""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v4}">4
 										</label>
 									</div>
 									<button type="button" class="elec_del" data-index="${j}">删除</button>
@@ -469,8 +470,9 @@ window.onload = function() {
         var lnum = 0;
 
         let htmlStr;
-        if (logicList[presentNodeIndex].signalType.split(",")[0] != "") {
-            // console.log('1');
+        if (logicList[presentNodeIndex].signalType != "") {
+            console.log(logicList[presentNodeIndex]);
+			
 
             htmlStr =
                 `<div class="points_signal">
@@ -481,8 +483,24 @@ window.onload = function() {
                          </span>
                        <div class="button_body_one_one">`
             for (var i = 0; i < logicList[presentNodeIndex].signalType.split(",")[0]; i++) {
+				var isActive = "";
+				
+				var theselect = "";
+				if(logicList[presentNodeIndex].signalValue.split(",")[0] == (i+1)) {
+					var daaz = logicList[presentNodeIndex].signalValue.split(",")[1];
+					isActive = " active3";
+					theselect = `<select>
+									<option value="00" ${daaz=="00" ? "selected='selected'":""}>00</option>
+									<option value="01" ${daaz=="01" ? "selected='selected'":""}>01</option>
+								</select>`
+				}
+				
+				
+				
+				
                 htmlStr += ` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1] + [i]}">
-                                              <div class="button_body_one_btn_circle"></div>
+                                              <div class="button_body_one_btn_circle${isActive}"></div>
+											  ${theselect}
                                         </div>  `
                 // console.log('1');
 
@@ -496,23 +514,13 @@ window.onload = function() {
             htmlStr =
                 `<div class="points_signal">
                       <div class="button_body_one">
-                         <input type="text" name="" class="button_remark" value="${logicList[presentNodeIndex].signalType.split(",")[2]}" readOnly="true">
-                         <span class="button_body_one_span">ID:
-                               <span class="button_body_one_id">${logicList[presentNodeIndex].signalType.split(",")[1]}</span>
-                         </span>
-                       <div class="button_body_one_one">`
-            for (var i = 0; i < logicList[presentNodeIndex].signalType.split(",")[0]; i++) {
-                htmlStr += ` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1] + [i]}">
-                                              <div class="button_body_one_btn_circle"></div>
-                                        </div>  `
-                // console.log('1');
-
-            }
-            htmlStr +=
-                `</div>
-          <button type="button" class="logic_del">删除</button>
-        </div>
-       </div>`;
+                         
+                       <div class="button_body_one_one">
+					   请从右侧信号库中选择
+					   </div>
+					  <button type="button" class="logic_del">删除</button>
+					</div>
+				   </div>`;
 
         }
         return htmlStr;
@@ -753,8 +761,10 @@ window.onload = function() {
     //逻辑点  设置01
     $(".node").on("click", ".button_body_one_btn_circle", function() {
         var flag = $(this).hasClass("active3");
-        $(".node div").removeClass("active3");
-        $(".logic select").remove();
+		$(this).parents('.button_body_one_one').find('div').removeClass("active3");
+		$(this).parents('.button_body_one_one').find('select').remove();
+        // $( oDiv ".node div").removeClass("active3");
+        // $(".logic select").remove();
         if (flag) {
             // $(this).removeClass("active3");
         } else {
@@ -1007,6 +1017,8 @@ window.onload = function() {
     $(".node").on("click", ".logic_del", function() {
         var oIndex = $(this).parents(".logic").attr('id').substring(1);
         logicList[oIndex].signalType = "";
+		
+		logicList[oIndex].signalValue = '0,00';
         presentNodeIndex = oIndex;
         drawLogicDel(oIndex);
         // console.log(logicList);
@@ -1019,13 +1031,23 @@ window.onload = function() {
     // 逻辑点保存
     $(".node").on("click", ".points_save", function() {
         // var index = $(this).parents().siblings('.points_signal').
-        var smallIndex = $(".active3").parents('.button_body_one_btn').attr('id').substring(3);
-        var index = $(this).parents('.logic').attr('id').substr(1);
-        // logicList[index].signalValue = parseInt(smallIndex)+1;
-        var value = $(".active3").siblings('select').val();
-        console.log(value);
-        logicList[index].signalValue = parseInt(smallIndex) + 1 + "," + value;
-
+		var index = $(this).parents('.logic').attr('id').substr(1);
+		
+		if(logicList[index].signalType != '') {
+			if(!$(this).parents('.logic').find('.button_body_one_btn_circle').hasClass("active3")) {
+				window.toTest2();
+				return;
+			}
+			var smallIndex = $(this).parents('.logic').find(".active3").parents('.button_body_one_btn').attr('id').substring(3);
+			// logicList[index].signalValue = parseInt(smallIndex)+1;
+			var value = $(this).parents('.logic').find(".active3").siblings('select').val();
+			
+			logicList[index].signalValue = (parseInt(smallIndex) + 1) + "," + value;
+			console.log(index);
+			console.log(logicList[index]);
+		}
+		
+        
         // console.log(Index);
         console.log(logicList);
     });
@@ -1435,7 +1457,7 @@ window.onload = function() {
         console.log(JSON.stringify(nodeList));
         console.log(JSON.stringify(logicList));
 
-        $.getJSON(serverAddr + "saveSceneInfo", {
+        $.post(serverAddr + "saveSceneInfo", {
             sceneId: sceneId,
             nodeList: JSON.stringify(nodeList),
             logicList: JSON.stringify(logicList),
@@ -1473,6 +1495,7 @@ window.onload = function() {
     var Main = {
         created: function() {
             window.toTest1 = this.open2
+            window.toTest2 = this.open3
         },
         methods: {
             open1() {
@@ -1486,7 +1509,7 @@ window.onload = function() {
             },
             open3() {
                 this.$message({
-                    message: '警告哦，这是一条警告消息',
+                    message: '请选择信号',
                     type: 'warning'
                 });
             },
@@ -1606,7 +1629,7 @@ window.onload = function() {
                     temp.value = Byte0 + ',' + Byte1 + ',' + Byte2 + ',' + Byte3 + ',' + Byte4 + ',' + Byte5 + ',' + Byte6 + ',' + Byte7;
                     logicMap.push(temp);
 
-                    console.log(logicMap);
+                    // console.log(logicMap);
 
 
                 });
