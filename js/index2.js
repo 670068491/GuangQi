@@ -531,38 +531,46 @@ $(".node").on("click", ".elec_save", function() {
 });
 
 
-$(".questionnaire_submit").click(function () {
-	var name = $("#ques_inp_input1").val();
-	var age = $("#ques_inp_input2").val();
-	var sex = $("#ques_inp_input3").val();
-	var weight = $("#ques_inp_input4").val();
-	var height = $("#ques_inp_input5").val();
-	var phone = $("#ques_inp_input6").val();
-	// console.log(standard1);
+$(".questionnaire_submit").click(function() {
+    var name = $("#ques_inp_input1").val();
+    var age = $("#ques_inp_input2").val();
+    var sex = $("#ques_inp_input3").val();
+    var weight = $("#ques_inp_input4").val();
+    var height = $("#ques_inp_input5").val();
+    var phone = $("#ques_inp_input6").val();
+    // console.log(standard1);
 
-	$.getJSON(serverAddr + "saveEvaluate", {
-		sceneId: sceneId,
-		standard1: standard1,
-		standard2: standard2,
-		standard3: standard3,
-		standard4: standard4,
-		standard5: standard5,
-		standard6: standard6,
-		name: name,
-		age: age,
-		sex: sex,
-		weight: weight,
-		height: height,
-		phone: phone,
+    $.getJSON(serverAddr + "saveEvaluate", {
+        sceneId: sceneId,
+        standard1: standard1,
+        standard2: standard2,
+        standard3: standard3,
+        standard4: standard4,
+        standard5: standard5,
+        standard6: standard6,
+        name: name,
+        age: age,
+        sex: sex,
+        weight: weight,
+        height: height,
+        phone: phone,
 
-	}, function (data) {
-		console.log(data);
+    }, function(data) {
+        console.log(data);
 
 
-	});
+    });
 
-	$(".List .corer").css("display", "none");
-	$(".List .questionnaire").css("display", "none");
+    $(".List .corer").css("display", "none");
+    $(".List .questionnaire").css("display", "none");
 
-	// console.log(name);
+    // console.log(name);
 });
+// var type = JSON.parse(storage.getItem(Id)).type;
+
+// stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00," + as3 + (as[3].toString(16)).toUpperCase() + "," + as2 +
+//     (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(
+//         16)).toUpperCase() + "K");
+ // stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,01," + as7 + (as[7].toString(16)).toUpperCase() + "," + as6 +
+            //     (as[6].toString(16)).toUpperCase() + "," + as5 + (as[5].toString(16)).toUpperCase() + "," + as4 + (as[4].toString(
+            //         16)).toUpperCase() + "K");

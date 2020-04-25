@@ -625,6 +625,25 @@ body {
     padding-top: 1vw;
 }
 
+.electrical .elec_sudu_span {
+    vertical-align: middle;
+}
+
+.electrical .elec_range {
+    width: 5vw;
+}
+
+.electrical .elec_sudu {
+    vertical-align: middle;
+    /* margin-top: 1.1vw; */
+    /* border: 0px; */
+    width: 3vw;
+    height: 1vw;
+    display: inline-block;
+}
+
+
+
 .electrical .elec_sm_left {
     width: 1.4vw;
     height: 1.4vw;
@@ -1107,17 +1126,17 @@ body {
     top: 1vw;
     left: 1vw;
     width: 80vw;
-   
+
     z-index: 20;
     background-color: #ffffff;
     padding-top: 1vw;
     padding-left: 1vw;
     padding-bottom: 2vw;
     display: none;
-     /*height: 80vh;*/
+    /*height: 80vh;*/
     /* overflow-x: auto; */
     /* overflow-y: auto; */
-  
+
 }
 
 /* 复位灯光 */
@@ -1289,10 +1308,27 @@ body {
 }
 
 .library_body_body_one {
-    /*display: inline-block;*/
     padding: 0.2vw 0.2vw;
+    /*display: inline-block;*/
     /*width: 7vw;*/
 }
+
+.library_body_body_one .lamp_remake {
+    margin-left: 1vw;
+}
+
+.library_body_body_one .elec_remake {
+    margin-left: 1vw;
+}
+
+.library_body_body_one .proj_remake {
+    margin-left: 1vw;
+}
+
+.library_body_body_one .outp_remake {
+    margin-left: 1vw;
+}
+
 
 /*投影仪*/
 .RestorationDiv .proj_span {
@@ -1373,7 +1409,6 @@ body {
 .RestorationDiv .outp_body_one {
     display: flex;
 }
-
 
 .RestorationDiv .outp_remark {
     margin-top: 1.1vw;
