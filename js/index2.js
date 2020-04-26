@@ -5,7 +5,7 @@ document.body.appendChild(new_element);
 
 // 自动模式与手动模式
 var pattern = true;
-$("#cut").click(function() {
+$("#cut").click(function () {
     location.href = "./Auto.html";
     // // $(".top_btn2").text("切换为手动");
     // $(".boy").css("display", "none");
@@ -48,7 +48,7 @@ function connectLed() {
     // 向服务器发起websocket连接并发送CONNECT帧
     stompClient.connect({}, function connectCallback(frame) {
             console.log('[' + frame + ']' + '自动模式：连接成功');
-            stompClient.subscribe('/topic/udp/broadcast', function(response) {
+            stompClient.subscribe('/topic/udp/broadcast', function (response) {
                 // console.log(response.body);
                 var stringResult = response.body.split(',');
                 // console.log(stringResult);
@@ -88,7 +88,7 @@ function connectLed() {
         // 报错原因
         function errorCallBack(error) {
             console.log('连接失败[' + error + ']');
-            setTimeout(function() {
+            setTimeout(function () {
                 // 自动重连
                 connectLed();
             }, 100);
@@ -100,28 +100,28 @@ var led2 = false;
 var led3 = false;
 var led4 = false;
 
-$("#selfer_three").click(function() {
+$("#selfer_three").click(function () {
     connectLed();
     $(".selfmotion").css("display", "none");
     $(".Pattern3").css("display", "block");
     stompClient.send("/app/wu", {}, "S101,5F,00,00,00,00,00,00,00K");
-    setTimeout(function() {
+    setTimeout(function () {
         stompClient.send("/app/wu", {}, "S102,5F,00,00,00,00,00,00,00K");
     }, 100);
-    setTimeout(function() {
+    setTimeout(function () {
         stompClient.send("/app/wu", {}, "S103,5F,00,00,00,00,00,00,00K");
     }, 200);
 });
 
-$(".pattern3_button").click(function() {
+$(".pattern3_button").click(function () {
     stompClient.send("/app/wu", {}, "S101,00,00,00,00,00,00,00,00K");
     $("#pattern3_ico1").addClass("active");
-    setTimeout(function() {
+    setTimeout(function () {
         stompClient.send("/app/wu", {}, "S102,00,00,00,00,00,00,00,00K");
         $("#pattern3_ico1").removeClass("active");
         $("#pattern3_ico2").addClass("active");
     }, 100);
-    setTimeout(function() {
+    setTimeout(function () {
         stompClient.send("/app/wu", {}, "S103,00,00,00,00,00,00,00,00K");
         $("#pattern3_ico1").removeClass("active");
         $("#pattern3_ico2").addClass("active");
@@ -129,8 +129,8 @@ $(".pattern3_button").click(function() {
 
 
 });
-$(".pattern3_tuichu").click(function() {
-    stompClient.disconnect(function() {
+$(".pattern3_tuichu").click(function () {
+    stompClient.disconnect(function () {
         console.log("自动模式-灯光氛围灯:断开");
     });
     var led1 = false;
@@ -458,27 +458,27 @@ storage.setItem(FrameId, dater);
 
 // 电机发送
 var elecSet; //前进
-$(".node").on("mousedown", ".elec_up", function() {
+$(".node").on("mousedown", ".elec_up", function () {
     var id = $(this).parents(".elec_body_one").attr('id');
     $(this).css("background-color", "pink");
-    elecSet = setInterval(function() {
+    elecSet = setInterval(function () {
         stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10,50K");
     }, 100);
     // console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
 });
-$(".node").on("mouseup", ".elec_up", function() {
+$(".node").on("mouseup", ".elec_up", function () {
     clearInterval(elecSet);
     $(this).css("background-color", "#5b9bd5");
 });
 var elecSetDown; //后退
-$(".node").on("mousedown", ".elec_down", function() {
+$(".node").on("mousedown", ".elec_down", function () {
     var id = $(this).parents(".elec_body_one").attr('id');
     $(this).css("background-color", "pink");
-    elecSetDown = setInterval(function() {
+    elecSetDown = setInterval(function () {
         stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10,50K");
     }, 50)
 });
-$(".node").on("mouseup", ".elec_down", function() {
+$(".node").on("mouseup", ".elec_down", function () {
     clearInterval(elecSetDown);
     $(this).css("background-color", "#5b9bd5");
 });
@@ -514,7 +514,7 @@ $(".node").on("mouseup", ".elec_down", function() {
 // var remake = $(this).find('.proj_remake').text();
 
 //电机位置保存
-$(".node").on("click", ".elec_save", function() {
+$(".node").on("click", ".elec_save", function () {
     var Id = $(this).parents(".elec_body_one").attr('id');
     var oIdCov = $(this).siblings('.elec_cover').val();
     var list = $('input:radio[name=' + Id + ']:checked').val();
@@ -531,7 +531,7 @@ $(".node").on("click", ".elec_save", function() {
 });
 
 
-$(".questionnaire_submit").click(function() {
+$(".questionnaire_submit").click(function () {
     var name = $("#ques_inp_input1").val();
     var age = $("#ques_inp_input2").val();
     var sex = $("#ques_inp_input3").val();
@@ -555,7 +555,7 @@ $(".questionnaire_submit").click(function() {
         height: height,
         phone: phone,
 
-    }, function(data) {
+    }, function (data) {
         console.log(data);
 
 
@@ -571,6 +571,18 @@ $(".questionnaire_submit").click(function() {
 // stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00," + as3 + (as[3].toString(16)).toUpperCase() + "," + as2 +
 //     (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(
 //         16)).toUpperCase() + "K");
- // stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,01," + as7 + (as[7].toString(16)).toUpperCase() + "," + as6 +
-            //     (as[6].toString(16)).toUpperCase() + "," + as5 + (as[5].toString(16)).toUpperCase() + "," + as4 + (as[4].toString(
-            //         16)).toUpperCase() + "K");
+// stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,01," + as7 + (as[7].toString(16)).toUpperCase() + "," + as6 +
+//     (as[6].toString(16)).toUpperCase() + "," + as5 + (as[5].toString(16)).toUpperCase() + "," + as4 + (as[4].toString(
+//         16)).toUpperCase() + "K");
+
+
+var data = {
+    FrameId: FrameId,
+    type: Byte5,
+    text: '',
+};
+var dater = JSON.stringify(data);
+storage.setItem(FrameId, dater);
+
+// stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
+// 	"," + type5 + "," + type6 + "," + type7 + "K");

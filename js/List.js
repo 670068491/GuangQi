@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
     var storage = window.localStorage;
     var stompClient = null; //定义全局变量，代表一个session
     var sceneId = null;
@@ -8,7 +8,8 @@ window.onload = function() {
     var nodeList = []; //总节点
     var logicList = []; //逻辑节点
     var ListType = []; //类型数组  包含所有的id,类型,num  localStorage作用
-    var logicMap = [];
+    var logicMap = []; //判断数组
+    var libraryList = []; //复位数组
 
     var currentIndex = 0; //当前执行节点位置
     var nodeIndex = 10; //共有10个节点
@@ -19,18 +20,6 @@ window.onload = function() {
 
     var elcarray = []; //存放点击四个预设值
     //当选择次点击是 先从此处查询，如果没有，则请求服务器，获取
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     function GainName() {
@@ -49,20 +38,21 @@ window.onload = function() {
         // console.log(uId);
     }
 
-    $(function() {
+    $(function () {
         GainName(); //获取链接里的名称
-        connect(); //建立连接
+
         console.log(isopen);
         getElcAll();
-        $.getJSON(serverAddr + "getDeviceTypeAll", {}, function(data) {
+        $.getJSON(serverAddr + "getDeviceTypeAll", {}, function (data) {
             ListType = data.resultObject;
+            connect(); //建立连接
             // console.log(ListType);
         });
     });
 
     //先获取点击四个值
     function getElcAll() {
-        $.getJSON(serverAddr + "getElcAll", {}, function(data) {
+        $.getJSON(serverAddr + "getElcAll", {}, function (data) {
             console.log(data);
             elcarray = data.resultObject;
             if (isopen == "open") {
@@ -79,7 +69,7 @@ window.onload = function() {
     function getDataFormServer() {
         $.getJSON(serverAddr + "getSceneInfo", {
             sceneId: sceneId
-        }, function(data) {
+        }, function (data) {
             console.log(data);
             nodeList = data.resultObject.nodeList;
             logicList = data.resultObject.logicList;
@@ -88,86 +78,86 @@ window.onload = function() {
     }
 
 
-    $("#back").click(function() { //返回
+    $("#back").click(function () { //返回
         location.href = "./Auto.html";
     });
 
 
-    $(".lib").click(function() { // 元件库
+    $(".lib").click(function () { // 元件库
         $(".library").animate({
             opacity: 1
-        }, "slow", function() {
+        }, "slow", function () {
             $(".library").animate({
                 width: "16vw",
                 height: '35vw'
-            }, "slow", function() {})
+            }, "slow", function () {})
         })
         // $(".library").stop(true).slideDown("slow");
     });
 
-    $(".library_Back").click(function() {
+    $(".library_Back").click(function () {
         // $(".library").stop(true).fadeOut("slow");
         $(".library").animate({
             width: "0vw",
             height: '0vw'
-        }, "slow", function() {
+        }, "slow", function () {
             $(".library").animate({
                 opacity: 0
-            }, "slow", function() {})
+            }, "slow", function () {})
         })
 
     });
 
     var pack1 = true;
-    $("#pack1").click(function() {
+    $("#pack1").click(function () {
         if (pack1) {
             $("#library_body_body1").animate({
                 height: "0.1vw"
-            }, "slow", function() {})
+            }, "slow", function () {})
             pack1 = false;
         } else {
             $("#library_body_body1").animate({
                 height: "100%"
-            }, "slow", function() {});
+            }, "slow", function () {});
             pack1 = true;
         }
     });
 
     var pack2 = true; //元件库  电机
-    $("#pack2").click(function() {
+    $("#pack2").click(function () {
         if (pack2) {
             $("#library_body_body2").animate({
                 height: "0.1vw"
-            }, "slow", function() {})
+            }, "slow", function () {})
             pack2 = false;
         } else {
             $("#library_body_body2").animate({
                 height: "100%"
-            }, "slow", function() {});
+            }, "slow", function () {});
             pack2 = true;
         }
     });
     var pack3 = true; //元件库  输入信号
-    $("#pack3").click(function() {
+    $("#pack3").click(function () {
         if (pack3) {
             $("#library_body_body3").animate({
                 height: "0.1vw"
-            }, "slow", function() {})
+            }, "slow", function () {})
             pack3 = false;
         } else {
             $("#library_body_body3").animate({
                 height: "100%"
-            }, "slow", function() {});
+            }, "slow", function () {});
             pack3 = true;
         }
     });
     var oEvaluate = true;
-    $(".evaluate").click(function() {
+    $(".evaluate").click(function () {
 
         if (oEvaluate) {
             oEvaluate = false;
             $(".evaluate_div").css("display", "block");
-            $.getJSON(serverAddr + "getEvaluateName", {}, function(data) {
+            $.getJSON(serverAddr + "getEvaluateName", {}, function (data) {
                 console.log(data);
                 $('#evaluate_div_one1').text(data.resultObject.standard1);
                 $('#evaluate_div_one2').text(data.resultObject.standard2);
@@ -178,7 +168,7 @@ window.onload = function() {
             });
             $.getJSON(serverAddr + "getEvaluate", {
                 sceneId: sceneId,
-            }, function(data) {
+            }, function (data) {
                 console.log(data);
                 $('#maxs1').text(data.resultObject.maxs1);
                 $('#mins1').text(data.resultObject.mins1);
@@ -211,7 +201,7 @@ window.onload = function() {
         //添加10个节点
         for (var i = 0; i < nodeIndex; i++) {
             var node = {};
-            node.remark = "备注"; //remark
+            node.remark = "备注";    //remark
             node.nodeName = "结点" + (i + 1); //nodeName
             node.nodeSort = i; //nodeSort
             node.deviceList = []; //单节点的设备
@@ -298,14 +288,23 @@ window.onload = function() {
         // if (Array.isArray(nodeList[i].deviceList)) {
 
         // console.log(nodeList[tIndex].deviceList.length);
-        // let lenght = nodeList[tIndex].deviceList.length;
+        // let length = nodeList[tIndex].deviceList.length;
 
         for (let j = 0; j < nodeList[tIndex].deviceList.length; j++) {
             if (nodeList[tIndex].deviceList[j].deviceType == 'light') {
                 var defaultValue = nodeList[tIndex].deviceList[j].deviceValue.replace("K", "").split(",");
+                // console.log(nodeList[tIndex].deviceList[j]);
+
+                let oText = '';
+                for (let i = 0; i < ListType.length; i++) {
+                    if (ListType[i].frameId == nodeList[tIndex].deviceList[j].deviceId) {
+                        oText = ListType[i].remark;
+                    }
+                }
+                // console.log(oText)
                 htmlStr +=
                     `<div class="lamp_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
-							<input type="text" name="" class="lamp_remark">
+							<input type="text" name="" class="lamp_remark" readonly="readonly" value="${oText}">
 							<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
 							</span>
 								<div class="lamp_body_one_one">
@@ -366,29 +365,42 @@ window.onload = function() {
                         vlc = elcarray[m];
                     }
                 }
-				var xzdev = nodeList[tIndex].deviceList[j].deviceValue.replace("K", "");
-                htmlStr +=
-                    `<div class="elec_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
-									<input type="text" name="" class="elec_remark">
+                let oText = '';
+                for (let i = 0; i < ListType.length; i++) {
+                    if (ListType[i].frameId == nodeList[tIndex].deviceList[j].deviceId) {
+                        oText = ListType[i].remark;
+                    }
+                }
+
+                var xzdev = nodeList[tIndex].deviceList[j].deviceValue.replace("K", "");
+                htmlStr += `<div class="elec_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
+									<input type="text" name="" readonly="readonly" class="elec_remark" value="${oText}">
 									<span class="elec_body_one_span">ID:
 										<span class="elec_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
 									</span>
 									<div class="elec_right">
 										<label for="">
-											<input type="radio" ${xzdev == vlc.v1?"checked":""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v1}">1
-											<input type="radio" ${xzdev == vlc.v2?"checked":""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v2}">2
-											<input type="radio" ${xzdev == vlc.v3?"checked":""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v3}">3
-											<input type="radio" ${xzdev == vlc.v4?"checked":""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v4}">4
+											<input type="radio" ${xzdev == vlc.v1 ? "checked" : ""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v1}">1
+											<input type="radio" ${xzdev == vlc.v2 ? "checked" : ""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v2}">2
+											<input type="radio" ${xzdev == vlc.v3 ? "checked" : ""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v3}">3
+											<input type="radio" ${xzdev == vlc.v4 ? "checked" : ""} name="${nodeList[tIndex].deviceList[j].deviceId + tIndex}" value="${vlc.v4}">4
 										</label>
 									</div>
 									<button type="button" class="elec_del" data-index="${j}">删除</button>
 									<button type="button" class="elec_Allsave" data-index="${j}">保存</button>
 								</div>`;
             } else if (nodeList[tIndex].deviceList[j].deviceType == '09') {
-                // <input type="text" name="" class="proj_remark" value="${libraryList[j].remark}">
-                // var defaultValue = nodeList[tIndex].deviceList[j].deviceValue.replace("K", "").split(",");
-                htmlStr += `<div class="proj_body_one" id="Res${nodeList[tIndex].deviceList[j].deviceId}">
 
+                // var defaultValue = nodeList[tIndex].deviceList[j].deviceValue.replace("K", "").split(",");
+                let oText = '';
+                for (let i = 0; i < ListType.length; i++) {
+                    if (ListType[i].frameId == nodeList[tIndex].deviceList[j].deviceId) {
+                        oText = ListType[i].remark;
+                    }
+                }
+
+                htmlStr += `<div class="proj_body_one" id="Res${nodeList[tIndex].deviceList[j].deviceId}">
+                 <input type="text" name="" readonly="readonly" class="proj_remark" value="${oText}">
                                  <span class="proj_body_one_span">ID:
                                       <span class="proj_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span></span>
                                  <div class="proj_top">
@@ -409,19 +421,34 @@ window.onload = function() {
                             </div> `;
 
             } else if (nodeList[tIndex].deviceList[j].deviceType == '0B') {
-                // return;
+                //输出控制
+                let oText = '';
+                for (let i = 0; i < ListType.length; i++) {
+                    if (ListType[i].frameId == nodeList[tIndex].deviceList[j].deviceId) {
+                        oText = ListType[i].remark;
+                    }
+                }
 
-                // <input type="text" name="" class="outp_remark" value="${libraryList[j].remark}">
                 htmlStr += `<div class="outp_body_one" id="Res${nodeList[tIndex].deviceList[j].deviceId}" data-ind="${j}">
-                          
+                 <input type="text" name="" readonly="readonly" class="outp_remark" value="${oText}">
                             <span class="outp_body_one_span">ID:
                                 <span class="outp_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
                             </span>
                             <div class="outp_b">`
+                var samllremark = [];
+                for (let z = 0; z < ListType.length; z++) {
+                    if (nodeList[tIndex].deviceList[j].deviceId == ListType[z].frameId) {
+                        samllremark = ListType[z].smallremark;
+                    }
+                }
+
                 for (var i = 0; i < nodeList[tIndex].deviceList[j].num; i++) {
-                    htmlStr += ` <div class="outp_btn">
-                                  
-                                    <button class="outp_button" data-index="${i}" type="button"></button>
+                    var defaultRemark = "";
+                    if (i < samllremark.length) {
+                        defaultRemark = samllremark[i];
+                    }
+                    htmlStr += ` <div class="outp_btn">                             
+                                    <button class="outp_button" data-index="${i}" type="button">${defaultRemark}</button>
                                 </div>`
                 }
                 htmlStr += `<button class="outp_del" data-index="${j}">删除</button></div>                            
@@ -429,8 +456,14 @@ window.onload = function() {
 
 
             } else if (nodeList[tIndex].deviceList[j].deviceType == '08') {
+                let oText = '';
+                for (let i = 0; i < ListType.length; i++) {
+                    if (ListType[i].frameId == nodeList[tIndex].deviceList[j].deviceId) {
+                        oText = ListType[i].remark;
+                    }
+                }
                 htmlStr += `<div class="andr_body_one" id="Res${nodeList[tIndex].deviceList[j].deviceId}" data-index="${j}">
-                                <input type="text" name="" class="andr_remark">
+                                <input type="text" readonly="readonly" name="" class="andr_remark" value="${oText}">
                                 <span class="andr_body_one_span">ID:
                                     <span class="andr_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
                                 </span>
@@ -472,8 +505,6 @@ window.onload = function() {
         let htmlStr;
         if (logicList[presentNodeIndex].signalType != "") {
             console.log(logicList[presentNodeIndex]);
-			
-
             htmlStr =
                 `<div class="points_signal">
                       <div class="button_body_one">
@@ -483,21 +514,19 @@ window.onload = function() {
                          </span>
                        <div class="button_body_one_one">`
             for (var i = 0; i < logicList[presentNodeIndex].signalType.split(",")[0]; i++) {
-				var isActive = "";
-				
-				var theselect = "";
-				if(logicList[presentNodeIndex].signalValue.split(",")[0] == (i+1)) {
-					var daaz = logicList[presentNodeIndex].signalValue.split(",")[1];
-					isActive = " active3";
-					theselect = `<select>
-									<option value="00" ${daaz=="00" ? "selected='selected'":""}>00</option>
-									<option value="01" ${daaz=="01" ? "selected='selected'":""}>01</option>
+                var isActive = "";
+
+                var theselect = "";
+                if (logicList[presentNodeIndex].signalValue.split(",")[0] == (i + 1)) {
+                    var daaz = logicList[presentNodeIndex].signalValue.split(",")[1];
+                    isActive = " active3";
+                    theselect = `<select>
+									<option value="00" ${daaz == "00" ? "selected='selected'" : ""}>00</option>
+									<option value="01" ${daaz == "01" ? "selected='selected'" : ""}>01</option>
 								</select>`
-				}
-				
-				
-				
-				
+                }
+
+
                 htmlStr += ` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1] + [i]}">
                                               <div class="button_body_one_btn_circle${isActive}"></div>
 											  ${theselect}
@@ -528,7 +557,7 @@ window.onload = function() {
 
 
     //节点增加
-    $("#plus").click(function() {
+    $("#plus").click(function () {
         nodeIndex++;
 
         var node = {};
@@ -668,7 +697,7 @@ window.onload = function() {
 
     // NodeIndex
     //元件库 添加进节点   //灯光
-    $("#library_body_body1").on("click", ".library_body_body_one", function() {
+    $("#library_body_body1").on("click", ".library_body_body_one", function () {
         if ($(".node_small").hasClass('active')) {
             var Index = $(".active").attr('id').replace("o", "");
             var Id = $(this).attr('id').substring(4);
@@ -681,7 +710,7 @@ window.onload = function() {
 
     });
     //电机
-    $("#library_body_body2").on("click", ".library_body_body_one", function() {
+    $("#library_body_body2").on("click", ".library_body_body_one", function () {
         if ($(".node_small").hasClass('active')) {
             var Index = $(".active").attr('id').replace("o", "");
             var Id = $(this).attr('id').substring(4);
@@ -692,7 +721,7 @@ window.onload = function() {
         }
     });
 
-    $("#library_body_body6").on("click", ".library_body_body_one", function() { //元件库 投影仪 添加进页面
+    $("#library_body_body6").on("click", ".library_body_body_one", function () { //元件库 投影仪 添加进页面
         if ($(".node_small").hasClass('active')) {
             var Index = $(".active").attr('id').replace("o", "");
             var Id = $(this).attr('id').substring(4);
@@ -704,7 +733,7 @@ window.onload = function() {
         }
     });
     //元件库 输出控制 添加进页面
-    $("#library_body_body4").on("click", ".library_body_body_one", function() {
+    $("#library_body_body4").on("click", ".library_body_body_one", function () {
         if ($(".node_small").hasClass('active')) {
             var Index = $(".active").attr('id').replace("o", "");
             var Id = $(this).attr('id').substring(4);
@@ -724,7 +753,7 @@ window.onload = function() {
         }
     });
     // 安卓屏 添加进页面
-    $("#library_body_body5").on("click", ".library_body_body_one", function() {
+    $("#library_body_body5").on("click", ".library_body_body_one", function () {
         if ($(".node_small").hasClass('active')) {
             var Index = $(".active").attr('id').replace("o", "");
             var Id = $(this).attr('id').substring(4);
@@ -739,7 +768,7 @@ window.onload = function() {
 
 
     //逻辑点添加进 界面
-    $("#library_body_body3").on("click", ".library_body_body_one", function() {
+    $("#library_body_body3").on("click", ".library_body_body_one", function () {
         if ($(".logic").hasClass('active2')) {
             var Index = $(".active2").attr('id').substring(1);
             var Id = $(this).attr('id').substring(4);
@@ -759,10 +788,10 @@ window.onload = function() {
 
 
     //逻辑点  设置01
-    $(".node").on("click", ".button_body_one_btn_circle", function() {
+    $(".node").on("click", ".button_body_one_btn_circle", function () {
         var flag = $(this).hasClass("active3");
-		$(this).parents('.button_body_one_one').find('div').removeClass("active3");
-		$(this).parents('.button_body_one_one').find('select').remove();
+        $(this).parents('.button_body_one_one').find('div').removeClass("active3");
+        $(this).parents('.button_body_one_one').find('select').remove();
         // $( oDiv ".node div").removeClass("active3");
         // $(".logic select").remove();
         if (flag) {
@@ -781,7 +810,7 @@ window.onload = function() {
 
 
     // 事件委托，电机保存
-    $(".node").on("click", ".elec_Allsave", function() {
+    $(".node").on("click", ".elec_Allsave", function () {
         var arrindex = $(this).attr("data-index");
         var nodeId = $(this).parents(".node_small").attr('id').substring(1);
         var Id = $(this).parents(".elec_body_one").attr('id');
@@ -805,7 +834,7 @@ window.onload = function() {
     });
 
     // 事件委托，灯光保存
-    $(".node").on("click", ".lamp_send", function() {
+    $(".node").on("click", ".lamp_send", function () {
         var id = $(this).parents(".lamp_body_one").attr('id');
         var type0 = $(this).siblings(".lamp_xuanxiang").val();
         var type1 = $(this).siblings(".liudong").val();
@@ -821,6 +850,26 @@ window.onload = function() {
         var type5 = parseInt(str[1]).toString(16).toUpperCase();
         var type6 = parseInt(str[2]).toString(16).toUpperCase();
 
+        if ($(this).siblings(".liudong").val().length > 2) {
+            window.toTest1();
+            $(this).siblings(".liudong").val('00');
+            return;
+        }
+        if ($(this).siblings(".led").val().length > 2) {
+            window.toTest1();
+            $(this).siblings(".led").val('00');
+            return;
+        }
+        if ($(this).siblings(".sudu").val().length > 2) {
+            window.toTest1();
+            $(this).siblings(".sudu").val('00');
+            return;
+        }
+        if ($(this).siblings(".type7").val().length > 2) {
+            window.toTest1();
+            $(this).siblings(".type7").val('00');
+            return;
+        }
 
         type1 = (type1.length < 2) ? "0" + type1 : type1;
         type2 = (type2.length < 2) ? "0" + type2 : type2;
@@ -831,16 +880,14 @@ window.onload = function() {
         type7 = (type7.length < 2) ? "0" + type7 : type7;
 
         // console.log(type7);
-
         var arrindex = $(this).attr("data-index");
         var nodeId = $(this).parents(".node_small").attr('id').substring(1);
         // console.log($(this).attr("data-index"));
         // console.log(nodeId);
-        nodeList[nodeId].deviceList[arrindex].deviceValue = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
-            "," + type5 + "," + type6 + "," + type7 + "K";
+        nodeList[nodeId].deviceList[arrindex].deviceValue = type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 + "," + type7 + "K";
+        window.toTest4();
         console.log(nodeList);
-        // stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
-        // 	"," + type5 + "," + type6 + "," + type7 + "K");
+
         // alert("S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 + "," + type5 + "," + type6 +
         // 	"," + type7 + "K");
     });
@@ -880,7 +927,7 @@ window.onload = function() {
 
 
     // 投影仪保存数据
-    $(".node").on("click", ".proj", function() {
+    $(".node").on("click", ".proj", function () {
         var arrindex = $(this).attr("data-index");
         var nodeId = $(this).parents(".node_small").attr('id').substring(1);
         var val = $(this).data(val).val;
@@ -902,7 +949,7 @@ window.onload = function() {
 
     // 输出控制保存
     var Ras = new Array(0, 0, 0, 0, 0, 0, 0, 0);
-    $(".node").on("click", ".outp_button", function() {
+    $(".node").on("click", ".outp_button", function () {
         let id = $(this).parents('.outp_body_one').attr('id').substr(3);
         // var indexT = $(this).data(index).index;
         var ind = $(this).parents(".outp_body_one").data(ind).ind;
@@ -941,7 +988,7 @@ window.onload = function() {
     })
 
     //安卓屏  保存数据
-    $(".node").on("click", ".andr_Btn", function() {
+    $(".node").on("click", ".andr_Btn", function () {
         var id = $(this).parents(".andr_body_one").attr('id').substr(3);
         var index = $(this).data(index).index;
         var val = $(this).data(val).val;
@@ -956,7 +1003,7 @@ window.onload = function() {
 
 
     //灯光删除
-    $(".node").on("click", ".lamp_del", function() {
+    $(".node").on("click", ".lamp_del", function () {
         var index = $(this).data(index).index;
         var oIndex = $(this).parents(".node_small").attr('id').substring(1);
         nodeList[oIndex].deviceList.splice(index, 1);
@@ -964,7 +1011,7 @@ window.onload = function() {
         drawNodeDel(oIndex);
     });
     //电机删除
-    $(".node").on("click", ".elec_del", function() {
+    $(".node").on("click", ".elec_del", function () {
         var index = $(this).data(index).index;
         var oIndex = $(this).parents(".node_small").attr('id').substring(1);
         nodeList[oIndex].deviceList.splice(index, 1);
@@ -972,21 +1019,21 @@ window.onload = function() {
     })
 
     //投影仪删除
-    $(".node").on("click", ".proj_del", function() {
+    $(".node").on("click", ".proj_del", function () {
         var index = $(this).data(index).index;
         var oIndex = $(this).parents(".node_small").attr('id').substring(1);
         nodeList[oIndex].deviceList.splice(index, 1);
         drawNodeDel(oIndex);
     })
     //输出控制删除
-    $(".node").on("click", ".outp_del", function() {
+    $(".node").on("click", ".outp_del", function () {
         var index = $(this).data(index).index;
         var oIndex = $(this).parents(".node_small").attr('id').substring(1);
         nodeList[oIndex].deviceList.splice(index, 1);
         drawNodeDel(oIndex);
     })
     //安卓屏删除
-    $(".node").on("click", ".andr_del", function() {
+    $(".node").on("click", ".andr_del", function () {
         var index = $(this).data(index).index;
         var oIndex = $(this).parents(".node_small").attr('id').substring(1);
         nodeList[oIndex].deviceList.splice(index, 1);
@@ -995,7 +1042,7 @@ window.onload = function() {
 
 
     //删除节点与逻辑
-    $(".node").on("click", ".node_small_del", function() {
+    $(".node").on("click", ".node_small_del", function () {
         var oIndex = $(this).parents(".node_small").attr('id').substring(1);
         nodeList.splice(oIndex, 1);
         logicList.splice(oIndex, 1);
@@ -1014,11 +1061,11 @@ window.onload = function() {
     }
 
     // 逻辑点删除设备
-    $(".node").on("click", ".logic_del", function() {
+    $(".node").on("click", ".logic_del", function () {
         var oIndex = $(this).parents(".logic").attr('id').substring(1);
         logicList[oIndex].signalType = "";
-		
-		logicList[oIndex].signalValue = '0,00';
+
+        logicList[oIndex].signalValue = '0,00';
         presentNodeIndex = oIndex;
         drawLogicDel(oIndex);
         // console.log(logicList);
@@ -1029,34 +1076,32 @@ window.onload = function() {
 
 
     // 逻辑点保存
-    $(".node").on("click", ".points_save", function() {
+    $(".node").on("click", ".points_save", function () {
         // var index = $(this).parents().siblings('.points_signal').
-		var index = $(this).parents('.logic').attr('id').substr(1);
-		
-		if(logicList[index].signalType != '') {
-			if(!$(this).parents('.logic').find('.button_body_one_btn_circle').hasClass("active3")) {
-				window.toTest2();
-				return;
-			}
-			var smallIndex = $(this).parents('.logic').find(".active3").parents('.button_body_one_btn').attr('id').substring(3);
-			// logicList[index].signalValue = parseInt(smallIndex)+1;
-			var value = $(this).parents('.logic').find(".active3").siblings('select').val();
-			
-			logicList[index].signalValue = (parseInt(smallIndex) + 1) + "," + value;
-			console.log(index);
-			console.log(logicList[index]);
-		}
-		
-        
+        var index = $(this).parents('.logic').attr('id').substr(1);
+
+        if (logicList[index].signalType != '') {
+            if (!$(this).parents('.logic').find('.button_body_one_btn_circle').hasClass("active3")) {
+                window.toTest2();
+                return;
+            }
+            var smallIndex = $(this).parents('.logic').find(".active3").parents('.button_body_one_btn').attr('id').substring(3);
+            // logicList[index].signalValue = parseInt(smallIndex)+1;
+            var value = $(this).parents('.logic').find(".active3").siblings('select').val();
+
+            logicList[index].signalValue = (parseInt(smallIndex) + 1) + "," + value;
+            console.log(index);
+            console.log(logicList[index]);
+        }
+
+
         // console.log(Index);
         console.log(logicList);
     });
 
-    
-
 
     // 延迟改变
-    $(".node").on("blur", ".points_delay_inp", function() {
+    $(".node").on("blur", ".points_delay_inp", function () {
         var oVal = parseInt($(this).val());
         var index = $(this).parents('.logic').attr('id').substr(1);
         logicList[index].delay = oVal;
@@ -1093,7 +1138,7 @@ window.onload = function() {
     // 添加逻辑与节点
 
     // 节点上箭头
-    $(".strip").on("click", ".strip_head_img", function() {
+    $(".strip").on("click", ".strip_head_img", function () {
         // var oheight = $(this).parents('.strip').height();
         // console.log(oheight);
         // $(".active").find(".strip_one").append($One);
@@ -1120,7 +1165,7 @@ window.onload = function() {
     });
 
     // 节点变色
-    $(".node").on("click", ".string_span", function() {
+    $(".node").on("click", ".string_span", function () {
         // console.log($(this));
         var flag = $(this).parents(".node_small").hasClass("active");
         $(".node div").removeClass("active");
@@ -1132,7 +1177,7 @@ window.onload = function() {
 
     });
     // 逻辑点变色
-    $(".node").on("click", ".logic_span", function() {
+    $(".node").on("click", ".logic_span", function () {
         var flag = $(this).parents(".logic").hasClass("active2");
         $(".node div").removeClass("active2");
         if (flag) {
@@ -1150,10 +1195,10 @@ window.onload = function() {
      * 启动功能
      */
 
-    $("#start").click(function() { //启动
+    $("#start").click(function () { //启动
         // $(this).css();
         $(this).css("background-color", "#0077ff");
-        setTimeout(function() {
+        setTimeout(function () {
             $("#start").css("background-color", "#898989");
         }, 1000);
 
@@ -1181,16 +1226,26 @@ window.onload = function() {
         if (currentIndex >= nodeIndex) {
             //已经全部执行完毕
             isAction = false;
+            $(".node div").removeClass("activeGo");
             return;
         }
         actionDo();
+        if (currentIndex == 0) {
+            $("#o" + currentIndex).addClass("activeGo");
+        } else {
+            // $(".node div").removeClass("activeGo");
+            $("#o" + currentIndex).addClass("activeGo");
+        }
         //开始判断 currentIndex 位置的逻辑
         if (currentIndex < (nodeIndex - 1)) { // 判断currentIndex位置是否有逻辑
+            // $(".node div").removeClass("activeGo");
+            $("#l" + currentIndex).addClass("activeGo");
+
+
             //从页面获取
             var logicValue = logicList[currentIndex].signalValue; //逻辑信号
 
             var logicId;
-
             //先判断是否有逻辑 值
             // var logicId = logicList[currentIndex].signalType[0].id; //逻辑的ID  门
             var delay = logicList[currentIndex].delay; //延迟时间秒
@@ -1198,7 +1253,10 @@ window.onload = function() {
             if (logicList[currentIndex].signalType != '') {
                 logicId = logicList[currentIndex].signalType.split(",")[1]; //逻辑的ID  门
             } else {
-                setTimeout(function() {
+                setTimeout(function () {
+                    console.log(currentIndex);
+                    
+
                     currentIndex++;
                     isLogic();
                 }, delay * 1000);
@@ -1212,13 +1270,13 @@ window.onload = function() {
             var logicValue = logicValue.split(",");
 
             if (logicValue.length < 2 || logicValue[0] == '0') {
-                setTimeout(function() {
+                setTimeout(function () {
                     currentIndex++;
                     isLogic();
                 }, delay * 1000);
                 return;
             }
-            console.log(logicList)
+            console.log(logicList);
             for (var i = 0; i < logicMap.length; i++) {
                 if (logicMap[i].id == logicId) {
 
@@ -1226,7 +1284,7 @@ window.onload = function() {
                     console.log(logicMap[i].value);
 
                     if (logicValue[1] == '00' ? !isThelogic(logicValue[0], logicMap[i].value) : isThelogic(logicValue[0], logicMap[i].value)) {
-                        setTimeout(function() {
+                        setTimeout(function () {
                             currentIndex++;
                             isLogic();
                         }, delay * 1000);
@@ -1241,14 +1299,17 @@ window.onload = function() {
         } else {
             //已经全部执行完毕
             isAction = false;
+            $(".node div").removeClass("activeGo");
+
+            
         }
     }
 
 
-    $("#Stop").click(function() { //停止
+    $("#Stop").click(function () { //停止
         stop();
         $(this).css("background-color", "red");
-        setTimeout(function() {
+        setTimeout(function () {
             $("#Stop").css("background-color", "#ff8888");
         }, 1000);
     });
@@ -1256,13 +1317,15 @@ window.onload = function() {
     // 停止
     function stop() {
         isAction = false;
+        $(".node div").removeClass("activeGo");
+
     }
 
     function loopLogic() {
         if (!isAction) {
             return;
         }
-        setTimeout(function() {
+        setTimeout(function () {
             //从页面获取signalValue
             // console.log(logicList)
             console.log(currentIndex)
@@ -1279,7 +1342,7 @@ window.onload = function() {
                     // console.log(logicValue);
                     // console.log(logicId+" "+logicMap[i].value);
                     if (logicValue[1] == '00' ? !isThelogic(logicValue[0], logicMap[i].value) : isThelogic(logicValue[0], logicMap[i].value)) {
-                        setTimeout(function() {
+                        setTimeout(function () {
                             currentIndex++;
                             isLogic();
                         }, delay * 1000);
@@ -1424,7 +1487,7 @@ window.onload = function() {
     function sendStr() {
         // console.log(str);
 
-        setTimeout(function() {
+        setTimeout(function () {
             if (sendQueue.length > 0) {
                 console.log(sendQueue[0]);
                 stompClient.send("/app/wu", {}, sendQueue[0]);
@@ -1438,16 +1501,33 @@ window.onload = function() {
 
     // $(".cover_cancel").click(function () {
 
-// 复位
-     $(".cover_cancel").click(function () {
+    // 复位
+    $("#restoration").click(function () {
+        $.getJSON(serverAddr + "getRemarkInitAll", {}, function (data) {
+            console.log(data);
+            if (data.resultObject.length != 0) {
+                libraryList = data.resultObject;
+                for (var i = 0; i < libraryList.length; i++) {
+                    (function (a) {
+                        setTimeout(function () {
+                            console.log("S" + libraryList[a].deviceId + "," + libraryList[a].deviceValue);
+                            stompClient.send("/app/wu", {}, "S" + libraryList[a].deviceId + "," + libraryList[a].deviceValue);
+                            // oBig.style.color = '#c6c7c7';
+                            // oBig.classList.add("active");
+                            // oBig.style.color="green";
+                        }, a * 100);
+                    }(i))
+                }
+                window.toTest3();
+            }
+        })
+
 
     })
 
 
-
-
     //保存
-    $("#Save").click(function() {
+    $("#Save").click(function () {
         save();
         window.toTest1();
         // console.log('1');
@@ -1461,7 +1541,7 @@ window.onload = function() {
             sceneId: sceneId,
             nodeList: JSON.stringify(nodeList),
             logicList: JSON.stringify(logicList),
-        }, function(data) {
+        }, function (data) {
             console.log(data);
         });
 
@@ -1472,16 +1552,16 @@ window.onload = function() {
 
 
     // 取消
-    $(".cover_cancel").click(function() {
+    $(".cover_cancel").click(function () {
         $(".List .corer").css("display", "none");
         $(".List .List_cover").css("display", "none");
     });
 
     // 确定
-    $(".cover_confirm").click(function() {
+    $(".cover_confirm").click(function () {
         $(".List .List_cover").css("display", "none");
         $(".List .questionnaire").css("display", "block");
-        $.getJSON(serverAddr + "getEvaluateName", {}, function(data) {
+        $.getJSON(serverAddr + "getEvaluateName", {}, function (data) {
             console.log(data);
             $('#demonstration0').text(data.resultObject.standard1);
             $('#demonstration1').text(data.resultObject.standard2);
@@ -1493,13 +1573,16 @@ window.onload = function() {
     });
 
     var Main = {
-        created: function() {
-            window.toTest1 = this.open2
-            window.toTest2 = this.open3
+        created: function () {
+            window.toTest1 = this.open2;
+            window.toTest2 = this.open3;
+            window.toTest3 = this.open1;
+            window.toTest4 = this.open5;
+
         },
         methods: {
             open1() {
-                this.$message('这是一条消息提示');
+                this.$message('复位完成');
             },
             open2() {
                 this.$message({
@@ -1515,13 +1598,15 @@ window.onload = function() {
             },
             open4() {
                 this.$message.error('错了哦，这是一条错误消息');
-            }
+            },
+            open5() {
+                this.$message('设备保存成功');
+            },
+
         }
     }
     var Ctor = Vue.extend(Main)
     new Ctor().$mount('#app')
-
-
 
 
     // $(".node_small").click(function() {
@@ -1539,7 +1624,7 @@ window.onload = function() {
         stompClient.connect({}, function connectCallback(frame) { // 向服务器发起websocket连接并发送CONNECT帧
                 // 连接成功时（服务器响应 CONNECTED web帧）的回调方法
                 console.log('[' + frame + ']' + '自动模式：连接成功');
-                stompClient.subscribe('/topic/udp/broadcast', function(response) {
+                stompClient.subscribe('/topic/udp/broadcast', function (response) {
                     // stompClient.subscribe('/topic/socket/201', function (response) {
                     // console.log(response.body + " " + new Date().getTime());
                     var stringResult = response.body.replace("S", "").replace("K", "").split(',');
@@ -1566,11 +1651,14 @@ window.onload = function() {
                     //假设 收到的是逻辑信号  byte0 是 信号值
                     // console.log(oHtmlId);
 
+                    // if (FrameId == '220') {
+                    //     console.log('1')
+                    // }
 
                     if (List.indexOf(FrameId) == -1) {
                         List.push(FrameId);
                         var Type;
-                        for (let i = 0; i < ListType.length; i++) {
+                        for (var i = 0; i < ListType.length; i++) {
                             if (ListType[i].frameId == FrameId) {
                                 Type = ListType[i].ftype;
                             }
@@ -1633,7 +1721,7 @@ window.onload = function() {
 
 
                 });
-                stompClient.subscribe('/topic/websocket/broadcast', function(response) {
+                stompClient.subscribe('/topic/websocket/broadcast', function (response) {
                     var stringResult = response.body.replace("S", "").replace("K", "").split(',');
                     // console.log(stringResult);
                     var FrameId = stringResult[0];
@@ -1647,37 +1735,42 @@ window.onload = function() {
                     var Byte7 = stringResult[8];
                     // var oYemian = document.getElementById(FrameId);
 
-                    if (List.indexOf(FrameId) == -1) {
+                    if (List.indexOf(FrameId) == -1 && Byte0 == '5E') {
                         List.push(FrameId);
-                        let Type;
-                        for (let i = 0; i < ListType.length; i++) {
-                            if (ListType[i].frameId == FrameId) {
-                                Type = ListType[i].ftype;
-                            }
-                        }
-                        switch (Type) {
+                        // let Type;
+                        // for (let i = 0; i < ListType.length; i++) {
+                        //     if (ListType[i].frameId == FrameId) {
+                        //         Type = ListType[i].ftype;
+                        //     }
+                        // }
+                        // switch (Type) {
+                        //     case "08":
+                        //         // 安卓屏
+
+                        //         new andr(FrameId, "new");
+                        //         break;
+                        // }
+                        switch (Byte5) {
                             case "08":
                                 // 安卓屏
-                                var data = {
+                                $.getJSON(serverAddr + "saveDeviceType", {
                                     FrameId: FrameId,
-                                    type: Byte5,
-                                    text: '',
-                                };
-                                var dater = JSON.stringify(data);
-                                storage.setItem(FrameId, dater);
-                                new andr(FrameId, "new");
+                                    Ftype: Byte5,
+                                    Fnum: 0,
+                                }, function (data) {
+                                    // console.log(data);
+                                });
+                                new andr(FrameId);
                                 break;
                         }
                     }
-
-
                 });
             },
             // 报错原因
             function errorCallBack(error) {
                 // 连接失败时（服务器响应 ERROR 帧）的回调方法
                 console.log('连接失败[' + error + ']');
-                setTimeout(function() {
+                setTimeout(function () {
                     // 自动重连
                     connect();
                 }, 100);
@@ -1693,7 +1786,7 @@ window.onload = function() {
 
     lamp.prototype = {
         constructor: lamp,
-        init: function() {
+        init: function () {
             //转存this
             var self = this;
             var Id = self.FrameId;
@@ -1701,7 +1794,7 @@ window.onload = function() {
             $.getJSON(serverAddr + "getRemark", {
                 deviceId: Id,
                 num: 0
-            }, function(data) {
+            }, function (data) {
                 // console.log(data);
                 text = data.resultObject.remark;
                 // 元件库创建
@@ -1720,9 +1813,10 @@ window.onload = function() {
         //自动初始化
         this.init();
     }
+
     elec.prototype = {
         constructor: elec,
-        init: function() {
+        init: function () {
             //转存this
             var self = this;
             var Id = self.FrameId;
@@ -1731,7 +1825,7 @@ window.onload = function() {
             $.getJSON(serverAddr + "getRemark", {
                 deviceId: Id,
                 num: 0
-            }, function(data) {
+            }, function (data) {
                 // console.log(data);
                 text = data.resultObject.remark;
 
@@ -1752,9 +1846,10 @@ window.onload = function() {
         //自动初始化
         this.init();
     }
+
     button.prototype = {
         constructor: button,
-        init: function() {
+        init: function () {
             //转存this
             var self = this;
             var Id = self.FrameId;
@@ -1764,7 +1859,7 @@ window.onload = function() {
             $.getJSON(serverAddr + "getRemark", {
                 deviceId: Id,
                 num: 0
-            }, function(data) {
+            }, function (data) {
                 // console.log(data);
                 text = data.resultObject.remark;
                 // 元件库创建
@@ -1785,9 +1880,10 @@ window.onload = function() {
         //自动初始化
         this.init();
     }
+
     andr.prototype = {
         constructor: andr,
-        init: function() {
+        init: function () {
             //转存this
             var self = this;
             var Id = self.FrameId;
@@ -1796,7 +1892,7 @@ window.onload = function() {
             $.getJSON(serverAddr + "getRemark", {
                 deviceId: Id,
                 num: 0
-            }, function(data) {
+            }, function (data) {
                 console.log(data);
                 text = data.resultObject.remark;
                 // 元件库创建
@@ -1819,9 +1915,10 @@ window.onload = function() {
         //自动初始化
         this.init();
     }
+
     projector.prototype = {
         constructor: projector,
-        init: function() {
+        init: function () {
             //转存this
             var self = this;
             var Id = self.FrameId;
@@ -1831,7 +1928,7 @@ window.onload = function() {
             $.getJSON(serverAddr + "getRemark", {
                 deviceId: Id,
                 num: 0
-            }, function(data) {
+            }, function (data) {
                 console.log(data);
                 text = data.resultObject.remark;
 
@@ -1852,9 +1949,11 @@ window.onload = function() {
         //自动初始化
         this.init();
     }
+
     outp.prototype = {
         constructor: outp,
-        init: function() {
+        init: function () {
+
             //转存this
             var self = this;
             var Id = self.FrameId;
@@ -1863,7 +1962,7 @@ window.onload = function() {
             $.getJSON(serverAddr + "getRemark", {
                 deviceId: Id,
                 num: 0
-            }, function(data) {
+            }, function (data) {
                 console.log(data);
                 text = data.resultObject.remark;
 
@@ -1886,9 +1985,10 @@ window.onload = function() {
         //自动初始化
         this.init();
     }
+
     sens.prototype = {
         constructor: sens,
-        init: function() {
+        init: function () {
             //转存this
             var self = this;
             var Id = self.FrameId;
@@ -1897,7 +1997,7 @@ window.onload = function() {
             $.getJSON(serverAddr + "getRemark", {
                 deviceId: Id,
                 num: 0
-            }, function(data) {
+            }, function (data) {
                 console.log(data);
                 text = data.resultObject.remark;
                 // 元件库创建
