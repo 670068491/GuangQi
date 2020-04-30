@@ -586,3 +586,52 @@ storage.setItem(FrameId, dater);
 
 // stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
 // 	"," + type5 + "," + type6 + "," + type7 + "K");
+
+
+// clearInterval(elecSet);
+// $(this).css("background-color", "pink");
+
+// clearInterval(elecSet);
+
+// clearInterval(elecSet);
+// $(this).css("background-color", "#5b9bd5");
+
+
+// var id = $(this).parents(".elec_body_one").attr('id');
+// var oValue = $(this).siblings(".elec_sudu").val();
+// var oColor = $(this).css("background-color");
+
+
+// elecColor = $(this).css("background-color");
+
+// elecSet = setInterval('console.log(elecId + "+" + elecValue);', 100);
+
+// stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10," + oValue + "K");
+
+
+// console.log(oColor);
+// elecSet = setInterval(SelecSet(id, oValue), 10);
+// var id = setInterval(frame(id,oValue), 10);
+// elecSet = setInterval(function () {
+//     if (oColor == 'rgb(91, 155, 213)') {
+//          console.log('1');
+//     }
+//     // if (oColor == "rgb(91, 155, 213)") {
+//     //     console.log('1');
+//     //     stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10," + oValue + "K");
+//     // } else {
+//     //     console.log('2');
+//     //     clearInterval(elecSet);
+//     // }
+// }, 100);
+// console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
+
+
+// var id = $(this).parents(".elec_body_one").attr('id');
+// $(this).css("background-color", "pink");
+// let oValue = $(this).siblings(".elec_sudu").val();
+
+
+// elecSetDown = setInterval(function () {
+//     stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10," + oValue + "K");
+// }, 50)

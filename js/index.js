@@ -11,12 +11,15 @@ window.onload = function () {
     var elcarray = []; //存放点击电机四个预设值
 
     $(function () {
-        $.getJSON(port + "getElcAll", {}, function (data) {
-            console.log(data);
-            elcarray = data.resultObject;
-        });
         $.getJSON(port + "getDeviceTypeAll", {}, function (data) {
             ListType = data.resultObject;
+            for (let z = 0; z < ListType.length; z++) {
+                if (ListType[z].ftype == '10') {
+                    // console.log(ListType[z].frameId)
+                    // console.log(ListType[z].fnum)
+                    new virtual(ListType[z].frameId, ListType[z].fnum);
+                }
+            }
             console.log(ListType);
         });
         connect(); //建立连接
@@ -28,7 +31,10 @@ window.onload = function () {
             window.toTest2 = this.open2;
             window.toTest3 = this.open5;
             window.toTest4 = this.open6;
-
+            window.toTest5 = this.open3;
+            window.toTest6 = this.open7;
+            window.toTest7 = this.open8;
+            window.toTest8 = this.open9;
         },
         methods: {
             open1() {
@@ -42,7 +48,7 @@ window.onload = function () {
             },
             open3() {
                 this.$message({
-                    message: '警告，这是一条警告消息',
+                    message: '此id已存在，请重新输入',
                     type: 'warning'
                 });
             },
@@ -58,6 +64,25 @@ window.onload = function () {
             open6() {
                 this.$message.error('请输入小于64的数值');
             },
+            open7() {
+                this.$message({
+                    message: '请输入ID',
+                    type: 'warning'
+                });
+            },
+            open8() {
+                this.$message({
+                    message: '请输入数量',
+                    type: 'warning'
+                });
+            },
+            open9() {
+                this.$message({
+                    message: '请输入24以内的数量',
+                    type: 'warning'
+                });
+            },
+
         }
     }
     var Ctor = Vue.extend(Main);
@@ -593,6 +618,64 @@ window.onload = function () {
         }
     };
 
+    // 第2部分 虚拟按钮
+    function virtual(deviceId, fnum) {
+        // console.log(deviceId)
+        // console.log(fnum)
+        this.deviceId = deviceId;
+        this.num = fnum;
+        //自动初始化
+        this.init();
+    }
+
+    virtual.prototype = {
+        constructor: virtual,
+        init: function () {
+            //转存this
+            var self = this;
+            var Id = self.deviceId;
+            var Lbyte4Length = self.num;
+            var text = '';
+            console.log('新:虚拟按钮');
+            var oBig = document.createElement("div");
+            oBig.classList.add("virtual_body_one");
+            oBig.setAttribute("id", Id);
+            var oId = Id + 'i';
+            var oIdDel = Id + 'del';
+
+            console.log(Id)
+            $.getJSON(port + "getRemark", {
+                deviceId: Id,
+                num: Lbyte4Length
+            }, function (data) {
+                // console.log(data);
+                text = data.resultObject.remark;
+                oBig.innerHTML =
+                    '<input type="text" name="" class="virtual_remark" value=' + text + '><span class="virtual_body_one_span">id:<span class="virtual_body_one_id">0x' +
+                    Id + '</span></span><div class="virtual_body_one_one" id=' + oId + '><div class="virtual_delete" id=' +
+                    oIdDel + '>X</div></div>';
+                document.getElementById("virtual_body").appendChild(oBig);
+
+                for (var i = 0; i < Lbyte4Length; i++) {
+
+                    var text1 = data.resultObject.samllremark[i];
+
+                    var oBtnBtn = document.createElement("div");
+                    var oSim = document.getElementById(oId);
+                    var Ssid = oId + [i];
+                    oBtnBtn.setAttribute("id", Ssid);
+
+                    oBtnBtn.classList.add("virtual_body_one_btn");
+                    oBtnBtn.innerHTML = '<div class="virtual_body_one_btn_circle" id=' + Ssid + '></div><div> <input type ="text" class = "virtual_smallMake" value= ' + text1 + '></div>';
+                    oSim.appendChild(oBtnBtn);
+
+
+                }
+            });
+
+        }
+    };
+
     // 第三部分 旋钮
     function rotaryknob(FrameId, Byte4, Byte5, Byte6, Byte7, New) {
         this.oRotaOne = document.getElementById("rotaryknob_body");
@@ -931,7 +1014,7 @@ window.onload = function () {
                     oBig.innerHTML =
                         '<input type="text" name="" class="lamp_remark" value=' + text + '><span class="lamp_body_one_span">id: <span class="lamp_body_one_id">0x' +
                         Id + '</span></span><div class="lamp_body_one_one"><label for="" class="label_moshi">模式:</label><select class="lamp_xuanxiang" name="" id=' +
-                        oIdBy0 + '><option value = "01">关闭模式</option><option value="02">打开模式</option><option value="03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value="05">正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水保持模式</option><option value = "0C">正向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value = "19">全彩像素清除模式</option><option value = "1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span class="span_liudong">流动LED:</span><input type ="text" class="liudong"  id=' +
+                        oIdBy0 + '><option value = "01">关闭模式</option><option value="02">打开模式</option><option value="03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value="05">正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水模式</option><option value = "0C">反向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value = "19">全彩像素清除模式</option><option value = "1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span class="span_liudong">流动LED:</span><input type ="text" class="liudong"  id=' +
                         oIdBy1 + ' value="00"><span class="span_liudong">LED数量:</span><input type = "text" class="led" id=' + oIdBy2 +
                         ' value="00"><span class="span_liudong">速度:</span><input class="sudu" type = "text"  id=' + oIdBy3 +
                         ' value="00"><span class="span_liudong">颜色:</span><input type="color" name="" class="yanse"><span class="span_liudong">白色值:</span><input type="text" name="" class="type7" id=' +
@@ -1025,7 +1108,15 @@ window.onload = function () {
                     }, 2000);
                     setTimeout(function () {
                         stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
-                    }, 150);
+                        // console.log();
+                    }, 200);
+                    setTimeout(function () {
+                        stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
+                    }, 400);
+                    setTimeout(function () {
+                        stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
+                    }, 600);
+
                     // stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
                     // console.log("发送查询");
 
@@ -1048,16 +1139,16 @@ window.onload = function () {
                     // elecTrue = true;
                 }
                 if (self.byte0 == "5B") {
-                
+
                     if ((parseInt(self.byte3, 16) & 0x01) > 0) {
-                       
+
                         // console.log('到右头');
                         $("#" + Id).find('.elec_sm_right').addClass("activeRed");
                     } else {
                         $("#" + Id).find('.elec_sm_right').removeClass("activeRed");
                     }
                     if ((parseInt(self.byte3, 16) & 0x02) > 0) {
-                       
+
                         // console.log('到左头');
                         $("#" + Id).find('.elec_sm_left').addClass("activeRed");
                     } else {
@@ -1109,7 +1200,7 @@ window.onload = function () {
                     deviceId: Id,
                     num: 0
                 }, function (data) {
-                    console.log(data);
+                    // console.log(data);
                     text = data.resultObject.remark;
                     // 修饰元素
                     oBig.innerHTML = '<input type="text" name="" class="andr_remark" value=' + text + '><span class="andr_body_one_span">id:<span class="andr_body_one_id">0x' + Id + '</span></span><div class="andr_body_one_one"><button class="andr_stop andr_video">停止并关闭</button><button class="andr_pause andr_video">暂停</button><button class="andr_play andr_video">继续播放</button><button class="andr_video1 andr_video">视频1</button><button class="andr_video2 andr_video">视频2</button><button class="andr_video3 andr_video">视频3</button><button class="andr_video4 andr_video">视频4</button><button class="andr_video5 andr_video">视频5</button><button class="andr_video6 andr_video">视频6</button><button class="andr_video7 andr_video">视频7</button><button class="andr_video8 andr_video">视频8</button><button class="andr_video9 andr_video">视频9</button><button class="andr_video10 andr_video">视频10</button></div>';
@@ -1156,7 +1247,7 @@ window.onload = function () {
                     deviceId: Id,
                     num: 0
                 }, function (data) {
-                    console.log(data);
+                    // console.log(data);
                     text = data.resultObject.remark;
                     // 修饰元素
                     oBig.innerHTML =
@@ -1349,43 +1440,74 @@ window.onload = function () {
 
     // 电机发送
     var elecSet; //前进
+    var elecId;
+    var elecValue;
+    var elecColor = false;
+
     $(".elec_body").on("mousedown", ".elec_up", function () {
-        var id = $(this).parents(".elec_body_one").attr('id');
-        let oValue = $(this).siblings(".elec_sudu").val();
-
-
+        elecId = $(this).parents(".elec_body_one").attr('id');
+        elecValue = $(this).siblings(".elec_sudu").val();
         $(this).css("background-color", "pink");
+        elecColor = true;
         elecSet = setInterval(function () {
-            stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10," + oValue + "K");
-        }, 100);
-        // console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
+            SelecSet();
+        }, 50);
     });
+
+    function SelecSet() {
+        if (elecColor) {
+            // console.log(elecId + "+" + elecValue);
+            stompClient.send("/app/wu", {}, "S" + elecId + ",0B,00,00,00,00,00,10," + elecValue + "K");
+            // console.log('1');
+        } else {
+            clearInterval(elecSet);
+        }
+    }
+
     $(".elec_body").on("mouseup", ".elec_up", function () {
-        clearInterval(elecSet);
         $(this).css("background-color", "#5b9bd5");
+        elecColor = false;
+
     });
     $(".elec_body").on("mouseleave", ".elec_up", function () {
-        clearInterval(elecSet);
         $(this).css("background-color", "#5b9bd5");
+        elecColor = false;
     });
+
+
     var elecSetDown; //后退
+    var elecColorDown = false;
+
     $(".elec_body").on("mousedown", ".elec_down", function () {
-        var id = $(this).parents(".elec_body_one").attr('id');
+        elecId = $(this).parents(".elec_body_one").attr('id');
+        elecValue = $(this).siblings(".elec_sudu").val();
         $(this).css("background-color", "pink");
-        let oValue = $(this).siblings(".elec_sudu").val();
-
-
+        elecColorDown = true;
         elecSetDown = setInterval(function () {
-            stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10," + oValue + "K");
-        }, 50)
+            SelecSetDown();
+        }, 50);
+
     });
+
+    function SelecSetDown() {
+        if (elecColorDown) {
+            stompClient.send("/app/wu", {}, "S" + elecId + ",0C,00,00,00,00,00,10," + elecValue + "K");
+        } else {
+            clearInterval(elecSetDown);
+        }
+    }
+
     $(".elec_body").on("mouseup", ".elec_down", function () {
-        clearInterval(elecSetDown);
         $(this).css("background-color", "#5b9bd5");
+        elecColorDown = false;
+        // clearInterval(elecSetDown);
+        // $(this).css("background-color", "#5b9bd5");
     });
     $(".elec_body").on("mouseleave", ".elec_down", function () {
-        clearInterval(elecSetDown);
         $(this).css("background-color", "#5b9bd5");
+        elecColorDown = false;
+        // clearInterval(elecSetDown);
+        // $(this).css("background-color", "#5b9bd5");
     });
     //电机速度值保存
     $(".elec_body").on("blur", ".elec_sudu", function () {
@@ -1610,16 +1732,15 @@ window.onload = function () {
         // parseInt(num, 16);
         // var oViryId = document.getElementById(viryId);
         if (!viryId) {
-            alert('请输入ID');
+            window.toTest6();
         } else if (!viryNum) {
-            alert('请输入数量');
+            window.toTest7();
         } else if (viryNum > 24) {
-            alert('请输入24以内的数量');
+            window.toTest8();
             oViryNum.value = '';
         } else if (document.getElementById(viryId)) {
-            alert('此id已存在，请重新输入');
+            window.toTest5();
             oViryId.value = '';
-            // console.log('q');
         } else {
             var oBig = document.createElement("div");
             oBig.classList.add("virtual_body_one");
@@ -1627,9 +1748,20 @@ window.onload = function () {
             var oId = viryId + 'i';
             var oIdDel = viryId + 'del';
             console.log('新：虚拟按钮');
+
+
+            $.getJSON(port + "saveDeviceType", {
+                FrameId: viryId,
+                Ftype: '10',
+                Fnum: viryNum,
+            }, function (data) {
+
+            });
+
+
             // 修饰元素
             oBig.innerHTML =
-                '<input type="text" name="" class="virtual_remark"><span class="virtual_body_one_span">ID: <span class="virtual_body_one_id">0x' +
+                '<input type="text" name="" class="virtual_remark"><span class="virtual_body_one_span">id: <span class="virtual_body_one_id">0x' +
                 viryId + '</span></span><div class="virtual_body_one_one" id=' + oId + '><div class="virtual_delete" id=' +
                 oIdDel + '>X</div></div>';
             setTimeout(function () {
@@ -1639,11 +1771,12 @@ window.onload = function () {
                     var oBtnBtn = document.createElement("div");
                     var oSim = document.getElementById(oId);
                     var Ssid = oId + [i];
-                    var Ssssid = Ssid + [i];
+                    // var Ssssid = Ssid + [i];
                     oBtnBtn.classList.add("virtual_body_one_btn");
+                    // oBig.setAttribute("id", 'vi' + [i]);
                     // oBtnBtn.setAttribute("id", Ssid);
-                    oBtnBtn.innerHTML = '<div class="virtual_body_one_btn_circle" id=' + Ssid +
-                        '></div><div> <input type ="text"></div>';
+                    oBtnBtn.innerHTML = '<div class="virtual_body_one_btn_circle" id=' + Ssid + '></div><div> <input type ="text" class = "virtual_smallMake"></div>';
+
                     oSim.appendChild(oBtnBtn);
                 }
             }, 500);
@@ -1657,6 +1790,12 @@ window.onload = function () {
     };
     //虚拟按钮  删除
     $(".virtual_body").on("click", ".virtual_delete", function () {
+        var oId = $(this).parents('.virtual_body_one').attr('id');
+        $.getJSON(port + "deleteDeviceType", {
+            FrameId: oId,
+        }, function (data) {
+            // console.log(data);
+        });
         $(this).parents(".virtual_body_one").remove();
     })
     //虚拟按钮  发送
@@ -1683,8 +1822,36 @@ window.onload = function () {
         var as2 = virt[2] > 0x0f ? "" : "0";
         // console.log(id);
         // console.log("S" + id + ",5B,00,00,00,00," + as2 + (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(16)).toUpperCase() + "K");
-        stompClient.send("/app/wu", {}, "S" + id + ",5B,00,00,00,00," + as2 + (as[2].toString(16)).toUpperCase() + "," +
-            as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(16)).toUpperCase() + "K");
+        stompClient.send("/app/wu", {}, "S" + id + ",5B,00,00,00,00," + as2 + (virt[2].toString(16)).toUpperCase() + "," +
+            as1 + (avirts[1].toString(16)).toUpperCase() + "," + as0 + (virt[0].toString(16)).toUpperCase() + "K");
+    });
+    // 离线保存备注
+    $(".virtual_body").on("blur", ".virtual_remark", function () { //虚拟按钮
+        var Id = $(this).parents(".virtual_body_one").attr('id');
+        var oValue = $(this).val();
+        $.getJSON(port + "saveRemark", {
+            deviceId: Id,
+            location: -1,
+            value: oValue,
+            deviceType: 'virtual'
+        }, function (data) {
+            console.log(data);
+        });
+
+    })
+    // 小型虚拟按钮
+    $(".virtual_body").on("blur", ".virtual_smallMake", function () {
+        var Id = $(this).parents(".virtual_body_one").attr('id');
+        var oValue = $(this).val();
+        var index = $(this).parents('.virtual_body_one_btn').attr('id').substr(4);
+        // var Byte7 = stringResult[8].substring(0, 2);
+        $.getJSON(port + "saveRemark", {
+            deviceId: Id,
+            location: index,
+            value: oValue,
+        }, function (data) {
+            console.log(data);
+        });
     });
 
 
@@ -1845,6 +2012,10 @@ window.onload = function () {
         });
     });
 
+    $(".outp_body").on("click", ".outp_input", function () {
+        var oRemake = $(this).siblings('button').text();
+        $(this).val(oRemake);
+    })
     //小输出控制
     $(".outp_body").on("blur", ".outp_input", function () {
         var Id = $(this).parents(".outp_body_one").attr('id');
@@ -1873,18 +2044,25 @@ window.onload = function () {
 
     $(".Restoration_cancel").click(function () {
         $(".corer").css("display", "none");
-        $(".Restoration").css("display", "none");
+        $(".Restoration").stop(true).fadeOut("slow");
+
+        // $(".Restoration").css("display", "none");
     });
     // 打开复位
     $("#AllRestoration").click(function () {
         $(".corer").css("display", "block");
-        $(".Restoration").css("display", "block");
+        $(".Restoration").stop(true).slideDown("slow");
+        // $(".Restoration").css("display", "block");
+        $.getJSON(port + "getElcAll", {}, function (data) {
+            console.log(data);
+            elcarray = data.resultObject;
+        });
+
 
         $.getJSON(port + "getRemarkInitAll", {}, function (data) {
-
-            if (data.resultObject.length == 0) {} else {
+            if (data.resultObject.length != 0) {
                 libraryList = data.resultObject;
-                // console.log(libraryList);
+                console.log(libraryList);
                 getDeviceHtml(); //刷新页面
             }
         })
@@ -1935,8 +2113,8 @@ window.onload = function () {
 									<option value="08" ${defaultValue[0] == "08" ? "selected='selected'" : ""} >反向流水不保持模式</option>
 									<option value="09" ${defaultValue[0] == "09" ? "selected='selected'" : ""} >带数量正向流水模式</option>
 									<option value="0A" ${defaultValue[0] == "0A" ? "selected='selected'" : ""} >带数量反向流水模式</option>
-									<option value="0B" ${defaultValue[0] == "0B" ? "selected='selected'" : ""} >正向灭灯流水保持模式</option>
-									<option value="0C" ${defaultValue[0] == "0C" ? "selected='selected'" : ""} >正向灭灯流水模式</option>
+									<option value="0B" ${defaultValue[0] == "0B" ? "selected='selected'" : ""} >正向灭灯流水模式</option>
+									<option value="0C" ${defaultValue[0] == "0C" ? "selected='selected'" : ""} >反向灭灯流水模式</option>
 									<option value="0D" ${defaultValue[0] == "0D" ? "selected='selected'" : ""} >正向慢速流水保持模式</option>
 									<option value="0E" ${defaultValue[0] == "0E" ? "selected='selected'" : ""} >正向慢速流水不保持模式</option>
 									<option value="0F" ${defaultValue[0] == "0F" ? "selected='selected'" : ""} >反向慢速流水保持模式</option>
@@ -1965,7 +2143,6 @@ window.onload = function () {
 								<input type="text" name="" class="type7" value="${defaultValue[7]}"/>
 								<button class="lamp_del" data-index="${j}">删除</button>
 								<button class="lamp_save" data-index="${j}">保存</button>
-								
 							</div>
 						</div>`;
 
@@ -1976,15 +2153,17 @@ window.onload = function () {
                 vlc.v2 = "0D,00,00,50,00,00,00,00";
                 vlc.v3 = "0D,00,00,50,00,00,00,00";
                 vlc.v4 = "0D,00,00,50,00,00,00,00";
-                for (var m = 0; m < elcarray.length; m++) {
+                console.log(elcarray);
+                for (let m = 0; m < elcarray.length; m++) {
                     if (elcarray[m].id == libraryList[j].deviceId) {
                         vlc = elcarray[m];
                     }
                 }
-                console.log(libraryList);
+                console.log(vlc);
                 var xzdev = libraryList[j].deviceValue.replace("K", "");
+                console.log(xzdev);
                 htmlStr += `<div class="elec_body_one" id="Res${libraryList[j].deviceId}">                 
-									<input type="text" name="" class="elec_remark" value="${libraryList[j].remark}">
+									<input type="text" name="" readonly="readonly" class="elec_remark" value="${libraryList[j].remark}">
 									<span class="elec_body_one_span">id:
 										<span class="elec_body_one_id">0x${libraryList[j].deviceId}</span>
 									</span>
@@ -2006,31 +2185,29 @@ window.onload = function () {
                 // console.log(typeof(oIndexVal) );
 
                 htmlStr += `<div class="proj_body_one" id="Res${libraryList[j].deviceId}">
-                              <input type="text" name="" class="proj_remark" value="${libraryList[j].remark}">
+                              <input type="text" name="" readonly="readonly" class="proj_remark" value="${libraryList[j].remark}">
                     
                                  <span class="proj_body_one_span">id:
                                       <span class="proj_body_one_id">0x${libraryList[j].deviceId}</span></span>       
                                  <div class="proj_top">
-                                     <button class="proj_1 proj ${oIndexVal == "02" ? "active": ""}" data-index="${j}" data-val="2">开机</button>
-                                     <button class="proj_2 proj ${oIndexVal == "01" ? "active": ""}" data-index="${j}" data-val="1">关机</button>
+                                     <button class="proj_1 proj ${oIndexVal == "02" ? "active" : ""}" data-index="${j}" data-val="2">开机</button>
+                                     <button class="proj_2 proj ${oIndexVal == "01" ? "active" : ""}" data-index="${j}" data-val="1">关机</button>
+                                     <button class="proj_3 proj ${oIndexVal == "03" ? "active" : ""}" data-index="${j}" data-val="3">视频1</button>
+                                     <button class="proj_4 proj ${oIndexVal == "04" ? "active" : ""}" data-index="${j}" data-val="4">视频2</button>
+                                     <button class="proj_5 proj ${oIndexVal == "05" ? "active" : ""}" data-index="${j}" data-val="5">视频3</button>
+                                     <button class="proj_6 proj ${oIndexVal == "06" ? "active" : ""}" data-index="${j}" data-val="6">视频4</button>
+                                     <button class="proj_7 proj ${oIndexVal == "07" ? "active" : ""}" data-index="${j}" data-val="7">视频5</button>
+                                     <button class="proj_8 proj ${oIndexVal == "08" ? "active" : ""}" data-index="${j}" data-val="8">视频6</button>
+                                     <button class="proj_9 proj ${oIndexVal == "09" ? "active" : ""}" data-index="${j}" data-val="9">视频7</button>
+                                     <button class="proj_10 proj ${oIndexVal == "10" ? "active" : ""}" data-index="${j}" data-val="10">视频8</button>
+                                     <button class="proj_del" data-index="${j}">删除</button>
                                  </div>
-                                 <div class="proj_bott">
-                                     <button class="proj_3 proj ${oIndexVal == "03" ? "active": ""}" data-index="${j}" data-val="3">视频1</button>
-                                     <button class="proj_4 proj ${oIndexVal == "04" ? "active": ""}" data-index="${j}" data-val="4">视频2</button>
-                                     <button class="proj_5 proj ${oIndexVal == "05" ? "active": ""}" data-index="${j}" data-val="5">视频3</button>
-                                     <button class="proj_6 proj ${oIndexVal == "06" ? "active": ""}" data-index="${j}" data-val="6">视频4</button>
-                                     <button class="proj_7 proj ${oIndexVal == "07" ? "active": ""}" data-index="${j}" data-val="7">视频5</button>
-                                     <button class="proj_8 proj ${oIndexVal == "08" ? "active": ""}" data-index="${j}" data-val="8">视频6</button>
-                                     <button class="proj_9 proj ${oIndexVal == "09" ? "active": ""}" data-index="${j}" data-val="9">视频7</button>
-                                     <button class="proj_10 proj ${oIndexVal == "10" ? "active": ""}" data-index="${j}" data-val="10">视频8</button>
-                                     <button class="proj_del" data-index="${j}">删除</button>                                  
-                                   </div>
                             </div> `;
 
             } else if (libraryList[j].deviceType == '0B') {
                 // <input type="text" name="" class="outp_remark">
                 htmlStr += `<div class="outp_body_one" id="Res${libraryList[j].deviceId}" data-ind="${j}">
-                            <input type="text" name="" class="outp_remark" value="${libraryList[j].remark}">
+                            <input type="text" name="" readonly="readonly" class="outp_remark" value="${libraryList[j].remark}">
                             <span class="outp_body_one_span">id:
                                 <span class="outp_body_one_id">0x${libraryList[j].deviceId}</span>
                             </span>
@@ -2057,24 +2234,24 @@ window.onload = function () {
             } else if (libraryList[j].deviceType == '08') {
                 var oIndexVal = libraryList[j].deviceValue.replace("K", "").split(",")[0].substr(1);
                 htmlStr += `<div class="andr_body_one" id="Res${libraryList[j].deviceId}" data-index="${j}">
-                <input type="text" name="" class="andr_remark" value="${libraryList[j].remark}">
+                <input type="text" name="" readonly="readonly" class="andr_remark" value="${libraryList[j].remark}">
                 <span class="andr_body_one_span">id:
                     <span class="andr_body_one_id">0x${libraryList[j].deviceId}</span>
                 </span>
                 <div class="andr_body_one_one">
-                    <button type="button" data-val="1" class="andr_stop andr_Btn ${oIndexVal == "1" ? "active5": ""}">停止并关闭</button>
-                    <button type="button" data-val="2" class="andr_pause andr_Btn ${oIndexVal == "2" ? "active5": ""}">暂停</button>
-                    <button type="button" data-val="3" class="andr_play andr_Btn ${oIndexVal == "3" ? "active5": ""}">继续播放</button>
-                    <button type="button" data-val="4" class="andr_video1 andr_Btn ${oIndexVal == "4" ? "active5": ""}">视频1</button>
-                    <button type="button" data-val="5" class="andr_video2 andr_Btn ${oIndexVal == "5" ? "active5": ""}">视频2</button>
-                    <button type="button" data-val="6" class="andr_video3 andr_Btn ${oIndexVal == "6" ? "active5": ""}">视频3</button>
-                    <button type="button" data-val="7" class="andr_video4 andr_Btn ${oIndexVal == "7"? "active5": ""}">视频4</button>
-                    <button type="button" data-val="8" class="andr_video5 andr_Btn ${oIndexVal == "8" ? "active5": ""}">视频5</button>
-                    <button type="button" data-val="9" class="andr_video6 andr_Btn ${oIndexVal == "9" ? "active5": ""}">视频6</button>
-                    <button type="button" data-val="A" class="andr_video7 andr_Btn ${oIndexVal == "A" ? "active5": ""}">视频7</button>
-                    <button type="button" data-val="B" class="andr_video8 andr_Btn ${oIndexVal == "B" ? "active5": ""}">视频8</button>
-                    <button type="button" data-val="C" class="andr_video9 andr_Btn ${oIndexVal == "C" ? "active5": ""}">视频9</button>
-                    <button type="button" data-val="D" class="andr_video10 andr_Btn ${oIndexVal == "D" ? "active5": ""}">视频10</button>
+                    <button type="button" data-val="1" class="andr_stop andr_Btn ${oIndexVal == "1" ? "active5" : ""}">停止并关闭</button>
+                    <button type="button" data-val="2" class="andr_pause andr_Btn ${oIndexVal == "2" ? "active5" : ""}">暂停</button>
+                    <button type="button" data-val="3" class="andr_play andr_Btn ${oIndexVal == "3" ? "active5" : ""}">继续播放</button>
+                    <button type="button" data-val="4" class="andr_video1 andr_Btn ${oIndexVal == "4" ? "active5" : ""}">视频1</button>
+                    <button type="button" data-val="5" class="andr_video2 andr_Btn ${oIndexVal == "5" ? "active5" : ""}">视频2</button>
+                    <button type="button" data-val="6" class="andr_video3 andr_Btn ${oIndexVal == "6" ? "active5" : ""}">视频3</button>
+                    <button type="button" data-val="7" class="andr_video4 andr_Btn ${oIndexVal == "7" ? "active5" : ""}">视频4</button>
+                    <button type="button" data-val="8" class="andr_video5 andr_Btn ${oIndexVal == "8" ? "active5" : ""}">视频5</button>
+                    <button type="button" data-val="9" class="andr_video6 andr_Btn ${oIndexVal == "9" ? "active5" : ""}">视频6</button>
+                    <button type="button" data-val="A" class="andr_video7 andr_Btn ${oIndexVal == "A" ? "active5" : ""}">视频7</button>
+                    <button type="button" data-val="B" class="andr_video8 andr_Btn ${oIndexVal == "B" ? "active5" : ""}">视频8</button>
+                    <button type="button" data-val="C" class="andr_video9 andr_Btn ${oIndexVal == "C" ? "active5" : ""}">视频9</button>
+                    <button type="button" data-val="D" class="andr_video10 andr_Btn ${oIndexVal == "D" ? "active5" : ""}">视频10</button>
                     <button type="button"  class="andr_del"  data-index="${j}">删除</button>
                 </div>
             </div>`;
@@ -2204,7 +2381,6 @@ window.onload = function () {
         var flag = $(this).hasClass("active");
 
         $(".proj_top button").removeClass("active");
-        $(".proj_bott button").removeClass("active");
         // console.log(val);
         if (flag) {
             // $(this).removeClass("active");
@@ -2223,13 +2399,13 @@ window.onload = function () {
         var ind = $(this).parents(".outp_body_one").data(ind).ind;
         var index = $(this).data(index).index;
         var color = $(this).css("background-color");
-
+        console.log(color)
         let val = parseInt(index);
         let yu = val % 8;
         let zheng = parseInt(index / 8);
         if (color == 'rgb(91, 155, 213)') {
             Ras[zheng] |= 0x01 << yu;
-            $(this).css("background-color", "rgb(255, 0, 0)");
+            $(this).css("background-color", "rgb(255, 192, 203)");
         } else {
             Ras[zheng] &= ~(0x01 << yu);
             $(this).css("background-color", "rgb(91, 155, 213)");
@@ -2312,7 +2488,7 @@ window.onload = function () {
         $.getJSON(port + "saveRemarkInitAll", {
             jsonList: JSON.stringify(libraryList),
         }, function (data) {
-            console.log(data);
+            // console.log(data);
             window.toTest3();
         })
         $(".corer").css("display", "none");

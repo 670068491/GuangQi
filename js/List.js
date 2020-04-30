@@ -45,6 +45,48 @@ window.onload = function () {
         getElcAll();
         $.getJSON(serverAddr + "getDeviceTypeAll", {}, function (data) {
             ListType = data.resultObject;
+
+            for (let z = 0; z < ListType.length; z++) {
+                if (ListType[z].ftype == '10') {
+                    // 元件库创建
+                    var text = ListType[z].remark;
+                    var oLibr = document.createElement("div");
+                    var oLibrId = 'libr' + ListType[z].frameId;
+                    oLibr.classList.add("library_body_body_one");
+                    oLibr.setAttribute("id", oLibrId);
+                    oLibr.innerHTML = '<span>id:0X' + ListType[z].frameId + '</span> <span class="elec_remake">' + text + '</span>';
+                    document.getElementById("library_body_body3").appendChild(oLibr);
+
+
+                    var Id = ListType[z].frameId;
+                    var Lbyte4Length = ListType[z].fnum;
+
+                    var oBig = document.createElement("div");
+                    oBig.classList.add("virtual_body_one");
+                    oBig.setAttribute("id", Id);
+                    var oId = Id + 'i';
+                    var oIdDel = Id + 'del';
+
+                    oBig.innerHTML ='<input type="text" name="" class="virtual_remark" readonly="readonly" value=' + text + '><span class="virtual_body_one_span">id:<span class="virtual_body_one_id">0x' +Id + '</span></span><div class="virtual_body_one_one" id=' + oId + '></div>';
+                    document.getElementById("lib_virtual").appendChild(oBig);
+
+                    for (var i = 0; i < Lbyte4Length; i++) {
+                        var text1 = ListType[z].smallremark[i];
+                        var oBtnBtn = document.createElement("div");
+                        var oSim = document.getElementById(oId);
+                        var Ssid = oId + [i];
+                        oBtnBtn.setAttribute("id", Ssid);
+
+                        oBtnBtn.classList.add("virtual_body_one_btn");
+                        oBtnBtn.innerHTML = '<div class="virtual_body_one_btn_circle" id=' + Ssid + '></div><div> <input type ="text" readonly="readonly" class = "virtual_smallMake" value= ' + text1 + '></div>';
+                        oSim.appendChild(oBtnBtn);
+                    }
+
+                    // new virtual(ListType[z].frameId, ListType[z].fnum);
+                }
+            }
+
+
             connect(); //建立连接
             // console.log(ListType);
         });
@@ -73,6 +115,8 @@ window.onload = function () {
             console.log(data);
             nodeList = data.resultObject.nodeList;
             logicList = data.resultObject.logicList;
+            nodeIndex = data.resultObject.nodeList.length;
+
             drawHtml();
         });
     }
@@ -201,7 +245,7 @@ window.onload = function () {
         //添加10个节点
         for (var i = 0; i < nodeIndex; i++) {
             var node = {};
-            node.remark = "备注";    //remark
+            node.remark = "备注"; //remark
             node.nodeName = "结点" + (i + 1); //nodeName
             node.nodeSort = i; //nodeSort
             node.deviceList = []; //单节点的设备
@@ -227,11 +271,11 @@ window.onload = function () {
         var htmlStr = ``;
         for (var i = 0; i < nodeList.length; i++) {
             //添加一个竖杠
-            htmlStr += `<div class="string"></div>`;
+
             //添加一个结点
             htmlStr +=
                 `<div class="node_small" id="${'o' + [i]}">
-						<span class="string_span">${nodeList[i].nodeName}</span>
+						<span class="string_span">节点${[i+1]}</span>
 						<button class="node_small_del">删除</button>
 						<div class="strip">
 							<div class="strip_head"><img src="./img/33.png" class="strip_head_img"></div>
@@ -250,12 +294,13 @@ window.onload = function () {
 					</div>`;
             if (i < logicList.length) {
                 //添加一个竖杠
-                htmlStr += `<div class="string" style="height:${nodeList[i].deviceList.length * 2 + 2}vw" id="${'lines' + i}"></div>`;
+
+                htmlStr += `<div class="string" style="height:${nodeList[i].deviceList.length * 3 + 2}vw" id="${'lines' + i}"></div>`;
                 //添加逻辑
                 htmlStr +=
                     `<div class="logic" id="${'l' + [i]}">
-					    <span class="logic_span">逻辑<span>${[i + 1]}</span></span>
-						<div class="points">
+					    <div class="logic_span">逻辑<span>${[i + 1]}</span></div>
+						<div class="points" id="${'poin' + i}">
 							<div  class="points_signal">`
                 htmlStr += getlogicHtml(i);
 
@@ -267,7 +312,8 @@ window.onload = function () {
 								<button type="button" class="points_save">保存</button>
 							</div>
 						</div>
-					</div>`;
+                    </div>`;
+                htmlStr += `<div class="string"  style="height:${logicList.signalType == '' ? 4 : 7}vw"></div>`;
             }
 
         }
@@ -278,6 +324,7 @@ window.onload = function () {
     function drawNode() {
         $(".active").find('.strip_one').html(getDeviceHtml(presentNodeIndex));
         $("#lines" + presentNodeIndex).css("height", $(".active").find('.strip').height() + "px");
+        // console.log($(".active").find('.strip').height() + "px");
         // console.log(nodeList);
     }
 
@@ -303,40 +350,40 @@ window.onload = function () {
                 }
                 // console.log(oText)
                 htmlStr +=
-                    `<div class="lamp_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
+                    `<div class="lamp_body_one margin_bottom" id="${nodeList[tIndex].deviceList[j].deviceId}">
 							<input type="text" name="" class="lamp_remark" readonly="readonly" value="${oText}">
-							<span class="lamp_body_one_span">ID:<span class="lamp_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
+							<span class="lamp_body_one_span">id:<span class="lamp_body_one_id">0x${nodeList[tIndex].deviceList[j].deviceId}</span>
 							</span>
 								<div class="lamp_body_one_one">
 								    <label for="">模式:</label>
 								    <select class="lamp_xuanxiang" name="">
-									<option value="01" ${defaultValue[0] == "01" ? "selected='selected'" : ""} >关闭模式</option>
-									<option value="02" ${defaultValue[0] == "02" ? "selected='selected'" : ""} >打开模式</option>
-									<option value="03" ${defaultValue[0] == "03" ? "selected='selected'" : ""} >呼吸模式</option>
-									<option value="04" ${defaultValue[0] == "04" ? "selected='selected'" : ""} >颜色过渡模式</option>
-									<option value="05" ${defaultValue[0] == "05" ? "selected='selected'" : ""}  >正向流水保持模式</option>
-									<option value="06" ${defaultValue[0] == "06" ? "selected='selected'" : ""} >正向流水不保持模式</option>
-									<option value="07" ${defaultValue[0] == "07" ? "selected='selected'" : ""} >反向流水保持模式</option>
-									<option value="08" ${defaultValue[0] == "08" ? "selected='selected'" : ""} >反向流水不保持模式</option>
-									<option value="09" ${defaultValue[0] == "09" ? "selected='selected'" : ""} >带数量正向流水模式</option>
-									<option value="0A" ${defaultValue[0] == "0A" ? "selected='selected'" : ""} >带数量反向流水模式</option>
-									<option value="0B" ${defaultValue[0] == "0B" ? "selected='selected'" : ""} >正向灭灯流水保持模式</option>
-									<option value="0C" ${defaultValue[0] == "0C" ? "selected='selected'" : ""} >正向灭灯流水模式</option>
-									<option value="0D" ${defaultValue[0] == "0D" ? "selected='selected'" : ""} >正向慢速流水保持模式</option>
-									<option value="0E" ${defaultValue[0] == "0E" ? "selected='selected'" : ""} >正向慢速流水不保持模式</option>
-									<option value="0F" ${defaultValue[0] == "0F" ? "selected='selected'" : ""} >反向慢速流水保持模式</option>
-									<option value="10" ${defaultValue[0] == "10" ? "selected='selected'" : ""} >反向慢速流水不保持模式</option>
-									<option value="11" ${defaultValue[0] == "11" ? "selected='selected'" : ""} >带数量正向慢速流水模式</option>
-									<option value="12" ${defaultValue[0] == "12" ? "selected='selected'" : ""} >带数量反向慢速流水模式</option>
-									<option value="13" ${defaultValue[0] == "13" ? "selected='selected'" : ""} >带数量正向拖尾流水模式</option>
-									<option value="14" ${defaultValue[0] == "14" ? "selected='selected'" : ""} >带数量反向拖尾流水模式</option>
-									<option value="15" ${defaultValue[0] == "15" ? "selected='selected'" : ""} >多彩正向流水模式</option>
-									<option value="16" ${defaultValue[0] == "16" ? "selected='selected'" : ""} >多彩反向流水模式</option>
-									<option value="17" ${defaultValue[0] == "17" ? "selected='selected'" : ""} >全彩像素颜色设置模式</option>
-									<option value="18" ${defaultValue[0] == "18" ? "selected='selected'" : ""} >全彩像素显示模式</option>
-									<option value="19" ${defaultValue[0] == "19" ? "selected='selected'" : ""} >全彩像素清除模式</option>
-									<option value="1A" ${defaultValue[0] == "1A" ? "selected='selected'" : ""} >单色像素颜色设置模式</option>
-									<option value="1B" ${defaultValue[0] == "1B" ? "selected='selected'" : ""} >单色像素显示模式</option>
+									<option value="01" ${defaultValue[0] == "01" ? "selected='selected'" : ""}>关闭模式</option>
+									<option value="02" ${defaultValue[0] == "02" ? "selected='selected'" : ""}>打开模式</option>
+									<option value="03" ${defaultValue[0] == "03" ? "selected='selected'" : ""}>呼吸模式</option>
+									<option value="04" ${defaultValue[0] == "04" ? "selected='selected'" : ""}>颜色过渡模式</option>
+									<option value="05" ${defaultValue[0] == "05" ? "selected='selected'" : ""}>正向流水保持模式</option>
+									<option value="06" ${defaultValue[0] == "06" ? "selected='selected'" : ""}>正向流水不保持模式</option>
+									<option value="07" ${defaultValue[0] == "07" ? "selected='selected'" : ""}>反向流水保持模式</option>
+									<option value="08" ${defaultValue[0] == "08" ? "selected='selected'" : ""}>反向流水不保持模式</option>
+									<option value="09" ${defaultValue[0] == "09" ? "selected='selected'" : ""}>带数量正向流水模式</option>
+									<option value="0A" ${defaultValue[0] == "0A" ? "selected='selected'" : ""}>带数量反向流水模式</option>
+									<option value="0B" ${defaultValue[0] == "0B" ? "selected='selected'" : ""}>正向灭灯流水模式</option>
+									<option value="0C" ${defaultValue[0] == "0C" ? "selected='selected'" : ""}>反向灭灯流水模式</option>
+									<option value="0D" ${defaultValue[0] == "0D" ? "selected='selected'" : ""}>正向慢速流水保持模式</option>
+									<option value="0E" ${defaultValue[0] == "0E" ? "selected='selected'" : ""}>正向慢速流水不保持模式</option>
+									<option value="0F" ${defaultValue[0] == "0F" ? "selected='selected'" : ""}>反向慢速流水保持模式</option>
+									<option value="10" ${defaultValue[0] == "10" ? "selected='selected'" : ""}>反向慢速流水不保持模式</option>
+									<option value="11" ${defaultValue[0] == "11" ? "selected='selected'" : ""}>带数量正向慢速流水模式</option>
+									<option value="12" ${defaultValue[0] == "12" ? "selected='selected'" : ""}>带数量反向慢速流水模式</option>
+									<option value="13" ${defaultValue[0] == "13" ? "selected='selected'" : ""}>带数量正向拖尾流水模式</option>
+									<option value="14" ${defaultValue[0] == "14" ? "selected='selected'" : ""}>带数量反向拖尾流水模式</option>
+									<option value="15" ${defaultValue[0] == "15" ? "selected='selected'" : ""}>多彩正向流水模式</option>
+									<option value="16" ${defaultValue[0] == "16" ? "selected='selected'" : ""}>多彩反向流水模式</option>
+									<option value="17" ${defaultValue[0] == "17" ? "selected='selected'" : ""}>全彩像素颜色设置模式</option>
+									<option value="18" ${defaultValue[0] == "18" ? "selected='selected'" : ""}>全彩像素显示模式</option>
+									<option value="19" ${defaultValue[0] == "19" ? "selected='selected'" : ""}>全彩像素清除模式</option>
+									<option value="1A" ${defaultValue[0] == "1A" ? "selected='selected'" : ""}>单色像素颜色设置模式</option>
+									<option value="1B" ${defaultValue[0] == "1B" ? "selected='selected'" : ""}>单色像素显示模式</option>
 								</select>
 								<span>流动LED:</span>
 								<input class="liudong" type="text" value="${defaultValue[1]}">
@@ -373,10 +420,10 @@ window.onload = function () {
                 }
 
                 var xzdev = nodeList[tIndex].deviceList[j].deviceValue.replace("K", "");
-                htmlStr += `<div class="elec_body_one" id="${nodeList[tIndex].deviceList[j].deviceId}">
+                htmlStr += `<div class="elec_body_one margin_bottom" id="${nodeList[tIndex].deviceList[j].deviceId}">
 									<input type="text" name="" readonly="readonly" class="elec_remark" value="${oText}">
-									<span class="elec_body_one_span">ID:
-										<span class="elec_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
+									<span class="elec_body_one_span">id:
+										<span class="elec_body_one_id">0x${nodeList[tIndex].deviceList[j].deviceId}</span>
 									</span>
 									<div class="elec_right">
 										<label for="">
@@ -399,15 +446,13 @@ window.onload = function () {
                     }
                 }
 
-                htmlStr += `<div class="proj_body_one" id="Res${nodeList[tIndex].deviceList[j].deviceId}">
+                htmlStr += `<div class="proj_body_one margin_bottom" id="Res${nodeList[tIndex].deviceList[j].deviceId}">
                  <input type="text" name="" readonly="readonly" class="proj_remark" value="${oText}">
-                                 <span class="proj_body_one_span">ID:
-                                      <span class="proj_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span></span>
+                                 <span class="proj_body_one_span">id:
+                                      <span class="proj_body_one_id">0x${nodeList[tIndex].deviceList[j].deviceId}</span></span>
                                  <div class="proj_top">
                                      <button class="proj_1 proj" data-index="${j}" data-val="2">开机</button>
                                      <button class="proj_2 proj" data-index="${j}" data-val="1">关机</button>
-                                 </div>
-                                 <div class="proj_bott">
                                      <button class="proj_3 proj" data-index="${j}" data-val="3">视频1</button>
                                      <button class="proj_4 proj" data-index="${j}" data-val="4">视频2</button>
                                      <button class="proj_5 proj" data-index="${j}" data-val="5">视频3</button>
@@ -417,7 +462,7 @@ window.onload = function () {
                                      <button class="proj_9 proj" data-index="${j}" data-val="9">视频7</button>
                                      <button class="proj_10 proj" data-index="${j}" data-val="10">视频8</button>
                                      <button class="proj_del" data-index="${j}">删除</button>
-                                   </div>
+                                 </div>
                             </div> `;
 
             } else if (nodeList[tIndex].deviceList[j].deviceType == '0B') {
@@ -429,10 +474,10 @@ window.onload = function () {
                     }
                 }
 
-                htmlStr += `<div class="outp_body_one" id="Res${nodeList[tIndex].deviceList[j].deviceId}" data-ind="${j}">
+                htmlStr += `<div class="outp_body_one margin_bottom" id="Res${nodeList[tIndex].deviceList[j].deviceId}" data-ind="${j}">
                  <input type="text" name="" readonly="readonly" class="outp_remark" value="${oText}">
-                            <span class="outp_body_one_span">ID:
-                                <span class="outp_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
+                            <span class="outp_body_one_span">id:
+                                <span class="outp_body_one_id">0x${nodeList[tIndex].deviceList[j].deviceId}</span>
                             </span>
                             <div class="outp_b">`
                 var samllremark = [];
@@ -441,8 +486,8 @@ window.onload = function () {
                         samllremark = ListType[z].smallremark;
                     }
                 }
-
-                for (var i = 0; i < nodeList[tIndex].deviceList[j].num; i++) {
+                // console.log(nodeList[tIndex].deviceList[j]);
+                for (var i = 0; i < nodeList[tIndex].deviceList[j].deviceNum; i++) {
                     var defaultRemark = "";
                     if (i < samllremark.length) {
                         defaultRemark = samllremark[i];
@@ -462,10 +507,10 @@ window.onload = function () {
                         oText = ListType[i].remark;
                     }
                 }
-                htmlStr += `<div class="andr_body_one" id="Res${nodeList[tIndex].deviceList[j].deviceId}" data-index="${j}">
+                htmlStr += `<div class="andr_body_one margin_bottom" id="Res${nodeList[tIndex].deviceList[j].deviceId}" data-index="${j}">
                                 <input type="text" readonly="readonly" name="" class="andr_remark" value="${oText}">
-                                <span class="andr_body_one_span">ID:
-                                    <span class="andr_body_one_id">0X${nodeList[tIndex].deviceList[j].deviceId}</span>
+                                <span class="andr_body_one_span">id:
+                                    <span class="andr_body_one_id">0x${nodeList[tIndex].deviceList[j].deviceId}</span>
                                 </span>
                                 <div class="andr_body_one_one">
                                     <button type="button" data-index="${j}" data-val="1" class="andr_stop andr_Btn">停止并关闭</button>
@@ -494,6 +539,7 @@ window.onload = function () {
     function drawLogic() {
         // console.log(logicList);
         $(".active2").find('.points_signal').html(getlogicHtml(presentNodeIndex));
+        // $("#lines" + presentNodeIndex).css("height", $(".active").find('.strip').height() + "px");
         console.log(logicList);
     }
 
@@ -501,38 +547,55 @@ window.onload = function () {
         var ln = '';
         var lid = '';
         var lnum = 0;
-
         let htmlStr;
         if (logicList[presentNodeIndex].signalType != "") {
-            console.log(logicList[presentNodeIndex]);
+            // console.log(logicList[presentNodeIndex]);
+            var oRemake = '';
+            for (let i = 0; i < ListType.length; i++) {
+                if (ListType[i].frameId == logicList[presentNodeIndex].signalType.split(",")[1]) {
+                    oRemake = ListType[i].remark;
+                }
+            }
+
             htmlStr =
                 `<div class="points_signal">
                       <div class="button_body_one">
-                         <input type="text" name="" class="button_remark" value="${logicList[presentNodeIndex].signalType.split(",")[2]}" readOnly="true">
+                         <input type="text" name="" class="button_remark" value="${oRemake}" readOnly="true">
                          <span class="button_body_one_span">ID:
                                <span class="button_body_one_id">${logicList[presentNodeIndex].signalType.split(",")[1]}</span>
                          </span>
-                       <div class="button_body_one_one">`
+                      <div class="button_body_one_one">`
+
+            var samllremark = [];
+            for (let z = 0; z < ListType.length; z++) {
+                if (logicList[presentNodeIndex].signalType.split(",")[1] + [i] == ListType[z].frameId) {
+                    samllremark = ListType[z].smallremark;
+                }
+            }
+
             for (var i = 0; i < logicList[presentNodeIndex].signalType.split(",")[0]; i++) {
                 var isActive = "";
-
                 var theselect = "";
+                var defaultRemark = "";
+                if (i < samllremark.length) {
+                    defaultRemark = samllremark[i];
+                }
+
                 if (logicList[presentNodeIndex].signalValue.split(",")[0] == (i + 1)) {
                     var daaz = logicList[presentNodeIndex].signalValue.split(",")[1];
-                    isActive = " active3";
+                    isActive = "active3";
                     theselect = `<select>
 									<option value="00" ${daaz == "00" ? "selected='selected'" : ""}>00</option>
 									<option value="01" ${daaz == "01" ? "selected='selected'" : ""}>01</option>
 								</select>`
                 }
+                htmlStr += `<div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1] + [i]}">
+                            <div class="button_body_one_btn_circle ${isActive}"></div>`
 
-
-                htmlStr += ` <div class="button_body_one_btn" id="${logicList[presentNodeIndex].signalType.split(",")[1] + [i]}">
-                                              <div class="button_body_one_btn_circle${isActive}"></div>
-											  ${theselect}
-                                        </div>  `
-                // console.log('1');
-
+                // console.log(defaultRemark)
+                htmlStr += `<input type="text" class="button_smallremark"  value="${defaultRemark}" readOnly="true">`
+                htmlStr += `${theselect}
+                                        </div>`
             }
             htmlStr +=
                 `</div>
@@ -661,7 +724,7 @@ window.onload = function () {
 
         device.deviceId = id;
         device.deviceValue = value;
-        device.num = num;
+        device.deviceNum = num;
         if (!Array.isArray(nodeList[index].deviceList)) {
             nodeList[index].deviceList = [];
         }
@@ -709,8 +772,8 @@ window.onload = function () {
 
 
     });
-    //电机
-    $("#library_body_body2").on("click", ".library_body_body_one", function () {
+
+    $("#library_body_body2").on("click", ".library_body_body_one", function () { //电机
         if ($(".node_small").hasClass('active')) {
             var Index = $(".active").attr('id').replace("o", "");
             var Id = $(this).attr('id').substring(4);
@@ -814,7 +877,7 @@ window.onload = function () {
         var arrindex = $(this).attr("data-index");
         var nodeId = $(this).parents(".node_small").attr('id').substring(1);
         var Id = $(this).parents(".elec_body_one").attr('id');
-        console.log(Id);
+        // console.log(Id);
         var list = $('input:radio[name=' + Id + nodeId + ']:checked').val();
         if (list == null) {
             alert("请选中一个!");
@@ -825,11 +888,13 @@ window.onload = function () {
             console.log(list + "K");
             // console.log($(this).attr("data-index"));
             console.log(nodeId);
+
             nodeList[nodeId].deviceList[arrindex].deviceValue = list + "K";
+            window.toTest4();
+
             console.log(nodeList);
             // $('input:radio[name=' + id + ']:checked').val(oIdCov);
             // alert($('input:radio[name=' + id + ']:checked').val());
-            // alert(id);
         }
     });
 
@@ -922,6 +987,8 @@ window.onload = function () {
     function drawNodeDel(oIndex) {
         $("#o" + oIndex).find('.strip_one').html(getDeviceHtml(oIndex));
         $("#lines" + oIndex).css("height", $("#o" + oIndex).find('.strip').height() + "px");
+
+
         // console.log(nodeList);
     }
 
@@ -961,7 +1028,7 @@ window.onload = function () {
         let zheng = parseInt(index / 8);
         if (color == 'rgb(91, 155, 213)') {
             Ras[zheng] |= 0x01 << yu;
-            $(this).css("background-color", "rgb(255, 0, 0)");
+            $(this).css("background-color", "pink");
         } else {
             Ras[zheng] &= ~(0x01 << yu);
             $(this).css("background-color", "rgb(91, 155, 213)");
@@ -974,14 +1041,18 @@ window.onload = function () {
         var as5 = Ras[5] > 0x0f ? "" : "0";
         var as6 = Ras[6] > 0x0f ? "" : "0";
         var as7 = Ras[7] > 0x0f ? "" : "0";
+
+        // console.log("nodList"+ nodList);
+        // console.log("index"+ index);
+
+
         if (index < 32) {
+            nodeList[nodList].deviceList[ind].deviceValue = "02,00,00,00," + as3 + (Ras[3].toString(16)).toUpperCase() + "," + as2 + (Ras[2].toString(16)).toUpperCase() + "," + as1 + (Ras[1].toString(16)).toUpperCase() + "," + as0 + (Ras[0].toString(16)).toUpperCase() + "K";
 
-            nodeList[nodList].deviceList[index].deviceValue = "02,00,00,00," + as3 + (Ras[3].toString(16)).toUpperCase() + "," + as2 +
-                (Ras[2].toString(16)).toUpperCase() + "," + as1 + (Ras[1].toString(16)).toUpperCase() + "," + as0 + (Ras[0].toString(16)).toUpperCase();
-
+            // console.log( nodeList[nodList].deviceList[index].deviceValue);
         } else {
-            nodeList[nodList].deviceList[index].deviceValue = "02,00,00,01," + as7 + (Ras[7].toString(16)).toUpperCase() + "," + as6 +
-                (Ras[6].toString(16)).toUpperCase() + "," + as5 + (Ras[5].toString(16)).toUpperCase() + "," + as4 + (Ras[4].toString(16)).toUpperCase();
+            nodeList[nodList].deviceList[ind].deviceValue = "02,00,00,01," + as7 + (Ras[7].toString(16)).toUpperCase() + "," + as6 + (Ras[6].toString(16)).toUpperCase() + "," + as5 + (Ras[5].toString(16)).toUpperCase() + "," + as4 + (Ras[4].toString(16)).toUpperCase() + "K";
+            // console.log( nodeList[nodList].deviceList[index].deviceValue);
 
         }
 
@@ -990,16 +1061,47 @@ window.onload = function () {
     //安卓屏  保存数据
     $(".node").on("click", ".andr_Btn", function () {
         var id = $(this).parents(".andr_body_one").attr('id').substr(3);
+        var oIndex = $(this).parents(".node_small").attr('id').substring(1);
         var index = $(this).data(index).index;
         var val = $(this).data(val).val;
         var flag = $(this).hasClass("active5");
         $(this).parents('.andr_body_one_one').find('button').removeClass("active5");
+        // console.log(id);
         if (!flag) {
             $(this).addClass("active5");
-            libraryList[index].deviceValue = "0" + val + ",00,00,00,00,00,00,00";
+            nodeList[oIndex].deviceList[index].deviceValue = "0" + val + ",00,00,00,00,00,00,00K";
+            // libraryList[index].deviceValue = "0" + val + ",00,00,00,00,00,00,00";
             // $(this).removeClass("active");
         }
     })
+
+//虚拟按钮  发送
+var virt = new Array(0, 0, 0);
+    $(".lib_virtual").on("click", ".virtual_body_one_btn", function () {
+        var id = $(this).parents(".virtual_body_one").attr('id');
+        var oId = $(this).children(".virtual_body_one_btn_circle").attr('id').slice(4);
+        var flag = $(this).children(".virtual_body_one_btn_circle").hasClass("active");
+        let val = parseInt(oId);
+        let yu = val % 8;
+        let zheng = parseInt(oId / 8);
+        // var oId = $(this).attr('id').slice(3);
+        console.log(oId);
+
+        if (flag) {
+            virt[zheng] &= ~(0x01 << yu);
+            $(this).children(".virtual_body_one_btn_circle").removeClass("active");
+        } else {
+            virt[zheng] |= 0x01 << yu;
+            $(this).children(".virtual_body_one_btn_circle").addClass("active");
+        }
+        var as0 = virt[0] > 0x0f ? "" : "0";
+        var as1 = virt[1] > 0x0f ? "" : "0";
+        var as2 = virt[2] > 0x0f ? "" : "0";
+        // console.log(id);
+        // console.log("S" + id + ",5B,00,00,00,00," + as2 + (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(16)).toUpperCase() + "K");
+        stompClient.send("/app/wu", {}, "S" + id + ",5B,00,00,00,00," + as2 + (virt[2].toString(16)).toUpperCase() + "," + as1 + (virt[1].toString(16)).toUpperCase() + "," + as0 + (virt[0].toString(16)).toUpperCase() + "K");
+    });
+
 
 
     //灯光删除
@@ -1090,8 +1192,12 @@ window.onload = function () {
             var value = $(this).parents('.logic').find(".active3").siblings('select').val();
 
             logicList[index].signalValue = (parseInt(smallIndex) + 1) + "," + value;
+            window.toTest4();
+
             console.log(index);
             console.log(logicList[index]);
+        } else {
+            window.toTest4();
         }
 
 
@@ -1196,7 +1302,7 @@ window.onload = function () {
      */
 
     $("#start").click(function () { //启动
-        // $(this).css();
+    console.log(logicList)
         $(this).css("background-color", "#0077ff");
         setTimeout(function () {
             $("#start").css("background-color", "#898989");
@@ -1255,7 +1361,7 @@ window.onload = function () {
             } else {
                 setTimeout(function () {
                     console.log(currentIndex);
-                    
+
 
                     currentIndex++;
                     isLogic();
@@ -1301,7 +1407,7 @@ window.onload = function () {
             isAction = false;
             $(".node div").removeClass("activeGo");
 
-            
+
         }
     }
 
@@ -1459,6 +1565,7 @@ window.onload = function () {
     function actionDo() {
         //TODO 扫描 currentIndex 节点的内容,并发送
         for (var i = 0; i < nodeList[currentIndex].deviceList.length; i++) {
+
             // console.log("S" + nodeList[currentIndex].deviceList[i].deviceId + ',' + nodeList[currentIndex].deviceList[i].deviceValue);
             var sendstr = "S" + nodeList[currentIndex].deviceList[i].deviceId +
                 ',' + nodeList[currentIndex].deviceList[i].deviceValue;
@@ -1487,12 +1594,42 @@ window.onload = function () {
     function sendStr() {
         // console.log(str);
 
+
+        // var Type;
+        // for (let i = 0; i < ListType.length; i++) {
+        //     if (ListType[i].frameId == FrameId) {
+        //         Type = ListType[i].ftype;
+        //     }
+        // }
+
         setTimeout(function () {
             if (sendQueue.length > 0) {
-                console.log(sendQueue[0]);
-                stompClient.send("/app/wu", {}, sendQueue[0]);
-                sendQueue.splice(0, 1);
-                sendStr();
+
+                // console.log(sendQueue[0].replace("S", "").replace("K", "").split(',')[0]);
+
+                var Type;
+                for (let i = 0; i < ListType.length; i++) {
+                    if (ListType[i].frameId == sendQueue[0].replace("S", "").replace("K", "").split(',')[0]) {
+                        Type = ListType[i].ftype;
+                    }
+                }
+                if (Type == '08') {
+                    console.log(sendQueue[0]);
+
+                    var ID = sendQueue[0].replace("S", "").replace("K", "").split(',')[0];
+                    // ("/app/user/" + Id + "", {}, "S" + Id + ",02,00,00,00,00,00,00,00K");
+                    stompClient.send("/app/user/" + ID + "", {}, sendQueue[0]);
+                    sendQueue.splice(0, 1);
+                    sendStr();
+                } else {
+                    console.log(sendQueue[0]);
+                    stompClient.send("/app/wu", {}, sendQueue[0]);
+                    sendQueue.splice(0, 1);
+                    sendStr();
+                }
+
+
+
             }
 
         }, 50)
@@ -1534,8 +1671,11 @@ window.onload = function () {
     });
 
     function save() {
-        console.log(JSON.stringify(nodeList));
-        console.log(JSON.stringify(logicList));
+        // console.log(JSON.stringify(nodeList));
+        // console.log(JSON.stringify(logicList));
+
+
+        console.log(nodeList);
 
         $.post(serverAddr + "saveSceneInfo", {
             sceneId: sceneId,
@@ -1586,7 +1726,7 @@ window.onload = function () {
             },
             open2() {
                 this.$message({
-                    message: '恭喜你，保存成功',
+                    message: '恭喜您，保存成功',
                     type: 'success'
                 });
             },
@@ -1651,9 +1791,9 @@ window.onload = function () {
                     //假设 收到的是逻辑信号  byte0 是 信号值
                     // console.log(oHtmlId);
 
-                    // if (FrameId == '220') {
-                    //     console.log('1')
-                    // }
+                    if (FrameId == '501') {
+                        console.log(stringResult)
+                    }
 
                     if (List.indexOf(FrameId) == -1) {
                         List.push(FrameId);
@@ -1702,7 +1842,9 @@ window.onload = function () {
                         //
                         // }
                     }
-
+                    if(Byte0 == "5F") {
+                        return;
+                    }
 
                     for (let i = 0; i < logicMap.length; i++) {
                         if (logicMap[i].id == FrameId) {

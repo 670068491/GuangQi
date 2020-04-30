@@ -203,6 +203,10 @@ button {
     overflow: hidden;
 }
 
+.strip .strip_one {
+    padding-left: 1vw;
+}
+
 .strip_head_img {
     width: 1vw;
     margin-left: 50vw;
@@ -235,11 +239,11 @@ button {
 .lamp_remark {
     margin-top: 0.2vw;
     border: 0px;
-    width: 5vw;
+    width: 5.8vw;
     height: 1vw;
-    text-align: center;
     display: inline-block;
     vertical-align: middle;
+    font-size: 0.8vw;
 }
 
 .lamp_body_one_span {
@@ -265,7 +269,7 @@ button {
 
 .lamp_body_one_one select {
     /* margin-top: 0.4vw; */
-    width: 8vw;
+    width: 5vw;
     font-size: 0.6vw;
     margin-right: 0.4vw;
     vertical-align: middle;
@@ -308,18 +312,18 @@ button {
 }
 
 .elec_body_one .elec_remark {
-    margin-top: 1.1vw;
+    margin-top: 0.5vw;
+    font-size: 0.8vw;
     border: 0px;
-    width: 5vw;
+    width: 6vw;
     height: 1vw;
-    text-align: center;
     display: inline-block;
 }
 
 .elec_body_one .elec_body_one_span {
     /* padding-left: 1vw; */
     color: #5B9BD5;
-    margin-top: 1vw;
+    margin-top: 0.5vw;
     font-size: 1vw;
     width: 6vw;
     display: inline-block;
@@ -327,7 +331,7 @@ button {
 
 .elec_body_one .elec_right {
     display: flex;
-    padding-top: 1vw;
+    padding-top: 0.5vw;
 }
 
 .elec_body_one .elec_sm_left {
@@ -386,10 +390,11 @@ button {
 }
 
 .elec_body_one .elec_right label {
+    font-size: 1vw;
+    color: #000000;
+    margin-left: 0.5vw;
     vertical-align: middle;
     display: inline-block;
-    margin-left: 0.5vw;
-    font-size: 1vw;
 }
 
 .elec_body_one .elec_right label input {
@@ -409,20 +414,20 @@ button {
     background-color: #5B9BD5;
     border: 0;
     margin-left: 1.5vw;
-    margin-top: 1vw;
+    margin-top: 0.5vw;
     padding: 0.25vw 1vw;
     color: white;
     border-radius: 5%;
 }
 
 .elec_body_one .elec_Allsave {
-    background-color: #5B9BD5;
     border: 0;
-    margin-left: 1.5vw;
-    margin-top: 1vw;
-    padding: 0.25vw 1vw;
     color: white;
     border-radius: 5%;
+    margin-top: 0.5vw;
+    margin-left: 1.5vw;
+    padding: 0.25vw 1vw;
+    background-color: #5B9BD5;
 }
 
 /* 按钮 */
@@ -445,16 +450,16 @@ button {
 }
 
 .node_small {
-    margin-top: 1vw;
-    margin-bottom: 1vw;
-    color: white;
     width: 2vw;
-    padding: 1.2vw 0.5vw;
+    color: white;
+    margin-top: 1vw;
+    cursor: pointer;
+    margin-bottom: 1vw;
+    padding: 0.6vw 0.66vw;
     background-color: #6f779c;
-    text-align: center;
+    /* text-align: center; */
     position: relative;
     border-radius: 50%;
-    cursor: pointer;
     /* margin-left: -0vw; */
     /*cursor:pointer;*/
     /* margin-left: 1.4vw; */
@@ -463,8 +468,8 @@ button {
 
 .node_small .node_small_del {
     position: absolute;
-    top: 1vw;
-    right: -57vw;
+    top: 0vw;
+    right: -58vw;
     padding: 0.4vw 0.7vw;
     background-color: #729bc3;
     border-radius: 4px;
@@ -476,6 +481,11 @@ button {
 }
 
 .node_small .string_span {
+    font-size: 0.8vw;
+    text-align: center;
+    display: block;
+    /* display: inline-block; */
+
     /*cursor:hand;*/
 }
 
@@ -493,8 +503,8 @@ button {
 
 .logic_span {
     color: white;
-    /* font-size: 0.8vw; */
-    /* padding: 2vw 1vw; */
+    font-size: 0.8vw;
+    padding: 0.2vw 0vw;
     text-align: center;
 }
 
@@ -508,12 +518,13 @@ button {
 .points {
     position: absolute;
     top: -1vw;
-    left: 4vw;
-    background-color: #3C9A9A;
-    /* width: 8vw; */
-    /* height: 3vw; */
+    left: 4.8vw;
+    width: 51.2vw;
     color: white;
+    border-radius: 4px;
     padding: 0.4vw 0.4vw;
+    background-color: #3C9A9A;
+    /* height: 3vw; */
 }
 
 .points_delay {
@@ -584,13 +595,14 @@ button {
 .logic .button_remark {
     /* margin-top: 1.1vw; */
     border: 0px;
-    width: 3vw;
+    width: 5vw;
     height: 1vw;
     display: inline-block;
     font-size: 0.7vw;
-    color: #5B9BD5;
+    color: white;
     text-align: center;
     border: 0;
+    background-color: #3C9A9A;
 }
 
 .logic .button_body_one_span {
@@ -608,7 +620,7 @@ button {
 .logic .button_body_one_one {
     /* margin-left: 0.5vw; */
     display: inline-block;
-    width: 32vw;
+    /* width: 32vw; */
 }
 
 .logic .button_body_one_btn {
@@ -631,13 +643,16 @@ button {
     background-color: #5B9BD5;
 }
 
-
 .logic .button_body_one_btn input {
-    width: 3.2vw;
     border: 0;
-    text-align: center;
-    margin-top: 0.2vw;
+    width: 3.5vw;
     font-size: 0.8vw;
+    text-align: center;
+    background-color: #3C9A9A;
+    color: white;
+    margin-bottom: 0.2vw;
+    /* margin-left: 0.1vw; */
+    /* margin-top: 0.2vw;*/
 }
 
 .logic .logic_del {
@@ -647,12 +662,14 @@ button {
     color: white;
     outline: 0;
     cursor: pointer;
-    width: 4vw;
+    width: 3vw;
+    margin-left: 1vw;
     /* margin-right: 1vw; */
 }
 
 .button_body_one_btn select {
     margin-left: 0.8vw;
+    display: block;
 }
 
 .plus {
@@ -680,7 +697,7 @@ button {
 
 .library {
     position: fixed;
-    top: 6vw;
+    top: 2vw;
     right: 4vw;
     border-radius: 6px;
     width: 16vw;
@@ -701,12 +718,13 @@ button {
 
 .library_head span {
     vertical-align: middle;
+    font-size: 0.8vw;
 }
 
 .library_head img {
     width: 1vw;
     vertical-align: middle;
-    margin-left: 11vw;
+    margin-left: 9vw;
 }
 
 .library_body {
@@ -721,31 +739,40 @@ button {
     position: relative;
 }
 
+.library_body_name span {
+    font-size: 0.8vw;
+}
+
 .library .pack {
     width: 0;
     height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 10px solid black;
-    /* margin-top: 10px; */
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 12px solid black;
     position: absolute;
-    top: 3px;
-    left: 54px;
+    top: 8px;
+    left: 90px;
+    /* margin-top: 10px; */
+
 }
 
 .library_body_body {
     border: 1px solid #ACACAC;
     overflow: hidden;
     padding: 0 0.2vw;
+    font-size: 0.8vw;
 }
 
 .library_body_body_one {
     cursor: pointer;
     padding: 0.2vw 0.2vw;
     /* display: inline-block; */
-
     /* border: 1px solid #555555; */
     /* width: 4vw; */
+}
+
+.library_body_body_one span:nth-child(1) {
+    margin-right: 2vw;
 }
 
 .corer {
@@ -911,36 +938,38 @@ button {
 }
 
 .strip_one .proj_remark {
-    margin-top: 1.1vw;
+    margin-top: 0.5vw;
+    font-size: 0.8vw;
     border: 0px;
-    width: 5vw;
+    width: 6vw;
     height: 1vw;
     display: inline-block;
 }
 
 .strip_one .proj_body_one_span {
-    padding-left: 1vw;
     color: #5B9BD5;
-    margin-top: 1.1vw;
-    font-size: 1.2vw;
-    width: 7vw;
+    margin-top: 0.5vw;
+    /* margin-left: 0.7vw; */
+    font-size: 1vw;
+    width: 7.2vw;
     display: inline-block;
-    vertical-align: middle;
 }
 
 .strip_one .proj_top {
-    padding-top: 1vw;
+    padding-top: 0.5vw;
     display: inline-block;
     vertical-align: middle;
 }
 
 .strip_one .proj_top button {
     border: 0px;
-    background-color: #5b9bd5;
     color: white;
-    padding: 0.3vw 1.2vw;
     margin-right: 1vw;
+    font-size: 0.6vw;
+    padding: 0.4vw 1vw;
+    margin-bottom: 1vw;
     border-radius: 0.3vw;
+    background-color: #5b9bd5;
 }
 
 .strip_one .proj_bott {
@@ -961,11 +990,11 @@ button {
 }
 
 .strip_one .proj_top .active4 {
-    background-color: hotpink;
+    background-color: pink;
 }
 
 .strip_one .proj_bott .active4 {
-    background-color: hotpink;
+    background-color: pink;
 }
 
 /*输出控制*/
@@ -981,36 +1010,39 @@ button {
 
 
 .strip_one .outp_remark {
-    margin-top: 1.1vw;
+    margin-top: 0.5vw;
     border: 0px;
-    width: 5vw;
+    width: 5.8vw;
     height: 1vw;
     display: inline-block;
+    vertical-align: middle;
+    font-size: 0.8vw;
 }
 
 .strip_one .outp_body_one_span {
-    padding-left: 1vw;
     color: #5B9BD5;
-    margin-top: 1vw;
+    margin-top: 0.5vw;
     font-size: 1.2vw;
     width: 9vw;
     display: inline-block;
+    /*padding-left: 1vw;*/
     /* margin-right: 1vw; */
 }
 
 .strip_one .outp_body_one_span {
-    /* padding-left: 1vw; */
     color: #5B9BD5;
-    margin-top: 0.9vw;
-    font-size: 1.2vw;
-    width: 6.4vw;
+    margin-top: 0.5vw;
+    font-size: 1vw;
+    width: 6vw;
     display: inline-block;
+    /* padding-left: 1vw; */
+
 }
 
 .strip_one .outp_b {
     /* padding-top: 1vw; */
     display: inline-block;
-    padding-left: 1vw;
+    /* padding-left: 1vw; */
     display: flex;
     flex-wrap: wrap;
     /* width: 97vw; */
@@ -1042,18 +1074,18 @@ button {
 }
 
 .strip_one .outp_del {
-    /*display: block;*/
     border: 0px;
     font-size: 0.6vw;
     background-color: #5b9bd5;
     color: white;
     width: 3.8vw;
-    /*height: 1.4vw;*/
     padding: 0.3vw 0vw;
     margin-top: 1vw;
-    /*margin-right: 1vw;*/
-    /*margin-bottom: 0.4vw;*/
+    margin-bottom: 0.4vw;
     border-radius: 0.3vw;
+    /*margin-right: 1vw;*/
+    /*height: 1.4vw;*/
+    /*display: block;*/
 }
 
 /* //安卓 */
@@ -1073,25 +1105,26 @@ button {
 }
 
 .strip_one .andr_remark {
-    margin-top: 1.1vw;
+    margin-top: 0.2vw;
     border: 0px;
-    width: 5vw;
+    width: 5.3vw;
     height: 1vw;
     display: inline-block;
+    vertical-align: middle;
+    font-size: 0.8vw;
 }
 
 .strip_one .andr_body_one_span {
-    padding-left: 1vw;
+    padding-left: 0.6vw;
     color: #5B9BD5;
-    margin-top: 1vw;
-    font-size: 1.2vw;
-    width: 11vw;
+    /*margin-top: 1vw;*/
+    font-size: 1vw;
+    width: 9.8vw;
     display: inline-block;
 }
 
 .strip_one .andr_body_one_one {
-    margin-top: 1vw;
-
+    /*margin-top: 1vw;*/
 }
 
 .strip_one .andr_body_one_one input {
@@ -1102,20 +1135,20 @@ button {
 }
 
 .strip_one .andr_body_one_one button {
+    border: 0;
+    color: white;
     vertical-align: middle;
     margin-right: 2vw;
     font-size: 0.8vw;
     padding: 0.2vw 0.6vw;
-    color: white;
     background-color: #5b9bd5;
-    border: 0;
     display: inline-block;
 }
 
 .strip_one .andr_body_one_one img {
     width: 1.5vw;
-    vertical-align: middle;
     padding-left: 1vw;
+    vertical-align: middle;
     display: inline-block;
 }
 
@@ -1133,4 +1166,89 @@ button {
 
 .strip_one .andr_body_one_one .active5 {
     background-color: pink;
+}
+
+.node .margin_bottom {
+    margin-bottom: 1vw;
+    /* height: 5vh; */
+}
+
+.lib_virtual {
+    position: fixed;
+    bottom: 1vw;
+    right: 4vw;
+    width: 24vw;
+    height: 10vw;
+    background-color: white;
+    border-radius: 6px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* 主体 */
+
+
+.lib_virtual .virtual_body_one {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.lib_virtual .virtual_remark {
+    border: 0px;
+    width: 4vw;
+    height: 1vw;
+    display: inline-block;
+    font-size: 0.7vw;
+    color: #5B9BD5;
+    text-align: center;
+}
+
+.lib_virtual .virtual_body_one_span {
+    padding-left: 0.2vw;
+    color: #5B9BD5;
+    font-size: 1vw;
+    width: 4.5vw;
+    display: inline-block;
+}
+
+.lib_virtual .virtual_body_one_one {
+    /* margin-left: 0.5vw; */
+    display: inline-block;
+    width: 31vw;
+}
+
+.lib_virtual .virtual_body_one_btn {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 0.3vw;
+}
+
+.lib_virtual .virtual_body_one_btn_circle {
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 50%;
+    background-color: #929292;
+    margin-left: 1vw;
+}
+
+.lib_virtual .virtual_body_one_btn_circle.active {
+    background-color: #5B9BD5;
+}
+
+.lib_virtual .virtual_body_one_btn input {
+    width: 3.2vw;
+    border: 0;
+    text-align: center;
+    margin-top: 0.2vw;
+    font-size: 0.8vw;
+}
+
+.lib_virtual .virtual_delete {
+    position: absolute;
+    right: 1vw;
+    top: -0.5vw;
+    color: #C56727;
+    font-size: 1.7vw;
+    font-weight: bold;
 }
