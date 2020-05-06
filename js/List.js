@@ -68,7 +68,7 @@ window.onload = function () {
                     oBig.innerHTML ='<input type="text" name="" class="virtual_remark" readonly="readonly" value=' + text + '><span class="virtual_body_one_span">id:<span class="virtual_body_one_id">0x' +Id + '</span></span><div class="virtual_body_one_one" id=' + oId + '></div>';
                     document.getElementById("lib_virtual").appendChild(oBig);
 
-                    for (let j = 0; j < Lbyte4Length; j++) {
+                    for (var j = 0; j < Lbyte4Length; j++) {
                         var text1 = ListType[z].samllremark[j];
                         var oBtnBtn = document.createElement("div");
                         var oSim = document.getElementById(oId);
