@@ -635,3 +635,19 @@ storage.setItem(FrameId, dater);
 // elecSetDown = setInterval(function () {
 //     stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10," + oValue + "K");
 // }, 50)
+
+
+// logicList[index] = {};
+// var Type = JSON.parse(storage.getItem(id)).type;
+
+
+
+// logicList[index].signalType = num + ',' + id + ',' + text;
+// logicList[index].signalType ={};
+// var node = {};
+// node.num = num;
+// node.id = id;
+// node.text = text;
+// logicList[index].signalType.push(node);
+// logicList[index].signalobj = node;
+// logicList[index].signalType = JSON.stringify(node);

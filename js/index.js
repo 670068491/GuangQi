@@ -2216,7 +2216,7 @@ window.onload = function () {
                 var samllremark = [];
                 for (let z = 0; z < ListType.length; z++) {
                     if (libraryList[j].deviceId == ListType[z].frameId) {
-                        samllremark = ListType[z].smallremark;
+                        samllremark = ListType[z].samllremark;
                     }
                 }
                 // console.log(samllremark);
@@ -2252,7 +2252,7 @@ window.onload = function () {
                     <button type="button" data-val="B" class="andr_video8 andr_Btn ${oIndexVal == "B" ? "active5" : ""}">视频8</button>
                     <button type="button" data-val="C" class="andr_video9 andr_Btn ${oIndexVal == "C" ? "active5" : ""}">视频9</button>
                     <button type="button" data-val="D" class="andr_video10 andr_Btn ${oIndexVal == "D" ? "active5" : ""}">视频10</button>
-                    <button type="button"  class="andr_del"  data-index="${j}">删除</button>
+                    <button type="button"  class="andr_del" data-index="${j}">删除</button>
                 </div>
             </div>`;
 

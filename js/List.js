@@ -1,5 +1,5 @@
 window.onload = function () {
-    var storage = window.localStorage;
+    // var storage = window.localStorage;
     var stompClient = null; //定义全局变量，代表一个session
     var sceneId = null;
     var isopen = null;
@@ -15,9 +15,7 @@ window.onload = function () {
     var nodeIndex = 10; //共有10个节点
     // var nodeSum = nodeIndex;
     var presentNodeIndex = null; //用户点击的当前节点  index
-
     var serverAddr = "http://192.168.1.10:8081/gq/api/";
-
     var elcarray = []; //存放点击四个预设值
     //当选择次点击是 先从此处查询，如果没有，则请求服务器，获取
 
@@ -46,7 +44,7 @@ window.onload = function () {
         $.getJSON(serverAddr + "getDeviceTypeAll", {}, function (data) {
             ListType = data.resultObject;
 
-            for (let z = 0; z < ListType.length; z++) {
+            for (let z = 0; z < ListType.length; z++) {  //元件库虚拟按钮
                 if (ListType[z].ftype == '10') {
                     // 元件库创建
                     var text = ListType[z].remark;
@@ -65,16 +63,16 @@ window.onload = function () {
                     oBig.classList.add("virtual_body_one");
                     oBig.setAttribute("id", Id);
                     var oId = Id + 'i';
-                    var oIdDel = Id + 'del';
+             
 
                     oBig.innerHTML ='<input type="text" name="" class="virtual_remark" readonly="readonly" value=' + text + '><span class="virtual_body_one_span">id:<span class="virtual_body_one_id">0x' +Id + '</span></span><div class="virtual_body_one_one" id=' + oId + '></div>';
                     document.getElementById("lib_virtual").appendChild(oBig);
 
-                    for (var i = 0; i < Lbyte4Length; i++) {
-                        var text1 = ListType[z].smallremark[i];
+                    for (let j = 0; j < Lbyte4Length; j++) {
+                        var text1 = ListType[z].samllremark[j];
                         var oBtnBtn = document.createElement("div");
                         var oSim = document.getElementById(oId);
-                        var Ssid = oId + [i];
+                        var Ssid = oId + [j];
                         oBtnBtn.setAttribute("id", Ssid);
 
                         oBtnBtn.classList.add("virtual_body_one_btn");
@@ -483,7 +481,7 @@ window.onload = function () {
                 var samllremark = [];
                 for (let z = 0; z < ListType.length; z++) {
                     if (nodeList[tIndex].deviceList[j].deviceId == ListType[z].frameId) {
-                        samllremark = ListType[z].smallremark;
+                        samllremark = ListType[z].samllremark;
                     }
                 }
                 // console.log(nodeList[tIndex].deviceList[j]);
@@ -569,7 +567,7 @@ window.onload = function () {
             var samllremark = [];
             for (let z = 0; z < ListType.length; z++) {
                 if (logicList[presentNodeIndex].signalType.split(",")[1] + [i] == ListType[z].frameId) {
-                    samllremark = ListType[z].smallremark;
+                    samllremark = ListType[z].samllremark;
                 }
             }
 
@@ -593,7 +591,7 @@ window.onload = function () {
                             <div class="button_body_one_btn_circle ${isActive}"></div>`
 
                 // console.log(defaultRemark)
-                htmlStr += `<input type="text" class="button_smallremark"  value="${defaultRemark}" readOnly="true">`
+                htmlStr += `<input type="text" class="button_samllremark"  value="${defaultRemark}" readOnly="true">`
                 htmlStr += `${theselect}
                                         </div>`
             }
@@ -737,20 +735,9 @@ window.onload = function () {
 
 
     function addLogic(index, id, num, text) {
-        // logicList[index] = {};
-        // var Type = JSON.parse(storage.getItem(id)).type;
         var num = num;
-
         logicList[index].signalValue = '0,00';
-        // logicList[index].signalType = num + ',' + id + ',' + text;
-        // logicList[index].signalType ={};
-        // var node = {};
-        // node.num = num;
-        // node.id = id;
-        // node.text = text;
-        // logicList[index].signalType.push(node);
-        // logicList[index].signalobj = node;
-        // logicList[index].signalType = JSON.stringify(node);
+       
 
         logicList[index].signalType = num + ',' + id + ',' + text;
         console.log(logicList);
