@@ -162,6 +162,12 @@ window.onload = function () {
 		$(".auto .cover").css("display", "block");
 		var oId = $(this).siblings('.autoBodyOneDelete').data("id");
 		$('#codeButton1').data("data-id", oId);
+
+
+
+
+
+
 		// console.log(oId);
 	});
 
