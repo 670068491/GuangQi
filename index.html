@@ -3,6 +3,9 @@
 
 <head>
     <meta charset="utf-8" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no"> -->
+    <!-- <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no"> -->
     <title></title>
 </head>
 
@@ -226,9 +229,9 @@
                                 </span>
                                 <div class="lamp_body_one_one">
                                     <label for="">模式:</label>
-                                    <select class="lamp_xuanxiang" name="" value="">
+                                    <select class="lamp_xuanxiang" name="">
                                         <option value="01">关闭模式</option>
-                                        <option value="02">打开模式</option>
+                                        <option value="02" selected >打开模式</option>
                                         <option value="03">呼吸模式</option>
                                         <option value="04">颜色过渡模式</option>
                                         <option value="05">正向流水保持模式</option>
@@ -256,19 +259,18 @@
                                         <option value="1B">单色像素显示模式</option>
                                     </select>
                                     <span>流动LED:</span>
-                                    <input class="liudong" type="text">
+                                    <input class="liudong" type="text" value="FF">
                                     <span>LED数量:</span>
-                                    <input class="led" type="text">
+                                    <input class="led" type="text" value="FF">
                                     <span>速度:</span>
-                                    <input class="sudu" type="text">
+                                    <input class="sudu" type="text" value="50">
                                     <span>颜色:</span>
-
-                                    <input type="color" name="" class="yanse" />
+                                    <input type="color" name="" class="yanse"  value="#0000ff"/>
                                     <span>白色值:</span>
                                     <input type="text" name="" class="type7" />
                                     <button class="lamp_send">执行</button>
                                 </div>
-                            </div -->
+                            </div> -->
                         </div>
                     </div>
                     <!-- 电机 -->
@@ -281,16 +283,14 @@
                                     <span class="elec_body_one_id">0x123</span>
                                 </span>
                                 <div class="elec_right">
-                                  
                                     <input type="range" class="elec_range" disabled="true" name="" min="0" max="100" value="10" step="1" class="elec_int">
                                     <input type="text" value="" class="elec_cover">
                                     <input type="text" value="" class="elec_OverAll">
                                     <input type="text" value="" class="elec_Current">
                                     <span class="elec_sudu_span">速度:</span>
-                                    <input class="elec_sudu" type="text" >
-                                    <button type="button" class="elec_up">前进</button>
+                                    <input class="elec_sudu" type="text" id="elec_sudun"  value="1">
+                                    <button type="button" class="elec_up" id="elec_s"><div class="elec_up_cover"></div>前进</button>
                                     <button type="button" class="elec_down">后退</button>
-
                                     <label for="">
                                         <input type="radio" name="101" value="1">1
                                         <input type="radio" name="101" value="2">2
@@ -511,6 +511,7 @@
     <script type="text/javascript" src="./lib/sockjs.min.js"></script>
     <script type="text/javascript" src="./lib/stomp.min1.js"></script>
     <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/touch-min.js"></script>
     <script type="text/javascript" src="./lib/vue.js"></script>
     <script type="text/javascript" src="./lib/index.js"></script>
     <script type="text/javascript" src="./js/index.js"></script>

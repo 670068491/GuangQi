@@ -44,7 +44,7 @@ window.onload = function () {
         $.getJSON(serverAddr + "getDeviceTypeAll", {}, function (data) {
             ListType = data.resultObject;
 
-            for (let z = 0; z < ListType.length; z++) {  //元件库虚拟按钮
+            for (let z = 0; z < ListType.length; z++) { //元件库虚拟按钮
                 if (ListType[z].ftype == '10') {
                     // 元件库创建
                     var text = ListType[z].remark;
@@ -63,9 +63,9 @@ window.onload = function () {
                     oBig.classList.add("virtual_body_one");
                     oBig.setAttribute("id", Id);
                     var oId = Id + 'i';
-             
 
-                    oBig.innerHTML ='<input type="text" name="" class="virtual_remark" readonly="readonly" value=' + text + '><span class="virtual_body_one_span">id:<span class="virtual_body_one_id">0x' +Id + '</span></span><div class="virtual_body_one_one" id=' + oId + '></div>';
+
+                    oBig.innerHTML = '<input type="text" name="" class="virtual_remark" readonly="readonly" value=' + text + '><span class="virtual_body_one_span">id:<span class="virtual_body_one_id">0x' + Id + '</span></span><div class="virtual_body_one_one" id=' + oId + '></div>';
                     document.getElementById("lib_virtual").appendChild(oBig);
 
                     for (var j = 0; j < Lbyte4Length; j++) {
@@ -273,6 +273,7 @@ window.onload = function () {
             //添加一个结点
             htmlStr +=
                 `<div class="node_small" id="${'o' + [i]}">
+                <div class="node_small_text"><textarea data-index="${i}" class="node_small_textarea" name="" id="" cols="15" rows="8" placeholder="请输入评论">${nodeList[i].remark}</textarea></div>
 						<span class="string_span">节点${[i+1]}</span>
 						<button class="node_small_del">删除</button>
 						<div class="strip">
@@ -394,7 +395,7 @@ window.onload = function () {
 								<span>白色值:</span>
 								<input type="text" name="" class="type7" value="${defaultValue[7]}"/>
 								<button class="lamp_del" data-index="${j}">删除</button>
-								<button class="lamp_send" data-index="${j}" >保存</button>
+								<button class="lamp_send" data-index="${j}">保存</button>
 
 							</div>
 						</div>`
@@ -737,7 +738,7 @@ window.onload = function () {
     function addLogic(index, id, num, text) {
         var num = num;
         logicList[index].signalValue = '0,00';
-       
+
 
         logicList[index].signalType = num + ',' + id + ',' + text;
         console.log(logicList);
@@ -835,6 +836,20 @@ window.onload = function () {
             addLogic(Index, Id, num, text);
         }
     });
+
+
+    //备注保存
+    $(".node").on("blur", ".node_small_textarea", function () {
+        var nodeId = $(this).parents(".node_small").attr('id').substring(1);
+        var oValue = $(this).val();
+        // var arrindex = $(this).attr("data-index");
+        nodeList[nodeId].remark = oValue;
+
+        // nodeList[nodeId].deviceList[arrindex].remark = oValue;
+        // console.log(arrindex)
+    });
+
+
 
 
     //逻辑点  设置01
@@ -1062,8 +1077,8 @@ window.onload = function () {
         }
     })
 
-//虚拟按钮  发送
-var virt = new Array(0, 0, 0);
+    //虚拟按钮  发送
+    var virt = new Array(0, 0, 0);
     $(".lib_virtual").on("click", ".virtual_body_one_btn", function () {
         var id = $(this).parents(".virtual_body_one").attr('id');
         var oId = $(this).children(".virtual_body_one_btn_circle").attr('id').slice(4);
@@ -1289,7 +1304,7 @@ var virt = new Array(0, 0, 0);
      */
 
     $("#start").click(function () { //启动
-    console.log(logicList)
+        console.log(logicList)
         $(this).css("background-color", "#0077ff");
         setTimeout(function () {
             $("#start").css("background-color", "#898989");
@@ -1829,7 +1844,7 @@ var virt = new Array(0, 0, 0);
                         //
                         // }
                     }
-                    if(Byte0 == "5F") {
+                    if (Byte0 == "5F") {
                         return;
                     }
 

@@ -10,6 +10,8 @@ window.onload = function () {
     // var getRemarkInitAll = []; //
     var elcarray = []; //存放点击电机四个预设值
 
+    var WinTouch;
+
     $(function () {
         $.getJSON(port + "getDeviceTypeAll", {}, function (data) {
             ListType = data.resultObject;
@@ -23,6 +25,13 @@ window.onload = function () {
             console.log(ListType);
         });
         connect(); //建立连接
+        if ('ontouchstart' in document.documentElement) {
+            WinTouch = true; //移动端
+            // alert(WinTouch)
+        } else {
+            WinTouch = false; //pc端
+        }
+        // console.log(WinTouch)
     });
 
     var Main = {
@@ -1012,12 +1021,10 @@ window.onload = function () {
                     text = data.resultObject.remark;
                     // 修饰元素
                     oBig.innerHTML =
-                        '<input type="text" name="" class="lamp_remark" value=' + text + '><span class="lamp_body_one_span">id: <span class="lamp_body_one_id">0x' +
-                        Id + '</span></span><div class="lamp_body_one_one"><label for="" class="label_moshi">模式:</label><select class="lamp_xuanxiang" name="" id=' +
-                        oIdBy0 + '><option value = "01">关闭模式</option><option value="02">打开模式</option><option value="03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value="05">正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水模式</option><option value = "0C">反向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value = "19">全彩像素清除模式</option><option value = "1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span class="span_liudong">流动LED:</span><input type ="text" class="liudong"  id=' +
-                        oIdBy1 + ' value="00"><span class="span_liudong">LED数量:</span><input type = "text" class="led" id=' + oIdBy2 +
-                        ' value="00"><span class="span_liudong">速度:</span><input class="sudu" type = "text"  id=' + oIdBy3 +
-                        ' value="00"><span class="span_liudong">颜色:</span><input type="color" name="" class="yanse"><span class="span_liudong">白色值:</span><input type="text" name="" class="type7" id=' +
+                        '<input type="text" name="" class="lamp_remark" value=' + text + '><span class="lamp_body_one_span">id: <span class="lamp_body_one_id">0x' + Id + '</span></span><div class="lamp_body_one_one"><label for="" class="label_moshi">模式:</label><select class="lamp_xuanxiang" name="" id=' +
+                        oIdBy0 + '><option value = "01">关闭模式</option><option selected value="02">打开模式</option><option value="03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value="05">正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水模式</option><option value = "0C">反向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value = "19">全彩像素清除模式</option><option value = "1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span class="span_liudong">流动LED:</span><input type ="text" class="liudong" value="FF" id=' +
+                        oIdBy1 + ' value="00"><span class="span_liudong">LED数量:</span><input type = "text" class="led" id=' + oIdBy2 + ' value="FF"><span class="span_liudong">速度:</span><input class="sudu" type = "text"  id=' + oIdBy3 +
+                        ' value="50"><span class="span_liudong">颜色:</span><input type="color" name="" class="yanse" value="#0000ff"><span class="span_liudong">白色值:</span><input type="text" name="" class="type7" id=' +
                         oIdBy7 + ' value="00"><button class = "lamp_send">执行</button></div>';
                     // 插入元素
                     self.oLamOne.appendChild(oBig);
@@ -1093,7 +1100,7 @@ window.onload = function () {
                         '<input type="text" name="" class="elec_remark" value=' + text + '><span class="elec_body_one_span">id: <span class="elec_body_one_id">0x' +
                         Id + '</span></span><div class="elec_right"><div class="elec_sm_left"></div><input type="range" class="elec_range" disabled="true" name="" min="0" max="100" step="1" id=' +
                         Idval + '><input type="text" value="" class="elec_cover" id=' + IdCov + '><input type="text" value="" class="elec_OverAll" id=' + IdAll +
-                        '><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up">前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" data-index="1" name=' +
+                        '><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" data-index="1" name=' +
                         Id + '>1<input type="radio" value="" data-index="2" name=' + Id + '>2<input type="radio" value="" data-index="3" name=' + Id +
                         '>3<input type="radio" value="" data-index="4" name=' + Id + '>4</label><button type="button" class="elec_save">保存</button><button type="button" class="elec_send">调用</button></div>';
                     // 插入元素
@@ -1348,6 +1355,7 @@ window.onload = function () {
         var type3 = $(this).siblings(".sudu").val();
         var type7 = $(this).siblings(".type7").val();
         var oColor = $(this).siblings(".yanse").val();
+        // console.log(type0);
 
         if ($(this).siblings(".liudong").val().length > 2) {
             window.toTest1();
@@ -1444,35 +1452,93 @@ window.onload = function () {
     var elecValue;
     var elecColor = false;
 
-    $(".elec_body").on("mousedown", ".elec_up", function () {
+    document.oncontextmenu = function (e) {
+        e.preventDefault();
+    };
+
+
+    // $(".elec_body").on("touchstart", ".elec_up", function () {
+    //     alert('1');
+    //     if (WinTouch == false) {
+    //         // elecId = $(this).parents(".elec_body_one").attr('id');
+    //         // elecValue = $(this).siblings(".elec_sudu").val();
+    //         // $(this).css("background-color", "pink");
+    //         // elecColor = true;
+    //         elecSet = setInterval(function () {
+    //             SelecSet();
+    //         }, 50);
+    //     }
+    // });
+
+
+    // var elec_sudun = document.getElementById('elec_sudun');
+    touch.on('#elec_body', 'hold', '.elec_up_cover', function (ev) {
         elecId = $(this).parents(".elec_body_one").attr('id');
-        elecValue = $(this).siblings(".elec_sudu").val();
-        $(this).css("background-color", "pink");
+        elecValue = $(this).parents(".elec_up").siblings(".elec_sudu").val();
+        $(this).parents(".elec_up").css("background-color", "pink");
+        // if (WinTouch == true) {
         elecColor = true;
         elecSet = setInterval(function () {
             SelecSet();
         }, 50);
+        // }
+    });
+    touch.on('#elec_body', 'touchend', '.elec_up_cover', function (ev) {
+        $(this).parents(".elec_up").css("background-color", "#5b9bd5");
+        elecColor = false;
     });
 
+
+
+    // $(".elec_body").on("mousedown", ".elec_up", function () {
+    //   if (WinTouch == false) {
+    // elecId = $(this).parents(".elec_body_one").attr('id');
+    // elecValue = $(this).siblings(".elec_sudu").val();
+    //  $(this).css("background-color", "pink");
+    // elecColor = true;
+    //  elecSet = setInterval(function () {
+    // SelecSet();
+    //   }, 50);
+    //   }
+    // });
+
+    // var elec_sudun = 1;
     function SelecSet() {
+        // console.log('1');
+        // elec_sudun++;
+        // console.log(elec_sudun)
         if (elecColor) {
-            // console.log(elecId + "+" + elecValue);
             stompClient.send("/app/wu", {}, "S" + elecId + ",0B,00,00,00,00,00,10," + elecValue + "K");
+            // $('#elec_sudun').val(elec_sudun);
+            // console.log(elecId + "+" + elecValue);
             // console.log('1');
         } else {
             clearInterval(elecSet);
         }
     }
 
-    $(".elec_body").on("mouseup", ".elec_up", function () {
-        $(this).css("background-color", "#5b9bd5");
-        elecColor = false;
 
-    });
-    $(".elec_body").on("mouseleave", ".elec_up", function () {
-        $(this).css("background-color", "#5b9bd5");
-        elecColor = false;
-    });
+    // $("#elec_s").click(function () {
+    //     // console.log('1')
+    //     var oBig = document.createElement("div");
+    //     oBig.classList.add("elec_body_one");
+    //     oBig.setAttribute("id", '111');
+
+    // 修饰元素
+    //     oBig.innerHTML =
+    //         '<input type="text" name="" class="elec_remark" ><span class="elec_body_one_span">id: <span class="elec_body_one_id">0x</span></span><div class="elec_right"><div class="elec_sm_left"></div><input type="range" class="elec_range" disabled="true" name="" min="0" max="100" step="1"><input type="text" value="" class="elec_cover" id="101"><input type="text" value="" class="elec_OverAll" ><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" data-index="1" >1<input type="radio" value="" data-index="2" >2<input type="radio" value="" data-index="3" >3<input type="radio" value="" data-index="4" >4</label><button type="button" class="elec_save">保存</button><button type="button" class="elec_send">调用</button></div>';
+    //     // 插入元素
+    //     document.getElementById('elec_body').appendChild(oBig);
+    // })
+
+    // $(".elec_body").on("mouseup", ".elec_up", function () {
+    //     $(this).css("background-color", "#5b9bd5");
+    //     elecColor = false;
+    // });
+    // $(".elec_body").on("mouseleave", ".elec_up", function () {
+    //     $(this).css("background-color", "#5b9bd5");
+    //     elecColor = false;
+    // });
 
 
     var elecSetDown; //后退
