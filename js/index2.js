@@ -7,30 +7,30 @@ document.body.appendChild(new_element);
 var pattern = true;
 $("#cut").click(function () {
     location.href = "./Auto.html";
-    // // $(".top_btn2").text("切换为手动");
-    // $(".boy").css("display", "none");
-    // $(".auto").css("display", "block");
-    //    if ($('#cut').text() == "切换为自动") {
-    //        $(".top_btn1").text("当前模式：自动");
-    //        pattern = false;
-    //        // stompClient.disconnect(function() {
-    //        //     console.log('手动模式断开')
-    //        // });
-    //        // setTimeout(function() {
-    //        //     connectSelf(); //建立连接,自动模式
-    //        // }, 1000);
-    //        // console.log('1');
-    //    } else {
-    //        $(".top_btn1").text("当前模式：手动");
-    //        $(".top_btn2").text("切换为自动");
-    //        $(".content").css("display", "block");
-    //        $(".selfmotion").css("display", "none");
-    //        pattern = true;
-    //        // stompClient.disconnect(function() {
-    //        //     console.log("自动模式断开");
-    //        // });
-    //        // connect(); //建立连接,手动模式
-    //    }
+    // $(".top_btn2").text("切换为手动");
+    $(".boy").css("display", "none");
+    $(".auto").css("display", "block");
+    if ($('#cut').text() == "切换为自动") {
+        $(".top_btn1").text("当前模式：自动");
+        pattern = false;
+        // stompClient.disconnect(function() {
+        //     console.log('手动模式断开')
+        // });
+        // setTimeout(function() {
+        //     connectSelf(); //建立连接,自动模式
+        // }, 1000);
+        // console.log('1');
+    } else {
+        $(".top_btn1").text("当前模式：手动");
+        $(".top_btn2").text("切换为自动");
+        $(".content").css("display", "block");
+        $(".selfmotion").css("display", "none");
+        pattern = true;
+        // stompClient.disconnect(function() {
+        //     console.log("自动模式断开");
+        // });
+        // connect(); //建立连接,手动模式
+    }
 });
 
 
@@ -566,14 +566,14 @@ $(".questionnaire_submit").click(function () {
 
     // console.log(name);
 });
-// var type = JSON.parse(storage.getItem(Id)).type;
+var type = JSON.parse(storage.getItem(Id)).type;
 
-// stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00," + as3 + (as[3].toString(16)).toUpperCase() + "," + as2 +
-//     (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(
-//         16)).toUpperCase() + "K");
-// stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,01," + as7 + (as[7].toString(16)).toUpperCase() + "," + as6 +
-//     (as[6].toString(16)).toUpperCase() + "," + as5 + (as[5].toString(16)).toUpperCase() + "," + as4 + (as[4].toString(
-//         16)).toUpperCase() + "K");
+stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,00," + as3 + (as[3].toString(16)).toUpperCase() + "," + as2 +
+    (as[2].toString(16)).toUpperCase() + "," + as1 + (as[1].toString(16)).toUpperCase() + "," + as0 + (as[0].toString(
+        16)).toUpperCase() + "K");
+stompClient.send("/app/wu", {}, "S" + id + ",02,00,00,01," + as7 + (as[7].toString(16)).toUpperCase() + "," + as6 +
+    (as[6].toString(16)).toUpperCase() + "," + as5 + (as[5].toString(16)).toUpperCase() + "," + as4 + (as[4].toString(
+        16)).toUpperCase() + "K");
 
 
 var data = {
@@ -584,70 +584,90 @@ var data = {
 var dater = JSON.stringify(data);
 storage.setItem(FrameId, dater);
 
-// stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
-// 	"," + type5 + "," + type6 + "," + type7 + "K");
+stompClient.send("/app/wu", {}, "S" + id + "," + type0 + "," + type1 + "," + type2 + "," + type3 + "," + type4 +
+    "," + type5 + "," + type6 + "," + type7 + "K");
 
 
-// clearInterval(elecSet);
-// $(this).css("background-color", "pink");
+clearInterval(elecSet);
+$(this).css("background-color", "pink");
 
-// clearInterval(elecSet);
+clearInterval(elecSet);
 
-// clearInterval(elecSet);
-// $(this).css("background-color", "#5b9bd5");
-
-
-// var id = $(this).parents(".elec_body_one").attr('id');
-// var oValue = $(this).siblings(".elec_sudu").val();
-// var oColor = $(this).css("background-color");
+clearInterval(elecSet);
+$(this).css("background-color", "#5b9bd5");
 
 
-// elecColor = $(this).css("background-color");
-
-// elecSet = setInterval('console.log(elecId + "+" + elecValue);', 100);
-
-// stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10," + oValue + "K");
+var id = $(this).parents(".elec_body_one").attr('id');
+var oValue = $(this).siblings(".elec_sudu").val();
+var oColor = $(this).css("background-color");
 
 
-// console.log(oColor);
-// elecSet = setInterval(SelecSet(id, oValue), 10);
-// var id = setInterval(frame(id,oValue), 10);
-// elecSet = setInterval(function () {
-//     if (oColor == 'rgb(91, 155, 213)') {
-//          console.log('1');
-//     }
-//     // if (oColor == "rgb(91, 155, 213)") {
-//     //     console.log('1');
-//     //     stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10," + oValue + "K");
-//     // } else {
-//     //     console.log('2');
-//     //     clearInterval(elecSet);
-//     // }
-// }, 100);
-// console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
+elecColor = $(this).css("background-color");
+
+elecSet = setInterval('console.log(elecId + "+" + elecValue);', 100);
+
+stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10," + oValue + "K");
 
 
-// var id = $(this).parents(".elec_body_one").attr('id');
-// $(this).css("background-color", "pink");
-// let oValue = $(this).siblings(".elec_sudu").val();
+console.log(oColor);
+elecSet = setInterval(SelecSet(id, oValue), 10);
+var id = setInterval(frame(id, oValue), 10);
+elecSet = setInterval(function () {
+    if (oColor == 'rgb(91, 155, 213)') {
+        console.log('1');
+    }
+    if (oColor == "rgb(91, 155, 213)") {
+        console.log('1');
+        stompClient.send("/app/wu", {}, "S" + id + ",0B,00,00,00,00,00,10," + oValue + "K");
+    } else {
+        console.log('2');
+        clearInterval(elecSet);
+    }
+}, 100);
+console.log("S" + id + ",0B,00,00,00,00,00,00,00K");
 
 
-// elecSetDown = setInterval(function () {
-//     stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10," + oValue + "K");
-// }, 50)
+var id = $(this).parents(".elec_body_one").attr('id');
+$(this).css("background-color", "pink");
+let oValue = $(this).siblings(".elec_sudu").val();
 
 
-// logicList[index] = {};
-// var Type = JSON.parse(storage.getItem(id)).type;
+elecSetDown = setInterval(function () {
+    stompClient.send("/app/wu", {}, "S" + id + ",0C,00,00,00,00,00,10," + oValue + "K");
+}, 50)
+
+
+logicList[index] = {};
+var Type = JSON.parse(storage.getItem(id)).type;
 
 
 
-// logicList[index].signalType = num + ',' + id + ',' + text;
-// logicList[index].signalType ={};
-// var node = {};
-// node.num = num;
-// node.id = id;
-// node.text = text;
-// logicList[index].signalType.push(node);
-// logicList[index].signalobj = node;
-// logicList[index].signalType = JSON.stringify(node);
+logicList[index].signalType = num + ',' + id + ',' + text;
+logicList[index].signalType = {};
+var node = {};
+node.num = num;
+node.id = id;
+node.text = text;
+logicList[index].signalType.push(node);
+logicList[index].signalobj = node;
+logicList[index].signalType = JSON.stringify(node);
+
+var elec_s = document.getElementById('elec_s');
+
+
+
+document.oncontextmenu = function (e) {
+    e.preventDefault();
+};
+window.ontouchstart = function (e) {
+    e.preventDefault();
+};
+$('button').bind('contextmenu', function (e) {
+    e.preventDefault();
+})
+window.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
+document.oncontextmenu = function (e) {
+    e.preventDefault();
+};

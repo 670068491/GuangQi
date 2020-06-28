@@ -457,14 +457,25 @@ button {
     margin-bottom: 1vw;
     padding: 0.6vw 0.66vw;
     background-color: #6f779c;
-    /* text-align: center; */
     position: relative;
     border-radius: 50%;
     /* margin-left: -0vw; */
     /*cursor:pointer;*/
     /* margin-left: 1.4vw; */
     /* height: 3vw; */
+    /* text-align: center; */
+
 }
+.node_small_text{
+    position: absolute;
+    top: 0;
+    left: -7vw;
+}
+
+.node_small_text textarea{
+
+}
+
 
 .node_small .node_small_del {
     position: absolute;
