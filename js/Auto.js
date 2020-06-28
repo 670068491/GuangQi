@@ -1,15 +1,9 @@
 window.onload = function () {
-
     var serverAddr = "http://192.168.1.10:8081/gq/api/";
     // var serverAddr = "http://www.shoulder-tech.com/gq/api/";
     // 获取列表
     function ListOfScenarios() {
-        // $.post("http://39.106.47.82:8080/gq/api/getSceneList", {
-        // 	// suggest: txt
-        // }, function(result) {
-        // 	console.log(result)
-        // 	// $("span").html(result);
-        // });
+
         $.getJSON(serverAddr + "getSceneList", {
             // id: 0,
             // action: 'jobcategoryjson'

@@ -671,3 +671,91 @@ window.addEventListener('contextmenu', function (e) {
 document.oncontextmenu = function (e) {
     e.preventDefault();
 };
+// stompClient.send("/app/wu", {}, "S" + libraryList[i].deviceId + "," + libraryList[i].deviceValue);
+// console.log("S" + libraryList[i].deviceId + "," + libraryList[i].deviceValue);
+
+
+// var storage = window.localStorage;
+// var Byte7 = stringResult[8].substring(0, stringResult[8].length - 1);
+// var Byte7 = Byt7.substring(0, Byt7.length - 1);
+// var oYemian = document.getElementById(FrameId);
+// if (List.indexOf(FrameId) > -1) { //则包含该元素} }
+
+
+// var node = {};
+// node.FrameId = FrameId;
+// node.node_type = Byte5;
+// ListType.push(node);
+// console.log(List);
+// node.id = FrameId;
+
+// setTimeout(function() {
+// 	// oBig.style.color = '#c6c7c7';
+// 	// oBig.classList.add("active");
+// 	// oBig.style.color="green";
+// }, 3000);
+
+// var text = "00,00,00,00";
+// var nam = '101';
+
+// $.post("http://39.106.47.82:8080/gq/api/getSceneList", {
+// 	// suggest: txt
+// }, function(result) {
+// 	console.log(result)
+// 	// $("span").html(result);
+// });
+
+// var storage = window.localStorage;
+// var $One = $(
+// 	`<div class = "string"></div>
+
+// 	<div class = "logic">
+// 	   <span class="logic_span">逻辑<span>${nodeIndex-1}</span></span>
+// 	    <div class="points">
+// 	         <div class="points_signal"></div>
+// 	         <div class="points_delay">
+// 		        <span>延迟(执行前)</span>
+// 		         <input type="" name="" id="" value="1"/>
+// 		         <span>秒</span>
+// 		          <button type="button" class="points_save">保存</button>
+// 	         </div>
+//         </div>
+// 	</div>
+// 	<div class = "string"></div>
+// 		// 	<div class = "node_small"><span class="logic_span">节点<span>${nodeIndex}</span></span>
+// 		// 		<div class="strip">
+// 		// 		     <div class="strip_head">
+// 		// 	             <img src="./img/33.png"  class="strip_head_img">
+// 		// 	         </div>
+// 		// 	         <div class="strip_one">
+// 		// 	         </div>
+// 		// 	     </div>
+// 		// 	</div>`
+// 		// );
+// 		// $(".node").append($One);
+
+// 电机 保存在节点
+// $(".node").on("click", ".elec_Allsave", function() {
+// 	var Id = $(this).parents(".elec_body_one").attr('id');
+// 	console.log(Id);
+// 	// var oIdCov = $(this).siblings('.elec_cover').val();
+// 	var list = $('input:radio[name=' + Id + ']:checked').val();
+// 	if (list == null) {
+// 		alert("请选中一个!");
+// 		return false;
+// 	} else {
+// 		// alert(list);
+// 		// stompClient.send("/app/wu", {}, "S" + Id + ",0D,00,00,50," + list + "K");
+// 		// console.log("S" + Id + ",0D,00,00,50," + list + "K");
+// 		var arrindex = $(this).attr("data-index");
+// 		var nodeId = $(this).parents(".node_small").attr('id').substring(1);
+// 		// console.log($(this).attr("data-index"));
+// 		// console.log(nodeId);
+// 		nodeList[nodeId].deviceList[arrindex].deviceValue = "0D,00,00,50," + list + "K";
+// 		console.log(nodeList);
+// 		// $('input:radio[name=' + id + ']:checked').val(oIdCov);
+// 		// alert($('input:radio[name=' + id + ']:checked').val());
+// 		// alert(id);
+// 	}
+// });
+
