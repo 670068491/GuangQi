@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4b19617a-c216-4bb7-9332-5033fd2dba74" name="默认的" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auto.html" beforeDir="false" afterPath="$PROJECT_DIR$/Auto.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/List.html" beforeDir="false" afterPath="$PROJECT_DIR$/List.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/Auto.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/Auto.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/List.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/List.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/index2.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index2.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,8 +19,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+            <state relative-caret-position="129">
+              <caret line="179" lean-forward="true" selection-start-line="179" selection-end-line="179" />
               <folding>
                 <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -45,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="2618" column="77" selection-start-line="2618" selection-start-column="77" selection-end-line="2618" selection-end-column="77" />
+            <state relative-caret-position="104">
+              <caret line="1032" column="226" selection-start-line="1032" selection-start-column="226" selection-end-line="1032" selection-end-column="226" />
             </state>
           </provider>
         </entry>
@@ -57,7 +50,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/List.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-19856">
+            <state relative-caret-position="-19842">
               <caret line="1210" selection-start-line="1210" selection-end-line="1210" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
@@ -76,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Auto.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="8" column="62" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
+            <state relative-caret-position="447">
+              <caret line="145" column="7" lean-forward="true" selection-start-line="145" selection-start-column="7" selection-end-line="145" selection-end-column="7" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -145,7 +138,6 @@
       <find>andr</find>
       <find>删除</find>
       <find>getlogicHtml</find>
-      <find>输出控制</find>
       <find>addDevice</find>
       <find>points_delay_inp</find>
       <find>cover_cancel</find>
@@ -160,6 +152,7 @@
       <find>open9</find>
       <find>plus</find>
       <find>node</find>
+      <find>输出控制</find>
       <find>node_one</find>
     </findStrings>
   </component>
@@ -172,14 +165,14 @@
         <option value="$PROJECT_DIR$/css/Auto.css" />
         <option value="$PROJECT_DIR$/css/List.css" />
         <option value="$PROJECT_DIR$/css/index.css" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/Auto.html" />
-        <option value="$PROJECT_DIR$/js/index.js" />
         <option value="$PROJECT_DIR$/js/Auto.js" />
         <option value="$PROJECT_DIR$/index2.html" />
         <option value="$PROJECT_DIR$/List.html" />
         <option value="$PROJECT_DIR$/js/List.js" />
         <option value="$PROJECT_DIR$/js/index2.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/index.js" />
       </list>
     </option>
   </component>
@@ -253,12 +246,12 @@
       <workItem from="1587955418996" duration="11820000" />
       <workItem from="1588517636400" duration="48000" />
       <workItem from="1593310755766" duration="10926000" />
-      <workItem from="1593331247250" duration="2135000" />
+      <workItem from="1593331247250" duration="3273000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167925000" />
+    <option name="totallyTimeSpent" value="169063000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -304,13 +297,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="2618" column="77" selection-start-line="2618" selection-start-column="77" selection-end-line="2618" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/Auto.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-8037">
@@ -339,17 +325,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/List.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-19856">
-          <caret line="1210" selection-start-line="1210" selection-end-line="1210" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/List.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2882">
@@ -357,21 +332,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
-          <folding>
-            <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Auto.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="8" column="62" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
+        <state relative-caret-position="447">
+          <caret line="145" column="7" lean-forward="true" selection-start-line="145" selection-start-column="7" selection-end-line="145" selection-end-column="7" />
           <folding>
             <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" />
@@ -380,6 +344,35 @@
             <element signature="n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#div#5;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="179" lean-forward="true" selection-start-line="179" selection-end-line="179" />
+          <folding>
+            <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/List.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-19842">
+          <caret line="1210" selection-start-line="1210" selection-end-line="1210" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="1032" column="226" selection-start-line="1032" selection-start-column="226" selection-end-line="1032" selection-end-column="226" />
         </state>
       </provider>
     </entry>

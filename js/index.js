@@ -1030,8 +1030,7 @@ window.onload = function() {
 						'><option value="01">关闭模式</option><option selected value="02">打开模式</option><option value = "03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value = "05" >正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水模式</option><option value = "0C">反向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value="19">全彩像素清除模式</option><option value="1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span class= "span_liudong">流动LED:</span><input type="text" class="liudong" value = "FF" id=' +
 						oIdBy1 + '><span class = "span_liudong">LED数量:</span><input type="text" class="led" value="FF" id=' + oIdBy2 +
 						'><span class="span_liudong">速度:</span><input class="sudu" type="text" value="50" id=' + oIdBy3 +
-						'><span class="span_liudong">颜色:</span><input type = "color" name="" class="yanse" value ="#0000ff"><span class="span_liudong">白色值:</span><input type = "text" name="" class = "type7" id =' +
-						oIdBy7 + 'value = "00"><button class="lamp_send">执行</button></div>';
+						'><span class="span_liudong">颜色:</span><input type = "color" name="" class="yanse" value ="#0000ff"><span class="span_liudong">白色值:</span><input type = "text" name="" class = "type7" value="00" id =' + oIdBy7 + '><button class="lamp_send">执行</button></div>';
 					// 插入元素
 					self.oLamOne.appendChild(oBig);
 
@@ -2615,13 +2614,15 @@ window.onload = function() {
 		if (oPower) {
 			oPower = false;
             window.toTest9();
-            $(this).css("background-color", "pink");
-            stompClient.send("/app/wu", {}, "S235,02,00,00,00,00,00,00,00K");
+            $(this).css("background-color", "rgb(255, 0, 0)");
+			stompClient.send("/app/wu", {}, "S235,02,00,00,00,00,00,00,01K");
+
 		} else {
 			oPower = true;
             window.toTest10();
             $(this).css("background-color", "#5b9bd5");
-            stompClient.send("/app/wu", {}, "S235,02,00,00,00,00,00,00,01K");
+			stompClient.send("/app/wu", {}, "S235,02,00,00,00,00,00,00,00K");
+
 
         }
 	})
