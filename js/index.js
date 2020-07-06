@@ -1591,16 +1591,14 @@ window.onload = function() {
 	});
 	//电机速度值保存
 	$(".elec_body").on("blur", ".elec_sudu", function() {
-		let oValue = $(this).val();
-		oValue = (oValue.length < 2) ? "0" + oValue : oValue;
-
-		let Id = $(this).parents(".elec_body_one").attr('id');
+		// let oValue = $(this).val();
+		// oValue = (oValue.length < 2) ? "0" + oValue : oValue;
+		// let Id = $(this).parents(".elec_body_one").attr('id');
 		if ($(this).val().length > 2 || $(this).val() > 64) {
 			window.toTest4();
 			$(this).val('40');
 			return;
 		}
-
 		// $.getJSON(port + "saveElc", {
 		//     FrameId: Id,
 		//     Findex: 5,
@@ -1608,8 +1606,6 @@ window.onload = function() {
 		// }, function(data) {
 		//     // console.log(data);
 		// });
-
-
 	});
 
 
@@ -2613,13 +2609,13 @@ window.onload = function() {
 	$("#power").click(function() {
 		if (oPower) {
 			oPower = false;
-            window.toTest9();
+            window.toTest10();
             $(this).css("background-color", "rgb(255, 0, 0)");
 			stompClient.send("/app/wu", {}, "S235,02,00,00,00,00,00,00,01K");
 
 		} else {
 			oPower = true;
-            window.toTest10();
+            window.toTest9();
             $(this).css("background-color", "#5b9bd5");
 			stompClient.send("/app/wu", {}, "S235,02,00,00,00,00,00,00,00K");
 

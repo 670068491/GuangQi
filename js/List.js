@@ -37,7 +37,6 @@ window.onload = function() {
 
 	$(function() {
 		GainName(); //获取链接里的名称
-
 		console.log(isopen);
 		getElcAll();
 		$.getJSON(serverAddr + "getDeviceTypeAll", {}, function(data) {
@@ -491,7 +490,7 @@ window.onload = function() {
 				var samllremark = [];
 				for (let z = 0; z < ListType.length; z++) {
 					if (nodeList[tIndex].deviceList[j].deviceId == ListType[z].frameId) {
-						samllremark = ListType[z].samllremark;
+						samllremark = ListType[z].smallremark;
 					}
 				}
 				// console.log(nodeList[tIndex].deviceList[j]);
@@ -580,7 +579,7 @@ window.onload = function() {
 			var samllremark = [];
 			for (let z = 0; z < ListType.length; z++) {
 				if (logicList[presentNodeIndex].signalType.split(",")[1] + [i] == ListType[z].frameId) {
-					samllremark = ListType[z].samllremark;
+					samllremark = ListType[z].smallremark;
 				}
 			}
 
