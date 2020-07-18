@@ -98,6 +98,17 @@ window.onload = function() {
 		$.getJSON(serverAddr + "getElcAll", {}, function(data) {
 			console.log(data);
 			elcarray = data.resultObject;
+			for (var i = 0; i < elcarray.length; i++) {
+				if(elcarray[i].id=="229" || elcarray[i].id=="230"|| elcarray[i].id=="226"){
+					// console.log('1');
+					elcarray[i].v1=elcarray[i].v1.slice(0,9)+'45,'+elcarray[i].v1.slice(12,);
+					elcarray[i].v2=elcarray[i].v2.slice(0,9)+'45,'+elcarray[i].v2.slice(12,);
+					elcarray[i].v3=elcarray[i].v3.slice(0,9)+'45,'+elcarray[i].v3.slice(12,);
+				    elcarray[i].v4=elcarray[i].v4.slice(0,9)+'45,'+elcarray[i].v4.slice(12,);
+				}
+				
+			}
+			
 			if (isopen == "open") {
 				// console.log(isopen);
 				getDataFormServer();
@@ -110,16 +121,30 @@ window.onload = function() {
 	}
 
 	function getDataFormServer() {
-		$.getJSON(serverAddr + "getSceneInfo", {
-			sceneId: sceneId
-		}, function(data) {
-			console.log(data);
-			nodeList = data.resultObject.nodeList;
-			logicList = data.resultObject.logicList;
-			nodeIndex = data.resultObject.nodeList.length;
+		   // setTimeout(function() {
+		   $.post(serverAddr+"getSceneInfo", {
+		   	sceneId: sceneId },
+		      function(data){
+				  // var odata=JSON.stringify(data.resultObject);
+				  // var adata = JSON.parse(data.resultObject);
+		          	// console.log($.parseJSON(data).resultObject);
+					// console.log(data);
+		          	nodeList = $.parseJSON(data).resultObject.nodeList;
+		          	logicList = $.parseJSON(data).resultObject.logicList;
+		          	nodeIndex = $.parseJSON(data).resultObject.nodeList.length;
+		          	drawHtml();
+		      });
+		   // }, 1000);
+		// $.getJSON(serverAddr + "getSceneInfo", {
+		// 	sceneId: sceneId
+		// }, function(data) {
+		// 	console.log(data);
+		// 	nodeList = data.resultObject.nodeList;
+		// 	logicList = data.resultObject.logicList;
+		// 	nodeIndex = data.resultObject.nodeList.length;
 
-			drawHtml();
-		});
+		// 	drawHtml();
+		// });
 	}
 
 
@@ -215,24 +240,26 @@ window.onload = function() {
 				sceneId: sceneId,
 			}, function(data) {
 				console.log(data);
-				$('#maxs1').text(data.resultObject.maxs1);
-				$('#mins1').text(data.resultObject.mins1);
-				$('#avgs1').text(data.resultObject.avgs1);
-				$('#maxs2').text(data.resultObject.maxs2);
-				$('#mins2').text(data.resultObject.mins2);
-				$('#avgs2').text(data.resultObject.avgs2);
-				$('#maxs3').text(data.resultObject.maxs3);
-				$('#mins3').text(data.resultObject.mins3);
-				$('#avgs3').text(data.resultObject.avgs3);
-				$('#maxs4').text(data.resultObject.maxs4);
-				$('#mins4').text(data.resultObject.mins4);
-				$('#avgs4').text(data.resultObject.avgs4);
-				$('#maxs5').text(data.resultObject.maxs5);
-				$('#mins5').text(data.resultObject.mins5);
-				$('#avgs5').text(data.resultObject.avgs5);
-				$('#maxs6').text(data.resultObject.maxs6);
-				$('#mins6').text(data.resultObject.mins6);
-				$('#avgs6').text(data.resultObject.avgs6);
+				if(data.resultObject){
+					$('#maxs1').text(data.resultObject.maxs1);
+					$('#mins1').text(data.resultObject.mins1);
+					$('#avgs1').text(data.resultObject.avgs1);
+					$('#maxs2').text(data.resultObject.maxs2);
+					$('#mins2').text(data.resultObject.mins2);
+					$('#avgs2').text(data.resultObject.avgs2);
+					$('#maxs3').text(data.resultObject.maxs3);
+					$('#mins3').text(data.resultObject.mins3);
+					$('#avgs3').text(data.resultObject.avgs3);
+					$('#maxs4').text(data.resultObject.maxs4);
+					$('#mins4').text(data.resultObject.mins4);
+					$('#avgs4').text(data.resultObject.avgs4);
+					$('#maxs5').text(data.resultObject.maxs5);
+					$('#mins5').text(data.resultObject.mins5);
+					$('#avgs5').text(data.resultObject.avgs5);
+					$('#maxs6').text(data.resultObject.maxs6);
+					$('#mins6').text(data.resultObject.mins6);
+					$('#avgs6').text(data.resultObject.avgs6);
+				}
 			});
 		} else {
 			oEvaluate = true;
@@ -580,6 +607,7 @@ window.onload = function() {
 			for (let z = 0; z < ListType.length; z++) {
 				if (logicList[presentNodeIndex].signalType.split(",")[1] + [i] == ListType[z].frameId) {
 					samllremark = ListType[z].smallremark;
+					// console.log(ListType[z])
 				}
 			}
 
@@ -587,6 +615,7 @@ window.onload = function() {
 				var isActive = "";
 				var theselect = "";
 				var defaultRemark = "";
+				// console.log(samllremark)
 				if (i < samllremark.length) {
 					defaultRemark = samllremark[i];
 				}
@@ -1643,10 +1672,7 @@ window.onload = function() {
 	function save() {
 		// console.log(JSON.stringify(nodeList));
 		// console.log(JSON.stringify(logicList));
-
-
 		console.log(nodeList);
-
 		$.post(serverAddr + "saveSceneInfo", {
 			sceneId: sceneId,
 			nodeList: JSON.stringify(nodeList),

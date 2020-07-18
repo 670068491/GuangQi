@@ -367,16 +367,23 @@ window.onload = function () {
 				var nodeList = data.resultObject.nodeList;
 				var logicList = data.resultObject.logicList;
 				// drawHtml();
-				$.getJSON(serverAddr+"saveSceneInfo", {
+				$.post(serverAddr+"saveSceneInfo", { 
 					sceneId: uId,
-					nodeList: JSON.stringify(nodeList),
-					logicList: JSON.stringify(logicList),
-				}, function(data) {
+					 nodeList: JSON.stringify(nodeList),
+					 logicList: JSON.stringify(logicList) },
+				   function(data){
+				      	location.href = "./List.html?name=" + name + "&stylist=" + stylist + "&uId=" + uId+"&isopen=open"; //此处拼接内容";
+				   });
+				   
+				// $.getJSON(serverAddr+"saveSceneInfo", {
+				// 	sceneId: uId,
+				// 	nodeList: JSON.stringify(nodeList),
+				// 	logicList: JSON.stringify(logicList),
+				// }, function(data) {
+				// 		// console.log(data);
+				// 	location.href = "./List.html?name=" + name + "&stylist=" + stylist + "&uId=" + uId+"&isopen=open"; //此处拼接内容";
 					
-						// console.log(data);
-					location.href = "./List.html?name=" + name + "&stylist=" + stylist + "&uId=" + uId+"&isopen=open"; //此处拼接内容";
-					
-				});
+				// });
 			});
         });
        

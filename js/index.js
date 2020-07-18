@@ -21,15 +21,24 @@ window.onload = function() {
 					new virtual(ListType[z].frameId, ListType[z].fnum);
 				}
 			}
-			console.log(ListType);
+			// console.log(ListType);
 		});
-		connect(); //建立连接
-		if ('ontouchstart' in document.documentElement) {
-			WinTouch = true; //移动端
-			// alert(WinTouch)
-		} else {
-			WinTouch = false; //pc端
-		}
+		$.getJSON(port + "getElcAll", {}, function(data) {
+			// console.log(data);
+			elcarray = data.resultObject;
+			console.log(elcarray);
+		});
+
+		setTimeout(function() {
+			connect(); //建立连接
+		}, 3000);
+
+		// if ('ontouchstart' in document.documentElement) {
+		// 	WinTouch = true; //移动端
+		// 	// alert(WinTouch)
+		// } else {
+		// 	WinTouch = false; //pc端
+		// }
 		// console.log(WinTouch)
 	});
 
@@ -43,10 +52,10 @@ window.onload = function() {
 			window.toTest6 = this.open7;
 			window.toTest7 = this.open8;
 			window.toTest8 = this.open9;
-            window.toTest9 = this.open10;
-            window.toTest10 = this.open11;
+			window.toTest9 = this.open10;
+			window.toTest10 = this.open11;
 
-        },
+		},
 		methods: {
 			open1() {
 				this.$message('这是一条消息提示');
@@ -93,18 +102,18 @@ window.onload = function() {
 					type: 'warning'
 				});
 			},
-            open10() {
-                this.$message({
-                    message: '已关闭整车电源',
-                    type: 'success'
-                });
-            },
-            open11() {
-                this.$message({
-                    message: '已开启整车电源',
-                    type: 'success'
-                });
-            },
+			open10() {
+				this.$message({
+					message: '已关闭整车电源',
+					type: 'success'
+				});
+			},
+			open11() {
+				this.$message({
+					message: '已开启整车电源',
+					type: 'success'
+				});
+			},
 		}
 	}
 	var Ctor = Vue.extend(Main);
@@ -420,7 +429,7 @@ window.onload = function() {
 					deviceId: Id,
 					num: Lbyte4Length
 				}, function(data) {
-					console.log(data);
+					// console.log(data);
 					text = data.resultObject.remark;
 					oBig.innerHTML =
 						'<input type="text" name="" class="button_remark" value=' + text +
@@ -1030,7 +1039,8 @@ window.onload = function() {
 						'><option value="01">关闭模式</option><option selected value="02">打开模式</option><option value = "03">呼吸模式</option><option value = "04">颜色过渡模式</option><option value = "05" >正向流水保持模式</option><option value ="06">正向流水不保持模式</option><option value = "07">反向流水保持模式</option><option value = "08">反向流水不保持模式</option><option value = "09">带数量正向流水模式</option><option value = "0A">带数量反向流水模式</option><option value = "0B">正向灭灯流水模式</option><option value = "0C">反向灭灯流水模式</option><option value = "0D">正向慢速流水保持模式</option><option value = "0E">正向慢速流水不保持模式</option><option value = "0F">反向慢速流水保持模式</option><option value = "10">反向慢速流水不保持模式</option><option value = "11">带数量正向慢速流水模式</option><option value = "12">带数量反向慢速流水模式</option><option value = "13">带数量正向拖尾流水模式</option><option value = "14">带数量反向拖尾流水模式</option><option value = "15">多彩正向流水模式</option><option value = "16">多彩反向流水模式</option><option value = "17">全彩像素颜色设置模式</option><option value = "18">全彩像素显示模式</option><option value="19">全彩像素清除模式</option><option value="1A">单色像素颜色设置模式</option><option value = "1B">单色像素显示模式</option></select><span class= "span_liudong">流动LED:</span><input type="text" class="liudong" value = "FF" id=' +
 						oIdBy1 + '><span class = "span_liudong">LED数量:</span><input type="text" class="led" value="FF" id=' + oIdBy2 +
 						'><span class="span_liudong">速度:</span><input class="sudu" type="text" value="50" id=' + oIdBy3 +
-						'><span class="span_liudong">颜色:</span><input type = "color" name="" class="yanse" value ="#0000ff"><span class="span_liudong">白色值:</span><input type = "text" name="" class = "type7" value="00" id =' + oIdBy7 + '><button class="lamp_send">执行</button></div>';
+						'><span class="span_liudong">颜色:</span><input type = "color" name="" class="yanse" value ="#0000ff"><span class="span_liudong">白色值:</span><input type = "text" name="" class = "type7" value="00" id =' +
+						oIdBy7 + '><button class="lamp_send">执行</button></div>';
 					// 插入元素
 					self.oLamOne.appendChild(oBig);
 
@@ -1065,7 +1075,6 @@ window.onload = function() {
 		//自动初始化
 		this.init();
 	}
-
 	elec.prototype = {
 		constructor: elec,
 		init: function() {
@@ -1080,7 +1089,7 @@ window.onload = function() {
 			var IdAll = self.FrameId + 'all';
 			var IdCurr = Id + 'curr';
 			var text = '';
-			var elecTrue = false;
+			// var elecTrue = false;
 			//var OverAll; //总路程
 			//var Current; //当前位置
 			// console.log(FrameId,self.byte0,);
@@ -1108,13 +1117,25 @@ window.onload = function() {
 						'</span></span><div class="elec_right"><div class="elec_sm_left"></div><input type="range" class="elec_range" disabled="true" name="" min="0" max="100" step="1" id=' +
 						Idval + '><input type="text" value="" class="elec_cover" id=' + IdCov +
 						'><input type="text" value="" class="elec_OverAll" id=' + IdAll +
-						'><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" data-index="1" name=' +
-						Id + '>1<input type="radio" value="" data-index="2" name=' + Id +
-						'>2<input type="radio" value="" data-index="3" name=' + Id +
-						'>3<input type="radio" value="" data-index="4" name=' + Id +
+						'><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" class=' +
+						Id + 'v1 data-index="1" name=' +
+						Id + '>1<input type="radio" value="" class=' + Id + 'v2 data-index="2" name=' + Id +
+						'>2<input type="radio" value="" class=' + Id + 'v3 data-index="3" name=' + Id +
+						'>3<input type="radio" value="" class=' + Id + 'v4 data-index="4" name=' + Id +
 						'>4</label><button type="button" class="elec_save">保存</button><button type="button" class="elec_send">调用</button></div>';
 					// 插入元素
 					self.oElecOne.appendChild(oBig);
+
+					for (var i = 0; i < elcarray.length; i++) {
+						// elcarray[i]
+						if (elcarray[i].id == Id) {
+							// console.log(elcarray[i].v1)
+							$('.' + Id + 'v1').val(elcarray[i].v1.slice(12));
+							$('.' + Id + 'v2').val(elcarray[i].v2.slice(12));
+							$('.' + Id + 'v3').val(elcarray[i].v3.slice(12));
+							$('.' + Id + 'v4').val(elcarray[i].v4.slice(12));
+						}
+					}
 
 					stompClient.send("/app/wu", {}, "S" + Id + ",55,00,00,00,00,00,00,00K");
 					setTimeout(function() {
@@ -1125,7 +1146,6 @@ window.onload = function() {
 					}, 2000);
 					setTimeout(function() {
 						stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
-						// console.log();
 					}, 200);
 					setTimeout(function() {
 						stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
@@ -1133,10 +1153,8 @@ window.onload = function() {
 					setTimeout(function() {
 						stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
 					}, 600);
-
 					// stompClient.send("/app/wu", {}, "S" + Id + ",7A,00,00,00,00,00,00,01K");
 					// console.log("发送查询");
-
 					// 元件库创建
 					var oLibr = document.createElement("div");
 					var oLibrId = 'libr' + Id;
@@ -1152,37 +1170,43 @@ window.onload = function() {
 					// console.log('改变');
 					var OverAll = parseInt(self.byte4 + self.byte5 + self.byte6 + self.byte7, 16) - 0x8000;
 					document.getElementById(IdAll).value = OverAll;
-					// console.log(OverAll)
+					// if (Id == 228) {
+					// 	// console.log(document.getElementById(IdAll))
+					// 	// console.log(OverAll)
+					// 	console.log(document.getElementById(IdAll).value)
+					// }
 					// elecTrue = true;
 				}
 				if (self.byte0 == "5B") {
-
 					if ((parseInt(self.byte3, 16) & 0x01) > 0) {
-
 						// console.log('到右头');
 						$("#" + Id).find('.elec_sm_right').addClass("activeRed");
 					} else {
 						$("#" + Id).find('.elec_sm_right').removeClass("activeRed");
 					}
 					if ((parseInt(self.byte3, 16) & 0x02) > 0) {
-
 						// console.log('到左头');
 						$("#" + Id).find('.elec_sm_left').addClass("activeRed");
 					} else {
 						$("#" + Id).find('.elec_sm_left').removeClass("activeRed");
 					}
-
-					var Current;
-					Current = parseInt(self.byte4 + self.byte5 + self.byte6 + self.byte7, 16) - 0x8000;
+					var Current= parseInt(self.byte4 + self.byte5 + self.byte6 + self.byte7, 16) - 0x8000;
+					// var Current;
+					// Current = parseInt(self.byte4 + self.byte5 + self.byte6 + self.byte7, 16) - 0x8000;
 					if (document.getElementById(IdAll)) {
 						var oIdall = document.getElementById(IdAll).value;
-						var oIdval = document.getElementById(Idval);
+						// var oIdval = document.getElementById(Idval);
 						Current = (Current / oIdall).toFixed(2);
-						oIdval.value = Current * 100;
-
-						var oIdCov = document.getElementById(IdCov);
-						oIdCov.value = self.byte4 + "," + self.byte5 + "," + self.byte6 + "," + self.byte7;
-						// console.log(Current * 100);
+						document.getElementById(Idval).value = Current * 100;
+						document.getElementById(IdCov).value = self.byte4 + "," + self.byte5 + "," + self.byte6 + "," + self.byte7;
+						// if (Id == 228) {
+						// 	// console.log(oIdall);
+						// 	console.log(Current);
+						// }
+						// oIdval.value = Current * 100;
+						// var oIdCov = document.getElementById(IdCov);
+						// oIdCov.value = self.byte4 + "," + self.byte5 + "," + self.byte6 + "," + self.byte7;
+						// console.log(oIdall);
 						// console.log(self.byte4 + "," + self.byte5 + "," + self.byte6 + "," + self.byte7);
 					}
 				}
@@ -1466,11 +1490,48 @@ window.onload = function() {
 	var elecValue;
 	var elecColor = false;
 
-	document.oncontextmenu = function(e) {
-		e.preventDefault();
-	};
+	// document.oncontextmenu = function(e) {
+	// 	e.preventDefault();
+	// };
+	$(".elec_body").on("mousedown", ".elec_up", function() {
+		elecId = $(this).parents(".elec_body_one").attr('id');
+		elecValue = $(this).siblings(".elec_sudu").val();
+		$(this).css("background-color", "pink");
+		elecColor = true;
+		elecSet = setInterval(function() {
+			SelecSet();
+		}, 50);
 
+	});
 
+	function SelecSet() {
+		// console.log('1');
+		// elec_sudun++;
+		// console.log(elec_sudun)
+		if (elecColor) {
+			stompClient.send("/app/wu", {}, "S" + elecId + ",0B,00,00,00,00,00,10," + elecValue + "K");
+			// $('#elec_sudun').val(elec_sudun);
+			// console.log(elecId + "+" + elecValue);
+			// console.log('1');
+		} else {
+			clearInterval(elecSet);
+		}
+	}
+	// 修饰元素
+	//     oBig.innerHTML =
+	//         '<input type="text" name="" class="elec_remark" ><span class="elec_body_one_span">id: <span class="elec_body_one_id">0x</span></span><div class="elec_right"><div class="elec_sm_left"></div><input type="range" class="elec_range" disabled="true" name="" min="0" max="100" step="1"><input type="text" value="" class="elec_cover" id="101"><input type="text" value="" class="elec_OverAll" ><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" data-index="1" >1<input type="radio" value="" data-index="2" >2<input type="radio" value="" data-index="3" >3<input type="radio" value="" data-index="4" >4</label><button type="button" class="elec_save">保存</button><button type="button" class="elec_send">调用</button></div>';
+	//     // 插入元素
+	//     document.getElementById('elec_body').appendChild(oBig);
+	// })
+
+	$(".elec_body").on("mouseup", ".elec_up", function() {
+		$(this).css("background-color", "#5b9bd5");
+		elecColor = false;
+	});
+	$(".elec_body").on("mouseleave", ".elec_up", function() {
+		$(this).css("background-color", "#5b9bd5");
+		elecColor = false;
+	});
 	// $(".elec_body").on("touchstart", ".elec_up", function () {
 	//     alert('1');
 	//     if (WinTouch == false) {
@@ -1486,50 +1547,28 @@ window.onload = function() {
 
 
 	// var elec_sudun = document.getElementById('elec_sudun');
-	touch.on('#elec_body', 'hold', '.elec_up_cover', function(ev) {
-		elecId = $(this).parents(".elec_body_one").attr('id');
-		elecValue = $(this).parents(".elec_up").siblings(".elec_sudu").val();
-		$(this).parents(".elec_up").css("background-color", "pink");
-		// if (WinTouch == true) {
-		elecColor = true;
-		elecSet = setInterval(function() {
-			SelecSet();
-		}, 50);
-		// }
-	});
-	touch.on('#elec_body', 'touchend', '.elec_up_cover', function(ev) {
-		$(this).parents(".elec_up").css("background-color", "#5b9bd5");
-		elecColor = false;
-	});
-
-
-
-	// $(".elec_body").on("mousedown", ".elec_up", function () {
-	//   if (WinTouch == false) {
-	// elecId = $(this).parents(".elec_body_one").attr('id');
-	// elecValue = $(this).siblings(".elec_sudu").val();
-	//  $(this).css("background-color", "pink");
-	// elecColor = true;
-	//  elecSet = setInterval(function () {
-	// SelecSet();
-	//   }, 50);
-	//   }
+	// touch.on('#elec_body', 'hold', '.elec_up_cover', function(ev) {
+	// 	elecId = $(this).parents(".elec_body_one").attr('id');
+	// 	elecValue = $(this).parents(".elec_up").siblings(".elec_sudu").val();
+	// 	$(this).parents(".elec_up").css("background-color", "pink");
+	// 	// if (WinTouch == true) {
+	// 	elecColor = true;
+	// 	elecSet = setInterval(function() {
+	// 		SelecSet();
+	// 	}, 50);
+	// 	// }
+	// });
+	// touch.on('#elec_body', 'touchend', '.elec_up_cover', function(ev) {
+	// 	$(this).parents(".elec_up").css("background-color", "#5b9bd5");
+	// 	elecColor = false;
 	// });
 
+
+
+
+
 	// var elec_sudun = 1;
-	function SelecSet() {
-		// console.log('1');
-		// elec_sudun++;
-		// console.log(elec_sudun)
-		if (elecColor) {
-			stompClient.send("/app/wu", {}, "S" + elecId + ",0B,00,00,00,00,00,10," + elecValue + "K");
-			// $('#elec_sudun').val(elec_sudun);
-			// console.log(elecId + "+" + elecValue);
-			// console.log('1');
-		} else {
-			clearInterval(elecSet);
-		}
-	}
+
 
 
 	// $("#elec_s").click(function () {
@@ -1538,21 +1577,7 @@ window.onload = function() {
 	//     oBig.classList.add("elec_body_one");
 	//     oBig.setAttribute("id", '111');
 
-	// 修饰元素
-	//     oBig.innerHTML =
-	//         '<input type="text" name="" class="elec_remark" ><span class="elec_body_one_span">id: <span class="elec_body_one_id">0x</span></span><div class="elec_right"><div class="elec_sm_left"></div><input type="range" class="elec_range" disabled="true" name="" min="0" max="100" step="1"><input type="text" value="" class="elec_cover" id="101"><input type="text" value="" class="elec_OverAll" ><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" data-index="1" >1<input type="radio" value="" data-index="2" >2<input type="radio" value="" data-index="3" >3<input type="radio" value="" data-index="4" >4</label><button type="button" class="elec_save">保存</button><button type="button" class="elec_send">调用</button></div>';
-	//     // 插入元素
-	//     document.getElementById('elec_body').appendChild(oBig);
-	// })
 
-	// $(".elec_body").on("mouseup", ".elec_up", function () {
-	//     $(this).css("background-color", "#5b9bd5");
-	//     elecColor = false;
-	// });
-	// $(".elec_body").on("mouseleave", ".elec_up", function () {
-	//     $(this).css("background-color", "#5b9bd5");
-	//     elecColor = false;
-	// });
 
 
 	var elecSetDown; //后退
@@ -1572,6 +1597,7 @@ window.onload = function() {
 	function SelecSetDown() {
 		if (elecColorDown) {
 			stompClient.send("/app/wu", {}, "S" + elecId + ",0C,00,00,00,00,00,10," + elecValue + "K");
+			// console.log("S" + elecId + ",0C,00,00,00,00,00,10," + elecValue + "K")
 		} else {
 			clearInterval(elecSetDown);
 		}
@@ -1591,14 +1617,16 @@ window.onload = function() {
 	});
 	//电机速度值保存
 	$(".elec_body").on("blur", ".elec_sudu", function() {
-		// let oValue = $(this).val();
-		// oValue = (oValue.length < 2) ? "0" + oValue : oValue;
-		// let Id = $(this).parents(".elec_body_one").attr('id');
+		let oValue = $(this).val();
+		oValue = (oValue.length < 2) ? "0" + oValue : oValue;
+
+		let Id = $(this).parents(".elec_body_one").attr('id');
 		if ($(this).val().length > 2 || $(this).val() > 64) {
 			window.toTest4();
 			$(this).val('40');
 			return;
 		}
+
 		// $.getJSON(port + "saveElc", {
 		//     FrameId: Id,
 		//     Findex: 5,
@@ -1606,6 +1634,8 @@ window.onload = function() {
 		// }, function(data) {
 		//     // console.log(data);
 		// });
+
+
 	});
 
 
@@ -1615,18 +1645,18 @@ window.onload = function() {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		var oIdCov = $(this).siblings('.elec_cover').val();
 		var list = $('input:radio[name=' + Id + ']:checked').val();
-		var index = $('input:radio[name=' + Id + ']:checked').data(index).index;
-		// console.log(Id);
-		// console.log(index);
+		console.log(list);
 		console.log(oIdCov);
 
 		if (list == null) {
 			alert("请选中一个!");
 			return false;
 		} else {
+			var oindex = $('input:radio[name=' + Id + ']:checked').data('index');
+			console.log(oindex);
 			$.getJSON(port + "saveElc", {
 				FrameId: Id,
-				Findex: index,
+				Findex: oindex,
 				Fvalue: "0D,00,00,64," + oIdCov,
 			}, function(data) {
 				console.log(data);
@@ -1639,18 +1669,18 @@ window.onload = function() {
 	$(".elec_body").on("click", ".elec_send", function() {
 		var Id = $(this).parents(".elec_body_one").attr('id');
 		var list = $('input:radio[name=' + Id + ']:checked').val();
-		let oValue = $(this).siblings(".elec_sudu").val();
+		var oValue = $(this).siblings(".elec_sudu").val();
 		// var oIdCov = $(this).siblings('.elec_cover').val();
 		if (list == null) {
 			alert("请选中一个!");
 			return false;
 		} else {
-			// alert(list);
+			// console.log(list);
+			// console.log(oValue);
+			// console.log(Id);
 			stompClient.send("/app/wu", {}, "S" + Id + ",0D,00,00," + oValue + "," + list + "K");
-			// console.log("S" + Id + ",0D,00,00,50," + list + "K");
+			// console.log("S" + Id + ",0D,00,00," + oValue + "," + list + "K");
 			// $('input:radio[name=' + id + ']:checked').val(oIdCov);
-			// alert($('input:radio[name=' + id + ']:checked').val());
-			// alert(id);
 		}
 	});
 	//安卓屏 发送
@@ -2439,7 +2469,7 @@ window.onload = function() {
 		var Id = "R" + $(this).parents(".elec_body_one").attr('id').substr(3);
 		var index = $(this).data(index).index;
 		// var oIdCov = $(this).siblings('.elec_cover').val();
-		var list = $('input:radio[name=' + Id + ']:checked').val();
+		var list = $('input:radio[name=' + Id + ']:checked').val() + 'K';
 		// var index = $('input:radio[name=' + Id + ']:checked').data(index).index;
 		if (list == null) {
 			alert("请选中一个!");
@@ -2609,18 +2639,18 @@ window.onload = function() {
 	$("#power").click(function() {
 		if (oPower) {
 			oPower = false;
-            window.toTest10();
-            $(this).css("background-color", "rgb(255, 0, 0)");
+			window.toTest10();
+			$(this).css("background-color", "rgb(255, 0, 0)");
 			stompClient.send("/app/wu", {}, "S235,02,00,00,00,00,00,00,01K");
 
 		} else {
 			oPower = true;
-            window.toTest9();
-            $(this).css("background-color", "#5b9bd5");
+			window.toTest9();
+			$(this).css("background-color", "#5b9bd5");
 			stompClient.send("/app/wu", {}, "S235,02,00,00,00,00,00,00,00K");
 
 
-        }
+		}
 	})
 
 
