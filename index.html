@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="./css/index.css" />
     <div class="boy">
         <div id="app"></div>
-			
+
         <!-- 头部 -->
         <div class="top">
             <div class="top_one">广汽研究院场景模拟平台</div>
@@ -74,16 +74,10 @@
                             </div>
                             <div class="library_body_body" id="library_body_body4">
 
-
-
                             </div>
                         </div>
-
                     </div>
 
-
-
-                    
                     <div class="Restoration_btn">
                         <button class="Restoration_cancel">取消</button>
                         <button class="Restoration_seva">保存</button>
@@ -118,8 +112,6 @@
                         <div class="virtual_add" id="virt_add">+</div>
                         <div class="virtual_body" id="virtual_body">
 
-
-
                         </div>
                     </div>
                     <!-- 旋钮 -->
@@ -150,7 +142,7 @@
                     <div class="electrical">
                         <div class="elec_span">电机</div>
                         <div class="elec_body" id="elec_body">
-
+                            
                         </div>
 
                     </div>
@@ -183,13 +175,44 @@
             技术支持：上海肩并肩电子科技有限公司
         </div>
     </div>
-    <!-- <button type="button" id="btn">发送</button> -->
+    
     <script type="text/javascript" src="./lib/sockjs.min.js"></script>
     <script type="text/javascript" src="./lib/stomp.min1.js"></script>
     <script type="text/javascript" src="./lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="./js/touch-min.js"></script>
     <script type="text/javascript" src="./lib/vue.js"></script>
     <script type="text/javascript" src="./lib/element.js"></script>
-    <script type="text/javascript" src="./js/index.js"></script>
+    <!-- <script type="text/javascript" src="./js/index.js"></script> -->
+
+    <script>
+        var WinTouch;
+        if ('ontouchstart' in document.documentElement) {
+            WinTouch = true; //移动端
+            // alert(WinTouch)
+            new_element = document.createElement("script");
+            new_element.setAttribute("type", "text/javascript");
+            new_element.setAttribute("src", "./js/index3.js"); // 在这里引入了api.js
+            document.body.appendChild(new_element);
+        } else {
+            WinTouch = false; //pc端
+            console.log(WinTouch)
+            new_element = document.createElement("script");
+            new_element.setAttribute("type", "text/javascript");
+            new_element.setAttribute("src", "./js/index.js"); // 在这里引入了api.js
+            document.body.appendChild(new_element);
+        }
+        // console.log('1');
+        // document.getElementById("elec_s").addEventListener('touchend', function (event) {
+        //     // 清除默认行为
+        //     event.preventDefault();
+        // });
+        // $(".elec_body").on("mousedown", ".elec_up", function () {
+        //     console.log('1');
+        // });
+        // function callback() {
+        //         console.log('1');
+        //     }
+    </script>
 </body>
+
 </html>

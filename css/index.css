@@ -806,12 +806,20 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 2.4vw;
-    height: 1.3vw;
+    /* width: 2.4vw;
+    height: 1.3vw; */
     z-index: 20;
     /* background-color: black; */
 }
-
+.electrical .elec_down_cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* width: 2.4vw;
+    height: 1.3vw; */
+    z-index: 20;
+    /* background-color: black; */
+}
 
 /* 安卓屏 */
 .android {

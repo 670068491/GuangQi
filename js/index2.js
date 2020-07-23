@@ -759,3 +759,9 @@ document.oncontextmenu = function (e) {
 // 	}
 // });
 
+// var elec_sudun = 1;
+// $("#elec_s").click(function () {
+//     // console.log('1')
+//     var oBig = document.createElement("div");
+//     oBig.classList.add("elec_body_one");
+//     oBig.setAttribute("id", '111');
