@@ -125,7 +125,6 @@
                     <div class="sensor">
                         <div class="sensor_span">传感器</div>
                         <div class="sensor_body" id="sensor_body">
-
                         </div>
                     </div>
                 </div>
@@ -142,7 +141,6 @@
                     <div class="electrical">
                         <div class="elec_span">电机</div>
                         <div class="elec_body" id="elec_body">
-                            
                         </div>
 
                     </div>
@@ -195,7 +193,7 @@
             document.body.appendChild(new_element);
         } else {
             WinTouch = false; //pc端
-            console.log(WinTouch)
+            // console.log(WinTouch)
             new_element = document.createElement("script");
             new_element.setAttribute("type", "text/javascript");
             new_element.setAttribute("src", "./js/index.js"); // 在这里引入了api.js

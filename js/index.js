@@ -1,4 +1,5 @@
 window.onload = function () {
+	var storage = window.localStorage;
 	//定义全局变量，代表一个session
 	var stompClient = null;
 	var port = "http://192.168.1.10:8081/gq/api/";
@@ -11,26 +12,26 @@ window.onload = function () {
 	// console.log('1');
 
 	$(function () {
-		// $.getJSON(port + "getDeviceTypeAll", {}, function(data) {
-		// 	ListType = data.resultObject;
-		// 	for (let z = 0; z < ListType.length; z++) {
-		// 		if (ListType[z].ftype == '10') {
-		// 			// console.log(ListType[z].frameId)
-		// 			// console.log(ListType[z].fnum)
-		// 			new virtual(ListType[z].frameId, ListType[z].fnum);
-		// 		}
-		// 	}
-		// 	// console.log(ListType);
-		// });
-		// $.getJSON(port + "getElcAll", {}, function(data) {
-		// 	// console.log(data);
-		// 	elcarray = data.resultObject;
-		// 	console.log(elcarray);
-		// });
+		$.getJSON(port + "getDeviceTypeAll", {}, function (data) {
+			ListType = data.resultObject;
+			for (let z = 0; z < ListType.length; z++) {
+				if (ListType[z].ftype == '10') {
+					// console.log(ListType[z].frameId)
+					// console.log(ListType[z].fnum)
+					new virtual(ListType[z].frameId, ListType[z].fnum);
+				}
+			}
+			// console.log(ListType);
+		});
+		$.getJSON(port + "getElcAll", {}, function (data) {
+			// console.log(data);
+			elcarray = data.resultObject;
+			console.log(elcarray);
+		});
 
-		// setTimeout(function() {
-		// 	connect(); //建立连接
-		// }, 3000);
+		setTimeout(function () {
+			connect(); //建立连接
+		}, 3000);
 
 
 	});
@@ -1102,6 +1103,14 @@ window.onload = function () {
 				}, function (data) {
 					// console.log(data);
 					text = data.resultObject.remark;
+
+
+					var oValue = '64';
+					if (JSON.parse(storage.getItem(Id))) {
+						oValue = JSON.parse(storage.getItem(Id)).Value;
+					}
+
+
 					// 修饰元素
 					oBig.innerHTML =
 						'<input type="text" name="" class="elec_remark" value=' + text +
@@ -1110,7 +1119,7 @@ window.onload = function () {
 						'</span></span><div class="elec_right"><div class="elec_sm_left"></div><input type="range" class="elec_range" disabled="true" name="" min="0" max="100" step="1" id=' +
 						Idval + '><input type="text" value="" class="elec_cover" id=' + IdCov +
 						'><input type="text" value="" class="elec_OverAll" id=' + IdAll +
-						'><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up">前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" class=' +
+						'><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value=' + oValue + '><button type="button" class="elec_up">前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" class=' +
 						Id + 'v1 data-index="1" name=' +
 						Id + '>1<input type="radio" value="" class=' + Id + 'v2 data-index="2" name=' + Id +
 						'>2<input type="radio" value="" class=' + Id + 'v3 data-index="3" name=' + Id +
@@ -1484,28 +1493,28 @@ window.onload = function () {
 	var elecColor = false;
 
 	$(".elec_body").on("mousedown", ".elec_up", function () {
-		// elecId = $(this).parents(".elec_body_one").attr('id');
-		// elecValue = $(this).siblings(".elec_sudu").val();
+		elecId = $(this).parents(".elec_body_one").attr('id');
+		elecValue = $(this).siblings(".elec_sudu").val();
 		$(this).css("background-color", "pink");
 		elecColor = true;
 		elecSet = setInterval(function () {
 			SelecSet();
 		}, 50);
 	});
+
 	// var px = $("#id").css("marginLeft");
 	// alert($(".elec_up").css("paddingLeft"));
 
-
 	function SelecSet() {
 		if (elecColor) {
-			var elec_sudun = $("#elec_sudun").val();
-			elec_sudun++;
-			$("#elec_sudun").val(elec_sudun);
-			// stompClient.send("/app/wu", {}, "S" + elecId + ",0B,00,00,00,00,00,10," + elecValue + "K");
-			// $('#elec_sudun').val(elec_sudun);
+			// var elec_sudun = $("#elec_sudun").val();
+			// elec_sudun++;
+			// $("#elec_sudun").val(elec_sudun);
+			stompClient.send("/app/wu", {}, "S" + elecId + ",0B,00,00,00,00,00,10," + elecValue + "K");
+
 			// console.log(elecId + "+" + elecValue);
 			// console.log('1');
-			// console.log(elec_sudun);
+
 		} else {
 			clearInterval(elecSet);
 		}
@@ -1521,84 +1530,6 @@ window.onload = function () {
 	});
 
 
-	// document.oncontextmenu = function(e) {
-	// 	e.preventDefault();
-	// };
-
-
-	// document.getElementById("elec_s").addEventListener('touchend', function (event) {
-	// 	// 清除默认行为
-	// 	event.preventDefault();
-	// });
-
-
-
-
-	// // (function(win) {
-	// 	/**
-	// 	 * 长按功能，长按 700ms 以上即可调用回调方法
-	// 	 *
-	// 	 * @class
-	// 	 */
-	// 	class LongPress {
-	// 	  /**
-	// 	   * 构造器
-	// 	   *
-	// 	   * @public
-	// 	   * @param {String} el 需要长按的 DOM 节点名
-	// 	   * @param {function} callback 长按触发的回调函数
-	// 	   */
-	// 	  constructor(el, callback) {
-	// 		this.el = document.querySelector("#elec_s");
-	// 		this.timer = null;
-	// 		this.init(SelecSet());
-	// 	  }
-	// 	  /**
-	// 	   * 初始化
-	// 	   *
-	// 	   * @private
-	// 	   * @param {function} callback 回调函数
-	// 	   */
-	// 	  init(callback) {
-	// 		this.touchstart(callback);
-	// 		this.touchend();
-	// 	  }
-	// 	  /**
-	// 	   * 手指按下时开启定时器，700 毫秒后触发回调函数
-	// 	   *
-	// 	   * @private
-	// 	   * @param {function} callback 回调函数
-	// 	   */
-	// 	  touchstart(callback) {
-	// 		this.el.addEventListener('touchstart', function(event) {
-	// 		  // 清除默认行为
-	// 		  event.preventDefault();
-	// 		  // 开启定时器
-	// 		  this.timer = setTimeout(() => {
-	// 			if (typeof callback === 'function') {
-	// 			  callback();
-	// 			} else {
-	// 			  console.error('callback is not a function!');
-	// 			}
-	// 		  }, 700);
-	// 		});
-	// 	  }
-
-	// 	  /**
-	// 	   * 手指抬起时清除定时器，无论按住时间是否达到 700 毫秒的阈值
-	// 	   *
-	// 	   * @private
-	// 	   */
-	// 	  touchend() {
-	// 		this.el.addEventListener('touchend', function(event) {
-	// 		  // 清除默认行为
-	// 		  event.preventDefault();
-	// 		  // 清除定时器
-	// 		  clearTimeout(this.timer);
-	// 		});
-	// 	  }
-	// 	}
-
 
 	// 	// function Selec() {
 	// 	// 	elecColor = true;
@@ -1607,19 +1538,6 @@ window.onload = function () {
 	// 	// 	}, 50);
 	// 	// }
 
-
-	// 	win.LongPress = LongPress;
-	//   })(window);
-
-
-
-
-	// 修饰元素
-	//     oBig.innerHTML =
-	//         '<input type="text" name="" class="elec_remark" ><span class="elec_body_one_span">id: <span class="elec_body_one_id">0x</span></span><div class="elec_right"><div class="elec_sm_left"></div><input type="range" class="elec_range" disabled="true" name="" min="0" max="100" step="1"><input type="text" value="" class="elec_cover" id="101"><input type="text" value="" class="elec_OverAll" ><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down">后退</button><label for=""><input type="radio" value="" data-index="1" >1<input type="radio" value="" data-index="2" >2<input type="radio" value="" data-index="3" >3<input type="radio" value="" data-index="4" >4</label><button type="button" class="elec_save">保存</button><button type="button" class="elec_send">调用</button></div>';
-	//     // 插入元素
-	//     document.getElementById('elec_body').appendChild(oBig);
-	// })
 
 	// $(".elec_body").on("touchstart", ".elec_up", function () {
 	//     alert('1');
@@ -1672,7 +1590,6 @@ window.onload = function () {
 		elecSetDown = setInterval(function () {
 			SelecSetDown();
 		}, 50);
-
 	});
 
 	function SelecSetDown() {
@@ -1687,14 +1604,12 @@ window.onload = function () {
 	$(".elec_body").on("mouseup", ".elec_down", function () {
 		$(this).css("background-color", "#5b9bd5");
 		elecColorDown = false;
-		// clearInterval(elecSetDown);
-		// $(this).css("background-color", "#5b9bd5");
+
 	});
 	$(".elec_body").on("mouseleave", ".elec_down", function () {
 		$(this).css("background-color", "#5b9bd5");
 		elecColorDown = false;
-		// clearInterval(elecSetDown);
-		// $(this).css("background-color", "#5b9bd5");
+
 	});
 	//电机速度值保存
 	$(".elec_body").on("blur", ".elec_sudu", function () {
@@ -1707,6 +1622,12 @@ window.onload = function () {
 			$(this).val('40');
 			return;
 		}
+		var data = {
+			FrameId: Id,
+			Value: oValue,
+		};
+		var dater = JSON.stringify(data);
+		localStorage.setItem(Id, dater);
 
 		// $.getJSON(port + "saveElc", {
 		//     FrameId: Id,

@@ -1,4 +1,5 @@
 window.onload = function () {
+	var storage = window.localStorage;
     //定义全局变量，代表一个session
     var stompClient = null;
     var port = "http://192.168.1.10:8081/gq/api/";
@@ -11,26 +12,26 @@ window.onload = function () {
     // alert('1');
 
     $(function () {
-        // $.getJSON(port + "getDeviceTypeAll", {}, function(data) {
-        // 	ListType = data.resultObject;
-        // 	for (let z = 0; z < ListType.length; z++) {
-        // 		if (ListType[z].ftype == '10') {
-        // 			// console.log(ListType[z].frameId)
-        // 			// console.log(ListType[z].fnum)
-        // 			new virtual(ListType[z].frameId, ListType[z].fnum);
-        // 		}
-        // 	}
-        // 	// console.log(ListType);
-        // });
-        // $.getJSON(port + "getElcAll", {}, function(data) {
-        // 	// console.log(data);
-        // 	elcarray = data.resultObject;
-        // 	console.log(elcarray);
-        // });
+        $.getJSON(port + "getDeviceTypeAll", {}, function(data) {
+        	ListType = data.resultObject;
+        	for (let z = 0; z < ListType.length; z++) {
+        		if (ListType[z].ftype == '10') {
+        			// console.log(ListType[z].frameId)
+        			// console.log(ListType[z].fnum)
+        			new virtual(ListType[z].frameId, ListType[z].fnum);
+        		}
+        	}
+        	// console.log(ListType);
+        });
+        $.getJSON(port + "getElcAll", {}, function(data) {
+        	// console.log(data);
+        	elcarray = data.resultObject;
+        	console.log(elcarray);
+        });
 
-        // setTimeout(function() {
-        // 	connect(); //建立连接
-        // }, 3000);
+        setTimeout(function() {
+        	connect(); //建立连接
+        }, 3000);
 
 
     });
@@ -1102,6 +1103,14 @@ window.onload = function () {
                 }, function (data) {
                     // console.log(data);
                     text = data.resultObject.remark;
+					
+					var oValue ='64';
+					if(JSON.parse(storage.getItem(Id))){
+						oValue = JSON.parse(storage.getItem(Id)).Value;
+					}
+					
+					
+					
                     // 修饰元素
                     oBig.innerHTML =
                         '<input type="text" name="" class="elec_remark" value=' + text +
@@ -1110,7 +1119,7 @@ window.onload = function () {
                         '</span></span><div class="elec_right"><div class="elec_sm_left"></div><input type="range" class="elec_range" disabled="true" name="" min="0" max="100" step="1" id=' +
                         Idval + '><input type="text" value="" class="elec_cover" id=' + IdCov +
                         '><input type="text" value="" class="elec_OverAll" id=' + IdAll +
-                        '><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value="40"><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down"><div class="elec_down_cover"></div>后退</button><label for=""><input type="radio" value="" class=' +
+                        '><div class="elec_sm_right"></div> <span class="elec_sudu_span">速度:</span><input class="elec_sudu" type="text" value=' + oValue + '><button type="button" class="elec_up"><div class="elec_up_cover"></div>前进</button><button type="button" class="elec_down"><div class="elec_down_cover"></div>后退</button><label for=""><input type="radio" value="" class=' +
                         Id + 'v1 data-index="1" name=' +
                         Id + '>1<input type="radio" value="" class=' + Id + 'v2 data-index="2" name=' + Id +
                         '>2<input type="radio" value="" class=' + Id + 'v3 data-index="3" name=' + Id +
@@ -1122,8 +1131,8 @@ window.onload = function () {
                     $(".elec_up_cover").css("width", parseFloat($(".elec_up").width()) + parseFloat($(".elec_up").css("paddingLeft")) + parseFloat($(".elec_up").css("paddingRight")) + 'px');
                     $(".elec_up_cover").css("height", parseFloat($(".elec_up").height()) + parseFloat($(".elec_up").css("paddingTop")) + parseFloat($(".elec_up").css("paddingBottom")) + 'px');
 
-                    $(".elec_down_cover").css("width", parseFloat($(".elec_down_cover").width()) + parseFloat($(".elec_down_cover").css("paddingLeft")) + parseFloat($(".elec_down_cover").css("paddingRight")) + 'px');
-                    $(".elec_down_cover").css("height", parseFloat($(".elec_down_cover").height()) + parseFloat($(".elec_down_cover").css("paddingTop")) + parseFloat($(".elec_down_cover").css("paddingBottom")) + 'px');
+                    $(".elec_down_cover").css("width", parseFloat($(".elec_down").width()) + parseFloat($(".elec_down").css("paddingLeft")) + parseFloat($(".elec_down").css("paddingRight")) + 'px');
+                    $(".elec_down_cover").css("height", parseFloat($(".elec_down").height()) + parseFloat($(".elec_down").css("paddingTop")) + parseFloat($(".elec_down").css("paddingBottom")) + 'px');
 
                     for (var i = 0; i < elcarray.length; i++) {
                         // elcarray[i]
@@ -1541,6 +1550,8 @@ window.onload = function () {
     // console.log($(".elec_up").width());
     // var elec_sudun = document.getElementById('elec_sudun');
 
+   
+
     touch.on('#elec_body', 'hold', '.elec_up_cover', function (ev) {
         elecId = $(this).parents(".elec_body_one").attr('id');
         elecValue = $(this).parents(".elec_up").siblings(".elec_sudu").val();
@@ -1573,10 +1584,11 @@ window.onload = function () {
 
     var elecSetDown; //后退
     var elecColorDown = false;
+
     touch.on('#elec_body', 'hold', '.elec_down_cover', function (ev) {
         elecId = $(this).parents(".elec_body_one").attr('id');
-        elecValue = $(this).parents(".elec_up").siblings(".elec_sudu").val();
-        $(this).parents(".elec_up").css("background-color", "pink");
+        elecValue = $(this).parents(".elec_down").siblings(".elec_sudu").val();
+        $(this).parents(".elec_down").css("background-color", "pink");
         elecColorDown = true;
         elecSetDown = setInterval(function () {
             SelecSetDown();
@@ -1585,10 +1597,7 @@ window.onload = function () {
 
     function SelecSetDown() {
         if (elecColorDown) {
-            // var elec_sudun = $("#elec_sudun").val();
-            // elec_sudun++;
-            // $("#elec_sudun").val(elec_sudun);
-            stompClient.send("/app/wu", {}, "S" + elecId + ",0B,00,00,00,00,00,10," + elecValue + "K");
+            stompClient.send("/app/wu", {}, "S" + elecId + ",0C,00,00,00,00,00,10," + elecValue + "K");
             // console.log(elecId + "+" + elecValue);
         } else {
             clearInterval(elecSetDown);
@@ -1643,6 +1652,12 @@ window.onload = function () {
             $(this).val('40');
             return;
         }
+		var data = {
+			FrameId: Id,
+			Value: oValue,
+		};
+		var dater = JSON.stringify(data);
+		localStorage.setItem(Id, dater);
         // $.getJSON(port + "saveElc", {
         //     FrameId: Id,
         //     Findex: 5,
